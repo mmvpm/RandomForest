@@ -1,0 +1,50 @@
+{
+  "resources": [
+    {"id":{"name":"rMiain","path":"rooms/rMiain/rMiain.yy",},"order":0,},
+  ],
+  "Options": [
+    {"name":"Main","path":"options/main/options_main.yy",},
+    {"name":"Windows","path":"options/windows/options_windows.yy",},
+    {"name":"operagx","path":"options/operagx/options_operagx.yy",},
+  ],
+  "isDnDProject": false,
+  "isEcma": false,
+  "tutorialPath": "",
+  "configs": {
+    "name": "Default",
+    "children": [],
+  },
+  "RoomOrderNodes": [
+    {"roomId":{"name":"rMiain","path":"rooms/rMiain/rMiain.yy",},},
+  ],
+  "Folders": [
+    {"folderPath":"folders/Спрайты.yy","order":1,"resourceVersion":"1.0","name":"Спрайты","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Наборы плиток.yy","order":2,"resourceVersion":"1.0","name":"Наборы плиток","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Звуки.yy","order":3,"resourceVersion":"1.0","name":"Звуки","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Пути.yy","order":4,"resourceVersion":"1.0","name":"Пути","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Скрипты.yy","order":5,"resourceVersion":"1.0","name":"Скрипты","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Шейдеры.yy","order":6,"resourceVersion":"1.0","name":"Шейдеры","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Шрифты.yy","order":7,"resourceVersion":"1.0","name":"Шрифты","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Временные шкалы.yy","order":8,"resourceVersion":"1.0","name":"Временные шкалы","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Объекты.yy","order":9,"resourceVersion":"1.0","name":"Объекты","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Румы.yy","order":10,"resourceVersion":"1.0","name":"Румы","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Последовательности.yy","order":11,"resourceVersion":"1.0","name":"Последовательности","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Кривые анимации.yy","order":12,"resourceVersion":"1.0","name":"Кривые анимации","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Примечания.yy","order":13,"resourceVersion":"1.0","name":"Примечания","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Расширения.yy","order":14,"resourceVersion":"1.0","name":"Расширения","tags":[],"resourceType":"GMFolder",},
+  ],
+  "AudioGroups": [
+    {"targets":-1,"resourceVersion":"1.3","name":"audiogroup_default","resourceType":"GMAudioGroup",},
+  ],
+  "TextureGroups": [
+    {"isScaled":true,"autocrop":true,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,"resourceVersion":"1.3","name":"Default","resourceType":"GMTextureGroup",},
+  ],
+  "IncludedFiles": [],
+  "MetaData": {
+    "IDEVersion": "2.3.5.589",
+  },
+  "resourceVersion": "1.4",
+  "name": "RandomForest",
+  "tags": [],
+  "resourceType": "GMProject",
+}
