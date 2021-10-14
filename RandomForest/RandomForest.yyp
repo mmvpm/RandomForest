@@ -1,6 +1,6 @@
 {
   "resources": [
-    {"id":{"name":"rMiain","path":"rooms/rMiain/rMiain.yy",},"order":0,},
+    {"id":{"name":"rMain","path":"rooms/rMain/rMain.yy",},"order":0,},
   ],
   "Options": [
     {"name":"Main","path":"options/main/options_main.yy",},
@@ -15,7 +15,7 @@
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"rMiain","path":"rooms/rMiain/rMiain.yy",},},
+    {"roomId":{"name":"rMain","path":"rooms/rMain/rMain.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Спрайты.yy","order":1,"resourceVersion":"1.0","name":"Спрайты","tags":[],"resourceType":"GMFolder",},

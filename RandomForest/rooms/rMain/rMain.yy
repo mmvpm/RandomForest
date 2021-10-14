@@ -46,7 +46,7 @@
     "path": "folders/Румы.yy",
   },
   "resourceVersion": "1.0",
-  "name": "rMiain",
+  "name": "rMain",
   "tags": [],
   "resourceType": "GMRoom",
 }
