@@ -1,5 +1,6 @@
 {
   "resources": [
+    {"id":{"name":"sBackground","path":"sprites/sBackground/sBackground.yy",},"order":0,},
     {"id":{"name":"rMain","path":"rooms/rMain/rMain.yy",},"order":0,},
   ],
   "Options": [
