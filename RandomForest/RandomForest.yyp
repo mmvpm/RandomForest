@@ -16,6 +16,14 @@
     {"id":{"name":"sSlimeHurt","path":"sprites/sSlimeHurt/sSlimeHurt.yy",},"order":3,},
     {"id":{"name":"sSkeletonMove","path":"sprites/sSkeletonMove/sSkeletonMove.yy",},"order":1,},
     {"id":{"name":"sBackground","path":"sprites/sBackground/sBackground.yy",},"order":0,},
+    {"id":{"name":"sPlatforms","path":"sprites/sPlatforms/sPlatforms.yy",},"order":1,},
+    {"id":{"name":"oDisplayManager","path":"objects/oDisplayManager/oDisplayManager.yy",},"order":0,},
+    {"id":{"name":"tsSpikes","path":"tilesets/tsSpikes/tsSpikes.yy",},"order":1,},
+    {"id":{"name":"sSpikes","path":"sprites/sSpikes/sSpikes.yy",},"order":2,},
+    {"id":{"name":"rLoading","path":"rooms/rLoading/rLoading.yy",},"order":1,},
+    {"id":{"name":"oSolid","path":"objects/oSolid/oSolid.yy",},"order":1,},
+    {"id":{"name":"sSolid","path":"sprites/sSolid/sSolid.yy",},"order":3,},
+    {"id":{"name":"tsPlatforms","path":"tilesets/tsPlatforms/tsPlatforms.yy",},"order":0,},
     {"id":{"name":"sSkeletonIdle","path":"sprites/sSkeletonIdle/sSkeletonIdle.yy",},"order":0,},
     {"id":{"name":"sSlimeIdle","path":"sprites/sSlimeIdle/sSlimeIdle.yy",},"order":0,},
     {"id":{"name":"sSlimeDie","path":"sprites/sSlimeDie/sSlimeDie.yy",},"order":4,},
@@ -34,6 +42,7 @@
     "children": [],
   },
   "RoomOrderNodes": [
+    {"roomId":{"name":"rLoading","path":"rooms/rLoading/rLoading.yy",},},
     {"roomId":{"name":"rMain","path":"rooms/rMain/rMain.yy",},},
   ],
   "Folders": [
