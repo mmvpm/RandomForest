@@ -2,6 +2,7 @@
   "resources": [
     {"id":{"name":"scriptPlayerIdleState","path":"scripts/scriptPlayerIdleState/scriptPlayerIdleState.yy",},"order":4,},
     {"id":{"name":"sPlayerAttack1","path":"sprites/sPlayerAttack1/sPlayerAttack1.yy",},"order":2,},
+    {"id":{"name":"oPauseMenu","path":"objects/oPauseMenu/oPauseMenu.yy",},"order":3,},
     {"id":{"name":"sSlimeAttack","path":"sprites/sSlimeAttack/sSlimeAttack.yy",},"order":2,},
     {"id":{"name":"sBungaloDie","path":"sprites/sBungaloDie/sBungaloDie.yy",},"order":4,},
     {"id":{"name":"sSkeletonReact","path":"sprites/sSkeletonReact/sSkeletonReact.yy",},"order":5,},

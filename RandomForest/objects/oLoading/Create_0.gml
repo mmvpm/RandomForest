@@ -16,3 +16,4 @@ global.key_move_left = vk_left
 global.key_move_right = vk_right
 global.key_jump = vk_up
 global.key_attack = ord("X")
+global.key_pause = vk_escape
