@@ -20,7 +20,7 @@ float gauss(vec2 rad) {
 
 void main() {
     vec2 dir = size.z / size.xy;
-    vec4 color = vec4(0.0);
+	vec4 color = vec4(0.0);
 	
 	vec2 startDir = -0.5 * dir * float(kSize - 1);
 	float sum = 0.0;

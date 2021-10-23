@@ -31,7 +31,7 @@
     {"id":{"name":"sBungaloTrans","path":"sprites/sBungaloTrans/sBungaloTrans.yy",},"order":6,},
     {"id":{"name":"funPlayerDetectState","path":"scripts/funPlayerDetectState/funPlayerDetectState.yy",},"order":1,},
     {"id":{"name":"sPlayerDie","path":"sprites/sPlayerDie/sPlayerDie.yy",},"order":3,},
-    {"id":{"name":"funSetBlurShader","path":"scripts/funSetBlurShader/funSetBlurShader.yy",},"order":0,},
+    {"id":{"name":"funBlurSprite","path":"scripts/funBlurSprite/funBlurSprite.yy",},"order":0,},
     {"id":{"name":"sBungaloIdle","path":"sprites/sBungaloIdle/sBungaloIdle.yy",},"order":0,},
     {"id":{"name":"sBungaloMove","path":"sprites/sBungaloMove/sBungaloMove.yy",},"order":1,},
     {"id":{"name":"sBungaloCharge","path":"sprites/sBungaloCharge/sBungaloCharge.yy",},"order":5,},

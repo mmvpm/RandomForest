@@ -6,7 +6,7 @@
     "path": "folders/Scripts/Blur.yy",
   },
   "resourceVersion": "1.0",
-  "name": "funSetBlurShader",
+  "name": "funBlurSprite",
   "tags": [],
   "resourceType": "GMScript",
 }

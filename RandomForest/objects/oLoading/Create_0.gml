@@ -8,7 +8,7 @@ window_width_scaled = room_width * global.scale
 window_height_scaled = room_height * global.scale
 window_set_size(window_width_scaled, window_height_scaled)
 alarm[0] = true // for centering
-
+display_set_gui_maximize(global.scale, global.scale, 0, 0)
 
 // Temporary config
 
