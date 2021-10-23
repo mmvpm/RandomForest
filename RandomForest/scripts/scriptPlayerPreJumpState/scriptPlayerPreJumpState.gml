@@ -1,5 +1,6 @@
 function funPlayerPreJumpStart() {
 	self.sprite_index = sPlayerJump
+	self.image_index = 0
 	self.current_yspeed = self.jump_impulse
 }
 

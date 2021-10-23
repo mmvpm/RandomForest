@@ -1,5 +1,6 @@
 function funPlayerMoveStart() {
 	self.sprite_index = sPlayerMove
+	self.image_index = 0
 }
 
 

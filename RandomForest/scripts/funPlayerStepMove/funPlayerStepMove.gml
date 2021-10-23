@@ -1,24 +1,4 @@
 function funPlayerStepMove() {
-	// by X
-	var new_x = self.x + self.current_xspeed
-	if (!place_meeting(new_x, self.y, oSolid)) {
-		self.x = new_x
-	} else {
-		for (var new_xi = self.x + 1; new_xi <= new_x; ++new_xi) {
-			if (!place_meeting(new_xi, self.y, oSolid)) {
-				self.x = new_xi
-				break
-			}
-		}
-		self.current_xspeed = 0
-	}
-	
-	// friction by X
-	var on_ground = place_meeting(self.x, self.y + 1, oSolid)
-	if (on_ground) {
-		self.current_xspeed *= self.xfriction
-	}
-
 	// by Y
 	self.current_yspeed += self.gravitation
 	if (self.current_yspeed >= 20) {
@@ -35,5 +15,25 @@ function funPlayerStepMove() {
 			}
 		}
 		self.current_yspeed = 0
+	}
+	
+	// by X
+	var new_x = self.x + self.current_xspeed
+	if (!place_meeting(new_x, self.y, oSolid)) {
+		self.x = new_x
+	} else {
+		for (var new_xi = self.x + 1; new_xi <= new_x; ++new_xi) {
+			if (!place_meeting(new_xi, self.y, oSolid)) {
+				self.x = new_xi
+				break
+			}
+		}
+		// self.current_xspeed = 0
+	}
+	
+	// friction by X
+	var on_ground = place_meeting(self.x, self.y + 1, oSolid)
+	if (on_ground) {
+		self.current_xspeed *= self.xfriction
 	}
 }

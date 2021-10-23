@@ -12,7 +12,7 @@ function funPlayerAttackLogic() {
 
 	var critical_state = funPlayerDetectCriticalState()
 	if (critical_state != undefined and critical_state != player_states.attack) {
-		funPlayerChangeState(detected_state)
+		funPlayerChangeState(critical_state)
 		return
 	}
 	

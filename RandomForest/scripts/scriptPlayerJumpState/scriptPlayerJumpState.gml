@@ -1,5 +1,6 @@
 function funPlayerJumpStart() {
 	self.sprite_index = sPlayerJump
+	self.image_index = 0
 }
 
 
