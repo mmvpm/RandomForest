@@ -1,3 +1,6 @@
+// update counters
+self.cooldown_counter = max(0, self.cooldown_counter - 1)
+
 funReadInputs()
 
 switch (self.state) {
@@ -17,7 +20,15 @@ switch (self.state) {
 		}
 		funPlayerMoveLogic()
 		break
-	
+
+	case player_states.prejump:
+		if (self.state_changed) {
+			funPlayerPreJumpStart()
+			self.state_changed = false
+		}
+		funPlayerPreJumpLogic()
+		break
+
 	case player_states.jump:
 		if (self.state_changed) {
 			funPlayerJumpStart()
@@ -34,5 +45,12 @@ switch (self.state) {
 		funPlayerFallLogic()
 		break
 	
+	case player_states.attack:
+		if (self.state_changed) {
+			funPlayerAttackStart()
+			self.state_changed = false
+		}
+		funPlayerAttackLogic()
+		break
 	
 }
