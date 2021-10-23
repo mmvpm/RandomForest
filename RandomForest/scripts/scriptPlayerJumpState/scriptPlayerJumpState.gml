@@ -1,6 +1,5 @@
 function funPlayerJumpStart() {
 	self.sprite_index = sPlayerJump
-	self.current_yspeed = self.jump_impulse
 }
 
 
@@ -12,12 +11,17 @@ function funPlayerJumpLogic() {
 	}
 
 	self.current_xspeed = dx * self.step_xspeed
-	self.current_yspeed += self.gravitation
 	
 	if (self.current_yspeed >= 0) {
 		self.current_yspeed = 0
 	}
 	funPlayerStepMove()
+	
+	var critical_state = funPlayerDetectCriticalState()
+	if (critical_state != undefined) {
+		funPlayerChangeState(critical_state)
+		return
+	}
 	
 	var end_jump = self.current_yspeed == 0 // float ?
 	if (end_jump) {
@@ -25,6 +29,4 @@ function funPlayerJumpLogic() {
 		funPlayerChangeState(detected_state)
 		return
 	}
-
-	// TODO: attack and hurt
 }

@@ -11,14 +11,17 @@ function funPlayerFallLogic() {
 	}
 
 	self.current_xspeed = dx * self.step_xspeed
-	self.current_yspeed += self.gravitation
 	funPlayerStepMove()
+	
+	var critical_state = funPlayerDetectCriticalState()
+	if (critical_state != undefined) {
+		funPlayerChangeState(critical_state)
+		return
+	}
 	
 	var end_fall = self.current_yspeed == 0 // float ?
 	if (end_fall) {
 		var detected_state = funPlayerDetectState()
 		funPlayerChangeState(detected_state)
 	}
-
-	// TODO: attack and hurt
 }
