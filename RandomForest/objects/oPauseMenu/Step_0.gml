@@ -11,7 +11,6 @@ if (keyboard_check_pressed(global.key_pause)) {
 }
 
 if (self.paused) {
-	gpu_set_tex_filter(true)
 	instance_deactivate_all(true)
 	
 	if (keyboard_check_pressed(vk_enter)) {
