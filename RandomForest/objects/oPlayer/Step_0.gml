@@ -36,7 +36,7 @@ switch (self.state) {
 		}
 		funPlayerJumpLogic()
 		break
-	
+
 	case player_states.fall:
 		if (self.state_changed) {
 			funPlayerFallStart()
@@ -44,7 +44,7 @@ switch (self.state) {
 		}
 		funPlayerFallLogic()
 		break
-	
+
 	case player_states.attack:
 		if (self.state_changed) {
 			funPlayerAttackStart()
@@ -52,5 +52,20 @@ switch (self.state) {
 		}
 		funPlayerAttackLogic()
 		break
-	
+
+	case player_states.hurt:
+		if (self.state_changed) {
+			funPlayerHurtStart()
+			self.state_changed = false
+		}
+		funPlayerHurtLogic()
+		break
+
+	case player_states.die:
+		if (self.state_changed) {
+			funPlayerDieStart()
+			self.state_changed = false
+		}
+		funPlayerDieLogic()
+		break
 }
