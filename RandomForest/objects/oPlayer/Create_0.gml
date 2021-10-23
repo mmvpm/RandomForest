@@ -13,7 +13,9 @@ enum player_states {
 self.state = player_states.idle
 self.state_changed = true
 
-self.health = 5
+// health
+self.max_health = 5
+self.health = self.max_health
 
 // jump & move
 self.step_xspeed = 2
