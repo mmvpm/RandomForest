@@ -13,7 +13,17 @@ function funPlayerStepMove() {
 		self.current_xspeed = 0
 	}
 	
+	// friction by X
+	var on_ground = place_meeting(self.x, self.y + 1, oSolid)
+	if (on_ground) {
+		self.current_xspeed *= self.xfriction
+	}
+
 	// by Y
+	self.current_yspeed += self.gravitation
+	if (self.current_yspeed >= 20) {
+		self.current_yspeed = 20
+	}
 	var new_y = self.y + self.current_yspeed
 	if (!place_meeting(self.x, new_y, oSolid)) {
 		self.y = new_y
