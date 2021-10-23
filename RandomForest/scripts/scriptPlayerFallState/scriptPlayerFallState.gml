@@ -1,5 +1,6 @@
 function funPlayerFallStart() {
 	self.sprite_index = sPlayerFall
+	self.image_index = 0
 }
 
 

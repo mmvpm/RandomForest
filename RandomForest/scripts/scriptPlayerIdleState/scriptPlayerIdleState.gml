@@ -1,7 +1,8 @@
 function funPlayerIdleStart() {
+	self.sprite_index = sPlayerIdle
+	self.image_index = 0
 	self.current_xspeed = 0
 	self.current_yspeed = 0
-	self.sprite_index = sPlayerIdle
 }
 
 
