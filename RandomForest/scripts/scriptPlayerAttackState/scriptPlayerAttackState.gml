@@ -12,12 +12,13 @@ function funPlayerAttackLogic() {
 
 	var critical_state = funPlayerDetectCriticalState()
 	if (critical_state != undefined and critical_state != player_states.attack) {
+		funPlayerAttackEnd()
 		funPlayerChangeState(critical_state)
 		return
 	}
 	
 	if (self.image_index >= 3) {
-		instance_destroy(oPlayerSword)
+		funPlayerAttackEnd()
 		var detected_state = funPlayerDetectState()
 		if (detected_state != player_states.idle) {
 			funPlayerChangeState(detected_state)
@@ -30,4 +31,9 @@ function funPlayerAttackLogic() {
 		funPlayerChangeState(detected_state)
 		return
 	}
+}
+
+
+function funPlayerAttackEnd() {
+	instance_destroy(oPlayerSword)
 }

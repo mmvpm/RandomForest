@@ -5,7 +5,7 @@ function funSlimeHurtStart() {
 	
 	self.health = max(0, self.health - 1) // const ?
 	
-	self.current_xspeed = -self.image_xscale * self.hurt_ximpulse // dir to player ?
+	self.current_xspeed = -sign(self.image_xscale) * self.hurt_ximpulse
 }
 
 
