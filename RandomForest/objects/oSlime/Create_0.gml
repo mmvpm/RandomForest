@@ -31,7 +31,7 @@ self.current_direction = 1 // or -1
 // attack
 self.cooldown = 0.6 * 60 // seconds * fps
 self.cooldown_counter = 0
-self.attack_animation_ended = false
+self.vision_radius = 60 // in pixels
 
 // hurt
 self.hurt_ximpulse = 0.5

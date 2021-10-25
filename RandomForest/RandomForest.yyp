@@ -14,6 +14,7 @@
     {"id":{"name":"oPlayerSword","path":"objects/oPlayerSword/oPlayerSword.yy",},"order":3,},
     {"id":{"name":"sBungaloAttack","path":"sprites/sBungaloAttack/sBungaloAttack.yy",},"order":2,},
     {"id":{"name":"sSkeletonHurt","path":"sprites/sSkeletonHurt/sSkeletonHurt.yy",},"order":3,},
+    {"id":{"name":"scriptSlimeAttackState","path":"scripts/scriptSlimeAttackState/scriptSlimeAttackState.yy",},"order":7,},
     {"id":{"name":"sPlayerIdle","path":"sprites/sPlayerIdle/sPlayerIdle.yy",},"order":0,},
     {"id":{"name":"scriptPlayerPreJumpState","path":"scripts/scriptPlayerPreJumpState/scriptPlayerPreJumpState.yy",},"order":8,},
     {"id":{"name":"sPlayerHurt","path":"sprites/sPlayerHurt/sPlayerHurt.yy",},"order":6,},
