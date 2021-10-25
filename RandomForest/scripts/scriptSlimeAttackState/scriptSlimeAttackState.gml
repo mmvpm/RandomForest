@@ -13,18 +13,18 @@ function funSlimeAttackLogic() {
 	self.image_xscale = self.current_direction * abs(self.image_xscale)
 	self.current_xspeed = self.step_xspeed * self.current_direction
 	
-	funSlimeStepMove()
+	funDefaultStepMove()
 	
 	var critical_state = funSlimeDetectCriticalState()
 	if (critical_state != undefined) {
-		funSlimeChangeState(critical_state)
+		funDefaultChangeState(critical_state)
 		return
 	}
 	
 	var is_see_player = collision_circle(self.x, self.y, self.vision_radius, oPlayer, false, false)
 	if (!is_see_player) {
 		var detected_state = funSlimeDetectState()
-		funSlimeChangeState(detected_state)
+		funDefaultChangeState(detected_state)
 		return
 	}
 }

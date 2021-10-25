@@ -10,16 +10,16 @@ function funSlimeHurtStart() {
 
 
 function funSlimeHurtLogic() {
-	funSlimeStepMove()
+	funDefaultStepMove()
 	
 	if (self.health == 0) {
-		funSlimeChangeState(slime_states.die)
+		funDefaultChangeState(slime_states.die)
 		return
 	}
 	
 	if (self.hurt_animation_ended) {
 		var detected_state = funSlimeDetectState()
-		funSlimeChangeState(detected_state)
+		funDefaultChangeState(detected_state)
 		return
 	}
 }

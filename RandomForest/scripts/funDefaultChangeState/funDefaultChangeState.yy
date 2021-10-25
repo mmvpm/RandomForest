@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "StateMachine",
-    "path": "folders/Scripts/Slime/StateMachine.yy",
+    "name": "Default",
+    "path": "folders/Scripts/Default.yy",
   },
   "resourceVersion": "1.0",
-  "name": "funSlimeChangeState",
+  "name": "funDefaultChangeState",
   "tags": [],
   "resourceType": "GMScript",
 }

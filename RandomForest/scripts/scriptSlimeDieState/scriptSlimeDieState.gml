@@ -6,7 +6,7 @@ function funSlimeDieStart() {
 
 
 function funSlimeDieLogic() {
-	funSlimeStepMove()
+	funDefaultStepMove()
 	
 	if (self.image_index >= 2 and !self.is_splitted) {
 		for (var i = 0; i < 2; ++i) {

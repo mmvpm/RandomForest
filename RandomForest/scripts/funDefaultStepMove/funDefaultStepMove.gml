@@ -1,4 +1,4 @@
-function funSlimeStepMove() {
+function funDefaultStepMove() {
 	// by Y
 	self.current_yspeed += self.gravitation
 	if (self.current_yspeed >= 20) {

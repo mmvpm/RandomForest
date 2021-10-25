@@ -14,14 +14,14 @@ function funSlimeIdleStart() {
 function funSlimeIdleLogic() {
 	var critical_state = funSlimeDetectCriticalState()
 	if (critical_state != undefined) {
-		funSlimeChangeState(critical_state)
+		funDefaultChangeState(critical_state)
 		return
 	}
 	
-	funSlimeStepMove()
+	funDefaultStepMove()
 	
 	if (self.idle_countdown_counter == 0) {
-		funSlimeChangeState(slime_states.move)
+		funDefaultChangeState(slime_states.move)
 		return
 	}
 }

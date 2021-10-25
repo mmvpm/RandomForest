@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Slime",
-    "path": "folders/Scripts/Slime.yy",
+    "name": "Skeleton",
+    "path": "folders/Scripts/Skeleton.yy",
   },
   "resourceVersion": "1.0",
-  "name": "funSlimeStepMove",
+  "name": "funSkeletonDetectState",
   "tags": [],
   "resourceType": "GMScript",
 }
