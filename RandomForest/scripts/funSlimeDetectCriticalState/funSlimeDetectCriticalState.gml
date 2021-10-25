@@ -19,5 +19,6 @@ function funSlimeDetectCriticalState() {
 		return slime_states.attack
 	}
 	
+	// nothing special
 	return undefined
 }

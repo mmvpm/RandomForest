@@ -10,7 +10,8 @@ function funSlimeDieLogic() {
 	
 	if (self.image_index >= 2 and !self.is_splitted) {
 		for (var i = 0; i < 2; ++i) {
-			var new_slime_y = self.y - 12 / 2 // where 12 is slime collision_mask height
+			var real_slime_height = abs(self.sprite_height * self.image_yscale)
+			var new_slime_y = self.y - real_slime_height / 4
 			var new_slime = instance_create_depth(self.x, new_slime_y, self.depth, oSlime)
 			
 			with (new_slime) {

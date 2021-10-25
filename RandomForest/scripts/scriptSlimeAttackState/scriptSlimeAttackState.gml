@@ -1,15 +1,17 @@
 function funSlimeAttackStart() {
 	self.sprite_index = sSlimeAttack
 	self.image_index = 0
+	self.cooldown_counter = self.cooldown
 }
 
 
 function funSlimeAttackLogic() {
 	// Player...Slime -> -1
 	// Slime...Player -> +1
-	var direction_to_player = sign(oPlayer.x - self.x)
+	self.current_direction = sign(oPlayer.x - self.x) // direction to player
 	
-	self.current_xspeed = self.step_xspeed * direction_to_player
+	self.image_xscale = self.current_direction * abs(self.image_xscale)
+	self.current_xspeed = self.step_xspeed * self.current_direction
 	
 	funSlimeStepMove()
 	
