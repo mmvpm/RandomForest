@@ -110,7 +110,7 @@
     {"folderPath":"folders/Scripts/Events/Controls.yy","order":1,"resourceVersion":"1.0","name":"Controls","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Sprites/Player/Sword.yy","order":7,"resourceVersion":"1.0","name":"Sword","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Scripts/UI.yy","order":3,"resourceVersion":"1.0","name":"UI","tags":[],"resourceType":"GMFolder",},
-    {"folderPath":"folders/Sprites/Borders.yy","order":7,"resourceVersion":"1.0","name":"Borders","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Sprites/UI/Borders.yy","order":1,"resourceVersion":"1.0","name":"Borders","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Sprites/UI.yy","order":6,"resourceVersion":"1.0","name":"UI","tags":[],"resourceType":"GMFolder",},
   ],
   "AudioGroups": [

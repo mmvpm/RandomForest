@@ -94,7 +94,7 @@
   },
   "parent": {
     "name": "Borders",
-    "path": "folders/Sprites/Borders.yy",
+    "path": "folders/Sprites/UI/Borders.yy",
   },
   "resourceVersion": "1.0",
   "name": "sBorderNobac5",
