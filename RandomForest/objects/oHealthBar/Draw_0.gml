@@ -1,6 +1,6 @@
 /// @description Draw health bar
 
-var float_health = self.health / self.max_health // in [0, 1]
+var float_health = oPlayer.health / oPlayer.max_health // in [0, 1]
 
 var strip_index = 5 // index of health strip in sprite ~ last index
 var bar_image_index = ceil(float_health * (strip_index - 1)) // [0, 1] -> {0, 1, 2, 3, 4}
