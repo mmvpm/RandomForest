@@ -25,6 +25,7 @@
     {"id":{"name":"sPlayerSword1","path":"sprites/sPlayerSword1/sPlayerSword1.yy",},"order":0,},
     {"id":{"name":"sBungaloHurt","path":"sprites/sBungaloHurt/sBungaloHurt.yy",},"order":3,},
     {"id":{"name":"shBlur","path":"shaders/shBlur/shBlur.yy",},"order":0,},
+    {"id":{"name":"sHealthBar","path":"sprites/sHealthBar/sHealthBar.yy",},"order":0,},
     {"id":{"name":"funPlayerChangeState","path":"scripts/funPlayerChangeState/funPlayerChangeState.yy",},"order":2,},
     {"id":{"name":"funPlayerDetectCriticalState","path":"scripts/funPlayerDetectCriticalState/funPlayerDetectCriticalState.yy",},"order":9,},
     {"id":{"name":"oTrap","path":"objects/oTrap/oTrap.yy",},"order":4,},
@@ -47,6 +48,7 @@
     {"id":{"name":"scriptPlayerMoveState","path":"scripts/scriptPlayerMoveState/scriptPlayerMoveState.yy",},"order":3,},
     {"id":{"name":"sSlimeHurt","path":"sprites/sSlimeHurt/sSlimeHurt.yy",},"order":3,},
     {"id":{"name":"sSkeletonMove","path":"sprites/sSkeletonMove/sSkeletonMove.yy",},"order":1,},
+    {"id":{"name":"oHealthBar","path":"objects/oHealthBar/oHealthBar.yy",},"order":5,},
     {"id":{"name":"sBackground","path":"sprites/sBackground/sBackground.yy",},"order":0,},
     {"id":{"name":"sPlatforms","path":"sprites/sPlatforms/sPlatforms.yy",},"order":1,},
     {"id":{"name":"oLoading","path":"objects/oLoading/oLoading.yy",},"order":0,},
@@ -109,6 +111,7 @@
     {"folderPath":"folders/Sprites/Player/Sword.yy","order":7,"resourceVersion":"1.0","name":"Sword","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Scripts/UI.yy","order":3,"resourceVersion":"1.0","name":"UI","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Sprites/Borders.yy","order":7,"resourceVersion":"1.0","name":"Borders","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Sprites/UI.yy","order":6,"resourceVersion":"1.0","name":"UI","tags":[],"resourceType":"GMFolder",},
   ],
   "AudioGroups": [
     {"targets":-1,"resourceVersion":"1.3","name":"audiogroup_default","resourceType":"GMAudioGroup",},

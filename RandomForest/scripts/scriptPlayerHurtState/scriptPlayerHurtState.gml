@@ -3,7 +3,7 @@ function funPlayerHurtStart() {
 	self.image_index = 0
 	self.hurt_animation_ended = false
 	
-	self.health = max(0, self.health - 2) // const ?
+	self.health = max(0, self.health - 1) // const ?
 	
 	self.current_xspeed = -self.image_xscale * self.hurt_ximpulse
 	self.current_yspeed = self.hurt_yimpulse // always up
