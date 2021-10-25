@@ -3,13 +3,17 @@ function funSlimeMoveStart() {
 	self.image_index = 0
 	
 	self.current_direction *= -1
-	self.image_xscale = self.current_direction
+	self.image_xscale = self.current_direction * abs(self.image_xscale)
 	self.current_move_distance = self.move_distance
 }
 
 
 function funSlimeMoveLogic() {
-	// detect critical states ?
+	var critical_state = funSlimeDetectCriticalState()
+	if (critical_state != undefined) {
+		funSlimeChangeState(critical_state)
+		return
+	}
 	
 	self.current_move_distance -= 1
 	

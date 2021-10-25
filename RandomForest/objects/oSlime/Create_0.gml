@@ -34,8 +34,9 @@ self.cooldown_counter = 0
 self.attack_animation_ended = false
 
 // hurt
-self.hurt_ximpulse = 2
+self.hurt_ximpulse = 0 // TODO: after damage-messages
 self.hurt_animation_ended = false
 
 // die
+self.is_splitted = false // by two part (small slimes)
 self.die_animation_ended = false

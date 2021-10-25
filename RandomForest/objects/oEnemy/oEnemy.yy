@@ -1,10 +1,7 @@
 {
-  "spriteId": {
-    "name": "sPlayerSword1",
-    "path": "sprites/sPlayerSword1/sPlayerSword1.yy",
-  },
+  "spriteId": null,
   "solid": false,
-  "visible": true,
+  "visible": false,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": null,
@@ -20,9 +17,7 @@
   "physicsStartAwake": true,
   "physicsKinematic": false,
   "physicsShapePoints": [],
-  "eventList": [
-    {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
-  ],
+  "eventList": [],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
@@ -30,7 +25,7 @@
     "path": "folders/Objects.yy",
   },
   "resourceVersion": "1.0",
-  "name": "oPlayerSword",
+  "name": "oEnemy",
   "tags": [],
   "resourceType": "GMObject",
 }

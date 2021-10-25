@@ -1,13 +1,22 @@
 function funSlimeIdleStart() {
 	self.sprite_index = sSlimeIdle
 	self.image_index = 0
-	self.idle_countdown_counter = self.idle_countdown
+	
+	// for resuming
+	if (self.idle_countdown_counter == 0) {
+		self.idle_countdown_counter = self.idle_countdown
+	}
+	
 	self.current_xspeed = 0
 }
 
 
 function funSlimeIdleLogic() {
-	// detect critical states ?
+	var critical_state = funSlimeDetectCriticalState()
+	if (critical_state != undefined) {
+		funSlimeChangeState(critical_state)
+		return
+	}
 	
 	funSlimeStepMove()
 	

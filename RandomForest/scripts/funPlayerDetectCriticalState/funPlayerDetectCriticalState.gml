@@ -1,6 +1,7 @@
 function funPlayerDetectCriticalState() {
 	var is_trapped = place_meeting(self.x, self.y, oTrap)
-	if (is_trapped) {
+	var is_hit_by_enemy = place_meeting(self.x, self.y, oEnemy)
+	if (is_trapped or is_hit_by_enemy) {
 		return player_states.hurt
 	}
 	
