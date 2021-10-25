@@ -5,7 +5,7 @@ self.items_count = 3
 self.strings = [
 	"Продолжить",
 	"Начать заново",
-	"Выход",
+	"Выйти в меню",
 ]
 
 self.current_color = make_color_rgb(112, 211, 112)
