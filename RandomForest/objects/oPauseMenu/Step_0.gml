@@ -17,6 +17,8 @@ if (self.paused) {
 		if (self.current_index == 0) {
 			self.paused = false
 		} else if (self.current_index == 1) {
+			room_restart()
+		} else if (self.current_index == 2) {
 			game_end()
 		}
 	} else if (keyboard_check_pressed(vk_down)) {

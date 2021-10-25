@@ -6,15 +6,31 @@ if (self.paused) {
 	
 	gpu_set_tex_filter(false)
 	for (var i = 0; i < self.items_count; i++) {
+		var button_color = c_white
+		var ui_scale = 1
 		if (i == self.current_index) {
 			draw_set_color(self.current_color)
+			button_color = self.current_button_color
+			ui_scale = self.current_scale
 		} else {
 			draw_set_color(self.default_color)
+			button_color = self.default_button_color
+			ui_scale = self.default_scale
 		}
-		draw_text(
-			room_width * 0.5, 
-			room_height * (self.top_item + self.separate_dist * i),
-			self.strings[i]
+		var x_pos = room_width * 0.5
+		var y_pos = room_height * (self.top_item + self.separate_dist * i)
+		
+		draw_sprite_stretched_ext(
+			self.border_sprite, 0,
+			x_pos, y_pos + 1.5,
+			self.border_width * ui_scale, self.border_height * ui_scale,
+			button_color, 1
+		)
+		
+		draw_text_transformed(
+			x_pos, y_pos,
+			self.strings[i],
+			ui_scale, ui_scale, 0
 		)
 	}
 }
