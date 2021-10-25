@@ -13,7 +13,11 @@ function funSlimeDetectCriticalState() {
 	}
 	
 	// attack
-	var is_see_player = collision_circle(self.x, self.y, self.vision_radius, oPlayer, false, false)
+	var is_see_player = collision_rectangle(
+		self.x, self.y,
+		self.x + sign(self.image_xscale) * self.vision_radius, 
+		self.y - self.sprite_height, oPlayer, false, false
+	)
 	var new_attack_allowed = self.cooldown_counter == 0
 	if (is_see_player and new_attack_allowed) {
 		return slime_states.attack

@@ -21,7 +21,11 @@ function funSlimeAttackLogic() {
 		return
 	}
 	
-	var is_see_player = collision_circle(self.x, self.y, self.vision_radius, oPlayer, false, false)
+	var is_see_player = collision_rectangle(
+		self.x, self.y,
+		self.x + sign(self.image_xscale) * self.vision_radius, 
+		self.y - self.sprite_height, oPlayer, false, false
+	)
 	if (!is_see_player) {
 		var detected_state = funSlimeDetectState()
 		funDefaultChangeState(detected_state)

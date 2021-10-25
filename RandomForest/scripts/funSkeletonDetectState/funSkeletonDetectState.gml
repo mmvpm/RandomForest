@@ -1,13 +1,22 @@
 function funSkeletonDetectState() {
 	// attack
-	var want_attack = collision_circle(self.x, self.y, self.attack_radius, oPlayer, false, false)
+	var want_attack = collision_rectangle(
+		self.x, self.y,
+		self.x + sign(self.image_xscale) * self.attack_radius, 
+		self.y - self.sprite_height, oPlayer, false, false
+	)
 
 	if (want_attack) {
 		return skeleton_states.idle // attack
 	}
 	
 	// move
-	var is_see_player = collision_circle(self.x, self.y, self.vision_radius, oPlayer, false, false)
+	var is_see_player = collision_rectangle(
+		self.x - sign(self.image_xscale) * self.vision_radius * 0.5,
+		self.y,
+		self.x + sign(self.image_xscale) * self.vision_radius, 
+		self.y - self.sprite_height, oPlayer, false, false
+	)
 
 	if (is_see_player) {
 		var direction_to_player = sign(oPlayer.x - self.x) // `<-`: -1, `->`: +1
