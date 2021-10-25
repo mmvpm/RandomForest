@@ -1,8 +1,5 @@
 {
-  "spriteId": {
-    "name": "sHealthBar",
-    "path": "sprites/sHealthBar/sHealthBar.yy",
-  },
+  "spriteId": null,
   "solid": false,
   "visible": true,
   "spriteMaskId": null,
