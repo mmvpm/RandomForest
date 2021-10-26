@@ -4,7 +4,7 @@ if (keyboard_check_pressed(global.key_pause)) {
 	if (!sprite_exists(self.screenshot)) {
 		self.screenshot = funBlurSprite(
 			application_surface,
-			12, room_width, room_height, 1, 0.01,
+			10, room_width, room_height, 1, 4,
 			0, 0, 0, 0.2
 		)
 	}
