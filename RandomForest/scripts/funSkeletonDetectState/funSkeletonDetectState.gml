@@ -26,6 +26,7 @@ function funSkeletonDetectState() {
 
 	if (is_see_player) {
 		var direction_to_player = sign(oPlayer.x - self.x) // `<-`: -1, `->`: +1
+		// abs(self.bbox_right - self.bbox_left) ?
 		var imagine_x = self.x + direction_to_player * abs(self.sprite_width / 2) // collision mask width
 		var fully_on_ground = place_meeting(imagine_x, self.y + 1, oSolid)
 

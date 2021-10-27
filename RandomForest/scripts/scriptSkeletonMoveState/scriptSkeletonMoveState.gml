@@ -11,7 +11,8 @@ function funSkeletonMoveLogic() {
 	if (self.current_direction != 0) {
 		self.image_xscale = self.current_direction * abs(self.image_xscale)
 		self.current_xspeed = self.step_xspeed * self.current_direction
-
+		
+		// self.current_direction * abs(self.bbox_right - self.bbox_left) ?
 		var imagine_x = self.x + self.sprite_width / 2 // collision mask width, already with right direction
 		var fully_on_ground = place_meeting(imagine_x, self.y + 1, oSolid)
 	

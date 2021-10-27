@@ -1,0 +1,8 @@
+function funBungaloAttackStart() {
+
+}
+
+
+function funBungaloAttackLogic() {
+
+}
