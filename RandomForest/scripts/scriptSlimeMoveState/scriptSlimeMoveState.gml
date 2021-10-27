@@ -3,7 +3,9 @@ function funSlimeMoveStart() {
 	self.image_index = 0
 
 	self.current_direction *= -1
-	self.image_xscale = self.current_direction * abs(self.image_xscale)
+	if (self.current_direction != 0) {
+		self.image_xscale = self.current_direction * abs(self.image_xscale)
+	}
 	self.current_move_distance = self.move_distance
 }
 

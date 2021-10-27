@@ -6,11 +6,9 @@ function funSkeletonIdleStart() {
 
 
 function funSkeletonIdleLogic() {
-	// critical states ??
-	
 	funDefaultStepMove()
 	
-	var detected_state = funSkeletonDetectState()
+	var detected_state = funSkeletonDetectState() // critical states here
 	if (detected_state != self.state) {
 		funDefaultChangeState(detected_state)
 		return

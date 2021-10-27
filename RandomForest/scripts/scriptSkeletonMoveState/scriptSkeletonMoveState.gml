@@ -6,8 +6,6 @@ function funSkeletonMoveStart() {
 
 
 function funSkeletonMoveLogic() {
-	// critical states ?
-
 	self.current_direction = sign(oPlayer.x - self.x) // to player
 
 	if (self.current_direction != 0) {
@@ -24,7 +22,7 @@ function funSkeletonMoveLogic() {
 	
 	funDefaultStepMove()
 
-	var detected_state = funSkeletonDetectState()
+	var detected_state = funSkeletonDetectState() // critical states here
 	if (detected_state != self.state) {
 		funDefaultChangeState(detected_state)
 		return

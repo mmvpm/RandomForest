@@ -10,8 +10,10 @@ function funSlimeAttackLogic() {
 	// Slime...Player -> +1
 	self.current_direction = sign(oPlayer.x - self.x) // direction to player
 	
-	self.image_xscale = self.current_direction * abs(self.image_xscale)
-	self.current_xspeed = self.step_xspeed * self.current_direction
+	if (self.current_direction != 0) {
+		self.image_xscale = self.current_direction * abs(self.image_xscale)
+		self.current_xspeed = self.step_xspeed * self.current_direction
+	}
 	
 	funDefaultStepMove()
 	

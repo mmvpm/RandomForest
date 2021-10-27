@@ -1,21 +1,27 @@
 function funSkeletonDetectState() {
+	// critical states
+	var critical_state = funSkeletonDetectCriticalState()
+	if (critical_state != undefined) {
+		return critical_state
+	}
+	
 	// attack
 	var want_attack = collision_rectangle(
 		self.x, self.y,
 		self.x + sign(self.image_xscale) * self.attack_radius, 
-		self.y - self.sprite_height, oPlayer, false, false
+		self.y - 2 * self.sprite_height, oPlayer, false, false
 	)
 
 	if (want_attack) {
-		return skeleton_states.idle // attack
+		return skeleton_states.attack
 	}
 	
-	// move
+	// move or react
 	var is_see_player = collision_rectangle(
 		self.x - sign(self.image_xscale) * self.vision_radius * 0.5,
 		self.y,
 		self.x + sign(self.image_xscale) * self.vision_radius, 
-		self.y - self.sprite_height, oPlayer, false, false
+		self.y - 2 * self.sprite_height, oPlayer, false, false
 	)
 
 	if (is_see_player) {
@@ -27,7 +33,12 @@ function funSkeletonDetectState() {
 		var may_move = !place_meeting(new_x, self.y, oSolid)
 
 		if (fully_on_ground and may_move) {
-			return skeleton_states.move
+			if (self.state == skeleton_states.move) {
+				return skeleton_states.move
+			}
+			else {
+				return skeleton_states.react
+			}
 		}
 	}
 
