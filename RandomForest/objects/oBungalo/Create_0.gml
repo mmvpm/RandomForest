@@ -36,6 +36,8 @@ self.attack_animation_ended = false
 self.sword_created = false
 
 // hurt
+self.hurt_countdown = 1 * 60 // seconds * fps
+self.hurt_countdown_counter = 0
 self.hurt_animation_ended = false
 
 // die

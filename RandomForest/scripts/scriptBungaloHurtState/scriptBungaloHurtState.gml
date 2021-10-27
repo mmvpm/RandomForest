@@ -1,8 +1,9 @@
 function funBungaloHurtStart() {
 	self.sprite_index = sBungaloHurt
 	self.image_index = 0
-	self.hurt_animation_ended = false
 	self.current_xspeed = 0
+	self.hurt_animation_ended = false
+	self.hurt_countdown_counter = hurt_countdown
 	
 	self.health = max(0, self.health - 1) // const ?
 }

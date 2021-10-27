@@ -6,7 +6,7 @@ function funBungaloDetectState() {
 	}
 	
 	if (funBungaloWantAttack()) {
-		return bungalo_states.idle//attack
+		return bungalo_states.attack
 	}
 	
 	if (funBungaloSeePlayer()) {

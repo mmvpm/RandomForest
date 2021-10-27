@@ -32,6 +32,7 @@ function funSkeletonAttackLogic() {
 	}
 }
 
+
 function funSkeletonAttackEnd() {
 	instance_destroy(oSkeletonSword)
 }
