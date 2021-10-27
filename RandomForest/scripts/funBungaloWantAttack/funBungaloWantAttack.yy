@@ -2,8 +2,8 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "StateMachine",
-    "path": "folders/Scripts/Bungalo/StateMachine.yy",
+    "name": "Bungalo",
+    "path": "folders/Scripts/Bungalo.yy",
   },
   "resourceVersion": "1.0",
   "name": "funBungaloWantAttack",

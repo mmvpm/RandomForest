@@ -1,4 +1,4 @@
-function funBungaloWantAttack() {
+function funSkeletonWantAttack() {
 	var real_attack_radius = self.attack_radius * abs(self.image_xscale)
 	var want_attack = collision_rectangle(
 		self.x, self.y,

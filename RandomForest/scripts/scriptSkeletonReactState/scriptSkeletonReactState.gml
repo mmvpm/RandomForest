@@ -16,7 +16,16 @@ function funSkeletonReactLogic() {
 	}
 	
 	if (self.react_animation_ended) {
-		funDefaultChangeState(skeleton_states.move)
+		var fully_on_ground = funDefaultFullyOnGround()
+		var new_x = self.x + sign(self.image_xscale) * self.step_xspeed
+		var may_move = !place_meeting(new_x, self.y, oSolid)
+		
+		if (fully_on_ground and may_move) {
+			funDefaultChangeState(skeleton_states.move)
+		}
+		else {
+			funDefaultChangeState(skeleton_states.idle)
+		}
 		return
 	}
 }

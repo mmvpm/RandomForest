@@ -11,30 +11,29 @@ function funSlimeMoveStart() {
 
 
 function funSlimeMoveLogic() {
-	var critical_state = funSlimeDetectCriticalState()
-	if (critical_state != undefined) {
-		funDefaultChangeState(critical_state)
+	self.current_move_distance -= 1
+	
+	self.current_xspeed = self.current_direction * self.step_xspeed
+
+	var success_xmove = true
+	var want_move = self.current_move_distance > 0
+	var fully_on_ground = funDefaultFullyOnGround()
+	if (!want_move or !fully_on_ground) {
+		self.current_xspeed = 0
+		success_xmove = false
+	}
+	if (!funDefaultStepMove()) {
+		success_xmove = false
+	}
+
+	if (!success_xmove) {
+		funDefaultChangeState(slime_states.idle)
 		return
 	}
-
-	self.current_move_distance -= 1
-
-	var want_move = self.current_move_distance > 0
-
-	var imagine_x = self.x + self.sprite_width // already with right direction
-	var fully_on_ground = place_meeting(imagine_x, self.y + 1, oSolid)
-
-	var success_xmove = false
-	if (want_move and fully_on_ground) {
-		self.current_xspeed = self.current_direction * self.step_xspeed
-	}
-	else {
-		self.current_xspeed = 0
-	}
-	success_xmove = funDefaultStepMove()
-
-	if (!success_xmove or !want_move or !fully_on_ground) {
-		funDefaultChangeState(slime_states.idle)
+	
+	var detected_state = funSlimeDetectState() // critical states here
+	if (detected_state != self.state) {
+		funDefaultChangeState(detected_state)
 		return
 	}
 }

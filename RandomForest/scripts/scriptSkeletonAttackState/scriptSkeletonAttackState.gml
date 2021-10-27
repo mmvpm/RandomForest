@@ -1,9 +1,9 @@
 function funSkeletonAttackStart() {
 	self.sprite_index = sSkeletonAttack
 	self.image_index = 0
-	self.attack_animation_ended = false
 	self.current_xspeed = 0
 	self.sword_created = false
+	self.attack_animation_ended = false
 }
 
 

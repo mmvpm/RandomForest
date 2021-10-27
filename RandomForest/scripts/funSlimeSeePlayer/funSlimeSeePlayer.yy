@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Bungalo",
-    "path": "folders/Scripts/Bungalo.yy",
+    "name": "Slime",
+    "path": "folders/Scripts/Slime.yy",
   },
   "resourceVersion": "1.0",
-  "name": "funBungaloSeePlayer",
+  "name": "funSlimeSeePlayer",
   "tags": [],
   "resourceType": "GMScript",
 }

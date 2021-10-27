@@ -35,6 +35,8 @@ self.vision_radius = 60 // in pixels
 
 // hurt
 self.hurt_ximpulse = 0.5
+self.hurt_countdown = 0.5 * 60 // seconds * fps
+self.hurt_countdown_counter = 0
 self.hurt_animation_ended = false
 
 // die

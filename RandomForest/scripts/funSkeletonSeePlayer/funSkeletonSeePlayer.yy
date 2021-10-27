@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Bungalo",
-    "path": "folders/Scripts/Bungalo.yy",
+    "name": "Skeleton",
+    "path": "folders/Scripts/Skeleton.yy",
   },
   "resourceVersion": "1.0",
-  "name": "funBungaloSeePlayer",
+  "name": "funSkeletonSeePlayer",
   "tags": [],
   "resourceType": "GMScript",
 }

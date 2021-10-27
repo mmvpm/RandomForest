@@ -32,8 +32,8 @@ self.cooldown_counter = 0
 self.attack_animation_ended = false
 
 // hurt
-self.hurt_ximpulse = 2 * 0
-self.hurt_yimpulse = -4 * 0
+self.hurt_ximpulse = 2
+self.hurt_yimpulse = -4
 self.hurt_animation_ended = false
 self.hurt_countdown = 0.6 * 60 // temporary invulnerability (including hurt animation ~ 20 frames)
 self.hurt_countdown_counter = 0

@@ -10,10 +10,9 @@ function funBungaloDetectCriticalState() {
 	if (is_hit_by_player and hurt_allowed) {
 		// turned to face the player
 		var direction_to_player = sign(oPlayer.x - self.x)
-		if (direction_to_player == 0) {
-			direction_to_player = 1
+		if (direction_to_player != 0) {
+			self.image_xscale = abs(self.image_xscale) * direction_to_player
 		}
-		self.image_xscale = abs(self.image_xscale) * direction_to_player
 		return bungalo_states.hurt
 	}
 	
