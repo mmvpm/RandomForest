@@ -1,14 +1,23 @@
 function funPlayerDetectCriticalState() {
+	// hurt
 	var is_trapped = place_meeting(self.x, self.y, oTrap)
-	if (is_trapped) {
-		return player_states.hurt
+	var is_hit_by_enemy = place_meeting(self.x, self.y, oEnemy)
+	var hurt_allowed = self.hurt_countdown_counter == 0
+	
+	if (hurt_allowed) {
+		if (is_trapped or is_hit_by_enemy) {
+			return player_states.hurt
+		}
 	}
 	
-	var attack_allowed = self.cooldown_counter == 0
+	// attack
 	var want_attack = self.key_attack_pressed
+	var attack_allowed = self.cooldown_counter == 0
+	
 	if (want_attack and attack_allowed) {
 		return player_states.attack
 	}
 
+	// nothing special
 	return undefined
 }

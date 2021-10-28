@@ -2,6 +2,7 @@ function funPlayerHurtStart() {
 	self.sprite_index = sPlayerHurt
 	self.image_index = 0
 	self.hurt_animation_ended = false
+	self.hurt_countdown_counter = self.hurt_countdown
 	
 	self.health = max(0, self.health - 1) // const ?
 	
