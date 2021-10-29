@@ -6,7 +6,8 @@ function funPlayerHurtStart() {
 	
 	self.health = max(0, self.health - 1) // const ?
 	
-	self.current_xspeed = -self.image_xscale * self.hurt_ximpulse
+	self.image_xscale = self.direction_to_enemy * abs(self.image_xscale)
+	self.current_xspeed = -self.direction_to_enemy * self.hurt_ximpulse
 	self.current_yspeed = self.hurt_yimpulse // always up
 }
 
