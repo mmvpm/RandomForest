@@ -26,6 +26,7 @@ function funBungaloAttackLogic() {
 	}
 	
 	if (self.attack_animation_ended) {
+		self.image_index = self.image_number - 1 // otherwise image_index = 0.xx, so it will be shown on 1 frame
 		var detected_state = funBungaloDetectState()
 		funDefaultChangeState(detected_state) // Bungalo sword already deleted
 		return

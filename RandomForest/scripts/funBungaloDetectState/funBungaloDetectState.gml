@@ -11,10 +11,16 @@ function funBungaloDetectState() {
 	}
 	
 	// move
-	var fully_on_ground = funDefaultFullyOnGround()
-	var new_x = self.x + sign(self.image_xscale) * self.step_xspeed
-	var may_move = !place_meeting(new_x, self.y, oSolid)
 	if (funBungaloSeePlayer()) {
+		var direction_to_player = sign(oPlayer.x - self.x)
+		if (direction_to_player != 0) {
+			self.image_xscale = direction_to_player * abs(self.image_xscale)
+		}
+		
+		var fully_on_ground = funDefaultFullyOnGround()
+		var new_x = self.x + sign(self.image_xscale) * self.step_xspeed
+		var may_move = !place_meeting(new_x, self.y, oSolid)
+
 		if (may_move and fully_on_ground) {
 			return bungalo_states.move
 		}
