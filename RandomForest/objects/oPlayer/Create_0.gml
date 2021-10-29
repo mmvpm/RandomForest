@@ -27,8 +27,9 @@ self.current_xspeed = 0
 self.current_yspeed = 0
 
 // attack
-self.cooldown = 0.6 * 60 // seconds * fps
+self.cooldown = 0.7 * 60 // seconds * fps
 self.cooldown_counter = 0
+self.sword_destroyed = false
 self.attack_animation_ended = false
 
 // hurt

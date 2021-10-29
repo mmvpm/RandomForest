@@ -3,6 +3,7 @@ function funSkeletonAttackStart() {
 	self.image_index = 0
 	self.current_xspeed = 0
 	self.sword_created = false
+	self.sword_destroyed = false
 	self.attack_animation_ended = false
 }
 
@@ -21,8 +22,9 @@ function funSkeletonAttackLogic() {
 		instance_create_depth(self.x, self.y, -1, oSkeletonSword)
 		self.sword_created = true
 	}
-	if (self.image_index >= 10) {
+	if (self.image_index >= 10 and !self.sword_destroyed) {
 		instance_destroy(oSkeletonSword)
+		self.sword_destroyed = true
 	}
 	
 	if (self.attack_animation_ended) {

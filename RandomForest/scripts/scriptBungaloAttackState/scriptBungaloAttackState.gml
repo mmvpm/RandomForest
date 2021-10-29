@@ -4,6 +4,7 @@ function funBungaloAttackStart() {
 	self.attack_animation_ended = false
 	self.current_xspeed = 0
 	self.sword_created = false
+	self.sword_destroyed = false
 }
 
 
@@ -21,8 +22,9 @@ function funBungaloAttackLogic() {
 		instance_create_depth(self.x, self.y, -1, oBungaloSword)
 		self.sword_created = true
 	}
-	if (self.image_index >= 5) {
+	if (self.image_index >= 5 and !self.sword_destroyed) {
 		instance_destroy(oBungaloSword)
+		self.sword_destroyed = true
 	}
 	
 	if (self.attack_animation_ended) {
