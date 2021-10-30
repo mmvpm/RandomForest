@@ -31,6 +31,7 @@ self.current_direction = 1 // or -1
 self.vision_radius = 160 // in pixels
 
 // attack
+self.damage = 2
 self.attack_radius = 40 // in pixels
 self.attack_animation_ended = false
 self.sword_created = false
@@ -39,6 +40,8 @@ self.sword_destroyed = false
 // hurt
 self.hurt_countdown = 0.5 * 60 // seconds * fps
 self.hurt_countdown_counter = 0
+
+self.future_damage = 0
 self.hurt_animation_ended = false
 
 // die

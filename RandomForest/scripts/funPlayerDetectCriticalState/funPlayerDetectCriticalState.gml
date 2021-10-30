@@ -12,6 +12,12 @@ function funPlayerDetectCriticalState() {
 			if (direction_to_nearest_enemy != 0) {
 				self.direction_to_enemy = direction_to_nearest_enemy
 			}
+			
+			self.future_damage = nearest_enemy.damage
+		}
+		else if (is_trapped) {
+			var nearest_trap = instance_nearest(self.x, self.y, oTrap)
+			self.future_damage = nearest_trap.damage
 		}
 
 		if (is_trapped or is_hit_by_enemy) {

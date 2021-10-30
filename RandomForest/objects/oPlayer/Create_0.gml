@@ -24,6 +24,11 @@ self.jump_buffer_counter = 0
 self.coyote_buffer_max = 5 // frames
 self.coyote_buffer_counter = 0
 
+// idle
+self.blink_probability = 50 // 50% per second (< 1% per frame)
+self.wondering_probability = 20
+self.idle_animation_ended = true // blink or wondering
+
 // jump & move
 self.step_xspeed = 2
 self.jump_impulse = -6.5
@@ -46,6 +51,7 @@ self.hurt_yimpulse = 4
 self.hurt_countdown = 0.6 * 60 // temporary invulnerability (including hurt animation ~ 20 frames)
 self.hurt_countdown_counter = 0
 
+self.future_damage = 0
 self.direction_to_enemy = undefined
 self.hurt_animation_ended = false
 

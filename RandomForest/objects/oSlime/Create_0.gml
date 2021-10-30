@@ -29,6 +29,7 @@ self.current_move_distance = 0
 self.current_direction = 1 // or -1
 
 // attack
+self.damage = 1
 self.cooldown = 0.6 * 60 // seconds * fps
 self.cooldown_counter = 0
 self.vision_radius = 60 // in pixels
@@ -37,6 +38,8 @@ self.vision_radius = 60 // in pixels
 self.hurt_ximpulse = 0.5
 self.hurt_countdown = 0.5 * 60 // seconds * fps
 self.hurt_countdown_counter = 0
+
+self.future_damage = 0
 self.hurt_animation_ended = false
 
 // die
