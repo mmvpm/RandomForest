@@ -6,14 +6,13 @@ function funPlayerDetectState() {
 	}
 
 	// jumping
-	var on_ground = place_meeting(self.x, self.y + 1, oSolid)
-
-	var is_fall = !on_ground and self.current_yspeed >= 0
-	var is_jump = !on_ground and self.current_yspeed < 0
-	var new_jump_allowed = on_ground and !place_meeting(
+	// self.is_on_ground already computed in the beginning of `step`
+	var is_fall = !self.is_on_ground and self.current_yspeed >= 0
+	var is_jump = !self.is_on_ground and self.current_yspeed < 0
+	var new_jump_allowed = (self.coyote_buffer_counter > 0) and !place_meeting(
 		self.x, self.y + self.jump_impulse, oSolid
 	)
-	var want_jump = self.key_jump_pressed
+	var want_jump = self.jump_buffer_counter > 0
 
 	if (want_jump and new_jump_allowed) {
 		return player_states.prejump
@@ -31,7 +30,7 @@ function funPlayerDetectState() {
 	if (is_move) {
 		return player_states.move
 	}
-	if (on_ground) {
+	if (self.is_on_ground) {
 		return player_states.idle
 	}
 

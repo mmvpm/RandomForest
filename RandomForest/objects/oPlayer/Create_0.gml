@@ -17,6 +17,13 @@ self.state_changed = true
 self.max_health = 5
 self.health = self.max_health
 
+// buffers
+self.jump_buffer_max = 5 // frames
+self.jump_buffer_counter = 0
+
+self.coyote_buffer_max = 5 // frames
+self.coyote_buffer_counter = 0
+
 // jump & move
 self.step_xspeed = 2
 self.jump_impulse = -6.5
