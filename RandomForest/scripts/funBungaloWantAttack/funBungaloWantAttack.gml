@@ -4,6 +4,6 @@ function funBungaloWantAttack() {
 		self.x, self.y,
 		self.x + sign(self.image_xscale) * real_attack_radius, 
 		self.y - abs(2 * self.sprite_height), oPlayer, false, false
-	)
+	) != noone
 	return want_attack
 }
