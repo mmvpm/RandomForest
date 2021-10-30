@@ -24,6 +24,11 @@ self.jump_buffer_counter = 0
 self.coyote_buffer_max = 5 // frames
 self.coyote_buffer_counter = 0
 
+// idle
+self.blink_probability = 50 // 50% per second (< 1% per frame)
+self.wondering_probability = 20
+self.idle_animation_ended = true // blink or wondering
+
 // jump & move
 self.step_xspeed = 2
 self.jump_impulse = -6.5

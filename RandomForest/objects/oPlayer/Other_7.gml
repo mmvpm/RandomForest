@@ -1,4 +1,7 @@
 switch (self.state) {
+	case player_states.idle:
+		self.idle_animation_ended = true
+		break
 	case player_states.attack:
 		self.attack_animation_ended = true
 		break
