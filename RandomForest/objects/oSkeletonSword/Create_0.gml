@@ -1,0 +1,1 @@
+self.damage = 3

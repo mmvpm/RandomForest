@@ -4,7 +4,8 @@ function funPlayerHurtStart() {
 	self.hurt_animation_ended = false
 	self.hurt_countdown_counter = self.hurt_countdown
 
-	self.health = max(0, self.health - 1) // const ?
+	self.health = max(0, self.health - self.future_damage)
+	self.future_damage = 0 // just in case
 
 	var ximpulse = self.hurt_ximpulse
 	var yimpulse = -self.hurt_yimpulse // up

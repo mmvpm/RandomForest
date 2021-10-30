@@ -5,11 +5,17 @@ function funSlimeDetectCriticalState() {
 	var is_hit_by_player = place_meeting(self.x, self.y, oPlayerSword)
 	
 	if (is_trapped) {
+		var nearest_trap = instance_nearest(self.x, self.y, oTrap)
+		self.future_damage = nearest_trap.damage
 		return slime_states.hurt
 	}
 	if (is_hit_by_player and hurt_allowed) {
 		// turned to face the player
-		self.image_xscale = abs(self.image_xscale) * sign(oPlayer.x - self.x)
+		var direction_to_player = sign(oPlayer.x - self.x)
+		if (direction_to_player != 0) {
+			self.image_xscale = abs(self.image_xscale) * direction_to_player
+		}
+		self.future_damage = oPlayerSword.damage
 		return slime_states.hurt
 	}
 	
