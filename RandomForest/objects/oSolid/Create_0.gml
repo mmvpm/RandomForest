@@ -1,0 +1,1 @@
+self.is_solid = true // immutable variable only for player

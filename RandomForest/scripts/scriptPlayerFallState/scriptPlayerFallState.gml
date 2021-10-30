@@ -21,10 +21,8 @@ function funPlayerFallLogic() {
 	}
 
 	// jump
-	var new_jump_allowed = (self.coyote_buffer_counter > 0) and !place_meeting(
-		self.x, self.y + self.jump_impulse, oSolid
-	)
 	var want_jump = self.jump_buffer_counter > 0
+	var new_jump_allowed = funPlayerNewJumpAllowed()
 	if (new_jump_allowed and want_jump) {
 		funPlayerChangeState(player_states.prejump)
 		return

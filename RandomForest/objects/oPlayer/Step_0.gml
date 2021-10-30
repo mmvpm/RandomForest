@@ -4,7 +4,7 @@ self.hurt_countdown_counter = max(0, self.hurt_countdown_counter - 1)
 
 self.jump_buffer_counter = max(0, self.jump_buffer_counter - 1)
 
-self.is_on_ground = place_meeting(self.x, self.y + 1, oSolid)
+self.is_on_ground = funPlayerCollideWithSolid(self.x, self.y + 1)
 if (self.is_on_ground) {
 	self.coyote_buffer_counter = self.coyote_buffer_max
 } else {
