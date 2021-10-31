@@ -15,5 +15,6 @@ display_set_gui_maximize(global.scale, global.scale, 0, 0)
 global.key_move_left = vk_left
 global.key_move_right = vk_right
 global.key_jump = vk_up
+global.key_fall = vk_down
 global.key_attack = ord("X")
 global.key_pause = vk_escape
