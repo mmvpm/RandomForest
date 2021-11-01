@@ -1,5 +1,6 @@
 {
   "resources": [
+    {"id":{"name":"sPlayerTapSword","path":"sprites/sPlayerTapSword/sPlayerTapSword.yy",},"order":1,},
     {"id":{"name":"scriptPlayerIdleState","path":"scripts/scriptPlayerIdleState/scriptPlayerIdleState.yy",},"order":4,},
     {"id":{"name":"funBungaloDetectCriticalState","path":"scripts/funBungaloDetectCriticalState/funBungaloDetectCriticalState.yy",},"order":0,},
     {"id":{"name":"funDefaultStepMove","path":"scripts/funDefaultStepMove/funDefaultStepMove.yy",},"order":1,},
@@ -47,6 +48,7 @@
     {"id":{"name":"sHealthBar","path":"sprites/sHealthBar/sHealthBar.yy",},"order":0,},
     {"id":{"name":"funPlayerChangeState","path":"scripts/funPlayerChangeState/funPlayerChangeState.yy",},"order":2,},
     {"id":{"name":"scriptBungaloHurtState","path":"scripts/scriptBungaloHurtState/scriptBungaloHurtState.yy",},"order":6,},
+    {"id":{"name":"oPlayerTapSword","path":"objects/oPlayerTapSword/oPlayerTapSword.yy",},"order":15,},
     {"id":{"name":"sSkeletonSword","path":"sprites/sSkeletonSword/sSkeletonSword.yy",},"order":6,},
     {"id":{"name":"funPlayerDetectCriticalState","path":"scripts/funPlayerDetectCriticalState/funPlayerDetectCriticalState.yy",},"order":9,},
     {"id":{"name":"funSlimeDetectState","path":"scripts/funSlimeDetectState/funSlimeDetectState.yy",},"order":6,},
