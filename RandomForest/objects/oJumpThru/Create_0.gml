@@ -1,0 +1,1 @@
+self.is_solid = false // mutable (!) variable only for player

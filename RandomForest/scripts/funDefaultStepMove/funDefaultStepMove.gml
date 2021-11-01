@@ -4,32 +4,34 @@ function funDefaultStepMove() {
 	if (self.current_yspeed >= 20) {
 		self.current_yspeed = 20
 	}
-	var new_y = self.y + self.current_yspeed
-	if (!place_meeting(self.x, new_y, oSolid)) {
-		self.y = new_y
-	} else {
-		for (var new_yi = self.y + 1; new_yi <= new_y; ++new_yi) {
-			if (!place_meeting(self.x, new_yi, oSolid)) {
-				self.y = new_yi
-				break
-			}
+
+	var success_ymove = false
+	var y_direction = sign(self.current_yspeed)
+	for (var speed_i = abs(self.current_yspeed); speed_i > 0; --speed_i) {
+		var new_y = self.y + y_direction * speed_i
+		if (!place_meeting(self.x, new_y, oSolid)) {
+			success_ymove = true
+			self.y = new_y
+			break
 		}
+	}
+	if (!success_ymove) {
 		self.current_yspeed = 0
 	}
-	
+
 	// by X
-	var new_x = self.x + self.current_xspeed
-	if (!place_meeting(new_x, self.y, oSolid)) {
-		self.x = new_x
-		return true
-	} else {
-		for (var new_xi = self.x + 1; new_xi <= new_x; ++new_xi) {
-			if (!place_meeting(new_xi, self.y, oSolid)) {
-				self.x = new_xi
-				break
-			}
+	var success_xmove = false
+	var x_direction = sign(self.current_xspeed)
+	for (var speed_i = abs(self.current_xspeed); speed_i > 0; --speed_i) {
+		var new_x = self.x + x_direction * speed_i
+		if (!place_meeting(new_x, self.y, oSolid)) {
+			success_xmove = true
+			self.x = new_x
+			break
 		}
-		self.current_xspeed = 0
-		return false
 	}
+	if (!success_xmove) {
+		self.current_xspeed = 0
+	}
+	return success_xmove
 }

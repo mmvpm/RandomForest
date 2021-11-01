@@ -38,6 +38,10 @@ self.gravitation = 0.5
 self.current_xspeed = 0
 self.current_yspeed = 0
 
+// fall
+self.fall_buffer_max = 3 // frames
+self.fall_buffer_counter = 0 // for jump-thru platforms
+
 // attack
 self.cooldown = 0.7 * 60 // seconds * fps
 self.cooldown_counter = 0

@@ -9,10 +9,8 @@ function funPlayerDetectState() {
 	// self.is_on_ground already computed in the beginning of `step`
 	var is_fall = !self.is_on_ground and self.current_yspeed >= 0
 	var is_jump = !self.is_on_ground and self.current_yspeed < 0
-	var new_jump_allowed = (self.coyote_buffer_counter > 0) and !place_meeting(
-		self.x, self.y + self.jump_impulse, oSolid
-	)
 	var want_jump = self.jump_buffer_counter > 0
+	var new_jump_allowed = funPlayerNewJumpAllowed()
 
 	if (want_jump and new_jump_allowed) {
 		return player_states.prejump
