@@ -28,7 +28,7 @@ self.vision_radius = 120 // in pixels
 self.current_direction = 1 // or -1
 
 // attack
-self.damage = 3
+self.damage = 1
 self.attack_radius = 30 // in pixels
 self.attack_animation_ended = false
 self.sword_created = false
