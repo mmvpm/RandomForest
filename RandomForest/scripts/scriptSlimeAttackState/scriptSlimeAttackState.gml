@@ -6,12 +6,16 @@ function funSlimeAttackStart() {
 
 
 function funSlimeAttackLogic() {
-	var direction_to_player = sign(oPlayer.x - self.x)
+	var direction_to_player = oPlayer.x - self.x
+	if (abs(direction_to_player) < 12) {
+		direction_to_player = 0
+	}
+	direction_to_player = sign(direction_to_player)
+	
 	if (direction_to_player != 0) {
 		self.current_direction = direction_to_player
+		self.image_xscale = self.current_direction * abs(self.image_xscale)
 	}
-	
-	self.image_xscale = self.current_direction * abs(self.image_xscale)
 	
 	self.current_xspeed = self.step_xspeed * self.current_direction
 	
