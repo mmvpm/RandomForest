@@ -45,6 +45,7 @@ self.fall_buffer_counter = 0 // for jump-thru platforms
 // attack
 self.cooldown = 0.7 * 60 // seconds * fps
 self.cooldown_counter = 0
+self.has_sword = true
 self.sword_destroyed = false
 self.attack_animation_ended = false
 

@@ -15,6 +15,13 @@ if (self.is_on_ground) {
 
 funReadInputs()
 
+
+var tap_controller_created = funPlayerHandleTapSword()
+if (tap_controller_created) {
+	return // ???
+}
+
+
 switch (self.state) {
 
 	case player_states.idle:
