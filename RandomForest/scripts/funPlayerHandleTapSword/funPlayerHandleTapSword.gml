@@ -10,6 +10,9 @@ function funPlayerHandleTapSword() {
 			return false
 	}
 	
+	// TODO: tap-sword countdown
+	// TODO: tap-sword on_ground reset
+	
 	// spawn tap-sword or teleport to it
 	if (self.key_tap_attack_pressed) {
 
@@ -25,7 +28,6 @@ function funPlayerHandleTapSword() {
 	
 	// return tap-sword back
 	if (self.key_attack_pressed and !self.has_sword) {
-		// visual effect ?
 		funPlayerTapSwordDestroy()
 	}
 	
