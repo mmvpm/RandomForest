@@ -1,5 +1,6 @@
 {
   "resources": [
+    {"id":{"name":"funPlayerTapSwordDestroy","path":"scripts/funPlayerTapSwordDestroy/funPlayerTapSwordDestroy.yy",},"order":5,},
     {"id":{"name":"sPlayerTapSword","path":"sprites/sPlayerTapSword/sPlayerTapSword.yy",},"order":1,},
     {"id":{"name":"scriptPlayerIdleState","path":"scripts/scriptPlayerIdleState/scriptPlayerIdleState.yy",},"order":4,},
     {"id":{"name":"funBungaloDetectCriticalState","path":"scripts/funBungaloDetectCriticalState/funBungaloDetectCriticalState.yy",},"order":0,},

@@ -2,9 +2,16 @@
 
 function funPlayerHandleTapSword() {
 	
-	if (self.key_tap_attack_pressed and 
-		self.state != player_states.die and 
-		self.state != player_states.hurt) {
+	// prohibited states
+	switch (self.state) {
+		case player_states.hurt:
+			return false
+		case player_states.die:
+			return false
+	}
+	
+	// spawn tap-sword or teleport to it
+	if (self.key_tap_attack_pressed) {
 
 		if (self.has_sword) {
 			self.has_sword = false
@@ -13,8 +20,13 @@ function funPlayerHandleTapSword() {
 		}
 		else {
 			// TODO: tap to sword
-			// TODO: return sword back
 		}
+	}
+	
+	// return tap-sword back
+	if (self.key_attack_pressed and !self.has_sword) {
+		// visual effect ?
+		funPlayerTapSwordDestroy()
 	}
 	
 	return false

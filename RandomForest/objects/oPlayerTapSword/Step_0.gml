@@ -1,10 +1,20 @@
+// update counters
+self.flight_time_counter = max(0, self.flight_time_counter - 1)
+if (self.current_speed > 0 and self.flight_time_counter == 0) {
+	funPlayerTapSwordDestroy()
+	return
+}
+
+// change angle
 self.image_angle = self.current_angle
 
+// no movement
 if (self.current_speed == 0) {
 	return
 }
 // now self.current_speed > 0
 
+// current_angle
 var cos_angle = cos(self.current_angle / 180 * pi)
 var sin_angle = -sin(self.current_angle / 180 * pi)
 
@@ -22,4 +32,14 @@ for (var speed_i = self.current_speed; speed_i > 0; --speed_i) {
 }
 if (!success_move) {
 	self.current_speed = 0
+}
+
+// collide with enemy
+var nearest_enemy = instance_place(self.x, self.y, oEnemy)
+if (nearest_enemy != noone) {
+	var close_enough = abs(nearest_enemy.x - self.x) <= abs(self.sprite_width / 2)
+	if (close_enough) {
+		funPlayerTapSwordDestroy()
+		return
+	}
 }
