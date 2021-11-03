@@ -87,5 +87,5 @@ switch (self.state) {
 
 var tap_controller_created = funPlayerHandleTapSword()
 if (tap_controller_created) {
-	return // ???
+	return
 }
