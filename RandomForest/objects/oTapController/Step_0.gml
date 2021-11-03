@@ -15,6 +15,7 @@ if (tap_released or self.timeout_counter == 0) {
 	var tap_sword = instance_create_depth(self.x, self.y, self.depth, oPlayerTapSword)
 	tap_sword.current_angle = self.current_angle
 	tap_sword.image_angle   = self.current_angle
+	tap_sword.shift_of_player_y = self.shift_of_player_y
 	
 	instance_destroy()
 }

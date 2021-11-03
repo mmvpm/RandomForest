@@ -5,6 +5,12 @@ if (self.current_speed > 0 and self.flight_time_counter == 0) {
 	return
 }
 
+// update last empty place for player
+if (!funPlayerCollideWithSolid(self.x, self.y + self.shift_of_player_y)) {
+	self.last_empty_x = self.x
+	self.last_empty_y = self.y + self.shift_of_player_y
+}
+
 // change angle
 self.image_angle = self.current_angle
 

@@ -5,6 +5,9 @@ self.screenshot = sprite_create_from_surface(
 	0, 0, 0, 0
 )
 
+// last empty place for player
+// self.shift_of_player_y
+
 // for arrow
 self.current_angle = abs((sign(oPlayer.image_xscale) - 1) / 2 * 180)
 
