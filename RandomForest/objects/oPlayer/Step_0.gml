@@ -1,5 +1,6 @@
 // update counters
 self.cooldown_counter = max(0, self.cooldown_counter - 1)
+self.tap_attack_countdown_counter = max(0, self.tap_attack_countdown_counter - 1)
 self.hurt_countdown_counter = max(0, self.hurt_countdown_counter - 1)
 
 self.jump_buffer_counter = max(0, self.jump_buffer_counter - 1)

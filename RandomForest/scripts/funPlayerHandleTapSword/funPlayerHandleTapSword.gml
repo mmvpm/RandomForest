@@ -10,16 +10,24 @@ function funPlayerHandleTapSword() {
 			return false
 	}
 	
-	// TODO: tap-sword countdown
 	// TODO: tap-sword on_ground reset
 	
 	// spawn tap-sword or teleport to it
 	if (self.key_tap_attack_pressed) {
 
 		if (self.has_sword) {
-			self.has_sword = false
-			instance_create_depth(self.x, self.y - self.sprite_height / 2, self.depth, oTapController)
-			return true
+			var tap_attack_allowed = self.tap_attack_countdown_counter == 0
+			
+			if (tap_attack_allowed) {
+				self.has_sword = false
+				self.tap_attack_countdown_counter = self.tap_attack_countdown
+				instance_create_depth(self.x, self.y - self.sprite_height / 2, self.depth, oTapController)
+				return true
+			}
+			else {
+				// visual effect ???
+				return false
+			}
 		}
 		else {
 			// TODO: tap to sword

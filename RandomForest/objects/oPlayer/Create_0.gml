@@ -49,6 +49,10 @@ self.has_sword = true
 self.sword_destroyed = false
 self.attack_animation_ended = false
 
+// tap attack
+self.tap_attack_countdown = 1 * 60 // seconds * fps
+self.tap_attack_countdown_counter = 0
+
 // hurt
 self.hurt_ximpulse = 2
 self.hurt_yimpulse = 4
