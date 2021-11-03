@@ -36,35 +36,10 @@ function funPlayerHandleTapSword() {
 			}
 		}
 		else { // has no sword
-			var radius = 6
-			var success_tap = false
-			
-			var new_x = 0
-			var new_y = 0
-			for (var dx = -radius; dx <= radius; ++dx) {
-				for (var dy = -radius; dy <= radius; ++dy) {
-					var new_x = oPlayerTapSword.x + 2 * dx // 2-grid
-					var new_y = oPlayerTapSword.y + 2 * dy // 2-grid
-					var is_place_empty = !funPlayerCollideWithSolid(new_x, new_y)	
-					if (is_place_empty) {
-						success_tap = true
-						break
-					}
-				}
-				if (success_tap) {
-					break
-				}
+			var success_tap = funPlayerTapToEmptyPlace()
+			if (!success_tap) {
+				// ???
 			}
-			
-			if (!success_tap) { // no empty place around tap-sword
-				new_x = oPlayerTapSword.last_empty_x
-				new_y = oPlayerTapSword.last_empty_y
-			}
-			
-			// tap to sword
-			self.x = new_x
-			self.y = new_y
-			
 			funPlayerTapSwordDestroy()
 			return false
 		}
