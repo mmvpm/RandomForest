@@ -9,6 +9,8 @@ self.screenshot = sprite_create_from_surface(
 // self.shift_of_player_y
 
 // for arrow
+self.diagonal_countdown = 5 // frames
+self.diagonal_countdown_counter = 0
 self.current_angle = abs((sign(oPlayer.image_xscale) - 1) / 2 * 180)
 
 // time
