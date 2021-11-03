@@ -1,5 +1,6 @@
 // update counters
 self.cooldown_counter = max(0, self.cooldown_counter - 1)
+self.tap_attack_countdown_counter = max(0, self.tap_attack_countdown_counter - 1)
 self.hurt_countdown_counter = max(0, self.hurt_countdown_counter - 1)
 
 self.jump_buffer_counter = max(0, self.jump_buffer_counter - 1)
@@ -12,8 +13,13 @@ if (self.is_on_ground) {
 	self.coyote_buffer_counter = max(0, self.coyote_buffer_counter - 1)
 }
 
+if (self.is_on_ground) {
+	self.tap_attack_allowed = true
+}
+
 
 funReadInputs()
+
 
 switch (self.state) {
 
@@ -80,4 +86,10 @@ switch (self.state) {
 		}
 		funPlayerDieLogic()
 		break
+}
+
+
+var tap_controller_created = funPlayerHandleTapSword()
+if (tap_controller_created) {
+	return
 }

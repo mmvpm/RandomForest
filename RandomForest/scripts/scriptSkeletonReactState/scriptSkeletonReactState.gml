@@ -7,6 +7,16 @@ function funSkeletonReactStart() {
 
 
 function funSkeletonReactLogic() {
+	var direction_to_player = oPlayer.x - self.x
+	if (abs(direction_to_player) < 12) {
+		direction_to_player = 0
+	}
+	direction_to_player = sign(direction_to_player)
+	
+	if (direction_to_player != 0) {
+		self.image_xscale = direction_to_player * abs(self.image_xscale)
+	}
+	
 	funDefaultStepMove()
 	
 	var critical_state = funSkeletonDetectCriticalState()

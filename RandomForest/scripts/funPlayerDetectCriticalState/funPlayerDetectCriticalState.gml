@@ -27,7 +27,7 @@ function funPlayerDetectCriticalState() {
 
 	// attack
 	var want_attack = self.key_attack_pressed
-	var attack_allowed = self.cooldown_counter == 0
+	var attack_allowed = self.has_sword and self.cooldown_counter == 0
 
 	if (want_attack and attack_allowed) {
 		return player_states.attack
