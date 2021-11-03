@@ -13,6 +13,10 @@ if (self.is_on_ground) {
 	self.coyote_buffer_counter = max(0, self.coyote_buffer_counter - 1)
 }
 
+if (self.is_on_ground) {
+	self.tap_attack_allowed = true
+}
+
 
 funReadInputs()
 

@@ -46,10 +46,11 @@ self.fall_buffer_counter = 0 // for jump-thru platforms
 self.cooldown = 0.7 * 60 // seconds * fps
 self.cooldown_counter = 0
 self.has_sword = true
-self.sword_destroyed = false
+self.sword_destroyed = true
 self.attack_animation_ended = false
 
 // tap attack
+self.tap_attack_allowed = true // depends on `on-ground`
 self.tap_attack_countdown = 1 * 60 // seconds * fps
 self.tap_attack_countdown_counter = 0
 
