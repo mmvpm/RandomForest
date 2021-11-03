@@ -14,7 +14,7 @@ function funPlayerAttackLogic() {
 	var critical_state = funPlayerDetectCriticalState()
 	if (critical_state != undefined and critical_state != player_states.attack) {
 		if (!self.sword_destroyed) {
-			funPlayerAttackEnd()
+			funPlayerAttackClean()
 		}
 		funPlayerChangeState(critical_state)
 		return
@@ -22,7 +22,7 @@ function funPlayerAttackLogic() {
 	
 	if (self.image_index >= 3) {
 		if (!self.sword_destroyed) {
-			funPlayerAttackEnd() // always (!) destroy a sword after 3rd animation frame
+			funPlayerAttackClean() // always (!) destroy a sword after 3rd animation frame
 		}
 		var detected_state = funPlayerDetectState()
 		if (detected_state != player_states.idle) {
@@ -34,7 +34,7 @@ function funPlayerAttackLogic() {
 	if (self.attack_animation_ended) {
 		var detected_state = funPlayerDetectState()
 		if (!self.sword_destroyed) {
-			funPlayerAttackEnd()
+			funPlayerAttackClean()
 		}
 		funPlayerChangeState(detected_state)
 		return
@@ -42,7 +42,7 @@ function funPlayerAttackLogic() {
 }
 
 
-function funPlayerAttackEnd() {
+function funPlayerAttackClean() {
 	instance_destroy(oPlayerSword)
 	self.sword_destroyed = true
 }
