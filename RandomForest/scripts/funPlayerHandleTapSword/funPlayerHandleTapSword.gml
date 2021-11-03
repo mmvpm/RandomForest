@@ -4,6 +4,8 @@ function funPlayerHandleTapSword() {
 
 	// prohibited states
 	switch (self.state) {
+		case player_states.attack:
+			return false
 		case player_states.hurt:
 			return false
 		case player_states.die:
