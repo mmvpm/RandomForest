@@ -41,16 +41,11 @@ function funPlayerTapToEmptyPlace() {
 		if (success_tap) break
 	}
 
-	// no empty place around tap-sword
-	if (!success_tap) {
-		new_x = oPlayerTapSword.last_empty_x
-		new_y = oPlayerTapSword.last_empty_y
-		success_tap = true
-	}
-
 	// tap to sword
-	self.x = new_x
-	self.y = new_y
+	if (success_tap) {
+		self.x = new_x
+		self.y = new_y
+	}
 
 	return success_tap
 }
