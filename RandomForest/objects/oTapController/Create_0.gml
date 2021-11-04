@@ -1,7 +1,9 @@
 // screenshot
 self.screenshot = sprite_create_from_surface(
 	application_surface,
-	0, 0, room_width, room_height,
+	0, 0, 
+	surface_get_width(application_surface),
+	surface_get_height(application_surface),
 	0, 0, 0, 0
 )
 
