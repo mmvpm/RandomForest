@@ -3,9 +3,20 @@
 
 //Game window resizing
 
-global.scale = 3
-window_width_scaled = room_width * global.scale
-window_height_scaled = room_height * global.scale
+global.scale = 2
+var cam = room_get_camera(rMain, 0)
+var cam_width = camera_get_view_width(cam)
+var cam_height = camera_get_view_height(cam)
+var window_width_scaled = cam_width * global.scale
+var window_height_scaled = cam_height * global.scale
+
+var viewport = room_get_viewport(rMain, 0)
+room_set_viewport(rMain, 0,
+	viewport[0], viewport[1], viewport[2],
+	window_width_scaled, window_height_scaled
+)
+surface_resize(application_surface, cam_width, cam_height)
+
 window_set_size(window_width_scaled, window_height_scaled)
 alarm[0] = true // for centering
 display_set_gui_maximize(global.scale, global.scale, 0, 0)

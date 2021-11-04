@@ -17,8 +17,9 @@ if (self.paused) {
 			button_color = self.default_button_color
 			ui_scale = self.default_scale
 		}
-		var x_pos = room_width * 0.5
-		var y_pos = room_height * (self.top_item + self.separate_dist * i)
+		var cam = view_camera[0]
+		var x_pos = camera_get_view_width(cam) * 0.5
+		var y_pos = camera_get_view_height(cam) * (self.top_item + self.separate_dist * i)
 		
 		draw_sprite_stretched_ext(
 			self.border_sprite, 0,

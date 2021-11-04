@@ -3,8 +3,10 @@ if (keyboard_check_pressed(global.key_pause)) {
 	self.current_index = 0
 	if (!sprite_exists(self.screenshot)) {
 		self.screenshot = funBlurSprite(
-			application_surface,
-			10, room_width, room_height, 1, 4,
+			application_surface, 10,
+			surface_get_width(application_surface),
+			surface_get_height(application_surface),
+			1, 4,
 			0, 0, 0, 0.2
 		)
 	}
