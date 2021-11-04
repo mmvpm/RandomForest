@@ -18,6 +18,16 @@ if (tap_released or self.timeout_counter == 0) {
 	tap_sword.image_angle   = self.current_angle
 	tap_sword.shift_of_player_y = self.shift_of_player_y
 	
+	var dx = 0
+	if (self.current_angle == 0 || self.current_angle == 45 || self.current_angle == 315) {
+		dx = 1
+	} else if (self.current_angle == 135 || self.current_angle == 180 || self.current_angle == 225) {
+		dx = -1
+	}
+	if (dx != 0) {
+		oPlayer.image_xscale = dx * abs(oPlayer.image_xscale)
+	}
+	
 	instance_destroy()
 }
 
