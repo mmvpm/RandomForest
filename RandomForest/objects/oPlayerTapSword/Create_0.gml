@@ -9,6 +9,9 @@ self.flight_time_counter = self.flight_range / self.current_speed
 // collide with enemy
 self.collide_with_enemy = false
 
+// start effect
+self.effect_created = false
+
 // self.shift_of_player_y
 
 // self.current_angle

@@ -6,7 +6,19 @@ if (self.current_speed > 0 and self.flight_time_counter == 0) {
 }
 
 // change angle
-self.image_angle = self.current_angle
+// self.image_angle = self.current_angle
+
+if (!self.effect_created) {
+	self.effect_created = true
+	var r = 16
+	var ang = self.current_angle * pi / 180.0
+	var effect = instance_create_depth(
+		self.x + r * cos(ang), 
+		self.y - r * sin(ang), 
+		self.depth - 1, oAirBurst
+	)
+	effect.image_angle = self.current_angle
+}
 
 // no movement
 if (self.current_speed == 0) {

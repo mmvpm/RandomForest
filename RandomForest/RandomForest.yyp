@@ -1,5 +1,6 @@
 {
   "resources": [
+    {"id":{"name":"oAirBurst","path":"objects/oAirBurst/oAirBurst.yy",},"order":2,},
     {"id":{"name":"funPlayerTapSwordDestroy","path":"scripts/funPlayerTapSwordDestroy/funPlayerTapSwordDestroy.yy",},"order":5,},
     {"id":{"name":"sPlayerTapSword","path":"sprites/sPlayerTapSword/sPlayerTapSword.yy",},"order":1,},
     {"id":{"name":"scriptPlayerIdleState","path":"scripts/scriptPlayerIdleState/scriptPlayerIdleState.yy",},"order":4,},
@@ -73,6 +74,7 @@
     {"id":{"name":"funDefaultChangeState","path":"scripts/funDefaultChangeState/funDefaultChangeState.yy",},"order":0,},
     {"id":{"name":"scriptSkeletonIdleState","path":"scripts/scriptSkeletonIdleState/scriptSkeletonIdleState.yy",},"order":5,},
     {"id":{"name":"sBorderNobac2","path":"sprites/sBorderNobac2/sBorderNobac2.yy",},"order":3,},
+    {"id":{"name":"sAirBurst","path":"sprites/sAirBurst/sAirBurst.yy",},"order":2,},
     {"id":{"name":"funBlurSprite","path":"scripts/funBlurSprite/funBlurSprite.yy",},"order":0,},
     {"id":{"name":"sBungaloIdle","path":"sprites/sBungaloIdle/sBungaloIdle.yy",},"order":0,},
     {"id":{"name":"funBungaloDetectState","path":"scripts/funBungaloDetectState/funBungaloDetectState.yy",},"order":1,},
@@ -194,7 +196,7 @@
     {"CopyToMask":-1,"filePath":"datafiles","resourceVersion":"1.0","name":"glasstown.ttf","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
-    "IDEVersion": "2.3.5.589",
+    "IDEVersion": "2.3.6.595",
   },
   "resourceVersion": "1.4",
   "name": "RandomForest",
