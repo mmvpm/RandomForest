@@ -30,7 +30,13 @@ function funPlayerFallLogic() {
 
 	var end_fall = self.current_yspeed == 0 // float ?
 	if (end_fall) {
+		funPlayerFallEnd()
 		var detected_state = funPlayerDetectState()
 		funPlayerChangeState(detected_state)
 	}
+}
+
+
+function funPlayerFallEnd() {
+	instance_create_depth(self.x, self.y, self.depth - 1, oPlayerLandingEffect) // under player by Z
 }
