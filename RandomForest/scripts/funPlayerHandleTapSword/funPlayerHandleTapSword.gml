@@ -42,14 +42,14 @@ function funPlayerHandleTapSword() {
 			if (!success_tap) {
 				// ???
 			}
-			funPlayerTapSwordDestroy()
+			funPlayerTapSwordDestroy(!success_tap)
 			return false
 		}
 	}
 
 	// return tap-sword back
 	if (self.key_attack_pressed and !self.has_sword) {
-		funPlayerTapSwordDestroy()
+		funPlayerTapSwordDestroy(true)
 	}
 
 	return false
