@@ -3,7 +3,7 @@
 
 //Game window resizing
 
-global.scale = 2
+global.scale = 3
 var cam = room_get_camera(rMain, 0)
 var cam_width = camera_get_view_width(cam)
 var cam_height = camera_get_view_height(cam)
