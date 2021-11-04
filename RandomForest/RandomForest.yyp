@@ -24,6 +24,7 @@
     {"id":{"name":"oSlime","path":"objects/oSlime/oSlime.yy",},"order":2,},
     {"id":{"name":"sBorderNobac3","path":"sprites/sBorderNobac3/sBorderNobac3.yy",},"order":5,},
     {"id":{"name":"scriptPlayerDieState","path":"scripts/scriptPlayerDieState/scriptPlayerDieState.yy",},"order":11,},
+    {"id":{"name":"sPlayerLandingEffect","path":"sprites/sPlayerLandingEffect/sPlayerLandingEffect.yy",},"order":1,},
     {"id":{"name":"funReadInputs","path":"scripts/funReadInputs/funReadInputs.yy",},"order":0,},
     {"id":{"name":"oPlayerSword","path":"objects/oPlayerSword/oPlayerSword.yy",},"order":3,},
     {"id":{"name":"funPlayerTapToEmptyPlace","path":"scripts/funPlayerTapToEmptyPlace/funPlayerTapToEmptyPlace.yy",},"order":6,},
@@ -122,6 +123,7 @@
     {"id":{"name":"scriptBungaloAttackState","path":"scripts/scriptBungaloAttackState/scriptBungaloAttackState.yy",},"order":2,},
     {"id":{"name":"scriptSkeletonAttackState","path":"scripts/scriptSkeletonAttackState/scriptSkeletonAttackState.yy",},"order":2,},
     {"id":{"name":"sSlimeDie","path":"sprites/sSlimeDie/sSlimeDie.yy",},"order":4,},
+    {"id":{"name":"oPlayerLandingEffect","path":"objects/oPlayerLandingEffect/oPlayerLandingEffect.yy",},"order":1,},
     {"id":{"name":"rMain","path":"rooms/rMain/rMain.yy",},"order":0,},
   ],
   "Options": [
