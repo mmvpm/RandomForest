@@ -1,2 +1,17 @@
-self.x = clamp(self.x, self.following.x - self.w_border, self.following.x + self.w_border)
-self.y = clamp(self.y, self.following.y - self.h_border, self.following.y + self.h_border)
+if (self.following != noone) {
+	self.target_x = self.following.x
+	self.target_y = self.following.y
+}
+
+var dx = self.target_x - self.x
+var dy = self.target_y - self.y
+
+var k = self.meeting_k
+
+if (abs(dx) > self.w_border || abs(dy) > self.h_border) {
+	k = self.fast_meeting_k
+}
+
+self.x += dx / k
+self.y += dy / k
+
