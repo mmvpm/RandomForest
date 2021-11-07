@@ -1,4 +1,4 @@
-// update counters
+	// update counters
 self.flight_time_counter = max(0, self.flight_time_counter - 1)
 if (self.current_speed > 0 and self.flight_time_counter == 0) {
 	funPlayerTapSwordDestroy()
@@ -6,7 +6,19 @@ if (self.current_speed > 0 and self.flight_time_counter == 0) {
 }
 
 // change angle
-self.image_angle = self.current_angle
+// self.image_angle = self.current_angle
+
+if (!self.effect_created) {
+	self.effect_created = true
+	var r = 16
+	var ang = self.current_angle * pi / 180.0
+	var effect = instance_create_depth(
+		self.x + r * cos(ang), 
+		self.y - r * sin(ang), 
+		self.depth - 1, oAirBurst
+	)
+	effect.image_angle = self.current_angle
+}
 
 // no movement
 if (self.current_speed == 0) {
@@ -37,9 +49,9 @@ if (!success_move) {
 // collide with enemy
 var nearest_enemy = instance_place(self.x, self.y, oEnemy)
 if (nearest_enemy != noone) {
-	if (self.collide_with_enemy) {
+	if (self.collide_with_enemy == 0) {
 		funPlayerTapSwordDestroy()
 		return
 	}
-	self.collide_with_enemy = true
+	self.collide_with_enemy--
 }
