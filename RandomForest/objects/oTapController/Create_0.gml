@@ -16,7 +16,8 @@ self.diagonal_countdown_counter = 0
 self.current_angle = abs((sign(oPlayer.image_xscale) - 1) / 2 * 180)
 
 // time
-self.timeout_counter = 2 * 60 // seconds * fps
+self.timeout_counter_max = 2 * 60 // seconds * fps
+self.timeout_counter = self.timeout_counter_max
 
 // time-freeze logic
 instance_deactivate_all(true)
