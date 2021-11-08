@@ -11,10 +11,18 @@ var window_width_scaled = cam_width * global.scale
 var window_height_scaled = cam_height * global.scale
 
 var viewport = room_get_viewport(rMain, 0)
-room_set_viewport(rMain, 0,
-	viewport[0], viewport[1], viewport[2],
-	window_width_scaled, window_height_scaled
-)
+
+for (var i = 0; i < room_last; i++) {
+	if (i == rLoading) {
+		continue
+	}
+	
+	room_set_viewport(i, 0,
+		viewport[0], viewport[1], viewport[2],
+		window_width_scaled, window_height_scaled
+	)
+}
+
 surface_resize(application_surface, cam_width, cam_height)
 
 window_set_size(window_width_scaled, window_height_scaled)
