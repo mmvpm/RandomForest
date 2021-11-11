@@ -5,6 +5,7 @@ self.hurt_countdown_counter = max(0, self.hurt_countdown_counter - 1)
 
 self.jump_buffer_counter = max(0, self.jump_buffer_counter - 1)
 self.fall_buffer_counter = max(0, self.fall_buffer_counter - 1)
+self.attack_combo_buffer_counter = max(0, self.attack_combo_buffer_counter - 1)
 
 self.is_on_ground = funPlayerCollideWithSolid(self.x, self.y + 1)
 if (self.is_on_ground) {

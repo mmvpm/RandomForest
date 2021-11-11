@@ -50,6 +50,8 @@ self.teleport_end_effect_created = false
 self.cooldown = 0.7 * 60 // seconds * fps
 self.cooldown_counter = 0
 
+self.attack_combo_buffer_max = 30 // frames
+self.attack_combo_buffer_counter = 0
 self.attack_animation_type = 1
 self.attack_animation_types_number = 3 // number of different attack animations
 
