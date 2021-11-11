@@ -40,9 +40,6 @@ function funPlayerAttackStart() {
 
 function funPlayerAttackLogic() {
 	funPlayerStepMove()
-	
-	// reset every function run => last reset in the last run
-	self.attack_combo_buffer_counter = self.attack_combo_buffer_max
 
 	// attack interruption because of critical event
 	var critical_state = funPlayerDetectCriticalState()
@@ -82,4 +79,6 @@ function funPlayerAttackLogic() {
 function funPlayerAttackClean() {
 	instance_destroy(oPlayerSword)
 	self.sword_destroyed = true
+
+	self.attack_combo_buffer_counter = self.attack_combo_buffer_max
 }
