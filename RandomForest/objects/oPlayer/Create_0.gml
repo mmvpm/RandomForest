@@ -49,6 +49,10 @@ self.teleport_end_effect_created = false
 // attack
 self.cooldown = 0.7 * 60 // seconds * fps
 self.cooldown_counter = 0
+
+self.attack_animation_type = 1
+self.attack_animation_types_number = 3 // number of different attack animations
+
 self.has_sword = true
 self.sword_destroyed = true
 self.attack_animation_ended = false
