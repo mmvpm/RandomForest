@@ -71,7 +71,6 @@ switch (self.state) {
 		funPlayerTeleportLogic()
 		break
 
-
 	case player_states.attack:
 		if (self.state_changed) {
 			funPlayerAttackStart()
