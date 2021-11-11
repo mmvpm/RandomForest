@@ -12,12 +12,12 @@ var tap_released = keyboard_check_released(global.key_tap_attack)
 // handle exit
 if (tap_released or self.timeout_counter == 0) {
 	instance_activate_all()
-	
+
 	var tap_sword = instance_create_depth(self.x, self.y, self.depth, oPlayerTapSword)
 	tap_sword.current_angle = self.current_angle
 	tap_sword.image_angle   = self.current_angle
 	tap_sword.shift_of_player_y = self.shift_of_player_y
-	
+
 	var dx = 0
 	if (self.current_angle == 0 || self.current_angle == 45 || self.current_angle == 315) {
 		dx = 1
@@ -27,7 +27,7 @@ if (tap_released or self.timeout_counter == 0) {
 	if (dx != 0) {
 		oPlayer.image_xscale = dx * abs(oPlayer.image_xscale)
 	}
-	
+
 	instance_destroy()
 }
 

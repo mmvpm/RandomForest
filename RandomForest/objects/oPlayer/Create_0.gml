@@ -5,6 +5,7 @@ enum player_states {
 	prejump,
 	jump,
 	fall,
+	teleport,
 	attack,
 	hurt,
 	die
@@ -41,6 +42,9 @@ self.current_yspeed = 0
 // fall
 self.fall_buffer_max = 3 // frames
 self.fall_buffer_counter = 0 // for jump-thru platforms
+
+// teleport
+self.teleport_end_effect_created = false
 
 // attack
 self.cooldown = 0.7 * 60 // seconds * fps

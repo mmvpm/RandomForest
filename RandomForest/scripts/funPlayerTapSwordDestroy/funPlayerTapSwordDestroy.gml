@@ -12,8 +12,7 @@ function funPlayerTapSwordDestroy(with_effect = true) {
 				oPlayer.depth - 1, oAirBack
 			)
 			player_effect.image_angle = angle
-			
-			
+
 			var tap_effect = instance_create_depth(
 				oPlayerTapSword.x, oPlayerTapSword.y, 
 				oPlayerTapSword.depth - 1, oTapDestroy

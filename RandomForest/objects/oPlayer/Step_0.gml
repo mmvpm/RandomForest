@@ -63,6 +63,15 @@ switch (self.state) {
 		funPlayerFallLogic()
 		break
 
+	case player_states.teleport:
+		if (self.state_changed) {
+			funPlayerTeleportStart()
+			self.state_changed = false
+		}
+		funPlayerTeleportLogic()
+		break
+
+
 	case player_states.attack:
 		if (self.state_changed) {
 			funPlayerAttackStart()

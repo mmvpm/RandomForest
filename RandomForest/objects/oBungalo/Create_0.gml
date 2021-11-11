@@ -12,7 +12,7 @@ self.state = bungalo_states.idle
 self.state_changed = true
 
 // health
-self.max_health = 7
+self.max_health = 6
 self.health = self.max_health
 
 // idle

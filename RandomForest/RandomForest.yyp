@@ -46,6 +46,7 @@
     {"id":{"name":"scriptSlimeDieState","path":"scripts/scriptSlimeDieState/scriptSlimeDieState.yy",},"order":5,},
     {"id":{"name":"oTeleportStart","path":"objects/oTeleportStart/oTeleportStart.yy",},"order":3,},
     {"id":{"name":"funBungaloWantAttack","path":"scripts/funBungaloWantAttack/funBungaloWantAttack.yy",},"order":2,},
+    {"id":{"name":"scriptPlayerTeleportState","path":"scripts/scriptPlayerTeleportState/scriptPlayerTeleportState.yy",},"order":12,},
     {"id":{"name":"funBungaloSeePlayer","path":"scripts/funBungaloSeePlayer/funBungaloSeePlayer.yy",},"order":1,},
     {"id":{"name":"oJumpThru","path":"objects/oJumpThru/oJumpThru.yy",},"order":5,},
     {"id":{"name":"sPlayerSword1","path":"sprites/sPlayerSword1/sPlayerSword1.yy",},"order":0,},

@@ -1,1 +1,1 @@
-self.damage = 1
+self.damage = 2
