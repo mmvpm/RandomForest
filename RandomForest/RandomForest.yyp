@@ -108,6 +108,7 @@
     {"id":{"name":"oHealthBar","path":"objects/oHealthBar/oHealthBar.yy",},"order":0,},
     {"id":{"name":"sBackground","path":"sprites/sBackground/sBackground.yy",},"order":0,},
     {"id":{"name":"sTapArrowDiag","path":"sprites/sTapArrowDiag/sTapArrowDiag.yy",},"order":4,},
+    {"id":{"name":"funCameraShake","path":"scripts/funCameraShake/funCameraShake.yy",},"order":1,},
     {"id":{"name":"funSlimeSeePlayer","path":"scripts/funSlimeSeePlayer/funSlimeSeePlayer.yy",},"order":3,},
     {"id":{"name":"sPlatforms","path":"sprites/sPlatforms/sPlatforms.yy",},"order":1,},
     {"id":{"name":"funSkeletonDetectCriticalState","path":"scripts/funSkeletonDetectCriticalState/funSkeletonDetectCriticalState.yy",},"order":0,},

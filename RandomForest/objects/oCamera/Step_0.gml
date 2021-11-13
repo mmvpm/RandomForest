@@ -31,3 +31,25 @@ if (abs(dy) < self.min_speed_y) {
 self.x += dx
 self.y += dy
 
+var cam_w = camera_get_view_width(view_camera[0])
+var cam_h = camera_get_view_height(view_camera[0])
+
+self.x = 0.5 * cam_w + clamp(
+	self.x - 0.5 * cam_w, 
+	self.offset, 
+	room_width - offset - cam_w
+)
+
+self.y = 0.5 * cam_h + clamp(
+	self.y - 0.5 * cam_h, 
+	self.offset, 
+	room_height - offset - cam_h
+)
+
+if (self.camera_shake_counter > 0) {
+	self.camera_shake_counter--
+	if (self.camera_shake_counter % self.camera_shake_delay == 0) {
+		self.x += irandom_range(-self.camera_shake_power, self.camera_shake_power)
+		self.y += irandom_range(-self.camera_shake_power, self.camera_shake_power)
+	}
+}
