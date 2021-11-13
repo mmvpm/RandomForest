@@ -1,8 +1,8 @@
 function funPlayerStepMove() {
 	// by Y
 	self.current_yspeed += self.gravitation
-	if (self.current_yspeed >= 20) {
-		self.current_yspeed = 20
+	if (self.current_yspeed >= 6) {
+		self.current_yspeed = 6
 	}
 
 	var success_ymove = false

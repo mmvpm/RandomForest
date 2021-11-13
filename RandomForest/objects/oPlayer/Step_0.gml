@@ -5,6 +5,7 @@ self.hurt_countdown_counter = max(0, self.hurt_countdown_counter - 1)
 
 self.jump_buffer_counter = max(0, self.jump_buffer_counter - 1)
 self.fall_buffer_counter = max(0, self.fall_buffer_counter - 1)
+self.attack_combo_buffer_counter = max(0, self.attack_combo_buffer_counter - 1)
 
 self.is_on_ground = funPlayerCollideWithSolid(self.x, self.y + 1)
 if (self.is_on_ground) {
@@ -61,6 +62,14 @@ switch (self.state) {
 			self.state_changed = false
 		}
 		funPlayerFallLogic()
+		break
+
+	case player_states.teleport:
+		if (self.state_changed) {
+			funPlayerTeleportStart()
+			self.state_changed = false
+		}
+		funPlayerTeleportLogic()
 		break
 
 	case player_states.attack:

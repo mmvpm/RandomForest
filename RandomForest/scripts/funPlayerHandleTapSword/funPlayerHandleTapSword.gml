@@ -6,8 +6,8 @@ function funPlayerHandleTapSword() {
 	switch (self.state) {
 		case player_states.attack:
 			return false
-		case player_states.hurt:
-			return false
+		//case player_states.hurt:
+		//	return false
 		case player_states.die:
 			return false
 	}
@@ -39,8 +39,13 @@ function funPlayerHandleTapSword() {
 		}
 		else { // has no sword
 			var success_tap = funPlayerTapToEmptyPlace()
-			if (!success_tap) {
-				// ???
+			if (success_tap) {
+				// bullshit architecture but still...
+				funPlayerChangeState(player_states.teleport)
+				self.image_alpha = 0
+			}
+			else { // failed tap
+				// visual effect ???
 			}
 			funPlayerTapSwordDestroy(!success_tap)
 			return false
