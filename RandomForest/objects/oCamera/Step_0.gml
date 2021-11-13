@@ -6,12 +6,28 @@ if (self.following != noone) {
 var dx = self.target_x - self.x
 var dy = self.target_y - self.y
 
-var k = self.meeting_k
+var k_x = self.meeting_k_x
+var k_y = self.meeting_k_y
+
 
 if (abs(dx) > self.w_border || abs(dy) > self.h_border) {
-	k = self.fast_meeting_k
+	k_x = self.fast_meeting_k
+	k_y = self.fast_meeting_k
 }
 
-self.x += dx / k
-self.y += dy / k
+dx /= k_x
+dy /= k_y
+
+if (abs(dx) < self.min_speed_x) {
+	dx = self.target_x - self.x
+	dx = sign(dx) * min(self.min_speed_x, abs(dx))
+}
+
+if (abs(dy) < self.min_speed_y) {
+	dy = self.target_y - self.y
+	dy = sign(dy) * min(self.min_speed_y, abs(dy))
+}
+
+self.x += dx
+self.y += dy
 
