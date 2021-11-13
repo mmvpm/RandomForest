@@ -46,10 +46,17 @@ self.y = 0.5 * cam_h + clamp(
 	room_height - offset - cam_h
 )
 
+function __funGetShake() {
+	var d = random_range(-self.camera_shake_power, self.camera_shake_power)
+	var df = 0.5
+	d = sign(d) * self.camera_shake_power * df + d * (1.0 - df)
+	return d
+}
+
 if (self.camera_shake_counter > 0) {
 	self.camera_shake_counter--
 	if (self.camera_shake_counter % self.camera_shake_delay == 0) {
-		self.x += irandom_range(-self.camera_shake_power, self.camera_shake_power)
-		self.y += irandom_range(-self.camera_shake_power, self.camera_shake_power)
+		self.x += __funGetShake()
+		self.y += __funGetShake()
 	}
 }
