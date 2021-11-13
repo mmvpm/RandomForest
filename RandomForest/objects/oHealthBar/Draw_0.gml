@@ -11,5 +11,8 @@ var strip_height = 11 // sHealthBar height
 var bar_x = 12 // x coordinate on the screen
 var bar_y = 12 // y coordinate on the screen
 
+bar_x += camera_get_view_x(view_camera[0])
+bar_y += camera_get_view_y(view_camera[0])
+
 draw_sprite(sHealthBar, bar_image_index, bar_x, bar_y)
 draw_sprite_part(sHealthBar, strip_index, 0, 0, strip_width, strip_height, bar_x, bar_y)
