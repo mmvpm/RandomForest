@@ -19,7 +19,8 @@ function funSkeletonAttackLogic() {
 	}
 	
 	if (self.image_index >= 7 and !self.sword_created) {
-		instance_create_depth(self.x, self.y, -1, oSkeletonSword)
+		var created_sword = instance_create_depth(self.x, self.y, -1, oSkeletonSword)
+		created_sword.owner_id = self
 		self.sword_created = true
 	}
 	if (self.image_index >= 10 and !self.sword_destroyed) {

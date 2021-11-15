@@ -19,7 +19,8 @@ function funBungaloAttackLogic() {
 	}
 	
 	if (self.image_index >= 3 and !self.sword_created) {
-		instance_create_depth(self.x, self.y, -1, oBungaloSword)
+		var created_sword = instance_create_depth(self.x, self.y, -1, oBungaloSword)
+		created_sword.owner_id = self
 		self.sword_created = true
 	}
 	if (self.image_index >= 5 and !self.sword_destroyed) {
