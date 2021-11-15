@@ -15,18 +15,21 @@ function funPlayerAttackStart() {
 	switch (self.attack_animation_type) {
 		case 1:
 			self.sprite_index = sPlayerAttack1
+			self.attack_need_shake = false
 			created_sword.xscale_factor = 1
 			created_sword.yscale_factor = 1
 			created_sword.damage = 2
 			break
 		case 2:
 			self.sprite_index = sPlayerAttack2
+			self.attack_need_shake = false
 			created_sword.xscale_factor = 0.9
 			created_sword.yscale_factor = 1.7
 			created_sword.damage = 2
 			break
 		case 3:
 			self.sprite_index = sPlayerAttack3
+			self.attack_need_shake = true
 			created_sword.xscale_factor = 0.8
 			created_sword.yscale_factor = 2.1
 			created_sword.damage = 3
@@ -52,6 +55,11 @@ function funPlayerAttackLogic() {
 		}
 		funPlayerChangeState(critical_state)
 		return
+	}
+
+	if (self.image_index >= 1 and self.attack_need_shake) {
+		self.attack_need_shake = false
+		funCameraShake(20)
 	}
 
 	// attack interruption because of some event
