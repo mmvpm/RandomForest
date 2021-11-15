@@ -47,8 +47,6 @@ function funPlayerTapToEmptyPlace() {
 		self.x = new_x
 		self.y = new_y
 		// instance_create_depth(self.x, self.y - abs(self.sprite_height) / 2, self.depth - 1, oTeleportEnd)
-	} else {
-		funCameraShake(20)
 	}
 
 	return success_tap

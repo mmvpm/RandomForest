@@ -56,7 +56,7 @@ self.attack_animation_type = 1
 self.attack_animation_types_number = 3 // number of different attack animations
 
 self.has_sword = true
-self.attack_sword_created = false
+self.sword_created = false
 self.sword_destroyed = true
 self.attack_animation_ended = false
 

@@ -32,8 +32,8 @@ function funPlayerHandleTapSword() {
 				
 				return true
 			}
-			else { // may not attack
-				// visual effect ???
+			else { // may not tap-attack
+				// still nothing...
 				return false
 			}
 		}
@@ -45,7 +45,7 @@ function funPlayerHandleTapSword() {
 				self.image_alpha = 0
 			}
 			else { // failed tap
-				// visual effect ???
+				funCameraShake(20)
 			}
 			funPlayerTapSwordDestroy(!success_tap)
 			return false

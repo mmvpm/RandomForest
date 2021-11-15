@@ -27,7 +27,7 @@ function funPlayerAttackStart() {
 	// other parameters
 	self.image_index = 0
 	self.cooldown_counter = self.cooldown
-	self.attack_sword_created = false
+	self.sword_created = false
 	self.sword_destroyed = false
 	self.attack_animation_ended = false
 }
@@ -46,9 +46,9 @@ function funPlayerAttackLogic() {
 		return
 	}
 
-	if (self.image_index >= 1 and !self.attack_sword_created) {
+	if (self.image_index >= 1 and !self.sword_created) {
 		funPlayerCreateAttackSword()
-		self.attack_sword_created = true
+		self.sword_created = true
 	}
 
 	if (self.image_index >= 1 and self.attack_need_shake) {
