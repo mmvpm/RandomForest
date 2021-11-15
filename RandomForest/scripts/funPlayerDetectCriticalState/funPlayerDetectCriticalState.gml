@@ -7,7 +7,7 @@ function funPlayerDetectCriticalState() {
 	if (hurt_allowed) {
 
 		if (is_hit_by_enemy) {
-			var nearest_enemy = instance_nearest(self.x, self.y, oEnemy)
+			var nearest_enemy = instance_place(self.x, self.y, oEnemy)
 			var direction_to_nearest_enemy = sign(nearest_enemy.x - self.x)
 			if (direction_to_nearest_enemy != 0) {
 				self.direction_to_enemy = direction_to_nearest_enemy
@@ -16,7 +16,7 @@ function funPlayerDetectCriticalState() {
 			self.future_damage = nearest_enemy.damage
 		}
 		else if (is_trapped) {
-			var nearest_trap = instance_nearest(self.x, self.y, oTrap)
+			var nearest_trap = instance_place(self.x, self.y, oTrap)
 			self.future_damage = nearest_trap.damage
 		}
 

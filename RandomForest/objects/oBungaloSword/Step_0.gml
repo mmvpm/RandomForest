@@ -1,5 +1,5 @@
-// following Bungalo
-self.x = oBungalo.x
-self.y = oBungalo.y
-self.image_xscale = oBungalo.image_xscale
-self.image_yscale = oBungalo.image_yscale
+// following Bungalo with id `self.owner_id`
+self.x = self.owner_id.x
+self.y = self.owner_id.y
+self.image_xscale = self.owner_id.image_xscale
+self.image_yscale = self.owner_id.image_yscale

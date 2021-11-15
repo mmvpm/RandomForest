@@ -1,8 +1,14 @@
-	// update counters
+// update counters
 self.flight_time_counter = max(0, self.flight_time_counter - 1)
 if (self.current_speed > 0 and self.flight_time_counter == 0) {
 	funPlayerTapSwordDestroy()
 	return
+}
+
+// camera shake on landing
+if (self.current_speed == 0 and !self.was_shake_effect) {
+	funCameraShake(1)
+	self.was_shake_effect = true
 }
 
 // change angle
@@ -49,9 +55,9 @@ if (!success_move) {
 // collide with enemy
 var nearest_enemy = instance_place(self.x, self.y, oEnemy)
 if (nearest_enemy != noone) {
-	if (self.collide_with_enemy == 0) {
+	if (self.collide_with_enemy_counter == 0) {
 		funPlayerTapSwordDestroy()
 		return
 	}
-	self.collide_with_enemy--
+	self.collide_with_enemy_counter--
 }
