@@ -15,7 +15,7 @@ self.state = player_states.idle
 self.state_changed = true
 
 // health
-self.max_health = 5
+self.max_health = 4
 self.health = self.max_health
 
 // buffers
