@@ -20,6 +20,7 @@ function funSlimeDieLogic() {
 				image_xscale *=  2 * i - 1 // i = 0 to one side, i = 1 to another
 				is_splitted = true // against repeating split in children
 				hurt_ximpulse = 1
+				future_damage = 1 // small slime has less by 1 health than the big one
 				state = slime_states.hurt
 			}
 		}
