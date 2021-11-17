@@ -1,3 +1,3 @@
 if (self.is_opened) {
-	room_goto(rMain)
+	room_goto_next()
 }
