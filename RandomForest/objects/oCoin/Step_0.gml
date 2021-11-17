@@ -1,5 +1,6 @@
 var collision_with_player = place_meeting(self.x, self.y, oPlayer)
-if (collision_with_player) {
+var is_player_visible = oPlayer.image_alpha > 0 // for teleport delay
+if (collision_with_player and is_player_visible) {
 	self.is_collected = true
 }
 
