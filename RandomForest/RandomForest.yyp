@@ -43,6 +43,7 @@
     {"id":{"name":"oSkeletonSword","path":"objects/oSkeletonSword/oSkeletonSword.yy",},"order":3,},
     {"id":{"name":"sPlayerHurt","path":"sprites/sPlayerHurt/sPlayerHurt.yy",},"order":6,},
     {"id":{"name":"scriptPlayerJumpState","path":"scripts/scriptPlayerJumpState/scriptPlayerJumpState.yy",},"order":5,},
+    {"id":{"name":"sBackground_x13","path":"sprites/sBackground_x13/sBackground_x13.yy",},"order":16,},
     {"id":{"name":"sSkeletonAttack","path":"sprites/sSkeletonAttack/sSkeletonAttack.yy",},"order":2,},
     {"id":{"name":"funPlayerCollideWithSolid","path":"scripts/funPlayerCollideWithSolid/funPlayerCollideWithSolid.yy",},"order":3,},
     {"id":{"name":"scriptSlimeDieState","path":"scripts/scriptSlimeDieState/scriptSlimeDieState.yy",},"order":5,},
