@@ -75,6 +75,7 @@
     {"id":{"name":"oBungalo","path":"objects/oBungalo/oBungalo.yy",},"order":0,},
     {"id":{"name":"scriptSlimeIdleState","path":"scripts/scriptSlimeIdleState/scriptSlimeIdleState.yy",},"order":0,},
     {"id":{"name":"sTeleportEnd","path":"sprites/sTeleportEnd/sTeleportEnd.yy",},"order":4,},
+    {"id":{"name":"oParallax","path":"objects/oParallax/oParallax.yy",},"order":6,},
     {"id":{"name":"sBungaloTrans","path":"sprites/sBungaloTrans/sBungaloTrans.yy",},"order":6,},
     {"id":{"name":"sBorder4","path":"sprites/sBorder4/sBorder4.yy",},"order":6,},
     {"id":{"name":"funPlayerDetectState","path":"scripts/funPlayerDetectState/funPlayerDetectState.yy",},"order":1,},
