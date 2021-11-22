@@ -15,6 +15,6 @@ function funPlayerPreJumpLogic() {
 		funPlayerChangeState(critical_state)
 		return
 	}
-	
+
 	funPlayerChangeState(player_states.jump)
 }
