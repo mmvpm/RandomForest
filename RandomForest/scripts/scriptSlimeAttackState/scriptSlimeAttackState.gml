@@ -6,6 +6,11 @@ function funSlimeAttackStart() {
 
 
 function funSlimeAttackLogic() {
+	if (2 <= self.image_index and self.image_index <= 3 and !audio_is_playing(soundSlimeAttack)) {
+
+		audio_play_sound(soundSlimeAttack, 1, false)
+	}
+
 	var direction_to_player = oPlayer.x - self.x
 	if (abs(direction_to_player) < 12) {
 		direction_to_player = 0

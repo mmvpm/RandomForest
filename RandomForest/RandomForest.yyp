@@ -149,6 +149,7 @@
     {"id":{"name":"sTapDestroy","path":"sprites/sTapDestroy/sTapDestroy.yy",},"order":6,},
     {"id":{"name":"scriptSlimeMoveState","path":"scripts/scriptSlimeMoveState/scriptSlimeMoveState.yy",},"order":1,},
     {"id":{"name":"oSkeleton","path":"objects/oSkeleton/oSkeleton.yy",},"order":4,},
+    {"id":{"name":"soundSlimeAttack","path":"sounds/soundSlimeAttack/soundSlimeAttack.yy",},"order":2,},
     {"id":{"name":"oCoinCollector","path":"objects/oCoinCollector/oCoinCollector.yy",},"order":5,},
     {"id":{"name":"sPlayerAttack2","path":"sprites/sPlayerAttack2/sPlayerAttack2.yy",},"order":10,},
     {"id":{"name":"sSlimeIdle","path":"sprites/sSlimeIdle/sSlimeIdle.yy",},"order":0,},
