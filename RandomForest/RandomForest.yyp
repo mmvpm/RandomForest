@@ -67,6 +67,7 @@
     {"id":{"name":"funPlayerDetectCriticalState","path":"scripts/funPlayerDetectCriticalState/funPlayerDetectCriticalState.yy",},"order":9,},
     {"id":{"name":"funSlimeDetectState","path":"scripts/funSlimeDetectState/funSlimeDetectState.yy",},"order":6,},
     {"id":{"name":"scriptSkeletonHurtState","path":"scripts/scriptSkeletonHurtState/scriptSkeletonHurtState.yy",},"order":4,},
+    {"id":{"name":"soundPlayerTapAttack","path":"sounds/soundPlayerTapAttack/soundPlayerTapAttack.yy",},"order":6,},
     {"id":{"name":"oTrap","path":"objects/oTrap/oTrap.yy",},"order":2,},
     {"id":{"name":"oCoin","path":"objects/oCoin/oCoin.yy",},"order":14,},
     {"id":{"name":"sTapArrow","path":"sprites/sTapArrow/sTapArrow.yy",},"order":2,},

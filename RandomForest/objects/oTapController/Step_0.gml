@@ -28,6 +28,7 @@ if (tap_released or self.timeout_counter == 0) {
 		oPlayer.image_xscale = dx * abs(oPlayer.image_xscale)
 	}
 
+	audio_play_sound(soundPlayerTapAttack, 2, false)
 	instance_destroy()
 }
 
