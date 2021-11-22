@@ -1,8 +1,11 @@
 var cam = view_camera[0]
+
+gpu_set_blendenable(false)
 draw_sprite(self.screenshot, 0, 
 	camera_get_view_x(cam),
 	camera_get_view_y(cam)
 )
+gpu_set_blendenable(true)
 
 var frames_number = sprite_get_number(sTapCountdown)
 var inverse_counter = self.timeout_counter_max - self.timeout_counter

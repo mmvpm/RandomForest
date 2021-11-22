@@ -13,7 +13,7 @@ var tap_released = keyboard_check_released(global.key_tap_attack)
 if (tap_released or self.timeout_counter == 0) {
 	instance_activate_all()
 
-	var tap_sword = instance_create_depth(self.x, self.y, self.depth, oPlayerTapSword)
+	var tap_sword = instance_create_layer(self.x, self.y, "Instances", oPlayerTapSword)
 	tap_sword.current_angle = self.current_angle
 	tap_sword.image_angle   = self.current_angle
 	tap_sword.shift_of_player_y = self.shift_of_player_y

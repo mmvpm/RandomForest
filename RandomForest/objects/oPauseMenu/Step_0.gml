@@ -1,8 +1,8 @@
 if (keyboard_check_pressed(global.key_pause)) {
 	self.paused = !self.paused
 	self.current_index = 0
-	if (!sprite_exists(self.screenshot)) {
-		self.screenshot = funBlurSprite(
+	if (!surface_exists(self.screenshot)) {
+		self.screenshot = funBlurSurface(
 			application_surface, 10,
 			surface_get_width(application_surface),
 			surface_get_height(application_surface),
@@ -31,9 +31,8 @@ if (self.paused) {
 		self.current_index %= self.items_count
 	}
 } else {
-	shader_reset()
-	if (sprite_exists(self.screenshot)) {
-		sprite_delete(self.screenshot)
+	if (surface_exists(self.screenshot)) {
+		surface_free(self.screenshot)
 	}
 	instance_activate_all()
 }

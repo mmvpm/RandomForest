@@ -3,7 +3,6 @@ draw_set_valign(fa_middle)
 draw_set_font(self.default_font)
 
 if (self.paused) {
-	
 	gpu_set_tex_filter(false)
 	for (var i = 0; i < self.items_count; i++) {
 		var button_color = c_white

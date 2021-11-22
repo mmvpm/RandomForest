@@ -2,13 +2,12 @@
 // Simple passthrough fragment shader
 //
 varying vec2 v_vTexcoord;
-varying vec4 v_vColour;
 
 uniform vec3 size; // width,height,radius
 uniform int kSize; // kernel size
 uniform vec2 direction;
 uniform float std;
-uniform vec4 b_color;
+uniform vec3 b_color;
 uniform float b_part;
 
 void main() {
@@ -23,6 +22,6 @@ void main() {
 		color += w * texture2D(gm_BaseTexture, v_vTexcoord + vector);
 	}
  	color /= sum;
-	color = (1.0 - b_part) * color + b_part * b_color;
-    gl_FragColor = color * v_vColour;
+	color = vec4((1.0 - b_part) * color.rgb + b_part * b_color, color.a);
+    gl_FragColor = color;
 }
