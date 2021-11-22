@@ -72,6 +72,7 @@
     {"id":{"name":"sSlimeMove","path":"sprites/sSlimeMove/sSlimeMove.yy",},"order":1,},
     {"id":{"name":"scriptPlayerFallState","path":"scripts/scriptPlayerFallState/scriptPlayerFallState.yy",},"order":6,},
     {"id":{"name":"funPlayerStepMove","path":"scripts/funPlayerStepMove/funPlayerStepMove.yy",},"order":1,},
+    {"id":{"name":"soundPlayerLanding","path":"sounds/soundPlayerLanding/soundPlayerLanding.yy",},"order":4,},
     {"id":{"name":"soundTapSwordLanding","path":"sounds/soundTapSwordLanding/soundTapSwordLanding.yy",},"order":3,},
     {"id":{"name":"soundPlayerAttack2","path":"sounds/soundPlayerAttack2/soundPlayerAttack2.yy",},"order":1,},
     {"id":{"name":"soundPlayerAttack3","path":"sounds/soundPlayerAttack3/soundPlayerAttack3.yy",},"order":2,},
