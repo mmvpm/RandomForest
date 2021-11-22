@@ -13,8 +13,8 @@
   "soundFile": "soundPlayerAttack1.mp3",
   "duration": 0.432,
   "parent": {
-    "name": "Sounds",
-    "path": "folders/Sounds.yy",
+    "name": "Player",
+    "path": "folders/Sounds/Player.yy",
   },
   "resourceVersion": "1.0",
   "name": "soundPlayerAttack1",

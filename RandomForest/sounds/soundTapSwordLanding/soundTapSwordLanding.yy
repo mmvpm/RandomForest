@@ -10,14 +10,14 @@
     "name": "audiogroup_default",
     "path": "audiogroups/audiogroup_default",
   },
-  "soundFile": "soundPlayerAttack3.mp3",
-  "duration": 0.456,
+  "soundFile": "soundTapSwordLanding.mp3",
+  "duration": 0.548571,
   "parent": {
     "name": "Player",
     "path": "folders/Sounds/Player.yy",
   },
   "resourceVersion": "1.0",
-  "name": "soundPlayerAttack3",
+  "name": "soundTapSwordLanding",
   "tags": [],
   "resourceType": "GMSound",
 }

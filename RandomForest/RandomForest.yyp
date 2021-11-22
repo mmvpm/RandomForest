@@ -72,6 +72,7 @@
     {"id":{"name":"sSlimeMove","path":"sprites/sSlimeMove/sSlimeMove.yy",},"order":1,},
     {"id":{"name":"scriptPlayerFallState","path":"scripts/scriptPlayerFallState/scriptPlayerFallState.yy",},"order":6,},
     {"id":{"name":"funPlayerStepMove","path":"scripts/funPlayerStepMove/funPlayerStepMove.yy",},"order":1,},
+    {"id":{"name":"soundTapSwordLanding","path":"sounds/soundTapSwordLanding/soundTapSwordLanding.yy",},"order":3,},
     {"id":{"name":"soundPlayerAttack2","path":"sounds/soundPlayerAttack2/soundPlayerAttack2.yy",},"order":1,},
     {"id":{"name":"soundPlayerAttack3","path":"sounds/soundPlayerAttack3/soundPlayerAttack3.yy",},"order":2,},
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},"order":8,},
@@ -212,6 +213,7 @@
     {"folderPath":"folders/Scripts/Bungalo/StateMachine.yy","order":0,"resourceVersion":"1.0","name":"StateMachine","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Sprites/Effects.yy","order":11,"resourceVersion":"1.0","name":"Effects","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Objects/Effects.yy","order":7,"resourceVersion":"1.0","name":"Effects","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Sounds/Player.yy","order":3,"resourceVersion":"1.0","name":"Player","tags":[],"resourceType":"GMFolder",},
   ],
   "AudioGroups": [
     {"targets":-1,"resourceVersion":"1.3","name":"audiogroup_default","resourceType":"GMAudioGroup",},
