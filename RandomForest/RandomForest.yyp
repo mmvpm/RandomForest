@@ -65,6 +65,7 @@
     {"id":{"name":"oPlayerTapSword","path":"objects/oPlayerTapSword/oPlayerTapSword.yy",},"order":6,},
     {"id":{"name":"sSkeletonSword","path":"sprites/sSkeletonSword/sSkeletonSword.yy",},"order":6,},
     {"id":{"name":"funPlayerDetectCriticalState","path":"scripts/funPlayerDetectCriticalState/funPlayerDetectCriticalState.yy",},"order":9,},
+    {"id":{"name":"soundSkeletonAttack","path":"sounds/soundSkeletonAttack/soundSkeletonAttack.yy",},"order":1,},
     {"id":{"name":"funSlimeDetectState","path":"scripts/funSlimeDetectState/funSlimeDetectState.yy",},"order":6,},
     {"id":{"name":"scriptSkeletonHurtState","path":"scripts/scriptSkeletonHurtState/scriptSkeletonHurtState.yy",},"order":4,},
     {"id":{"name":"soundPlayerTapAttack","path":"sounds/soundPlayerTapAttack/soundPlayerTapAttack.yy",},"order":6,},
