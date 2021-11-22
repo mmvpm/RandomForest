@@ -85,6 +85,7 @@
     {"id":{"name":"oParallax","path":"objects/oParallax/oParallax.yy",},"order":6,},
     {"id":{"name":"sBungaloTrans","path":"sprites/sBungaloTrans/sBungaloTrans.yy",},"order":6,},
     {"id":{"name":"sBorder4","path":"sprites/sBorder4/sBorder4.yy",},"order":6,},
+    {"id":{"name":"soundCoinCollecting","path":"sounds/soundCoinCollecting/soundCoinCollecting.yy",},"order":4,},
     {"id":{"name":"funPlayerDetectState","path":"scripts/funPlayerDetectState/funPlayerDetectState.yy",},"order":1,},
     {"id":{"name":"sPlayerDie","path":"sprites/sPlayerDie/sPlayerDie.yy",},"order":3,},
     {"id":{"name":"oAirBack","path":"objects/oAirBack/oAirBack.yy",},"order":5,},
