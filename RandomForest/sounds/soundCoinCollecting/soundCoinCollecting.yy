@@ -10,8 +10,8 @@
     "name": "audiogroup_default",
     "path": "audiogroups/audiogroup_default",
   },
-  "soundFile": "soundCoinCollecting",
-  "duration": 0.0,
+  "soundFile": "soundCoinCollecting.mp3",
+  "duration": 0.192,
   "parent": {
     "name": "Sounds",
     "path": "folders/Sounds.yy",
