@@ -4,14 +4,23 @@ function funBungaloMoveStart() {
 }
 
 
-function funBungaloMoveLogic() {	
+function funBungaloMoveLogic() {
+	if (funDefaultIsInView0()) {
+		if ( (8 <= self.image_index or // last frame
+			  3 <= self.image_index and self.image_index <= 4) and 
+			  !audio_is_playing(soundBungaloSteps) ) {
+
+			audio_play_sound(soundBungaloSteps, 0, false)
+		}
+	}
+
 	var direction_to_player = sign(oPlayer.x - self.x)
 	if (direction_to_player != 0) {
 		self.current_direction = direction_to_player
 	}
 
 	self.image_xscale = self.current_direction * abs(self.image_xscale)
-	
+
 	self.current_xspeed = self.step_xspeed * self.current_direction
 
 	var success_xmove = true
