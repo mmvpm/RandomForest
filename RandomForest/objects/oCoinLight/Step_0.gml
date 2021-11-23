@@ -1,1 +1,1 @@
-self.dir += self.rotate_speed
+self.light_dir += self.rotate_speed

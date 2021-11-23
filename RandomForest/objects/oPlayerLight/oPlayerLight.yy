@@ -20,18 +20,20 @@
   "physicsStartAwake": true,
   "physicsKinematic": false,
   "physicsShapePoints": [],
-  "eventList": [],
+  "eventList": [
+    {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+  ],
   "properties": [],
   "overriddenProperties": [
-    {"propertyId":{"name":"light_color","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"$FF49A7FF","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"light_radius","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"64","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"propertyId":{"name":"light_power","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"-1","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"propertyId":{"name":"light_radius","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"1000","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
   ],
   "parent": {
     "name": "Lighting",
     "path": "folders/Objects/Lighting.yy",
   },
   "resourceVersion": "1.0",
-  "name": "oDoorLight",
+  "name": "oPlayerLight",
   "tags": [],
   "resourceType": "GMObject",
 }

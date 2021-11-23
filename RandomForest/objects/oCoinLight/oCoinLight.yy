@@ -29,9 +29,9 @@
     {"propertyId":{"name":"light_color","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"$FF7F7FFF","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
     {"propertyId":{"name":"light_step","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"60","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
     {"propertyId":{"name":"light_count","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"6","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"fov","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"10","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"propertyId":{"name":"light_fov","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"10","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
     {"propertyId":{"name":"light_power","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"-1","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"radius","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"-5","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"propertyId":{"name":"light_radius","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"-5","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
   ],
   "parent": {
     "name": "Lighting",

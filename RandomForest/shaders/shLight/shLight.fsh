@@ -11,8 +11,7 @@ uniform int u_count;
 uniform float u_step;
 
 #define PI 3.1415926538
-void main()
-{
+void main() {
 	vec2 vector = pos - u_pos;
 	float dist = length(vector);
 	float str = 1.0 / (sqrt(dist * dist + radius * radius) - radius + 1.0 - power);

@@ -5,7 +5,7 @@ function funCreateLight(
 ) {
 	var inst = instance_create_layer(x_pos, y_pos, "Lighting", object)
 	if (radius != noone) {
-		inst.radius = radius
+		inst.light_radius = radius
 	}
 	
 	if (power != noone) {
@@ -17,11 +17,11 @@ function funCreateLight(
 	}
 	
 	if (dir != noone) {
-		inst.dir = dir
+		inst.light_dir = dir
 	}
 	
 	if (fov != noone) {
-		inst.fov = fov
+		inst.light_fov = fov
 	}
 	
 	if (count != noone) {

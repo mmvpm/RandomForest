@@ -40,9 +40,9 @@ with (oLight) {
 	shader_set(shLight)
 	shader_set_uniform_f(_light_u_pos, self.x, self.y)
 	shader_set_uniform_f(_light_power, self.light_power)
-	shader_set_uniform_f(_light_radius, self.radius)
-	shader_set_uniform_f(_light_fov, self.fov)
-	shader_set_uniform_f(_light_dir, self.dir)
+	shader_set_uniform_f(_light_radius, self.light_radius)
+	shader_set_uniform_f(_light_fov, self.light_fov)
+	shader_set_uniform_f(_light_dir, self.light_dir)
 	shader_set_uniform_f(_light_step, self.light_step)
 	shader_set_uniform_i(_light_count, self.light_count)
 	

@@ -7,8 +7,7 @@ const float len = 100000.0;
 varying float tdis;
 varying float ldis;
 
-void main()
-{
+void main() {
 	vec2 pos = in_Position.xy;
 	vec2 dis = pos - u_pos;
 	float sdis = length(dis);

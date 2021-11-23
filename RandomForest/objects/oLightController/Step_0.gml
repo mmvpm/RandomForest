@@ -35,9 +35,9 @@ with (oSolid) {
 if (mouse_check_button_pressed(mb_left)) {
 	funCreateLight(
 		mouse_x, mouse_y, oLight, 
-		oMovingLight.radius, oMovingLight.light_power, 
+		oMovingLight.light_radius, oMovingLight.light_power, 
 		oMovingLight.light_color, oMovingLight.light_count, 
-		oMovingLight.dir, oMovingLight.fov, oMovingLight.light_step
+		oMovingLight.light_dir, oMovingLight.light_fov, oMovingLight.light_step
 	)
 }
 
