@@ -21,11 +21,6 @@
       ],"visible":true,"depth":0,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"gridX":32,"gridY":32,"layers":[],"hierarchyFrozen":false,"resourceVersion":"1.0","name":"UI","tags":[],"resourceType":"GMRInstanceLayer",},
     {"instances":[
         {"properties":[],"isDnd":false,"objectId":{"name":"oLightController","path":"objects/oLightController/oLightController.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":288.0,"y":-32.0,"resourceVersion":"1.0","name":"inst_58163CAA","tags":[],"resourceType":"GMRInstance",},
-        {"properties":[],"isDnd":false,"objectId":{"name":"oCoinLight","path":"objects/oCoinLight/oCoinLight.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":168.0,"y":71.0,"resourceVersion":"1.0","name":"inst_52718E3A","tags":[],"resourceType":"GMRInstance",},
-        {"properties":[
-            {"propertyId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"0.1","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-          ],"isDnd":false,"objectId":{"name":"oCoinLight","path":"objects/oCoinLight/oCoinLight.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":456.0,"y":204.0,"resourceVersion":"1.0","name":"inst_730F0888","tags":[],"resourceType":"GMRInstance",},
-        {"properties":[],"isDnd":false,"objectId":{"name":"oCoinLight","path":"objects/oCoinLight/oCoinLight.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":120.0,"y":216.0,"resourceVersion":"1.0","name":"inst_CC601A8","tags":[],"resourceType":"GMRInstance",},
         {"properties":[],"isDnd":false,"objectId":{"name":"oMovingLight","path":"objects/oMovingLight/oMovingLight.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":256.0,"y":-28.0,"resourceVersion":"1.0","name":"inst_1A6F5710","tags":[],"resourceType":"GMRInstance",},
       ],"visible":true,"depth":100,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"gridX":12,"gridY":12,"layers":[],"hierarchyFrozen":false,"resourceVersion":"1.0","name":"Lighting","tags":[],"resourceType":"GMRInstanceLayer",},
     {"tilesetId":{"name":"tsPlatforms","path":"tilesets/tsPlatforms/tsPlatforms.yy",},"x":0,"y":0,"tiles":{"SerialiseWidth":42,"SerialiseHeight":25,"TileSerialiseData":[
@@ -198,9 +193,6 @@
     {"name":"inst_5259235F","path":"rooms/rMain/rMain.yy",},
     {"name":"inst_74DDCAD2","path":"rooms/rMain/rMain.yy",},
     {"name":"inst_58163CAA","path":"rooms/rMain/rMain.yy",},
-    {"name":"inst_52718E3A","path":"rooms/rMain/rMain.yy",},
-    {"name":"inst_730F0888","path":"rooms/rMain/rMain.yy",},
-    {"name":"inst_CC601A8","path":"rooms/rMain/rMain.yy",},
     {"name":"inst_1A6F5710","path":"rooms/rMain/rMain.yy",},
   ],
   "inheritCreationOrder": false,

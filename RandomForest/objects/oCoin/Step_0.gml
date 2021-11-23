@@ -6,6 +6,11 @@ if (collision_with_player and is_player_visible) {
 
 // move to coin collector
 if (self.is_collected) {
+	if (instance_exists(self.inner_light)) {
+		layer = layer_get_id("UI")
+		instance_destroy(self.inner_light)
+	}
+	
 	var distance_to_collector = point_distance(
 		self.x, self.y, 
 		oCoinCollector.x, oCoinCollector.y
