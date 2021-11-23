@@ -9,7 +9,8 @@ var _light_power = self.light_power
 var _light_radius = self.light_radius
 var _light_fov = self.light_fov
 var _light_dir = self.light_dir
-
+var _light_step = self.light_step
+var _light_count = self.light_count
 
 var _shadow_u_pos = self.shadow_u_pos
 
@@ -42,7 +43,9 @@ with (oLight) {
 	shader_set_uniform_f(_light_radius, self.radius)
 	shader_set_uniform_f(_light_fov, self.fov)
 	shader_set_uniform_f(_light_dir, self.dir)
-
+	shader_set_uniform_f(_light_step, self.light_step)
+	shader_set_uniform_i(_light_count, self.light_count)
+	
 	draw_surface_ext(
 		application_surface, 
 		cam_x, cam_y, 

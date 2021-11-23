@@ -9,6 +9,7 @@ if (self.is_collected) {
 	if (instance_exists(self.inner_light)) {
 		layer = layer_get_id("UI")
 		instance_destroy(self.inner_light)
+		instance_destroy(self.ambient_light)
 	}
 	
 	var distance_to_collector = point_distance(

@@ -1,0 +1,1 @@
+self.rotate_speed = 1.0
