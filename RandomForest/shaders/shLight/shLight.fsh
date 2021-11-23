@@ -5,14 +5,26 @@ varying vec2 v_vTexcoord;
 uniform vec2 u_pos;
 uniform float power;
 uniform float radius;
+uniform float u_dir;
+uniform float u_fov;
 
+#define PI 3.1415926538
 void main()
 {
 	vec2 vector = pos - u_pos;
 	float dist = length(vector);
 	float str = 1.0 / (sqrt(dist * dist + radius * radius) - radius + 1.0 - power);
-	vec3 col = str * color.rgb;
+	float dir = radians(u_dir);
+	float hfov = radians(u_fov) * 0.5;
 	
+	if (hfov < PI) {
+		float rad = atan(-vector.y, vector.x);
+		float adis = abs(mod(rad + 2.0 * PI, 2.0 * PI) - dir);
+		adis = min(adis, 2.0 * PI - adis);
+		str *= clamp((1.0 - adis / hfov) * 5.0, 0.0, 1.0);
+	}
+	
+	vec3 col = str * color.rgb;
 	vec4 frag = texture2D(gm_BaseTexture, v_vTexcoord);
     gl_FragColor = vec4(col, 1.0) * frag;
 }

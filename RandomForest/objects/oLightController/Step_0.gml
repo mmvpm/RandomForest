@@ -33,10 +33,11 @@ with (oSolid) {
 }
 
 if (mouse_check_button_pressed(mb_left)) {
-	var inst = instance_create_depth(oMovingLight.x, oMovingLight.y, self.depth, oLight)
-	inst.light_power = oMovingLight.light_power
-	inst.light_color = oMovingLight.light_color
-	inst.radius = oMovingLight.radius
+	funCreateLight(
+		mouse_x, mouse_y, oLight, 
+		oMovingLight.radius, oMovingLight.light_power, 
+		oMovingLight.light_color, oMovingLight.dir, oMovingLight.fov
+	)
 }
 
 

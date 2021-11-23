@@ -7,6 +7,9 @@ var cam_y = camera_get_view_y(cam)
 var _light_u_pos = self.light_u_pos
 var _light_power = self.light_power
 var _light_radius = self.light_radius
+var _light_fov = self.light_fov
+var _light_dir = self.light_dir
+
 
 var _shadow_u_pos = self.shadow_u_pos
 
@@ -23,7 +26,7 @@ draw_surface_ext(
 	application_surface, 
 	cam_x, cam_y, 
 	1, 1, 0, 
-	c_white, 0.2
+	c_white, 0.1
 )
 
 with (oLight) {
@@ -37,6 +40,9 @@ with (oLight) {
 	shader_set_uniform_f(_light_u_pos, self.x, self.y)
 	shader_set_uniform_f(_light_power, self.light_power)
 	shader_set_uniform_f(_light_radius, self.radius)
+	shader_set_uniform_f(_light_fov, self.fov)
+	shader_set_uniform_f(_light_dir, self.dir)
+
 	draw_surface_ext(
 		application_surface, 
 		cam_x, cam_y, 
