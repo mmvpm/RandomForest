@@ -80,9 +80,6 @@ self.hurt_animation_ended = false
 // die
 self.die_animation_ended = false
 
-// spawn player light
-funCreateLight(self.x, self.y, oPlayerLight)
-
 // spawn fireflies
 repeat(10) {
 	var inst = funCreateLight(self.x, self.y, oFirefly)
