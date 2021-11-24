@@ -7,6 +7,11 @@ function funPlayerHurtStart() {
 	self.health = max(0, self.health - self.future_damage)
 	self.future_damage = 0 // just in case
 
+	// add with red visual effect
+	/*if (self.health == 1) {
+		audio_play_sound(soundPlayerHeartBeating, 0, false)
+	}*/
+
 	var ximpulse = self.hurt_ximpulse
 	var yimpulse = -self.hurt_yimpulse // up
 	if (self.direction_to_enemy != undefined) {

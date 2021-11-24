@@ -25,6 +25,7 @@
     {"id":{"name":"sBungaloDie","path":"sprites/sBungaloDie/sBungaloDie.yy",},"order":4,},
     {"id":{"name":"oBungaloSword","path":"objects/oBungaloSword/oBungaloSword.yy",},"order":1,},
     {"id":{"name":"sSkeletonReact","path":"sprites/sSkeletonReact/sSkeletonReact.yy",},"order":5,},
+    {"id":{"name":"soundPlayerHeartBeating","path":"sounds/soundPlayerHeartBeating/soundPlayerHeartBeating.yy",},"order":8,},
     {"id":{"name":"sSkeletonDie","path":"sprites/sSkeletonDie/sSkeletonDie.yy",},"order":4,},
     {"id":{"name":"oSlime","path":"objects/oSlime/oSlime.yy",},"order":2,},
     {"id":{"name":"sBorderNobac3","path":"sprites/sBorderNobac3/sBorderNobac3.yy",},"order":5,},
