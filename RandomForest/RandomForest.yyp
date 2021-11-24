@@ -10,6 +10,7 @@
     {"id":{"name":"funDefaultStepMove","path":"scripts/funDefaultStepMove/funDefaultStepMove.yy",},"order":1,},
     {"id":{"name":"soundPlayerStep","path":"sounds/soundPlayerStep/soundPlayerStep.yy",},"order":5,},
     {"id":{"name":"funSkeletonSeePlayer","path":"scripts/funSkeletonSeePlayer/funSkeletonSeePlayer.yy",},"order":1,},
+    {"id":{"name":"soundTapSwordReturn","path":"sounds/soundTapSwordReturn/soundTapSwordReturn.yy",},"order":7,},
     {"id":{"name":"scriptPlayerAttackState","path":"scripts/scriptPlayerAttackState/scriptPlayerAttackState.yy",},"order":7,},
     {"id":{"name":"scriptBungaloIdleState","path":"scripts/scriptBungaloIdleState/scriptBungaloIdleState.yy",},"order":4,},
     {"id":{"name":"oEnemy","path":"objects/oEnemy/oEnemy.yy",},"order":5,},
