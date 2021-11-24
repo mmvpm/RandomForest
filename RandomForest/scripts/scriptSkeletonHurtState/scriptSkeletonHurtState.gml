@@ -7,6 +7,8 @@ function funSkeletonHurtStart() {
 	
 	self.health = max(0, self.health - self.future_damage)
 	self.future_damage = 0 // just in case
+
+	audio_play_sound(soundSkeletonHurt, 1, false)
 }
 
 
