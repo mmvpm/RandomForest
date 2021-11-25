@@ -151,7 +151,6 @@
     {"id":{"name":"sSkeletonIdle","path":"sprites/sSkeletonIdle/sSkeletonIdle.yy",},"order":0,},
     {"id":{"name":"sPlayerFall","path":"sprites/sPlayerFall/sPlayerFall.yy",},"order":4,},
     {"id":{"name":"sTapDestroy","path":"sprites/sTapDestroy/sTapDestroy.yy",},"order":6,},
-    {"id":{"name":"soundSkeletonHurt","path":"sounds/soundSkeletonHurt/soundSkeletonHurt.yy",},"order":4,},
     {"id":{"name":"scriptSlimeMoveState","path":"scripts/scriptSlimeMoveState/scriptSlimeMoveState.yy",},"order":1,},
     {"id":{"name":"oSkeleton","path":"objects/oSkeleton/oSkeleton.yy",},"order":4,},
     {"id":{"name":"soundSlimeAttack","path":"sounds/soundSlimeAttack/soundSlimeAttack.yy",},"order":2,},
