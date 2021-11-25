@@ -7,6 +7,8 @@ function funPlayerTeleportStart() {
 	self.old_yspeed = self.current_yspeed
 	self.current_xspeed = 0
 	self.current_yspeed = 0
+
+	audio_play_sound(soundPlayerTeleport, 1, false)
 }
 
 

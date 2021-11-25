@@ -22,6 +22,7 @@ function funBungaloAttackLogic() {
 		var created_sword = instance_create_depth(self.x, self.y, -1, oBungaloSword)
 		created_sword.owner_id = self
 		self.sword_created = true
+		audio_play_sound(soundBungaloAttack, 1, false)
 	}
 	if (self.image_index >= 5 and !self.sword_destroyed) {
 		instance_destroy(oBungaloSword)
