@@ -13,12 +13,18 @@ function funPlayerTeleportStart() {
 
 
 function funPlayerTeleportLogic() {
-	if (instance_exists(oTeleportStart) and oTeleportStart.image_index > 3 and !self.teleport_end_effect_created) {
-		instance_create_depth(self.x, self.y - abs(self.sprite_height) / 2, self.depth - 1, oTeleportEnd)
+	if (self.teleport_start_effect != undefined and // last created effect (for double tap handling)
+		self.teleport_start_effect.image_index > 3 and
+	   !self.teleport_end_effect_created) {
+
+		self.teleport_end_effect =
+			instance_create_depth(self.x, self.y - abs(self.sprite_height) / 2, self.depth - 1, oTeleportEnd)
 		self.teleport_end_effect_created = true
 	}
 
-	if (instance_exists(oTeleportEnd) and oTeleportEnd.image_index > 3) {
+	if (self.teleport_end_effect != undefined and // last created effect
+		self.teleport_end_effect.image_index > 3) {
+
 		funPlayerTeleportEnd()
 		var detected_state = funPlayerDetectState()
 		funPlayerChangeState(detected_state)
