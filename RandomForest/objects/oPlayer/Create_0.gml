@@ -46,6 +46,8 @@ self.fall_buffer_max = 3 // frames
 self.fall_buffer_counter = 0 // for jump-thru platforms
 
 // teleport
+// set up in funPlayerTapToEmptyPlace
+// self.teleport_start_effect & self.teleport_end_effect 
 self.teleport_end_effect_created = false
 
 // attack
