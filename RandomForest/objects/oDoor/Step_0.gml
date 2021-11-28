@@ -25,6 +25,8 @@ self.image_yscale = self.y_factor * self.scale
 if (place_meeting(self.x, self.y, oPlayer) and self.is_opened and !self.goto_next_level) {
 	self.goto_next_level = true
 	oPlayer.image_alpha = 0 // for visual correct fade out
+	oTimeCounter.may_count = false // stops timer
+	// use value `oTimeCounter.time_counter` for stats
 
 	var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
 	fade_out_effect.end_function = room_goto_next
