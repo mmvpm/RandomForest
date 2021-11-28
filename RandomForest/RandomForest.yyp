@@ -119,7 +119,6 @@
     {"id":{"name":"sBungaloMove","path":"sprites/sBungaloMove/sBungaloMove.yy",},"order":1,},
     {"id":{"name":"scriptSkeletonReactState","path":"scripts/scriptSkeletonReactState/scriptSkeletonReactState.yy",},"order":7,},
     {"id":{"name":"funSkeletonDetectState","path":"scripts/funSkeletonDetectState/funSkeletonDetectState.yy",},"order":1,},
-    {"id":{"name":"sDoor","path":"sprites/sDoor/sDoor.yy",},"order":15,},
     {"id":{"name":"oCamera","path":"objects/oCamera/oCamera.yy",},"order":4,},
     {"id":{"name":"sBungaloCharge","path":"sprites/sBungaloCharge/sBungaloCharge.yy",},"order":5,},
     {"id":{"name":"scriptSkeletonMoveState","path":"scripts/scriptSkeletonMoveState/scriptSkeletonMoveState.yy",},"order":6,},
