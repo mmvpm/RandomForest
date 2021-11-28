@@ -9,9 +9,4 @@ self.scale_min = 0.3
 self.scale_max = 0.4
 
 self.x_factor = self.image_xscale
-<<<<<<< HEAD
 self.y_factor = self.image_yscale
-
-=======
-self.y_factor = self.image_yscale
->>>>>>> master
