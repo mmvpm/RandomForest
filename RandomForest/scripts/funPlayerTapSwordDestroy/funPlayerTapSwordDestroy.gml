@@ -20,6 +20,8 @@ function funPlayerTapSwordDestroy(with_effect = true) {
 			tap_effect.image_xscale = 0.7
 			tap_effect.image_yscale = 0.7
 			tap_effect.image_angle = oPlayerTapSword.image_angle
+
+			audio_play_sound(soundTapSwordReturn, 1, false)
 		}
 	}
 	oPlayer.has_sword = true

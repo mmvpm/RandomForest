@@ -40,11 +40,14 @@ self.current_xspeed = 0
 self.current_yspeed = 0
 
 // fall
+self.is_on_ground = true
 self.fall_speed_limit = 6
 self.fall_buffer_max = 3 // frames
 self.fall_buffer_counter = 0 // for jump-thru platforms
 
 // teleport
+// set up in funPlayerTapToEmptyPlace
+// self.teleport_start_effect & self.teleport_end_effect 
 self.teleport_end_effect_created = false
 
 // attack

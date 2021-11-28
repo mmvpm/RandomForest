@@ -39,4 +39,5 @@ function funPlayerFallLogic() {
 
 function funPlayerFallEnd() {
 	instance_create_depth(self.x, self.y, self.depth - 1, oPlayerLandingEffect) // under player by Z
+	audio_play_sound(soundPlayerLanding, 1, false)
 }

@@ -11,6 +11,13 @@ function funPlayerMoveLogic() {
 		self.image_xscale = dx
 	}
 
+	if ( (3 <= self.image_index and self.image_index <= 4 or 
+	      8 <= self.image_index and self.image_index <= 9) and 
+		  !audio_is_playing(soundPlayerStep)) {
+
+		audio_play_sound(soundPlayerStep, 0, false)
+	}
+
 	self.current_xspeed = dx * self.step_xspeed
 	funPlayerStepMove()
 

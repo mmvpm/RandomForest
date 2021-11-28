@@ -5,9 +5,10 @@ if (self.current_speed > 0 and self.flight_time_counter == 0) {
 	return
 }
 
-// camera shake on landing
+// on landing
 if (self.current_speed == 0 and !self.was_shake_effect) {
 	funCameraShake(1)
+	audio_play_sound(soundTapSwordLanding, 1, false)
 	self.was_shake_effect = true
 }
 
