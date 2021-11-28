@@ -1,4 +1,5 @@
 self.is_opened = false
+self.goto_next_level = false
 
 self.scale = 0
 self.scale_open_speed = 0.05
