@@ -43,9 +43,11 @@ function funPlayerTapToEmptyPlace() {
 
 	// tap to sword
 	if (success_tap) {
-		instance_create_depth(self.x, self.y - abs(self.sprite_height) / 2, self.depth - 1, oTeleportStart)
+		self.teleport_start_effect =
+			instance_create_depth(self.x, self.y - abs(self.sprite_height) / 2, self.depth - 1, oTeleportStart)
 		self.x = new_x
 		self.y = new_y
+		self.teleport_end_effect = undefined
 		// instance_create_depth(self.x, self.y - abs(self.sprite_height) / 2, self.depth - 1, oTeleportEnd)
 	}
 
