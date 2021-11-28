@@ -81,6 +81,7 @@
     {"id":{"name":"oTrap","path":"objects/oTrap/oTrap.yy",},"order":2,},
     {"id":{"name":"oCoin","path":"objects/oCoin/oCoin.yy",},"order":14,},
     {"id":{"name":"sTapArrow","path":"sprites/sTapArrow/sTapArrow.yy",},"order":2,},
+    {"id":{"name":"oFadeOut","path":"objects/oFadeOut/oFadeOut.yy",},"order":8,},
     {"id":{"name":"sSlimeMove","path":"sprites/sSlimeMove/sSlimeMove.yy",},"order":1,},
     {"id":{"name":"scriptPlayerFallState","path":"scripts/scriptPlayerFallState/scriptPlayerFallState.yy",},"order":6,},
     {"id":{"name":"funPlayerStepMove","path":"scripts/funPlayerStepMove/funPlayerStepMove.yy",},"order":1,},
@@ -166,6 +167,7 @@
     {"id":{"name":"sPlayerAttack2","path":"sprites/sPlayerAttack2/sPlayerAttack2.yy",},"order":10,},
     {"id":{"name":"sSlimeIdle","path":"sprites/sSlimeIdle/sSlimeIdle.yy",},"order":0,},
     {"id":{"name":"sKeyX","path":"sprites/sKeyX/sKeyX.yy",},"order":4,},
+    {"id":{"name":"oFadeIn","path":"objects/oFadeIn/oFadeIn.yy",},"order":9,},
     {"id":{"name":"sBorder1","path":"sprites/sBorder1/sBorder1.yy",},"order":1,},
     {"id":{"name":"sCoin","path":"sprites/sCoin/sCoin.yy",},"order":13,},
     {"id":{"name":"sTrap","path":"sprites/sTrap/sTrap.yy",},"order":8,},
@@ -192,9 +194,9 @@
   },
   "RoomOrderNodes": [
     {"roomId":{"name":"rLoading","path":"rooms/rLoading/rLoading.yy",},},
+    {"roomId":{"name":"rTraining","path":"rooms/rTraining/rTraining.yy",},},
     {"roomId":{"name":"rMain","path":"rooms/rMain/rMain.yy",},},
     {"roomId":{"name":"rLevel01","path":"rooms/rLevel01/rLevel01.yy",},},
-    {"roomId":{"name":"rTraining","path":"rooms/rTraining/rTraining.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Sprites.yy","order":1,"resourceVersion":"1.0","name":"Sprites","tags":[],"resourceType":"GMFolder",},

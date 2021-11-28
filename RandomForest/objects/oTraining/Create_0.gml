@@ -32,3 +32,4 @@ self.text_continue_alpha_current = 0.5
 
 // time
 self.tick_counter = 0
+self.goto_next_level = false
