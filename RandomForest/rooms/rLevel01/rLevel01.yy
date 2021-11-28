@@ -19,6 +19,7 @@
         {"properties":[],"isDnd":false,"objectId":{"name":"oHealthBar","path":"objects/oHealthBar/oHealthBar.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":0.0,"y":-32.0,"resourceVersion":"1.0","name":"inst_687E06CD","tags":[],"resourceType":"GMRInstance",},
         {"properties":[],"isDnd":false,"objectId":{"name":"oCoinCollector","path":"objects/oCoinCollector/oCoinCollector.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":72.0,"y":-36.0,"resourceVersion":"1.0","name":"inst_4A209D63","tags":[],"resourceType":"GMRInstance",},
         {"properties":[],"isDnd":false,"objectId":{"name":"oParallax","path":"objects/oParallax/oParallax.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":108.0,"y":-24.0,"resourceVersion":"1.0","name":"inst_3277CB99","tags":[],"resourceType":"GMRInstance",},
+        {"properties":[],"isDnd":false,"objectId":{"name":"oFadeIn","path":"objects/oFadeIn/oFadeIn.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":144.0,"y":-24.0,"resourceVersion":"1.0","name":"inst_3F3754FC","tags":[],"resourceType":"GMRInstance",},
       ],"visible":true,"depth":0,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"gridX":12,"gridY":12,"layers":[],"hierarchyFrozen":false,"resourceVersion":"1.0","name":"UI","tags":[],"resourceType":"GMRInstanceLayer",},
     {"instances":[
         {"properties":[],"isDnd":false,"objectId":{"name":"oLightController","path":"objects/oLightController/oLightController.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":160.0,"y":-32.0,"resourceVersion":"1.0","name":"inst_7522D228","tags":[],"resourceType":"GMRInstance",},
@@ -602,6 +603,7 @@
     {"name":"inst_3277CB99","path":"rooms/rLevel01/rLevel01.yy",},
     {"name":"inst_7522D228","path":"rooms/rLevel01/rLevel01.yy",},
     {"name":"inst_3749D773","path":"rooms/rLevel01/rLevel01.yy",},
+    {"name":"inst_3F3754FC","path":"rooms/rLevel01/rLevel01.yy",},
     {"name":"inst_74633795","path":"rooms/rLevel01/rLevel01.yy",},
     {"name":"inst_4CAB18BD","path":"rooms/rLevel01/rLevel01.yy",},
     {"name":"inst_57D1F5DF","path":"rooms/rLevel01/rLevel01.yy",},
