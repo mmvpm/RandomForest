@@ -1,0 +1,1 @@
+self.frame_counter = 0
