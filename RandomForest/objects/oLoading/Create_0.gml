@@ -16,7 +16,7 @@ for (var i = 0; i < room_last; i++) {
 	if (i == rLoading) {
 		continue
 	}
-	
+
 	room_set_viewport(i, 0,
 		viewport[0], viewport[1], viewport[2],
 		window_width_scaled, window_height_scaled
@@ -28,6 +28,7 @@ surface_resize(application_surface, cam_width, cam_height)
 window_set_size(window_width_scaled, window_height_scaled)
 alarm[0] = true // for centering
 display_set_gui_maximize(global.scale, global.scale, 0, 0)
+
 
 // Temporary config
 
@@ -44,3 +45,7 @@ global.key_arrow_up = vk_up
 global.key_arrow_down = vk_down
 
 global.key_pause = vk_escape
+
+
+// Load saved variables
+
