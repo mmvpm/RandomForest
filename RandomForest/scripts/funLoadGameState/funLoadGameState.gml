@@ -4,6 +4,9 @@ function funLoadGameState() {
 	// current level number
 	global.current_level = ini_read_real("general", "current_level", 0) // default: 0-th level
 
+	// is training completed
+	global.is_training_completed = ini_read_real("general", "is_trainig_completed", 0) // false by default
+
 	// save time records
 	var levels_count = 2 // IMPORTANT
 	for (var i = 0; i < levels_count; ++i) {
