@@ -1,5 +1,7 @@
 /// @description Initializing the game
 
+funLoadGameState()
+
 
 //Game window resizing
 
@@ -45,7 +47,3 @@ global.key_arrow_up = vk_up
 global.key_arrow_down = vk_down
 
 global.key_pause = vk_escape
-
-
-// Load saved variables
-
