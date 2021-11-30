@@ -5,7 +5,7 @@ function funLoadGameState() {
 	global.current_level = ini_read_real("general", "current_level", 0) // default: 0-th level
 
 	// is training completed
-	global.is_training_completed = ini_read_real("general", "is_trainig_completed", 0) // false by default
+	global.is_training_completed = ini_read_real("general", "is_training_completed", 0) // false by default
 
 	// is game finished
 	global.is_game_finished = ini_read_real("general", "is_game_finished", 0) // false by default

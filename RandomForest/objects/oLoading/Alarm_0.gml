@@ -1,6 +1,9 @@
-/// @description Game window centering
+/// @description Go to next level
 
 window_center()
+
+// Load saved state
+funLoadGameState()
 
 // go to next room
 if (global.is_training_completed) {

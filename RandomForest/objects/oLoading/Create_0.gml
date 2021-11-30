@@ -1,8 +1,5 @@
 /// @description Initializing the game
 
-funLoadGameState()
-
-
 //Game window resizing
 
 global.scale = 3
