@@ -1,7 +1,7 @@
 function funUpdateTimeRecord(new_time) {
 	var room_index = 0
 	switch (room_get_name(room)) {
-		case "rMain":
+		case "rLevel00":
 			room_index = 0
 			break
 		case "rLevel01":

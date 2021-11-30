@@ -6,7 +6,7 @@
     "path": "folders/Scripts/Storage.yy",
   },
   "resourceVersion": "1.0",
-  "name": "funResetStorage",
+  "name": "scriptResetStorage",
   "tags": [],
   "resourceType": "GMScript",
 }

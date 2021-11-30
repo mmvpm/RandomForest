@@ -3,13 +3,13 @@
 //Game window resizing
 
 global.scale = 3
-var cam = room_get_camera(rMain, 0)
+var cam = room_get_camera(rLevel00, 0)
 var cam_width = camera_get_view_width(cam)
 var cam_height = camera_get_view_height(cam)
 var window_width_scaled = cam_width * global.scale
 var window_height_scaled = cam_height * global.scale
 
-var viewport = room_get_viewport(rMain, 0)
+var viewport = room_get_viewport(rLevel00, 0)
 
 for (var i = 0; i < room_last; i++) {
 	if (i == rLoading) {
