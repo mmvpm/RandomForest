@@ -11,6 +11,11 @@ function funSaveGameState() {
 		ini_write_real("general", "is_training_completed", global.is_training_completed)
 	}
 
+	// is game finished
+	if (global.is_game_finished != undefined) {
+		ini_write_real("general", "is_game_finished", global.is_game_finished)
+	}
+
 	// save time records
 	if (global.time_records != undefined) {
 		var levels_count = array_length(global.time_records)

@@ -7,6 +7,9 @@ function funLoadGameState() {
 	// is training completed
 	global.is_training_completed = ini_read_real("general", "is_trainig_completed", 0) // false by default
 
+	// is game finished
+	global.is_game_finished = ini_read_real("general", "is_game_finished", 0) // false by default
+
 	// save time records
 	var levels_count = 2 // IMPORTANT
 	for (var i = 0; i < levels_count; ++i) {
