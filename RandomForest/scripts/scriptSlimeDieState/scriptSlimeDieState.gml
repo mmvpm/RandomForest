@@ -31,6 +31,7 @@ function funSlimeDieLogic() {
 
 	if (self.die_animation_ended) {		
 		instance_destroy()
+		instance_destroy(self.light)
 		return
 	}
 }

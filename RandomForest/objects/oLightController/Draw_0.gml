@@ -31,7 +31,7 @@ draw_surface_ext(
 	application_surface, 
 	cam_x, cam_y, 
 	1, 1, 0, 
-	c_white, 0.1
+	c_white, 0.0
 )
 
 // player vision
@@ -40,7 +40,7 @@ gpu_set_blendmode_ext_sepalpha(bm_inv_dest_alpha, bm_one, bm_zero, bm_zero)
 shader_set(shLight)
 shader_set_uniform_f(_light_u_pos, oPlayer.x, oPlayer.y - 0.5 * abs(oPlayer.sprite_height))
 shader_set_uniform_f(_light_power, -1.0)
-shader_set_uniform_f(_light_radius, 3000.0)
+shader_set_uniform_f(_light_radius, 1500.0)
 shader_set_uniform_f(_light_fov, 360.0)
 shader_set_uniform_f(_light_dir, 0.0)
 shader_set_uniform_f(_light_step, 0.0)
@@ -50,7 +50,7 @@ draw_surface_ext(
 	application_surface, 
 	cam_x, cam_y, 
 	1, 1, 0, 
-	c_white, 1.0
+	c_white, 0.4
 )
 
 // handle all lights with shadows

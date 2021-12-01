@@ -1,3 +1,19 @@
+// lighting
+if (instance_exists(self.eye_light)) {
+	funGetEyePos()
+	if (self.eye_x == noone) {
+		instance_destroy(self.eye_light)
+	} else {
+		self.eye_light.x = self.x + self.eye_x
+		self.eye_light.y = self.y + self.eye_y	
+	}
+}
+
+if (instance_exists(self.light)) {
+	self.light.x = self.x
+	self.light.y = self.y - 0.5 * self.sprite_height
+}
+
 // update counters
 self.cooldown_counter = max(0, self.cooldown_counter - 1)
 self.idle_countdown_counter = max(0, self.idle_countdown_counter - 1)

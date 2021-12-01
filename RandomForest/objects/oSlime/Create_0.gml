@@ -45,3 +45,29 @@ self.hurt_animation_ended = false
 // die
 self.is_splitted = false // by two part (small slimes)
 self.die_animation_ended = false
+
+// lighting
+self.light = funCreateLight(
+	self.x, self.y - 0.5 * self.sprite_height, 
+	oSlimeLight
+)
+
+self.eye_pos_x_idle = [6, 6, 6, 6]
+self.eye_pos_y_idle = [-8, -8, -8, -8]
+
+self.eye_pos_x_move = [8, 7, 7, 8]
+self.eye_pos_y_move = [-6, -6, -7, -6]
+
+self.eye_pos_x_hurt = [3, 3, 5]
+self.eye_pos_y_hurt = [-6, -5, -7]
+
+self.eye_pos_x_die = [4, 9, 10, noone, noone]
+self.eye_pos_y_die = [-7, -7, -8, noone, noone]
+
+self.eye_pos_x_attack = [5, 10, 10, 3, 10]
+self.eye_pos_y_attack = [-5, -14, -7, -5, -6]
+
+self.eye_light = funCreateLight(
+	self.x, self.y, 
+	oSlimeEyeLight
+)
