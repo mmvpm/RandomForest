@@ -23,8 +23,9 @@
   "eventList": [],
   "properties": [],
   "overriddenProperties": [
-    {"propertyId":{"name":"light_color","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"$FF49A7FF","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
-    {"propertyId":{"name":"light_radius","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"64","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"propertyId":{"name":"light_color","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"$FFFFD299","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"propertyId":{"name":"light_radius","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"128","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
+    {"propertyId":{"name":"light_power","path":"objects/oLight/oLight.yy",},"objectId":{"name":"oLight","path":"objects/oLight/oLight.yy",},"value":"-0.5","resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMOverriddenProperty",},
   ],
   "parent": {
     "name": "Lighting",

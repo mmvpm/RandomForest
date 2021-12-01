@@ -3,13 +3,8 @@ self.scale += self.scale_speed
 if (all_coins_collected) {
 	if (!self.is_opened) {
 		funCreateLight(
-			self.x + 0.5 * self.sprite_width, 
-			self.y - 0.8 * self.sprite_height, 
-			oDoorLight
-		)
-		funCreateLight(
-			self.x + 0.5 * self.sprite_width, 
-			self.y - 0.2 * self.sprite_height, 
+			self.x, 
+			self.y, 
 			oDoorLight
 		)
 	}
