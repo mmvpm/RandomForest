@@ -34,6 +34,8 @@
     {"id":{"name":"sBorderNobac3","path":"sprites/sBorderNobac3/sBorderNobac3.yy",},"order":5,},
     {"id":{"name":"scriptPlayerDieState","path":"scripts/scriptPlayerDieState/scriptPlayerDieState.yy",},"order":11,},
     {"id":{"name":"soundBungaloSteps","path":"sounds/soundBungaloSteps/soundBungaloSteps.yy",},"order":3,},
+    {"id":{"name":"scriptResetStorage","path":"scripts/scriptResetStorage/scriptResetStorage.yy",},"order":3,},
+    {"id":{"name":"funLoadGameState","path":"scripts/funLoadGameState/funLoadGameState.yy",},"order":1,},
     {"id":{"name":"sPlayerLandingEffect","path":"sprites/sPlayerLandingEffect/sPlayerLandingEffect.yy",},"order":1,},
     {"id":{"name":"funReadInputs","path":"scripts/funReadInputs/funReadInputs.yy",},"order":0,},
     {"id":{"name":"sKeyArrowUp","path":"sprites/sKeyArrowUp/sKeyArrowUp.yy",},"order":0,},
@@ -49,6 +51,7 @@
     {"id":{"name":"sBorder2","path":"sprites/sBorder2/sBorder2.yy",},"order":2,},
     {"id":{"name":"sPlayerIdle","path":"sprites/sPlayerIdle/sPlayerIdle.yy",},"order":0,},
     {"id":{"name":"scriptPlayerPreJumpState","path":"scripts/scriptPlayerPreJumpState/scriptPlayerPreJumpState.yy",},"order":8,},
+    {"id":{"name":"funUpdateTimeRecord","path":"scripts/funUpdateTimeRecord/funUpdateTimeRecord.yy",},"order":2,},
     {"id":{"name":"oSkeletonSword","path":"objects/oSkeletonSword/oSkeletonSword.yy",},"order":3,},
     {"id":{"name":"sPlayerHurt","path":"sprites/sPlayerHurt/sPlayerHurt.yy",},"order":6,},
     {"id":{"name":"scriptPlayerJumpState","path":"scripts/scriptPlayerJumpState/scriptPlayerJumpState.yy",},"order":5,},
@@ -78,6 +81,7 @@
     {"id":{"name":"funPlayerDetectCriticalState","path":"scripts/funPlayerDetectCriticalState/funPlayerDetectCriticalState.yy",},"order":9,},
     {"id":{"name":"soundSkeletonAttack","path":"sounds/soundSkeletonAttack/soundSkeletonAttack.yy",},"order":1,},
     {"id":{"name":"funSlimeDetectState","path":"scripts/funSlimeDetectState/funSlimeDetectState.yy",},"order":6,},
+    {"id":{"name":"oDebug","path":"objects/oDebug/oDebug.yy",},"order":6,},
     {"id":{"name":"oPointer","path":"objects/oPointer/oPointer.yy",},"order":3,},
     {"id":{"name":"scriptSkeletonHurtState","path":"scripts/scriptSkeletonHurtState/scriptSkeletonHurtState.yy",},"order":4,},
     {"id":{"name":"soundPlayerTapAttack","path":"sounds/soundPlayerTapAttack/soundPlayerTapAttack.yy",},"order":6,},
@@ -167,6 +171,7 @@
     {"id":{"name":"scriptSlimeMoveState","path":"scripts/scriptSlimeMoveState/scriptSlimeMoveState.yy",},"order":1,},
     {"id":{"name":"oSkeleton","path":"objects/oSkeleton/oSkeleton.yy",},"order":4,},
     {"id":{"name":"soundSlimeAttack","path":"sounds/soundSlimeAttack/soundSlimeAttack.yy",},"order":2,},
+    {"id":{"name":"funSaveGameState","path":"scripts/funSaveGameState/funSaveGameState.yy",},"order":0,},
     {"id":{"name":"oCoinCollector","path":"objects/oCoinCollector/oCoinCollector.yy",},"order":2,},
     {"id":{"name":"sPlayerAttack2","path":"sprites/sPlayerAttack2/sPlayerAttack2.yy",},"order":10,},
     {"id":{"name":"sSlimeIdle","path":"sprites/sSlimeIdle/sSlimeIdle.yy",},"order":0,},
@@ -182,7 +187,7 @@
     {"id":{"name":"scriptSkeletonAttackState","path":"scripts/scriptSkeletonAttackState/scriptSkeletonAttackState.yy",},"order":2,},
     {"id":{"name":"sSlimeDie","path":"sprites/sSlimeDie/sSlimeDie.yy",},"order":4,},
     {"id":{"name":"oPlayerLandingEffect","path":"objects/oPlayerLandingEffect/oPlayerLandingEffect.yy",},"order":1,},
-    {"id":{"name":"rMain","path":"rooms/rMain/rMain.yy",},"order":0,},
+    {"id":{"name":"rLevel00","path":"rooms/rLevel00/rLevel00.yy",},"order":0,},
   ],
   "Options": [
     {"name":"Main","path":"options/main/options_main.yy",},
@@ -199,7 +204,7 @@
   "RoomOrderNodes": [
     {"roomId":{"name":"rLoading","path":"rooms/rLoading/rLoading.yy",},},
     {"roomId":{"name":"rTraining","path":"rooms/rTraining/rTraining.yy",},},
-    {"roomId":{"name":"rMain","path":"rooms/rMain/rMain.yy",},},
+    {"roomId":{"name":"rLevel00","path":"rooms/rLevel00/rLevel00.yy",},},
     {"roomId":{"name":"rLevel01","path":"rooms/rLevel01/rLevel01.yy",},},
   ],
   "Folders": [
@@ -246,6 +251,7 @@
     {"folderPath":"folders/Objects/Controllers.yy","order":3,"resourceVersion":"1.0","name":"Controllers","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Objects/Environment.yy","order":4,"resourceVersion":"1.0","name":"Environment","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Objects/Player.yy","order":5,"resourceVersion":"1.0","name":"Player","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Scripts/Storage.yy","order":7,"resourceVersion":"1.0","name":"Storage","tags":[],"resourceType":"GMFolder",},
   ],
   "AudioGroups": [
     {"targets":-1,"resourceVersion":"1.3","name":"audiogroup_default","resourceType":"GMAudioGroup",},
