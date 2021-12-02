@@ -8,10 +8,10 @@ self.strings = [
 	"Выйти в меню",
 ]
 
-self.current_color = make_color_rgb(112, 211, 112)
+self.current_color = make_color_rgb(112, 211, 112) // light-green
 self.default_color = c_ltgray
 
-self.current_button_color = make_color_rgb(58, 110, 58)
+self.current_button_color = make_color_rgb(58, 110, 58) // dark-green
 self.default_button_color = c_ltgray
 
 self.current_scale = 1.0
