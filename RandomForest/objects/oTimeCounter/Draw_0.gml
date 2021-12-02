@@ -12,17 +12,6 @@ draw_set_valign(fa_top)
 draw_set_font(self.default_font)
 
 // draw time
-var minutes = floor(self.time_counter / 60)
-var seconds = floor(self.time_counter % 60)
-var string_minutes = string(minutes)
-var string_seconds = string(seconds)
 
-if (minutes < 10) {
-	string_minutes = "0" + string_minutes
-}
-if (seconds < 10) {
-	string_seconds = "0" + string_seconds
-}
-
-var time_to_show = string_minutes + ":" + string_seconds
+var time_to_show = funGetTimeString(self.time_counter)
 draw_text(self.x, self.y, time_to_show)

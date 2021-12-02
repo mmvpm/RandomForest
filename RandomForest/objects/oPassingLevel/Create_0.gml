@@ -1,9 +1,6 @@
-self.paused = false
-self.screenshot = noone
-
 self.items_count = 3
 self.strings = [
-	"Продолжить",
+	"Перейти дальше",
 	"Начать заново",
 	"Выйти в меню",
 ]
@@ -18,7 +15,7 @@ self.current_scale = 1.0
 self.default_scale = 0.9
 
 self.border_sprite = sBorder4
-self.border_width = 120
+self.border_width = 135
 self.border_height = 35
 
 self.default_font = font_add("glasstown.ttf", 20, true, false, 32, 128)
@@ -27,3 +24,12 @@ self.separate_dist = 0.2
 self.top_item = 0.3
 
 self.current_index = 0
+
+self.back_surf = noone
+
+var room_index = funGetRoomIndex()
+
+self.current_time = oTimeCounter.time_counter
+self.best_time = global.time_records[room_index]
+
+instance_deactivate_all(true)

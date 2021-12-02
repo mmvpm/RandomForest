@@ -6,7 +6,7 @@
     "path": "folders/Scripts/UI.yy",
   },
   "resourceVersion": "1.0",
-  "name": "funBlurSprite",
+  "name": "funGetTimeString",
   "tags": [],
   "resourceType": "GMScript",
 }

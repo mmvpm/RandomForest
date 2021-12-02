@@ -1,4 +1,4 @@
-function funBlurSprite(surf, ksize, width, height, radius, std, b_color_r, b_color_g, b_color_b, b_part) {
+function funBlurSurface(surf, ksize, width, height, radius, std, b_color_r, b_color_g, b_color_b, b_part) {
 	var size_location = shader_get_uniform(shBlur, "size")
 	var ksize_location = shader_get_uniform(shBlur, "kSize")
 	var std_location = shader_get_uniform(shBlur, "std")
@@ -31,9 +31,7 @@ function funBlurSprite(surf, ksize, width, height, radius, std, b_color_r, b_col
 	shader_reset()
 	surface_reset_target()
 	
-	return sprite_create_from_surface(
-		surf_y,
-		0, 0, width, height, 
-		0, 0, 0, 0
-	)
+	surface_free(surf_x)
+	
+	return surf_y
 }
