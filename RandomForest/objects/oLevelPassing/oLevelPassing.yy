@@ -29,7 +29,7 @@
     "path": "folders/Objects/Controllers.yy",
   },
   "resourceVersion": "1.0",
-  "name": "oPassingLevel",
+  "name": "oLevelPassing",
   "tags": [],
   "resourceType": "GMObject",
 }

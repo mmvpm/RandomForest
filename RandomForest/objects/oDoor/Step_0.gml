@@ -22,7 +22,7 @@ self.image_xscale = self.x_factor * self.scale
 self.image_yscale = self.y_factor * self.scale
 
 function __funPassingLevel() {
-	instance_create_layer(0, 0, "UI", oPassingLevel)
+	instance_create_layer(0, 0, "UI", oLevelPassing)
 }
 
 // on collision with player

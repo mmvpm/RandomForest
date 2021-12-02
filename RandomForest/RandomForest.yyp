@@ -163,7 +163,7 @@
     {"id":{"name":"sTapCountdownDiag","path":"sprites/sTapCountdownDiag/sTapCountdownDiag.yy",},"order":5,},
     {"id":{"name":"sSolid","path":"sprites/sSolid/sSolid.yy",},"order":6,},
     {"id":{"name":"tsPlatforms","path":"tilesets/tsPlatforms/tsPlatforms.yy",},"order":0,},
-    {"id":{"name":"oPassingLevel","path":"objects/oPassingLevel/oPassingLevel.yy",},"order":7,},
+    {"id":{"name":"oLevelPassing","path":"objects/oLevelPassing/oLevelPassing.yy",},"order":7,},
     {"id":{"name":"sSpikesExt","path":"sprites/sSpikesExt/sSpikesExt.yy",},"order":12,},
     {"id":{"name":"funSlimeDetectCriticalState","path":"scripts/funSlimeDetectCriticalState/funSlimeDetectCriticalState.yy",},"order":3,},
     {"id":{"name":"scriptBungaloMoveState","path":"scripts/scriptBungaloMoveState/scriptBungaloMoveState.yy",},"order":5,},
