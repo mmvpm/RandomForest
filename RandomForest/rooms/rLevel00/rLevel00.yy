@@ -21,6 +21,7 @@
         {"properties":[],"isDnd":false,"objectId":{"name":"oFadeIn","path":"objects/oFadeIn/oFadeIn.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":72.0,"y":-24.0,"resourceVersion":"1.0","name":"inst_21B78E75","tags":[],"resourceType":"GMRInstance",},
         {"properties":[],"isDnd":false,"objectId":{"name":"oTimeCounter","path":"objects/oTimeCounter/oTimeCounter.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":96.0,"y":-24.0,"resourceVersion":"1.0","name":"inst_10B48118","tags":[],"resourceType":"GMRInstance",},
         {"properties":[],"isDnd":false,"objectId":{"name":"oDebug","path":"objects/oDebug/oDebug.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":false,"inheritItemSettings":false,"x":-36.0,"y":-24.0,"resourceVersion":"1.0","name":"inst_4069FE8B","tags":[],"resourceType":"GMRInstance",},
+        {"properties":[],"isDnd":false,"objectId":{"name":"oLevelPassing","path":"objects/oLevelPassing/oLevelPassing.yy",},"inheritCode":false,"hasCreationCode":false,"colour":4294967295,"rotation":0.0,"scaleX":1.0,"scaleY":1.0,"imageIndex":0,"imageSpeed":1.0,"inheritedItemId":null,"frozen":false,"ignore":true,"inheritItemSettings":false,"x":180.0,"y":-24.0,"resourceVersion":"1.0","name":"inst_6328EC93","tags":[],"resourceType":"GMRInstance",},
       ],"visible":true,"depth":0,"userdefinedDepth":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"gridX":12,"gridY":12,"layers":[],"hierarchyFrozen":false,"resourceVersion":"1.0","name":"UI","tags":[],"resourceType":"GMRInstanceLayer",},
     {"tilesetId":{"name":"tsPlatforms","path":"tilesets/tsPlatforms/tsPlatforms.yy",},"x":0,"y":0,"tiles":{"SerialiseWidth":42,"SerialiseHeight":25,"TileSerialiseData":[
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -196,6 +197,7 @@
     {"name":"inst_DD56828","path":"rooms/rLevel00/rLevel00.yy",},
     {"name":"inst_183FFE6D","path":"rooms/rLevel00/rLevel00.yy",},
     {"name":"inst_C933384","path":"rooms/rLevel00/rLevel00.yy",},
+    {"name":"inst_6328EC93","path":"rooms/rLevel00/rLevel00.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,

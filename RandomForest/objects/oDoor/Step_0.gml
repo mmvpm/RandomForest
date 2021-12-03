@@ -25,7 +25,7 @@ function __funPassingLevel() {
 	instance_create_layer(0, 0, "UI", oLevelPassing)
 }
 
-// on collision with player
+// on collision with player	
 if (place_meeting(self.x, self.y, oPlayer) and self.is_opened and !self.goto_next_level) {
 	self.goto_next_level = true
 

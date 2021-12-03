@@ -13,3 +13,11 @@ if (keyboard_check_pressed(vk_enter)) {
 	self.current_index += (self.items_count - 1)
 	self.current_index %= self.items_count
 }
+
+if (self.alpha_animation_counter > 0) {
+	--self.alpha_animation_counter
+}
+
+if (self.border_animation_counter > 0) {
+	--self.border_animation_counter
+}

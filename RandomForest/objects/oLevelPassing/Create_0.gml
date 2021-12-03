@@ -19,6 +19,7 @@ self.border_width = 135
 self.border_height = 35
 
 self.default_font = font_add("glasstown.ttf", 20, true, false, 32, 128)
+self.border_font = font_add("glasstown.ttf", 30, true, false, 32, 128)
 
 self.separate_dist = 0.2
 self.top_item = 0.3
@@ -31,5 +32,13 @@ var room_index = funGetRoomIndex()
 
 self.current_time = oTimeCounter.time_counter
 self.best_time = global.time_records[room_index]
+
+self.alpha_animation_time = 30
+self.alpha_animation_counter = self.alpha_animation_time
+
+self.border_animation_time = 25
+self.border_animation_counter = self.border_animation_time
+
+self.border_surf = noone
 
 instance_deactivate_all(true)
