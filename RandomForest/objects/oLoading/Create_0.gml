@@ -44,3 +44,5 @@ global.key_arrow_up = vk_up
 global.key_arrow_down = vk_down
 
 global.key_pause = vk_escape
+
+global.is_debug = false // prod by default
