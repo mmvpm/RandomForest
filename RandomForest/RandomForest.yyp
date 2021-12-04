@@ -136,6 +136,7 @@
     {"id":{"name":"sKeyF","path":"sprites/sKeyF/sKeyF.yy",},"order":6,},
     {"id":{"name":"scriptPlayerMoveState","path":"scripts/scriptPlayerMoveState/scriptPlayerMoveState.yy",},"order":3,},
     {"id":{"name":"sSlimeHurt","path":"sprites/sSlimeHurt/sSlimeHurt.yy",},"order":3,},
+    {"id":{"name":"funUpdateFullscreen","path":"scripts/funUpdateFullscreen/funUpdateFullscreen.yy",},"order":2,},
     {"id":{"name":"sSkeletonMove","path":"sprites/sSkeletonMove/sSkeletonMove.yy",},"order":1,},
     {"id":{"name":"sBungaloSword","path":"sprites/sBungaloSword/sBungaloSword.yy",},"order":7,},
     {"id":{"name":"sKeyArrowLeft","path":"sprites/sKeyArrowLeft/sKeyArrowLeft.yy",},"order":2,},
