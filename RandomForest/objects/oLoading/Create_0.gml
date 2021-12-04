@@ -1,9 +1,12 @@
 /// @description Initializing the game
 
 // Load saved state
+
 funLoadGameState()
 
+
 //Game window resizing
+
 window_set_fullscreen(global.is_fullscreen)
 
 global.scale = 3

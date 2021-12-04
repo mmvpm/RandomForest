@@ -12,11 +12,12 @@ if (self.debug_current_index > string_length(self.debug_password)) {
 }
 
 
-// if prod
+// if production
 if (!global.is_debug) {
 	return
 }
 
+// settings
 if (keyboard_check_pressed(ord("R"))) { // reset saved level number
 	funResetGeneral()
 }
@@ -34,7 +35,9 @@ if (keyboard_check_pressed(ord("Q"))) { // auto collect all coins
 	instance_destroy(oCoin)
 }
 
+// messages
 if (self.frame_counter % 60 == 0) { 
+	show_debug_message("is_fullscreen: " + string(global.is_fullscreen))
 	show_debug_message("current_level: " + string(global.current_level))
 	show_debug_message("is_game_finished: " + string(global.is_game_finished))
 	show_debug_message("is_training_completed: " + string(global.is_training_completed))
