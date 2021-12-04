@@ -14,6 +14,7 @@ if (keyboard_check_pressed(global.key_pause)) {
 
 if (self.paused) {
 	instance_deactivate_all(true)
+	instance_activate_object(oDebug)
 	instance_activate_object(oFullscreen)
 
 	if (keyboard_check_pressed(vk_enter)) {
