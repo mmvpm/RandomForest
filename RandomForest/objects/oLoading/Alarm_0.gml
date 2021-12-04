@@ -2,9 +2,6 @@
 
 window_center()
 
-// Load saved state
-funLoadGameState()
-
 // go to next room
 if (global.is_training_completed) {
 	switch (global.current_level) {

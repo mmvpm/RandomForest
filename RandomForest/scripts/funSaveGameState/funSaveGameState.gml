@@ -1,6 +1,11 @@
 function funSaveGameState() {
 	ini_open("save.ini")
 
+	// fullscreen mode
+	if (global.is_fullscreen != undefined) {
+		ini_write_real("general", "is_fullscreen", global.is_fullscreen)
+	}
+
 	// current level number
 	if (global.current_level != undefined) {
 		ini_write_real("general", "current_level", global.current_level)

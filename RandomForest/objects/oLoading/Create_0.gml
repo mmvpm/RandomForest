@@ -1,6 +1,10 @@
 /// @description Initializing the game
 
+// Load saved state
+funLoadGameState()
+
 //Game window resizing
+window_set_fullscreen(global.is_fullscreen)
 
 global.scale = 3
 var cam = room_get_camera(rLevel00, 0)
@@ -44,5 +48,6 @@ global.key_arrow_up = vk_up
 global.key_arrow_down = vk_down
 
 global.key_pause = vk_escape
+global.key_fullscreen = ord("F")
 
 global.is_debug = false // prod by default
