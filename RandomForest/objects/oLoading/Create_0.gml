@@ -10,7 +10,7 @@ funLoadGameState()
 global.scale = 3
 funUpdateFullscreen()
 alarm[0] = true // for centering
-display_set_gui_maximize(global.scale, global.scale, 0, 0)
+// display_set_gui_maximize(global.scale, global.scale, 0, 0) - no Draw GUI calls now
 
 
 // Temporary config
