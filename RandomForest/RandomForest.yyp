@@ -133,6 +133,7 @@
     {"id":{"name":"scriptPlayerHurtState","path":"scripts/scriptPlayerHurtState/scriptPlayerHurtState.yy",},"order":10,},
     {"id":{"name":"rTraining","path":"rooms/rTraining/rTraining.yy",},"order":4,},
     {"id":{"name":"scriptSlimeHurtState","path":"scripts/scriptSlimeHurtState/scriptSlimeHurtState.yy",},"order":4,},
+    {"id":{"name":"sKeyF","path":"sprites/sKeyF/sKeyF.yy",},"order":6,},
     {"id":{"name":"scriptPlayerMoveState","path":"scripts/scriptPlayerMoveState/scriptPlayerMoveState.yy",},"order":3,},
     {"id":{"name":"sSlimeHurt","path":"sprites/sSlimeHurt/sSlimeHurt.yy",},"order":3,},
     {"id":{"name":"sSkeletonMove","path":"sprites/sSkeletonMove/sSkeletonMove.yy",},"order":1,},

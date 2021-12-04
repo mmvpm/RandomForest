@@ -28,6 +28,11 @@ var c_key_start_x = x_key_start_x
 var c_key_start_y = x_key_start_y + (self.key_height + self.key_shift) + self.line_interval
 draw_sprite_ext(sKeyC, 0, c_key_start_x, c_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
 
+// draw F key (fullscreen)
+var f_key_start_x = c_key_start_x
+var f_key_start_y = c_key_start_y + (self.key_height + self.key_shift) + self.line_interval
+draw_sprite_ext(sKeyF, 0, f_key_start_x, f_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+
 
 // set up font for controls
 draw_set_halign(fa_left)
@@ -48,6 +53,11 @@ draw_text_color(x_key_text_x, x_key_text_y, self.x_key_text, c_white, c_white, c
 var c_key_text_x = arrow_keys_text_x
 var c_key_text_y = c_key_start_y + self.magic_shift
 draw_text_color(c_key_text_x, c_key_text_y, self.c_key_text, c_white, c_white, c_white, c_white, self.text_alpha)
+
+// type F key text (fullscreen)
+var f_key_text_x = arrow_keys_text_x
+var f_key_text_y = f_key_start_y + self.magic_shift
+draw_text_color(f_key_text_x, f_key_text_y, self.fullscreen_text, c_white, c_white, c_white, c_white, self.text_alpha)
 
 
 // set up font for continue
