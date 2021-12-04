@@ -31,7 +31,7 @@ if (keyboard_check_pressed(ord("P"))) { // to previous level
 	room_goto_previous()
 }
 if (keyboard_check_pressed(ord("Q"))) { // auto collect all coins
-	oCoinCollector.coins_collected = instance_number(oCoin)
+	oCoinCollector.coins_collected += instance_number(oCoin)
 	instance_destroy(oCoin)
 }
 
