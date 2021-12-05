@@ -6,7 +6,7 @@ function funGetStarCount(time) {
 			times = [6, 25, 80]
 			break
 		case 1:
-			times = [40, 100, 250]
+			times = [40, 100, 400]
 			break
 	}
 	
