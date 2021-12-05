@@ -18,8 +18,9 @@ self.border_sprite = sBorder4
 self.border_width = 135
 self.border_height = 35
 
-self.default_font = font_add("glasstown.ttf", 20, true, false, 32, 128)
-self.border_font = font_add("glasstown.ttf", 28, true, false, 32, 128)
+self.text_scale = 20 / 24
+self.default_font = font_add("glasstown.ttf", 24, true, false, 32, 128)
+self.border_font = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
 self.separate_dist = 0.2
 self.top_item = 0.3
@@ -42,3 +43,5 @@ self.border_animation_counter = self.border_animation_time
 self.border_surf = noone
 
 instance_deactivate_all(true)
+instance_activate_object(oDebug)
+instance_activate_object(oFullscreen)

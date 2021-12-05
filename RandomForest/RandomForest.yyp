@@ -130,6 +130,7 @@
     {"id":{"name":"scriptSkeletonMoveState","path":"scripts/scriptSkeletonMoveState/scriptSkeletonMoveState.yy",},"order":6,},
     {"id":{"name":"sBorderNobac5","path":"sprites/sBorderNobac5/sBorderNobac5.yy",},"order":9,},
     {"id":{"name":"sPlayerJump","path":"sprites/sPlayerJump/sPlayerJump.yy",},"order":5,},
+    {"id":{"name":"sStar","path":"sprites/sStar/sStar.yy",},"order":20,},
     {"id":{"name":"scriptPlayerHurtState","path":"scripts/scriptPlayerHurtState/scriptPlayerHurtState.yy",},"order":10,},
     {"id":{"name":"rTraining","path":"rooms/rTraining/rTraining.yy",},"order":4,},
     {"id":{"name":"scriptSlimeHurtState","path":"scripts/scriptSlimeHurtState/scriptSlimeHurtState.yy",},"order":4,},

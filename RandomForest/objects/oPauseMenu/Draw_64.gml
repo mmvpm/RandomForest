@@ -28,6 +28,8 @@ if (self.paused) {
 			button_color, 1
 		)
 
+		ui_scale *= self.text_scale
+
 		draw_text_transformed(
 			x_pos, y_pos,
 			self.strings[i],
