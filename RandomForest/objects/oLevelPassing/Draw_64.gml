@@ -1,6 +1,8 @@
 draw_set_halign(fa_center)
 draw_set_valign(fa_middle)
 
+var t_anim_stat = 1 - self.stats_animation_counter / self.stats_animation_time
+
 var t_anim_border = self.border_animation_counter / self.border_animation_time
 t_anim_border = power(t_anim_border, 2)
 
@@ -69,17 +71,63 @@ draw_sprite_stretched_ext(
 	c_white, 1
 )
 
+draw_set_halign(fa_left)
+draw_set_valign(fa_bottom)
+
+var offset_text_x = 25
+var offset_text_y = 25
+
 draw_text(
-	floor(0.5 * bw), 
-	floor(0.3 * bh), 
-	"Текущее время: " + funGetTimeString(self.current_time)
+	offset_text_x, 
+	0.8 * bh - offset_text_y, 
+	"Текущее время: "
 )
 
 draw_text(
-	floor(0.5 * bw),
-	floor(0.5 * bh), 
-	"Лучшее время: " + funGetTimeString(self.best_time)
+	offset_text_x,
+	bh - offset_text_y, 
+	"Лучшее время: "
 )
+
+draw_set_halign(fa_right)
+
+draw_text(
+	bw - offset_text_x,
+	0.8 * bh - offset_text_y, 
+	funGetTimeString(floor(self.current_time * t_anim_stat))
+)
+
+draw_text(
+	bw - offset_text_x,
+	bh - offset_text_y, 
+	funGetTimeString(floor(self.best_time * t_anim_stat))
+)
+
+if (t_anim_stat == 1 and self.shown_stars == -1) {
+	self.star_animation_counter = self.star_animation_time + self.star_animation_delay
+	self.shown_stars = 0
+}
+
+for (var i = 0; i < 3; i++) {
+	var t_star = 0
+	if (i < self.max_stars) {
+		if (i < self.shown_stars) {
+			t_star = 1
+		}
+		else if (i == self.shown_stars) {
+			t_star = 1 - self.star_animation_counter / self.star_animation_time
+		}
+	}
+	funDrawStar(
+		0.5 * bw + (i - 1) * bw * 0.3, 
+		0.3 * bh + 20,
+		3.0,
+		0.5 * bw + (i - 1) * bw * 0.2, 
+		0.3 * bh,
+		1.5,
+		t_star
+	)
+}
 
 surface_reset_target()
 
