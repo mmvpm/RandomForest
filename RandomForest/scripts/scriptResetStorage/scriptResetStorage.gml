@@ -1,6 +1,7 @@
 // debug functions
 
 function funResetGeneral() {
+	global.is_fullscreen = false
 	global.current_level = 0
 	global.is_training_completed = false
 	global.is_game_finished = false

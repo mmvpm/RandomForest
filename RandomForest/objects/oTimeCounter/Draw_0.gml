@@ -1,3 +1,7 @@
+if (not self.timer_drawing_enabled) {
+	return
+}
+
 // set position on the screen
 self.x = 480 - 12 - 20 // magic
 self.y = 10
