@@ -11,13 +11,10 @@ function funUpdateFullscreen() {
 		var window_width_scaled = cam_width * global.scale
 		var window_height_scaled = cam_height * global.scale
 
-		var viewport = room_get_viewport(rLevel00, 0)
 
-		for (var i = 0; i < room_last; i++) {
-			if (i == rLoading) {
-				continue
-			}
-
+		for (var i = room_first; i != -1; i = room_next(i)) {
+			var viewport = room_get_viewport(i, 0)
+			room_set_camera(i, 0, cam)
 			room_set_viewport(i, 0,
 				viewport[0], viewport[1], viewport[2],
 				window_width_scaled, window_height_scaled
