@@ -33,7 +33,7 @@ var room_index = funGetRoomIndex()
 self.current_time = oTimeCounter.time_counter
 self.best_time = global.time_records[room_index]
 
-self.alpha_animation_time = 30
+self.alpha_animation_time = 25
 self.alpha_animation_counter = self.alpha_animation_time
 
 self.border_animation_time = 25
