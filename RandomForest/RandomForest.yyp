@@ -48,6 +48,7 @@
     {"id":{"name":"funSkeletonWantAttack","path":"scripts/funSkeletonWantAttack/funSkeletonWantAttack.yy",},"order":2,},
     {"id":{"name":"sTeleportStart","path":"sprites/sTeleportStart/sTeleportStart.yy",},"order":3,},
     {"id":{"name":"oTextLevel00","path":"objects/oTextLevel00/oTextLevel00.yy",},"order":4,},
+    {"id":{"name":"funResizeWindow","path":"scripts/funResizeWindow/funResizeWindow.yy",},"order":3,},
     {"id":{"name":"sBorder2","path":"sprites/sBorder2/sBorder2.yy",},"order":2,},
     {"id":{"name":"sPlayerIdle","path":"sprites/sPlayerIdle/sPlayerIdle.yy",},"order":0,},
     {"id":{"name":"scriptPlayerPreJumpState","path":"scripts/scriptPlayerPreJumpState/scriptPlayerPreJumpState.yy",},"order":8,},
