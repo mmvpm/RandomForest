@@ -1,5 +1,5 @@
 {
-  "option_linux_display_name": "RandomForest",
+  "option_linux_display_name": "Random Forest",
   "option_linux_version": "0.1.0",
   "option_linux_maintainer_email": "",
   "option_linux_homepage": "https://github.com/IdeaSeeker/RandomForest",
