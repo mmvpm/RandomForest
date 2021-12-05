@@ -23,7 +23,8 @@ for (var i = 0; i < self.items_count; i++) {
 		draw_set_color(self.current_color)
 		button_color = self.current_button_color
 		ui_scale = self.current_scale
-	} else {
+	} 
+	else {
 		draw_set_color(self.default_color)
 		button_color = self.default_button_color
 		ui_scale = self.default_scale
@@ -38,7 +39,7 @@ for (var i = 0; i < self.items_count; i++) {
 		self.border_width * ui_scale, self.border_height * ui_scale,
 		button_color, 1
 	)
-	
+
 	ui_scale *= self.text_scale
 
 	draw_text_transformed(
