@@ -6,6 +6,7 @@ self.default_font_20 = font_add("glasstown.ttf", 20, true, false, 32, 128)
 self.arrow_keys_text = "    -   Движение персонажа"
 self.x_key_text      = "    -   Атака / Возврат меча"
 self.c_key_text      = "    -   Бросок меча / Телепорт"
+self.fullscreen_text = "    -   Полноэкранный режим"
 self.continue_text   = "Для продолжения нажмите любую клавишу"
 
 // size constants
@@ -20,7 +21,7 @@ self.key_height = self.key_scale * sprite_get_height(sKeyX)
 self.room_center_x = room_width / 2
 self.room_center_y = room_height / 2
 self.start_x = self.room_center_x - 130
-self.start_y = self.room_center_y - 70
+self.start_y = self.room_center_y - 85
 
 // alpha settings
 self.text_alpha = 0.9

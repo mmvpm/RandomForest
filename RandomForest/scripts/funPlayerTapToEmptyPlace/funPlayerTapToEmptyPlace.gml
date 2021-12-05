@@ -49,6 +49,8 @@ function funPlayerTapToEmptyPlace() {
 		self.y = new_y
 		self.teleport_end_effect = undefined
 		// instance_create_depth(self.x, self.y - abs(self.sprite_height) / 2, self.depth - 1, oTeleportEnd)
+
+		self.tap_attack_countdown_counter = 0 // reset counter
 	}
 
 	return success_tap

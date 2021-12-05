@@ -14,23 +14,30 @@ if (keyboard_check_pressed(global.key_pause)) {
 
 if (self.paused) {
 	instance_deactivate_all(true)
-	
+	instance_activate_object(oDebug)
+	instance_activate_object(oFullscreen)
+
 	if (keyboard_check_pressed(vk_enter)) {
 		if (self.current_index == 0) {
 			self.paused = false
-		} else if (self.current_index == 1) {
+		}
+		else if (self.current_index == 1) {
 			room_restart()
-		} else if (self.current_index == 2) {
+		}
+		else if (self.current_index == 2) {
 			game_end()
 		}
-	} else if (keyboard_check_pressed(vk_down)) {
+	}
+	else if (keyboard_check_pressed(vk_down)) {
 		self.current_index += 1
 		self.current_index %= self.items_count
-	} else if (keyboard_check_pressed(vk_up)) {
+	}
+	else if (keyboard_check_pressed(vk_up)) {
 		self.current_index += (self.items_count - 1)
 		self.current_index %= self.items_count
 	}
-} else {
+}
+else {
 	shader_reset()
 	if (sprite_exists(self.screenshot)) {
 		sprite_delete(self.screenshot)

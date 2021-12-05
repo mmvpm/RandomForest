@@ -1,9 +1,7 @@
 /// @description Go to next level
 
 window_center()
-
-// Load saved state
-funLoadGameState()
+alarm[0] = false
 
 // go to next room
 if (global.is_training_completed) {

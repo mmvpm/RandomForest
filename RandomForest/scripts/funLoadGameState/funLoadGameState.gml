@@ -1,6 +1,12 @@
 function funLoadGameState() {
 	ini_open("save.ini")
 
+	// debug mode
+	global.is_debug = ini_read_real("general", "is_debug", 0) // default: false
+
+	// fullscreen mode
+	global.is_fullscreen = ini_read_real("general", "is_fullscreen", 0) // default: false
+
 	// current level number
 	global.current_level = ini_read_real("general", "current_level", 0) // default: 0-th level
 

@@ -34,6 +34,7 @@ function funPlayerTeleportLogic() {
 
 function funPlayerTeleportEnd() {
 	self.image_alpha = 1
+	self.tap_attack_countdown_counter = 0 // reset counter
 
 	// restore saved state
 	self.current_xspeed = self.old_xspeed
