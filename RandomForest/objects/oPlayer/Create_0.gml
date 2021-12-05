@@ -66,7 +66,7 @@ self.attack_animation_ended = false
 
 // tap attack
 self.tap_attack_allowed = true // depends on `on-ground`
-self.tap_attack_countdown = 1 * 60 // seconds * fps
+self.tap_attack_countdown = 0.5 * 60 // seconds * fps
 self.tap_attack_countdown_counter = 0
 
 // hurt
