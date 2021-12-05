@@ -29,5 +29,3 @@ global.key_arrow_down = vk_down
 
 global.key_pause = vk_escape
 global.key_fullscreen = ord("F")
-
-global.is_debug = false // prod by default

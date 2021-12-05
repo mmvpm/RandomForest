@@ -9,6 +9,7 @@ if (self.debug_current_index > string_length(self.debug_password)) {
 	global.is_debug = !global.is_debug
 	self.debug_current_index = 1
 	audio_play_sound(soundCoinCollecting, 0, false) // just because
+	funSaveGameState()
 }
 
 
