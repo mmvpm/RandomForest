@@ -1,21 +1,24 @@
 /// @description Initializing the game
 
+// Load saved state
+
+funLoadGameState()
+
+
 //Game window resizing
 
 global.scale = 3
+
 var cam = room_get_camera(rLevel00, 0)
 var cam_width = camera_get_view_width(cam)
 var cam_height = camera_get_view_height(cam)
 var window_width_scaled = cam_width * global.scale
 var window_height_scaled = cam_height * global.scale
 
-var viewport = room_get_viewport(rLevel00, 0)
 
-for (var i = 0; i < room_last; i++) {
-	if (i == rLoading) {
-		continue
-	}
-
+for (var i = room_first; i != -1; i = room_next(i)) {
+	var viewport = room_get_viewport(i, 0)
+	room_set_camera(i, 0, cam)
 	room_set_viewport(i, 0,
 		viewport[0], viewport[1], viewport[2],
 		window_width_scaled, window_height_scaled
@@ -25,9 +28,9 @@ for (var i = 0; i < room_last; i++) {
 surface_resize(application_surface, cam_width, cam_height)
 
 window_set_size(window_width_scaled, window_height_scaled)
-alarm[0] = true // for centering
-display_set_gui_maximize(global.scale, global.scale, 0, 0)
 
+funUpdateFullscreen()
+alarm[0] = true // for centering
 
 // Temporary config
 
@@ -44,3 +47,4 @@ global.key_arrow_up = vk_up
 global.key_arrow_down = vk_down
 
 global.key_pause = vk_escape
+global.key_fullscreen = ord("F")
