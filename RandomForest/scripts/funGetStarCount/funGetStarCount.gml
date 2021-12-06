@@ -1,20 +1,20 @@
 function funGetStarCount(time) {
-	var times = [0, 0, 0]
+	var times = [0, 0]
 
 	switch(funGetRoomIndex()) {
 		case 0:
-			times = [6, 25, 80]
+			times = [6, 25]
 			break
 		case 1:
-			times = [40, 100, 400]
+			times = [40, 100]
 			break
 	}
 
-	for (var i = 0; i < 3; i++) {
+	for (var i = 0; i < 2; i++) {
 		if (time <= times[i] * 60) {
 			return 3 - i
 		}
 	}
 
-	return 0
+	return 1
 }

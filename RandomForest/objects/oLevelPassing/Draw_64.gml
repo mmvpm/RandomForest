@@ -121,10 +121,10 @@ for (var i = 0; i < 3; i++) {
 	}
 	funDrawStar(
 		0.5 * bw + (i - 1) * bw * 0.3, 
-		0.3 * bh + 20,
+		0.2 * bh + abs(i - 1) * 10 + 20,
 		3.0,
 		0.5 * bw + (i - 1) * bw * 0.2, 
-		0.3 * bh,
+		0.2 * bh + abs(i - 1) * 10,
 		1.5,
 		t_star
 	)
