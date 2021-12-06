@@ -4,6 +4,9 @@
 
 funLoadGameState()
 
+// disable anti-aliasing
+font_add_enable_aa(false)
+
 
 //Game window resizing
 

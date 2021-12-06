@@ -1,5 +1,5 @@
 self.paused = false
-self.screenshot = -1
+self.screenshot = noone
 
 self.items_count = 3
 self.strings = [
@@ -21,7 +21,8 @@ self.border_sprite = sBorder4
 self.border_width = 120
 self.border_height = 35
 
-self.default_font = font_add("glasstown.ttf", 20, true, false, 32, 128)
+self.text_scale = 20 / 24
+self.default_font = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
 self.separate_dist = 0.2
 self.top_item = 0.3
