@@ -1,14 +1,24 @@
 if (keyboard_check_pressed(global.key_pause)) {
 	self.paused = !self.paused
 	self.current_index = 0
-	if (!surface_exists(self.screenshot)) {
-		self.screenshot = funBlurSurface(
+	if (self.paused) {
+		var cam = view_camera[0]
+		var cam_w = camera_get_view_width(cam)
+		var cam_h = camera_get_view_height(cam)
+		var surf = funBlurSurface(
 			application_surface, 10,
-			surface_get_width(application_surface),
-			surface_get_height(application_surface),
+			cam_w, cam_h,
 			1, 4,
 			0, 0, 0, 0.2
 		)
+		self.screenshot = sprite_create_from_surface(
+			surf, 0, 0, 
+			cam_w, cam_h,
+			0, 0, 0, 0
+		)
+		surface_free(surf)
+	} else {
+		sprite_delete(self.screenshot)
 	}
 }
 
@@ -38,9 +48,5 @@ if (self.paused) {
 	}
 }
 else {
-	shader_reset()
-	if (surface_exists(self.screenshot)) {
-		surface_free(self.screenshot)
-	}
 	instance_activate_all()
 }
