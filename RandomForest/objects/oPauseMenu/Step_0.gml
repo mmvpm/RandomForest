@@ -29,13 +29,16 @@ if (self.paused) {
 
 	if (keyboard_check_pressed(vk_enter)) {
 		if (self.current_index == 0) {
+			// continue
 			self.paused = false
 		}
 		else if (self.current_index == 1) {
+			// restart
 			room_restart()
 		}
 		else if (self.current_index == 2) {
-			game_end()
+			// goto menu
+			room_goto(rMenu)
 		}
 	}
 	else if (keyboard_check_pressed(vk_down)) {

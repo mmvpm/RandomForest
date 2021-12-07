@@ -80,6 +80,7 @@
     {"id":{"name":"funPlayerHandleTapSword","path":"scripts/funPlayerHandleTapSword/funPlayerHandleTapSword.yy",},"order":4,},
     {"id":{"name":"oPlayerTapSword","path":"objects/oPlayerTapSword/oPlayerTapSword.yy",},"order":2,},
     {"id":{"name":"sSkeletonSword","path":"sprites/sSkeletonSword/sSkeletonSword.yy",},"order":6,},
+    {"id":{"name":"oMenu","path":"objects/oMenu/oMenu.yy",},"order":7,},
     {"id":{"name":"funPlayerDetectCriticalState","path":"scripts/funPlayerDetectCriticalState/funPlayerDetectCriticalState.yy",},"order":9,},
     {"id":{"name":"soundSkeletonAttack","path":"sounds/soundSkeletonAttack/soundSkeletonAttack.yy",},"order":1,},
     {"id":{"name":"funSlimeDetectState","path":"scripts/funSlimeDetectState/funSlimeDetectState.yy",},"order":6,},
@@ -146,6 +147,7 @@
     {"id":{"name":"sKeyArrowLeft","path":"sprites/sKeyArrowLeft/sKeyArrowLeft.yy",},"order":2,},
     {"id":{"name":"funGetRoomIndex","path":"scripts/funGetRoomIndex/funGetRoomIndex.yy",},"order":4,},
     {"id":{"name":"oHealthBar","path":"objects/oHealthBar/oHealthBar.yy",},"order":0,},
+    {"id":{"name":"rMenu","path":"rooms/rMenu/rMenu.yy",},"order":5,},
     {"id":{"name":"sBackground","path":"sprites/sBackground/sBackground.yy",},"order":0,},
     {"id":{"name":"sKeyArrowRight","path":"sprites/sKeyArrowRight/sKeyArrowRight.yy",},"order":3,},
     {"id":{"name":"sTapArrowDiag","path":"sprites/sTapArrowDiag/sTapArrowDiag.yy",},"order":4,},
@@ -220,6 +222,7 @@
   },
   "RoomOrderNodes": [
     {"roomId":{"name":"rLoading","path":"rooms/rLoading/rLoading.yy",},},
+    {"roomId":{"name":"rMenu","path":"rooms/rMenu/rMenu.yy",},},
     {"roomId":{"name":"rTraining","path":"rooms/rTraining/rTraining.yy",},},
     {"roomId":{"name":"rLevel00","path":"rooms/rLevel00/rLevel00.yy",},},
     {"roomId":{"name":"rLevel01","path":"rooms/rLevel01/rLevel01.yy",},},
