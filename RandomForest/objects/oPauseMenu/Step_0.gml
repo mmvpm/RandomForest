@@ -41,10 +41,12 @@ if (self.paused) {
 	else if (keyboard_check_pressed(vk_down)) {
 		self.current_index += 1
 		self.current_index %= self.items_count
+		audio_play_sound(soundMenuButton, 0, false)
 	}
 	else if (keyboard_check_pressed(vk_up)) {
 		self.current_index += (self.items_count - 1)
 		self.current_index %= self.items_count
+		audio_play_sound(soundMenuButton, 0, false)
 	}
 }
 else {
