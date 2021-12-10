@@ -54,3 +54,5 @@ self.border_surf = noone
 instance_deactivate_all(true)
 instance_activate_object(oDebug)
 instance_activate_object(oFullscreen)
+
+self.sounds_played = 0 // ACHTUNG!!!
