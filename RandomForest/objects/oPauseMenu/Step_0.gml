@@ -7,7 +7,7 @@ function __funHandleButtonAction(button_index) {
 			room_restart()
 			break
 		case 2:
-			game_end()
+			room_goto(rMenu)
 			break
 	}
 }
