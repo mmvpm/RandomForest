@@ -1,3 +1,18 @@
+function __funHandleButtonAction(button_index) {
+	switch (button_index) {
+		case 0:
+			self.paused = false
+			break
+		case 1:
+			room_restart()
+			break
+		case 2:
+			game_end()
+			break
+	}
+}
+
+
 if (keyboard_check_pressed(global.key_pause)) {
 	self.paused = !self.paused
 	self.current_index = 0
@@ -19,21 +34,6 @@ if (keyboard_check_pressed(global.key_pause)) {
 		surface_free(surf)
 	} else {
 		sprite_delete(self.screenshot)
-	}
-}
-
-
-function __funHandleButtonAction(button_index) {
-	switch (button_index) {
-		case 0:
-			self.paused = false
-			break
-		case 1:
-			room_restart()
-			break
-		case 2:
-			game_end()
-			break
 	}
 }
 

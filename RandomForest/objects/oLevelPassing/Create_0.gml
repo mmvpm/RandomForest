@@ -56,3 +56,14 @@ instance_activate_object(oDebug)
 instance_activate_object(oFullscreen)
 
 self.sounds_played = 0 // ACHTUNG!!!
+
+
+// mouse handle
+self.last_mouse_x = 0
+self.last_mouse_y = 0
+self.x_shift_cached = 0
+self.y_shift_cached = 0
+self.x_left_cached = []
+self.y_top_cached = []
+self.x_right_cached = []
+self.y_bottom_cached = []
