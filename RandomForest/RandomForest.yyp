@@ -186,6 +186,7 @@
     {"id":{"name":"sPlayerFall","path":"sprites/sPlayerFall/sPlayerFall.yy",},"order":4,},
     {"id":{"name":"sTapDestroy","path":"sprites/sTapDestroy/sTapDestroy.yy",},"order":6,},
     {"id":{"name":"scriptSlimeMoveState","path":"scripts/scriptSlimeMoveState/scriptSlimeMoveState.yy",},"order":1,},
+    {"id":{"name":"musicVictory","path":"sounds/musicVictory/musicVictory.yy",},"order":9,},
     {"id":{"name":"oSkeleton","path":"objects/oSkeleton/oSkeleton.yy",},"order":4,},
     {"id":{"name":"soundSlimeAttack","path":"sounds/soundSlimeAttack/soundSlimeAttack.yy",},"order":2,},
     {"id":{"name":"funSaveGameState","path":"scripts/funSaveGameState/funSaveGameState.yy",},"order":0,},

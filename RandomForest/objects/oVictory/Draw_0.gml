@@ -16,10 +16,13 @@ draw_set_font(self.default_font_12)
 
 // type text
 self.text_continue_alpha_current =
-	( sin(self.tick_counter * pi / 60) + 1 ) / 2                  // [-1, 1] -> [0, 1]
-	* self.text_continue_alpha_max + self.text_continue_alpha_min // [0, 1] -> [min, max]
+	( sin(self.tick_counter * 2 * pi / self.music_duration) + 1 ) / 2  // [-1, 1] -> [0, 1]
+	* self.text_continue_alpha_max + self.text_continue_alpha_min      // [0, 1] -> [min, max]
 draw_text_color(self.room_center_x, room_height - 20, self.continue_text, c_white, c_white, c_white, c_white, self.text_continue_alpha_current)
 
 
 // update time
 self.tick_counter += 1
+if (self.tick_counter % self.music_duration == self.tick_counter_start) { // one lap
+	audio_play_sound(musicVictory, 0, false) // repeat
+}
