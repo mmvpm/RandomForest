@@ -1,14 +1,20 @@
 function __funHandleButtonAction2(button_index) { // `2` because of gms2 (you never know what...)
+	var chosen_function = undefined
 	switch (button_index) {
 		case 0:
-			room_goto_next()
+			chosen_function = room_goto_next
 			break
 		case 1:
-			room_restart()
+			chosen_function = room_restart
 			break
 		case 2:
-			room_goto(rMenu)
+			function __temp() { room_goto(rMenu) }
+			chosen_function = __temp
 			break
+	}
+	if (chosen_function != undefined) {
+		var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
+		fade_out_effect.end_function = chosen_function
 	}
 }
 

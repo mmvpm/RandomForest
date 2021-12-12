@@ -1,4 +1,6 @@
 function __funHandleButtonAction(button_index) {
+	// no fade
+	// it's not mistake
 	switch (button_index) {
 		case 0:
 			self.paused = false

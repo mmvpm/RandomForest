@@ -1,19 +1,3 @@
-function __funHandleButtonAction3(button_index) { // `3` because of gms2 (you never know what...)
-	switch (button_index) {
-		case 0:
-			__funGoPlay()
-			break
-		case 1:
-			funResetLevels()
-			__funGoPlay()
-			break
-		case 2:
-			game_end()
-			break
-	}
-}
-
-
 function __funGoPlay() {
 	if (global.is_training_completed) {
 		switch (global.current_level) {
@@ -29,6 +13,28 @@ function __funGoPlay() {
 		room_goto(rTraining)
 	}
 }
+
+
+function __funHandleButtonAction3(button_index) { // `3` because of gms2 (you never know what...)
+	var chosen_function = undefined
+	switch (button_index) {
+		case 0:
+			chosen_function = __funGoPlay
+			break
+		case 1:
+			funResetLevels()
+			chosen_function = __funGoPlay
+			break
+		case 2:
+			game_end()
+			break
+	}
+	if (chosen_function != undefined) {
+		var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
+		fade_out_effect.end_function = chosen_function
+	}
+}
+
 
 if (keyboard_check_pressed(vk_enter)) {
 	__funHandleButtonAction3(self.current_index)
