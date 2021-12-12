@@ -51,7 +51,7 @@ for (var i = 0; i < self.items_count; i++) {
 	self.x_right_cached[i]  = self.x_left_cached[i] + x_width
 	self.y_bottom_cached[i] = self.y_top_cached[i]  + y_height
 	self.x_shift_cached = 40
-	self.y_shift_cached = (camera_get_view_height(cam) * self.separate_dist - y_height) / 2 - 4 // ~ half-interval
+	self.y_shift_cached = (camera_get_view_height(cam) * self.separate_dist - y_height) / 2 - 2 // ~ half-interval
 
 	ui_scale *= self.text_scale
 
