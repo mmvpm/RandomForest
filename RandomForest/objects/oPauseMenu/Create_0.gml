@@ -28,3 +28,13 @@ self.separate_dist = 0.2
 self.top_item = 0.3
 
 self.current_index = 0
+
+// mouse handle
+self.last_mouse_x = 0
+self.last_mouse_y = 0
+self.x_shift_cached = 0
+self.y_shift_cached = 0
+self.x_left_cached = []
+self.y_top_cached = []
+self.x_right_cached = []
+self.y_bottom_cached = []

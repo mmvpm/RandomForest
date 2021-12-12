@@ -22,20 +22,38 @@ if (keyboard_check_pressed(global.key_pause)) {
 	}
 }
 
+
+function __funHandleButtonAction(button_index) {
+	switch (button_index) {
+		case 0:
+			self.paused = false
+			break
+		case 1:
+			room_restart()
+			break
+		case 2:
+			game_end()
+			break
+	}
+}
+
 if (self.paused) {
 	instance_deactivate_all(true)
 	instance_activate_object(oDebug)
 	instance_activate_object(oFullscreen)
 
 	if (keyboard_check_pressed(vk_enter)) {
-		if (self.current_index == 0) {
-			self.paused = false
-		}
-		else if (self.current_index == 1) {
-			room_restart()
-		}
-		else if (self.current_index == 2) {
-			game_end()
+		__funHandleButtonAction(self.current_index)
+	}
+	else if (mouse_check_button_pressed(mb_left)) {
+		var new_button_index = funGetButtonByMouse(
+			self.x_left_cached, self.x_right_cached,
+			self.y_top_cached, self.y_bottom_cached,
+			self.x_shift_cached, self.y_shift_cached, 
+			view_camera[0], false
+		)
+		if (new_button_index != -1) {
+			__funHandleButtonAction(new_button_index)
 		}
 	}
 	else if (keyboard_check_pressed(vk_down)) {
@@ -47,6 +65,18 @@ if (self.paused) {
 		self.current_index += (self.items_count - 1)
 		self.current_index %= self.items_count
 		audio_play_sound(soundMenuButton, 0, false)
+	}
+	else {
+		var new_button_index = funGetButtonByMouse(
+			self.x_left_cached, self.x_right_cached,
+			self.y_top_cached, self.y_bottom_cached,
+			self.x_shift_cached, self.y_shift_cached, 
+			view_camera[0], true
+		)
+		if (new_button_index != -1 and self.current_index != new_button_index) {
+			self.current_index = new_button_index
+			audio_play_sound(soundMenuButton, 0, false)
+		}
 	}
 }
 else {

@@ -147,6 +147,7 @@
     {"id":{"name":"sBungaloSword","path":"sprites/sBungaloSword/sBungaloSword.yy",},"order":7,},
     {"id":{"name":"sKeyArrowLeft","path":"sprites/sKeyArrowLeft/sKeyArrowLeft.yy",},"order":2,},
     {"id":{"name":"funGetRoomIndex","path":"scripts/funGetRoomIndex/funGetRoomIndex.yy",},"order":4,},
+    {"id":{"name":"funGetButtonByMouse","path":"scripts/funGetButtonByMouse/funGetButtonByMouse.yy",},"order":5,},
     {"id":{"name":"oHealthBar","path":"objects/oHealthBar/oHealthBar.yy",},"order":0,},
     {"id":{"name":"sBackground","path":"sprites/sBackground/sBackground.yy",},"order":0,},
     {"id":{"name":"sKeyArrowRight","path":"sprites/sKeyArrowRight/sKeyArrowRight.yy",},"order":3,},
