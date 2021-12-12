@@ -33,3 +33,13 @@ self.back_surf = noone
 // fade in
 self.alpha_animation_time = 60
 self.alpha_animation_counter = self.alpha_animation_time
+
+// mouse handle
+self.last_mouse_x = 0
+self.last_mouse_y = 0
+self.x_shift_cached = 0
+self.y_shift_cached = 0
+self.x_left_cached = []
+self.y_top_cached = []
+self.x_right_cached = []
+self.y_bottom_cached = []
