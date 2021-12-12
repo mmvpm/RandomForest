@@ -1,8 +1,7 @@
-self.items_count = 4
+self.items_count = 3
 self.strings = [
 	"Играть",
 	"Начать заново",
-	"Сбросить рекорды",
 	"Выйти",
 ]
 

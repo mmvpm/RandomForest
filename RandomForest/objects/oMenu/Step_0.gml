@@ -8,9 +8,6 @@ function __funHandleButtonAction3(button_index) { // `3` because of gms2 (you ne
 			__funGoPlay()
 			break
 		case 2:
-			funResetRecords()
-			break
-		case 3:
 			game_end()
 			break
 	}
