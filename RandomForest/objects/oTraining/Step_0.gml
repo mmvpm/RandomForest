@@ -1,4 +1,4 @@
-if (keyboard_check_pressed(vk_anykey) and !self.goto_next_level) {
+if (( keyboard_check_pressed(vk_anykey) or mouse_check_button_pressed(mb_any) ) and !self.goto_next_level) {
 	self.goto_next_level = true
 
 	var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
