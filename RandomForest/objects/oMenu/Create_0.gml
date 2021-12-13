@@ -1,4 +1,15 @@
-if (global.is_training_completed) {
+if (global.is_game_finished) {
+	self.items_count = 2
+	self.strings = [
+		"Начать заново",
+		"Выйти",
+	]
+	self.functions = [
+		funMenuResetLevelsAndGo,
+		funMenuExit,
+	]
+}
+else if (global.is_training_completed) {
 	self.items_count = 3
 	self.strings = [
 		"Продолжить",
