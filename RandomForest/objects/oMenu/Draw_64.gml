@@ -2,7 +2,6 @@ gpu_set_tex_filter(false)
 
 var cam = view_camera[0]
 var cam_w = camera_get_view_width(cam)
-// var cam_h = camera_get_view_height(cam)
 
 draw_set_halign(fa_center)
 draw_set_valign(fa_middle)

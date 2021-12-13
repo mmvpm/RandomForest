@@ -1,35 +1,41 @@
 if (global.is_game_finished) {
-	self.items_count = 2
+	self.items_count = 3
 	self.strings = [
 		"Начать заново",
+		"Справка",
 		"Выйти",
 	]
 	self.functions = [
 		funMenuResetLevelsAndGo,
+		funMenuShowControls,
 		funMenuExit,
 	]
 }
 else if (global.is_training_completed) {
-	self.items_count = 3
+	self.items_count = 4
 	self.strings = [
 		"Продолжить",
 		"Начать заново",
+		"Справка",
 		"Выйти",
 	]
 	self.functions = [
 		funMenuGoPlay,
 		funMenuResetLevelsAndGo,
+		funMenuShowControls,
 		funMenuExit,
 	]
 }
 else {
-	self.items_count = 2
+	self.items_count = 3
 	self.strings = [
 		"Начать играть",
+		"Справка",
 		"Выйти",
 	]
 	self.functions = [
 		funMenuGoPlay,
+		funMenuShowControls,
 		funMenuExit,
 	]
 }
@@ -50,8 +56,14 @@ self.border_height = 35
 self.text_scale = 20 / 24
 self.default_font = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
-self.separate_dist = 45
-self.top_item = 110
+if (self.items_count == 4) {
+	self.separate_dist = 42
+	self.top_item = 105
+}
+else {
+	self.separate_dist = 45
+	self.top_item = 105
+}
 
 self.current_index = 0
 

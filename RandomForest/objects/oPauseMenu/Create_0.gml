@@ -1,10 +1,11 @@
 self.paused = false
 self.screenshot = noone
 
-self.items_count = 3
+self.items_count = 4
 self.strings = [
 	"Продолжить",
 	"Начать заново",
+	"Справка",
 	"Выйти в меню",
 ]
 
@@ -24,10 +25,12 @@ self.border_height = 35
 self.text_scale = 20 / 24
 self.default_font = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
-self.separate_dist = 0.2
-self.top_item = 0.3
+self.separate_dist = 45
+self.top_item = 80
 
 self.current_index = 0
+
+self.deactivated_all = false
 
 // mouse handle
 self.last_mouse_x = 0

@@ -1,3 +1,9 @@
+function __funBackPauseMenu() {
+	var inst = instance_create_depth(0, 0, -20, oFadeIn)
+	inst.alpha_step = 0.02
+	instance_activate_object(oPauseMenu)
+}
+
 function __funHandleButtonAction(button_index) {
 	// no fade
 	// it's not mistake
@@ -9,6 +15,11 @@ function __funHandleButtonAction(button_index) {
 			room_restart()
 			break
 		case 2:
+			var inst = instance_create_layer(0, 0, "UI", oTraining)
+			inst.end_function = __funBackPauseMenu
+			instance_deactivate_object(oPauseMenu)
+			break
+		case 3:
 			room_goto(rMenu)
 			break
 	}
@@ -40,10 +51,13 @@ if (keyboard_check_pressed(global.key_pause)) {
 }
 
 if (self.paused) {
-	instance_deactivate_all(true)
-	instance_activate_object(oDebug)
-	instance_activate_object(oFullscreen)
-
+	if (!self.deactivated_all) {
+		self.deactivated_all = true
+		instance_deactivate_all(true)
+		instance_activate_object(oDebug)
+		instance_activate_object(oFullscreen)
+	}
+	
 	if (keyboard_check_pressed(vk_enter)) {
 		__funHandleButtonAction(self.current_index)
 	}
@@ -82,5 +96,6 @@ if (self.paused) {
 	}
 }
 else {
+	self.deactivated_all = false
 	instance_activate_all()
 }

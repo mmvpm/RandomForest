@@ -1,3 +1,9 @@
+// draw background
+var cam = view_camera[0]
+var cam_h = camera_get_view_height(cam)
+var cam_w = camera_get_view_width(cam)
+draw_rectangle_color(0, 0, cam_w, cam_h, c_black, c_black, c_black, c_black, 0)
+
 // draw arrow keys
 var arrow_keys_start_x = self.start_x
 var arrow_keys_start_y = self.start_y
@@ -70,7 +76,7 @@ draw_set_font(self.default_font_12)
 self.text_continue_alpha_current =
 	( sin(self.tick_counter * pi / 60) + 1 ) / 2                  // [-1, 1] -> [0, 1]
 	* self.text_continue_alpha_max + self.text_continue_alpha_min // [0, 1] -> [min, max]
-draw_text_color(self.room_center_x, room_height - 20, self.continue_text, c_white, c_white, c_white, c_white, self.text_continue_alpha_current)
+draw_text_color(self.room_center_x, cam_h - 20, self.continue_text, c_white, c_white, c_white, c_white, self.text_continue_alpha_current)
 
 
 // update time

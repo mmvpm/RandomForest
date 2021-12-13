@@ -20,7 +20,7 @@ if (self.paused) {
 		}
 		var cam = view_camera[0]
 		var x_pos = camera_get_view_width(cam) * 0.5
-		var y_pos = camera_get_view_height(cam) * (self.top_item + self.separate_dist * i)
+		var y_pos = self.top_item + self.separate_dist * i
 
 		var x_center = x_pos
 		var y_center = y_pos + 1.5
