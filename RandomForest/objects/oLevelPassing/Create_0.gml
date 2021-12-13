@@ -55,9 +55,6 @@ instance_deactivate_all(true)
 instance_activate_object(oDebug)
 instance_activate_object(oFullscreen)
 
-self.sounds_played = 0 // ACHTUNG!!!
-
-
 // mouse handle
 self.last_mouse_x = 0
 self.last_mouse_y = 0

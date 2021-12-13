@@ -74,10 +74,9 @@ if (self.star_animation_counter > 0) {
 	--self.star_animation_counter
 	if (self.star_animation_counter == 0) {
 		++self.shown_stars
-		if (self.sounds_played < self.max_stars) { // ACHTUNG!!!
-			audio_play_sound(soundStarCollecting, 0, false)
-			self.sounds_played += 1
+		audio_play_sound(soundStarCollecting, 0, false)
+		if (self.shown_stars < self.max_stars) {
+			self.star_animation_counter = self.star_animation_time + self.star_animation_delay
 		}
-		self.star_animation_counter = self.star_animation_time + self.star_animation_delay
 	}
 }

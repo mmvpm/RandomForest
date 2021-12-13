@@ -1,6 +1,6 @@
 function __funBackPauseMenu() {
 	var inst = instance_create_depth(0, 0, -20, oFadeIn)
-	inst.alpha_step = 0.02
+	inst.alpha_step = 0.05
 	instance_activate_object(oPauseMenu)
 }
 
