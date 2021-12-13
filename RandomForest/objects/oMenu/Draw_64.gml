@@ -13,24 +13,8 @@ var cur_alpha = 1 - self.alpha_animation_counter / self.alpha_animation_time
 draw_set_alpha(cur_alpha)
 
 // draw logo
-
-var scale = 1.25
-
-draw_sprite_ext(
-	sCoin, 0, 
-	0.5 * cam_w - 90 * scale, 30, 
-	2.0 * scale, 2.0 * scale, 
-	0, c_white, cur_alpha
-)
-
+var scale = 2.0
 draw_text_transformed(0.5 * cam_w + 2.0, 30, "Random Forest", scale, scale, 0)
-
-draw_sprite_ext(
-	sCoin, 0, 
-	0.5 * cam_w + 90 * scale, 30, 
-	2.0 * scale, 2.0 * scale, 
-	0, c_white, cur_alpha
-)
 
 // draw buttons
 for (var i = 0; i < self.items_count; i++) {

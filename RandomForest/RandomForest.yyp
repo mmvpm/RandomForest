@@ -34,6 +34,7 @@
     {"id":{"name":"oSlime","path":"objects/oSlime/oSlime.yy",},"order":2,},
     {"id":{"name":"sBorderNobac3","path":"sprites/sBorderNobac3/sBorderNobac3.yy",},"order":5,},
     {"id":{"name":"scriptPlayerDieState","path":"scripts/scriptPlayerDieState/scriptPlayerDieState.yy",},"order":11,},
+    {"id":{"name":"scriptMenuFunctions","path":"scripts/scriptMenuFunctions/scriptMenuFunctions.yy",},"order":0,},
     {"id":{"name":"soundBungaloSteps","path":"sounds/soundBungaloSteps/soundBungaloSteps.yy",},"order":3,},
     {"id":{"name":"scriptResetStorage","path":"scripts/scriptResetStorage/scriptResetStorage.yy",},"order":3,},
     {"id":{"name":"funLoadGameState","path":"scripts/funLoadGameState/funLoadGameState.yy",},"order":1,},
@@ -272,6 +273,7 @@
     {"folderPath":"folders/Objects/Environment.yy","order":4,"resourceVersion":"1.0","name":"Environment","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Objects/Player.yy","order":5,"resourceVersion":"1.0","name":"Player","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Scripts/Storage.yy","order":7,"resourceVersion":"1.0","name":"Storage","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Scripts/Menu.yy","order":8,"resourceVersion":"1.0","name":"Menu","tags":[],"resourceType":"GMFolder",},
   ],
   "AudioGroups": [
     {"targets":-1,"resourceVersion":"1.3","name":"audiogroup_default","resourceType":"GMAudioGroup",},

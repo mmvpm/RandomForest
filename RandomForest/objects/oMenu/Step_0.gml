@@ -1,37 +1,5 @@
-function __funGoPlay() {
-	if (global.is_training_completed) {
-		switch (global.current_level) {
-			case 0:
-				room_goto(rLevel00)
-				break
-			case 1:
-				room_goto(rLevel01)
-				break
-		}
-	}
-	else {
-		room_goto(rTraining)
-	}
-}
-
 if (keyboard_check_pressed(vk_enter)) {
-	if (self.current_index == 0) {
-		// go to play
-		__funGoPlay()
-	}
-	else if (self.current_index == 1) {
-		// reset levels
-		funResetLevels()
-		__funGoPlay()
-	}
-	else if (self.current_index == 2) {
-		// reset records
-		funResetRecords()
-	}
-	else if (self.current_index == 3) {
-		// exit
-		game_end()
-	}
+	self.functions[self.current_index]()
 }
 else if (keyboard_check_pressed(vk_down)) {
 	self.current_index += 1
@@ -43,7 +11,19 @@ else if (keyboard_check_pressed(vk_up)) {
 }
 
 // counters
-
 if (self.alpha_animation_counter > 0) {
 	--self.alpha_animation_counter
+}
+
+// back movement
+var next_x = self.back_x + self.back_speed_x
+self.back_x = clamp(next_x, 0, self.back_max_x)
+if (next_x != self.back_x) {
+	self.back_speed_x *= -1
+}
+
+var next_y = self.back_y + self.back_speed_y
+self.back_y = clamp(next_y, 0, self.back_max_y)
+if (next_y != self.back_y) {
+	self.back_speed_y *= -1
 }

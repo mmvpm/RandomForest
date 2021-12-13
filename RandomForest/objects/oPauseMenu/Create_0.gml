@@ -18,7 +18,7 @@ self.current_scale = 1.0
 self.default_scale = 0.9
 
 self.border_sprite = sBorder4
-self.border_width = 120
+self.border_width = 130
 self.border_height = 35
 
 self.text_scale = 20 / 24
