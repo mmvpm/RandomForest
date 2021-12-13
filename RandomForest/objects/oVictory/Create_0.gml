@@ -4,7 +4,7 @@ self.default_font_24 = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
 // texts
 self.victory_text  = "Поздравляю, вы прошли игру"
-self.continue_text = "Для продолжения нажмите любую клавишу"
+self.continue_text = "Для выхода в меню нажмите любую клавишу"
 
 // find center
 self.room_center_x = room_width / 2
