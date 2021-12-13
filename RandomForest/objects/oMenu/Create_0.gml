@@ -63,3 +63,13 @@ self.back_x = random_range(0, back_max_x)
 self.back_y = random_range(0, back_max_y)
 self.back_speed_x = 0.1 * (2 * irandom_range(0, 1) - 1)
 self.back_speed_y = self.back_speed_x * cam_h / cam_w * (2 * irandom_range(0, 1) - 1)
+
+// mouse handle
+self.last_mouse_x = 0
+self.last_mouse_y = 0
+self.x_shift_cached = 0
+self.y_shift_cached = 0
+self.x_left_cached = []
+self.y_top_cached = []
+self.x_right_cached = []
+self.y_bottom_cached = []

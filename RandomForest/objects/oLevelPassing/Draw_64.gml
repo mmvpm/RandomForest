@@ -32,13 +32,26 @@ for (var i = 0; i < self.items_count; i++) {
 
 	var x_pos = cam_w * 0.8
 	var y_pos = cam_h * (self.top_item + self.separate_dist * i)
+	
+	var x_center = x_pos
+	var y_center = y_pos + 1.5
+	var x_width  = self.border_width  * ui_scale
+	var y_height = self.border_height * ui_scale
 
 	draw_sprite_stretched_ext(
 		self.border_sprite, 0,
-		x_pos, y_pos + 1.5,
-		self.border_width * ui_scale, self.border_height * ui_scale,
+		x_center, y_center,
+		x_width, y_height,
 		button_color, 1
 	)
+
+	// cache for mouse
+	self.x_left_cached[i] = x_center - x_width / 2
+	self.y_top_cached[i]  = y_center - y_height / 2
+	self.x_right_cached[i]  = self.x_left_cached[i] + x_width
+	self.y_bottom_cached[i] = self.y_top_cached[i]  + y_height
+	self.x_shift_cached = 40
+	self.y_shift_cached = (camera_get_view_height(cam) * self.separate_dist - y_height) / 2 - 2 // ~ half-interval
 
 	ui_scale *= self.text_scale
 
