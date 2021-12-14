@@ -45,3 +45,7 @@ self.hurt_animation_ended = false
 // die
 self.is_splitted = false // by two part (small slimes)
 self.die_animation_ended = false
+
+// bloom
+var bloom = instance_create_depth(self.x, self.y, self.depth + 5, oSlimeBloom)
+bloom.following = self
