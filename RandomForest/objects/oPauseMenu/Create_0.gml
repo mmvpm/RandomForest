@@ -33,6 +33,7 @@ self.current_index = 0
 self.deactivated_all = false
 
 // mouse handle
+self.mouse_allowed_counter = 10 // frames
 self.last_mouse_x = 0
 self.last_mouse_y = 0
 self.x_shift_cached = 0

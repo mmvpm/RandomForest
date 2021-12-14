@@ -19,6 +19,14 @@ function __funHandleButtonAction2(button_index) { // `2` because of gms2 (you ne
 }
 
 
+// mouse counter
+if (self.mouse_allowed_counter != 0) {
+	self.last_mouse_x = mouse_x - camera_get_view_x(view_camera[0])
+	self.last_mouse_y = mouse_y - camera_get_view_y(view_camera[0])
+}
+self.mouse_allowed_counter = max(0, self.mouse_allowed_counter - 1)
+
+
 if (keyboard_check_pressed(vk_enter)) {
 	__funHandleButtonAction2(self.current_index)
 }
@@ -43,7 +51,7 @@ else if (keyboard_check_pressed(vk_up)) {
 	self.current_index %= self.items_count
 	audio_play_sound(soundMenuButton, 0, false)
 }
-else {
+else if (self.mouse_allowed_counter == 0) {
 	var new_button_index = funGetButtonByMouse(
 		self.x_left_cached, self.x_right_cached,
 		self.y_top_cached, self.y_bottom_cached,

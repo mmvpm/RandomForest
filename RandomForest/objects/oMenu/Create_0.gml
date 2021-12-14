@@ -88,6 +88,7 @@ self.back_speed_x = 0.1 * (2 * irandom_range(0, 1) - 1)
 self.back_speed_y = self.back_speed_x * cam_h / cam_w * (2 * irandom_range(0, 1) - 1)
 
 // mouse handle
+self.mouse_allowed_counter = 10 // frames
 self.last_mouse_x = 0
 self.last_mouse_y = 0
 self.x_shift_cached = 0
