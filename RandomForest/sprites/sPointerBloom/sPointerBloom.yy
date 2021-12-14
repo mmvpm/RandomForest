@@ -8,14 +8,14 @@
   "collisionTolerance": 0,
   "swfPrecision": 2.525,
   "bbox_left": 0,
-  "bbox_right": 48,
+  "bbox_right": 41,
   "bbox_top": 0,
-  "bbox_bottom": 51,
+  "bbox_bottom": 35,
   "HTile": false,
   "VTile": false,
   "For3D": false,
-  "width": 49,
-  "height": 52,
+  "width": 42,
+  "height": 36,
   "textureGroupId": {
     "name": "Default",
     "path": "texturegroups/Default",
@@ -24,12 +24,12 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"5a325e35-8522-4016-bc58-67d312b8bf8e","path":"sprites/sCoinBloom/sCoinBloom.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"5a325e35-8522-4016-bc58-67d312b8bf8e","path":"sprites/sCoinBloom/sCoinBloom.yy",},"LayerId":{"name":"cb77430b-eed4-4c48-8632-4c0b19fae101","path":"sprites/sCoinBloom/sCoinBloom.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"sCoinBloom","path":"sprites/sCoinBloom/sCoinBloom.yy",},"resourceVersion":"1.0","name":"5a325e35-8522-4016-bc58-67d312b8bf8e","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"27a414de-ea62-4129-a73e-ad632fc09162","path":"sprites/sPointerBloom/sPointerBloom.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"27a414de-ea62-4129-a73e-ad632fc09162","path":"sprites/sPointerBloom/sPointerBloom.yy",},"LayerId":{"name":"56fd8d3c-8df7-43db-ac87-b4920ce29fd7","path":"sprites/sPointerBloom/sPointerBloom.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"sPointerBloom","path":"sprites/sPointerBloom/sPointerBloom.yy",},"resourceVersion":"1.0","name":"27a414de-ea62-4129-a73e-ad632fc09162","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
-    "spriteId": {"name":"sCoinBloom","path":"sprites/sCoinBloom/sCoinBloom.yy",},
+    "spriteId": {"name":"sPointerBloom","path":"sprites/sPointerBloom/sPointerBloom.yy",},
     "timeUnits": 1,
     "playback": 1,
     "playbackSpeed": 30.0,
@@ -41,7 +41,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"a23c0c26-a385-44c4-b8e2-b308f7dff917","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"5a325e35-8522-4016-bc58-67d312b8bf8e","path":"sprites/sCoinBloom/sCoinBloom.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"aa52d58b-5dd1-42c5-b6f6-7a4a7ca21c99","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"27a414de-ea62-4129-a73e-ad632fc09162","path":"sprites/sPointerBloom/sPointerBloom.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -54,18 +54,18 @@
     "backdropHeight": 768,
     "backdropXOffset": 0.0,
     "backdropYOffset": 0.0,
-    "xorigin": 24,
-    "yorigin": 26,
+    "xorigin": 21,
+    "yorigin": 18,
     "eventToFunction": {},
     "eventStubScript": null,
-    "parent": {"name":"sCoinBloom","path":"sprites/sCoinBloom/sCoinBloom.yy",},
+    "parent": {"name":"sPointerBloom","path":"sprites/sPointerBloom/sPointerBloom.yy",},
     "resourceVersion": "1.3",
-    "name": "sCoinBloom",
+    "name": "sPointerBloom",
     "tags": [],
     "resourceType": "GMSequence",
   },
   "layers": [
-    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"cb77430b-eed4-4c48-8632-4c0b19fae101","tags":[],"resourceType":"GMImageLayer",},
+    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"56fd8d3c-8df7-43db-ac87-b4920ce29fd7","tags":[],"resourceType":"GMImageLayer",},
   ],
   "nineSlice": null,
   "parent": {
@@ -73,7 +73,7 @@
     "path": "folders/Sprites/Bloom.yy",
   },
   "resourceVersion": "1.0",
-  "name": "sCoinBloom",
+  "name": "sPointerBloom",
   "tags": [],
   "resourceType": "GMSprite",
 }
