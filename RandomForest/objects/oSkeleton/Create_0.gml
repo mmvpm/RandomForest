@@ -42,3 +42,7 @@ self.hurt_animation_ended = false
 
 // die
 self.die_animation_ended = false
+
+// bloom
+var bloom = instance_create_layer(self.x, self.y, "Bloom", oSkeletonBloom)
+bloom.following = self

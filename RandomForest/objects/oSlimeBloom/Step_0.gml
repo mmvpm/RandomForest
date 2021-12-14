@@ -15,7 +15,7 @@ if (self.following != noone) {
 					t = self.following.image_index / 1.5
 				}
 				else {
-					t = (self.following.image_index - 1.5) / (5.0 - 1.5)
+					t = 1.0 - (self.following.image_index - 1.5) / (5.0 - 1.5)
 				}
 				self.y -= self.image_yscale * lerp(7, 10, t)
 				self.image_yscale *= lerp(1, 1.2, t)
