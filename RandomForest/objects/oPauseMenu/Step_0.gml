@@ -1,4 +1,12 @@
+function __funBackPauseMenu() {
+	var inst = instance_create_depth(0, 0, -20, oFadeIn)
+	inst.alpha_step = 0.05
+	instance_activate_object(oPauseMenu)
+}
+
 function __funHandleButtonAction(button_index) {
+	// no fade
+	// it's not mistake
 	switch (button_index) {
 		case 0:
 			self.paused = false
@@ -7,9 +15,27 @@ function __funHandleButtonAction(button_index) {
 			room_restart()
 			break
 		case 2:
-			game_end()
+			var inst = instance_create_layer(0, 0, "UI", oTraining)
+			inst.end_function = __funBackPauseMenu
+			instance_deactivate_object(oPauseMenu)
+			break
+		case 3:
+			room_goto(rMenu)
 			break
 	}
+}
+
+
+// mouse counter
+if (self.paused) {
+	if (self.mouse_allowed_counter != 0) {
+		self.last_mouse_x = mouse_x - camera_get_view_x(view_camera[0])
+		self.last_mouse_y = mouse_y - camera_get_view_y(view_camera[0])
+	}
+	self.mouse_allowed_counter = max(0, self.mouse_allowed_counter - 1)
+}
+else {
+	self.mouse_allowed_counter = 10
 }
 
 
@@ -38,10 +64,13 @@ if (keyboard_check_pressed(global.key_pause)) {
 }
 
 if (self.paused) {
-	instance_deactivate_all(true)
-	instance_activate_object(oDebug)
-	instance_activate_object(oFullscreen)
-
+	if (!self.deactivated_all) {
+		self.deactivated_all = true
+		instance_deactivate_all(true)
+		instance_activate_object(oDebug)
+		instance_activate_object(oFullscreen)
+	}
+	
 	if (keyboard_check_pressed(vk_enter)) {
 		__funHandleButtonAction(self.current_index)
 	}
@@ -66,7 +95,7 @@ if (self.paused) {
 		self.current_index %= self.items_count
 		audio_play_sound(soundMenuButton, 0, false)
 	}
-	else {
+	else if (self.mouse_allowed_counter == 0) {
 		var new_button_index = funGetButtonByMouse(
 			self.x_left_cached, self.x_right_cached,
 			self.y_top_cached, self.y_bottom_cached,
@@ -80,5 +109,6 @@ if (self.paused) {
 	}
 }
 else {
+	self.deactivated_all = false
 	instance_activate_all()
 }

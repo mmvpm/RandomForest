@@ -1,17 +1,5 @@
-function __funHandleButtonAction2(button_index) { // `2` because of gms2 (you never know what...)
-	var chosen_function = undefined
-	switch (button_index) {
-		case 0:
-			chosen_function = room_goto_next
-			break
-		case 1:
-			chosen_function = room_restart
-			break
-		case 2:
-			function __temp() { room_goto(rMenu) }
-			chosen_function = __temp
-			break
-	}
+function __funHandleButtonAction3(button_index) { // `3` because of gms2 (you never know what...)
+	var chosen_function = self.functions[button_index]
 	if (chosen_function != undefined) {
 		var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
 		fade_out_effect.end_function = chosen_function
@@ -28,7 +16,7 @@ self.mouse_allowed_counter = max(0, self.mouse_allowed_counter - 1)
 
 
 if (keyboard_check_pressed(vk_enter)) {
-	__funHandleButtonAction2(self.current_index)
+	__funHandleButtonAction3(self.current_index)
 }
 else if (mouse_check_button_pressed(mb_left)) {
 	var new_button_index = funGetButtonByMouse(
@@ -38,7 +26,7 @@ else if (mouse_check_button_pressed(mb_left)) {
 		view_camera[0], false
 	)
 	if (new_button_index != -1) {
-		__funHandleButtonAction2(new_button_index)
+		__funHandleButtonAction3(new_button_index)
 	}
 }
 else if (keyboard_check_pressed(vk_down)) {
@@ -65,26 +53,19 @@ else if (self.mouse_allowed_counter == 0) {
 }
 
 // counters
-
 if (self.alpha_animation_counter > 0) {
 	--self.alpha_animation_counter
 }
 
-if (self.border_animation_counter > 0) {
-	--self.border_animation_counter
+// back movement
+var next_x = self.back_x + self.back_speed_x
+self.back_x = clamp(next_x, 0, self.back_max_x)
+if (next_x != self.back_x) {
+	self.back_speed_x *= -1
 }
 
-if (self.stats_animation_counter > 0) {
-	--self.stats_animation_counter
-}
-
-if (self.star_animation_counter > 0) {
-	--self.star_animation_counter
-	if (self.star_animation_counter == 0) {
-		++self.shown_stars
-		audio_play_sound(soundStarCollecting, 0, false)
-		if (self.shown_stars < self.max_stars) {
-			self.star_animation_counter = self.star_animation_time + self.star_animation_delay
-		}
-	}
+var next_y = self.back_y + self.back_speed_y
+self.back_y = clamp(next_y, 0, self.back_max_y)
+if (next_y != self.back_y) {
+	self.back_speed_y *= -1
 }

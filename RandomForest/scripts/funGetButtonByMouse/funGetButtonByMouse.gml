@@ -6,8 +6,7 @@ function funGetButtonByMouse(x_left, x_right, y_top, y_bottom, x_shift, y_shift,
 	var view_mouse_y = mouse_y - camera_get_view_y(cam)
 
 	if (mouse_move_required) {
-		if (abs(self.last_mouse_x - view_mouse_x) <= 2 or
-			abs(self.last_mouse_y - view_mouse_y) <= 2) {
+		if (self.last_mouse_x == view_mouse_x and self.last_mouse_y == view_mouse_y) {
 			return -1 // no mouse move
 		}
 	}

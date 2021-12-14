@@ -15,7 +15,7 @@ self.current_scale = 1.0
 self.default_scale = 0.9
 
 self.border_sprite = sBorder4
-self.border_width = 135
+self.border_width = 140
 self.border_height = 35
 
 self.text_scale = 20 / 24
@@ -55,10 +55,8 @@ instance_deactivate_all(true)
 instance_activate_object(oDebug)
 instance_activate_object(oFullscreen)
 
-self.sounds_played = 0 // ACHTUNG!!!
-
-
 // mouse handle
+self.mouse_allowed_counter = 10 // frames
 self.last_mouse_x = 0
 self.last_mouse_y = 0
 self.x_shift_cached = 0
