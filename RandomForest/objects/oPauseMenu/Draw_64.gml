@@ -20,7 +20,7 @@ if (self.paused) {
 		}
 		var cam = view_camera[0]
 		var x_pos = camera_get_view_width(cam) * 0.5
-		var y_pos = camera_get_view_height(cam) * (self.top_item + self.separate_dist * i)
+		var y_pos = self.top_item + self.separate_dist * i
 
 		var x_center = x_pos
 		var y_center = y_pos + 1.5
@@ -40,7 +40,7 @@ if (self.paused) {
 		self.x_right_cached[i]  = self.x_left_cached[i] + x_width
 		self.y_bottom_cached[i] = self.y_top_cached[i]  + y_height
 		self.x_shift_cached = 40
-		self.y_shift_cached = (camera_get_view_height(cam) * self.separate_dist - y_height) / 2 - 4 // ~ half-interval
+		self.y_shift_cached = 0 //(self.separate_dist - y_height) / 2 - 2 // ~ half-interval
 
 		ui_scale *= self.text_scale
 

@@ -1,6 +1,7 @@
 // upload font
 self.default_font_12 = font_add("glasstown.ttf", 12, true, false, 32, 128)
-self.default_font_20 = font_add("glasstown.ttf", 20, true, false, 32, 128)
+self.text_scale_20 = 20 / 24
+self.default_font_24 = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
 // texts
 self.arrow_keys_text = "    -   Движение персонажа"
@@ -18,8 +19,11 @@ self.key_width  = self.key_scale * sprite_get_width(sKeyX)
 self.key_height = self.key_scale * sprite_get_height(sKeyX)
 
 // find center
-self.room_center_x = room_width / 2
-self.room_center_y = room_height / 2
+var cam = view_camera[0]
+var cam_w = camera_get_view_width(cam)
+var cam_h = camera_get_view_height(cam)
+self.room_center_x = cam_w / 2
+self.room_center_y = cam_h / 2
 self.start_x = self.room_center_x - 130
 self.start_y = self.room_center_y - 85
 
@@ -33,4 +37,17 @@ self.text_continue_alpha_current = 0.5
 
 // time
 self.tick_counter = 0
-self.goto_next_level = false
+self.end_training = false
+
+// end function
+function __funTrainingEndFunctionDefault() {
+	global.is_training_completed = true
+	funSaveGameState()
+	room_goto_next()
+}
+
+self.end_function = __funTrainingEndFunctionDefault
+
+// fade in
+var inst = instance_create_depth(0, 0, -10, oFadeIn)
+inst.alpha_step = 0.02
