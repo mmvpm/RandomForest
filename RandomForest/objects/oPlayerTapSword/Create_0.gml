@@ -19,3 +19,6 @@ self.was_shake_effect = false
 
 // self.current_angle
 // self.image_angle
+
+var inst = instance_create_depth(self.x, self.y, self.depth + 5, oSwordBloom)
+inst.following = self
