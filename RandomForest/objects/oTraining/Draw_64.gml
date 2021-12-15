@@ -48,8 +48,9 @@ draw_set_font(self.default_font_24)
 // type arrow keys text
 var arrow_keys_text_x = self.start_x + 3 * (self.key_width + self.key_shift)
 var arrow_keys_text_y = self.start_y + (self.key_height + self.key_shift) + 7
-//draw_text_color(arrow_keys_text_x, arrow_keys_text_y, self.arrow_keys_text, c_white, c_white, c_white, c_white, self.text_alpha)
-draw_text_transformed_color(arrow_keys_text_x, arrow_keys_text_y, self.arrow_keys_text, self.text_scale_20, self.text_scale_20, 0, c_white, c_white, c_white, c_white, self.text_alpha)
+draw_text_transformed_color(arrow_keys_text_x, arrow_keys_text_y, self.shift_text, self.text_scale_20, self.text_scale_20, 0, c_white, c_white, c_white, c_white, self.text_alpha)
+draw_text_transformed_color(arrow_keys_text_x + 30, arrow_keys_text_y - 7 - 3, self.arrow_keys_text, self.text_scale_20, self.text_scale_20, 0, c_white, c_white, c_white, c_white, self.text_alpha)
+
 
 // type X key text
 var x_key_text_x = arrow_keys_text_x

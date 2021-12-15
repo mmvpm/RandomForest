@@ -4,7 +4,8 @@ self.text_scale_20 = 20 / 24
 self.default_font_24 = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
 // texts
-self.arrow_keys_text = "    -   Движение персонажа"
+self.shift_text      = "    -   "
+self.arrow_keys_text = "Движение персонажа\nНаправление броска меча"
 self.x_key_text      = "    -   Атака / Возврат меча"
 self.c_key_text      = "    -   Бросок меча / Телепорт"
 self.fullscreen_text = "    -   Полноэкранный режим"
