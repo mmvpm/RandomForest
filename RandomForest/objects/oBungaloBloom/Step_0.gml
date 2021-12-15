@@ -11,20 +11,32 @@ if (self.following != noone) {
 				instance_destroy()
 				break
 			case sBungaloMove:
-				var t = 0
+				var t = floor(self.following.image_index % 4.0)
+				switch (t) {
+					case 0:
+						t = 10
+						break
+					case 1:
+						t = 15
+						break
+					case 2:
+						t = 16
+						break
+					case 3:
+						t = 15
+						break
+				}
+				self.y -= t * self.image_yscale
+				break
+			case sBungaloIdle:
 				if (self.following.image_index <= 2.5) {
-					t = self.following.image_index / 2.5
-				}
-				else if (self.following.image_index <= 4.5) {
-					t = 1 - (self.following.image_index - 2.5) / 2.0
-				}
-				else if (self.following.image_index <= 6.5) {
-					t = (self.following.image_index - 4.5) / 2.0
+					var t = self.following.image_index / 2.5
+					self.y -= lerp(10, 11, t) * self.image_yscale
 				}
 				else {
-					t = 1 - (self.following.image_index - 6.5) / (8.0 - 6.5)
+					var t = (self.following.image_index - 2.5) / 2.5
+					self.y -= lerp(11, 9, t) * self.image_yscale
 				}
-				self.y -= lerp(10, 14, t) * self.image_yscale
 				break
 			default:
 				self.y -= 10 * self.image_yscale
