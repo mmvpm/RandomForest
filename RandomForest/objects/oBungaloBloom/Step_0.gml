@@ -4,7 +4,7 @@ if (self.following != noone) {
 		self.y = self.following.y
 		self.image_xscale = self.following.image_xscale
 		self.image_yscale = self.following.image_yscale
-		self.image_alpha = 0.6
+		self.image_alpha = 0.7
 		
 		switch (self.following.sprite_index) {
 			case sBungaloDie:
