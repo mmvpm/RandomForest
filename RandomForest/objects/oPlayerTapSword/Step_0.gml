@@ -73,7 +73,8 @@ if (nearest_enemy != noone and !global.hit_vs_tap_text_shown) {
 	var text = instance_create_depth(self.x, self.y - 20, self.depth - 1, oFadingText)
 	text.text = "Удар мечом (X) намного сильнее броска!"
 	text.text_size = 14
-	text.active_time = 2 * 60 // frames
+	text.active_time = 3 * 60 // frames
+	text.fading_time = 2 * 60 // frames
 	global.hit_vs_tap_text_shown = true
 	funSaveGameState()
 }
