@@ -1,2 +1,2 @@
-self.damage = 2
+self.damage = 1
 // self.owner_id
