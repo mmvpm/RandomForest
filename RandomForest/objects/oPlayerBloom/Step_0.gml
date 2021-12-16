@@ -4,7 +4,7 @@ if (self.following != noone) {
 		self.y = self.following.y
 		self.image_xscale = self.following.image_xscale
 		self.image_yscale = self.following.image_yscale
-		self.image_alpha = self.following.image_alpha
+		self.image_alpha = min(0.6, self.following.image_alpha)
 		
 		switch (self.following.sprite_index) {
 			case sPlayerDie:
