@@ -1,9 +1,12 @@
 function funBungaloWantAttack() {
-	var real_attack_radius = self.attack_radius * abs(self.image_xscale)
+	var by_x = self.image_xscale * abs(sprite_get_bbox_right(sBungaloSword) - sprite_get_bbox_left(sBungaloSword))
+	var by_y = self.image_yscale * abs(sprite_get_bbox_bottom(sBungaloSword) - sprite_get_bbox_top(sBungaloSword))
+
 	var want_attack = collision_rectangle(
 		self.x, self.y,
-		self.x + sign(self.image_xscale) * real_attack_radius, 
-		self.y - abs(2 * self.sprite_height), oPlayer, false, false
+		self.x + by_x, self.y - by_y,
+		oPlayer, false, false
 	) != noone
+
 	return want_attack
 }

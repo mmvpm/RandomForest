@@ -1,7 +1,6 @@
 function funBungaloSeeTapSword() {
-	var real_attack_radius = 1 * self.attack_radius * abs(self.image_xscale)
-	var by_x = sign(self.image_xscale) * real_attack_radius
-	var by_y =  abs(self.image_yscale) * abs(self.sprite_height)
+	var by_x = self.image_xscale * abs(sprite_get_bbox_right(sBungaloSword) - sprite_get_bbox_left(sBungaloSword))
+	var by_y = self.image_yscale * abs(sprite_get_bbox_bottom(sBungaloSword) - sprite_get_bbox_top(sBungaloSword))
 
 	var see_tap_sword = collision_rectangle(
 		self.x - by_x, self.y,

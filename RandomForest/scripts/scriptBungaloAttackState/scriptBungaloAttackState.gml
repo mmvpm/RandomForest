@@ -3,7 +3,6 @@ function funBungaloAttackStart() {
 
 	if (self.defense_activated) {
 		self.image_index = 2
-		self.defense_activated = false
 	}
 	else {
 		self.image_index = 0
@@ -25,7 +24,12 @@ function funBungaloAttackLogic() {
 		funDefaultChangeState(critical_state)
 		return
 	}
-	
+
+	if (self.defense_activated and self.image_index >= 2.5) {
+		self.image_index = 3 // fast-pass for defense
+		self.defense_activated = false
+	}
+
 	if (self.image_index >= 3 and !self.sword_created) {
 		var created_sword = instance_create_depth(self.x, self.y, -1, oBungaloSword)
 		created_sword.owner_id = self
