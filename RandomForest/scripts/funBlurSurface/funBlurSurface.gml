@@ -6,6 +6,8 @@ function funBlurSurface(surf, ksize, width, height, radius, std, b_color_r, b_co
 	var b_color_location= shader_get_uniform(shBlur, "b_color")
 	var direction_location = shader_get_uniform(shBlur, "direction")
 
+	gpu_set_blendenable(false)
+
 	shader_set(shBlur)
 	shader_set_uniform_f(size_location, width, height, radius)
 	shader_set_uniform_i(ksize_location, ksize)
@@ -32,6 +34,8 @@ function funBlurSurface(surf, ksize, width, height, radius, std, b_color_r, b_co
 	surface_reset_target()
 	
 	surface_free(surf_x)
+	
+	gpu_set_blendenable(true)
 	
 	return surf_y
 }

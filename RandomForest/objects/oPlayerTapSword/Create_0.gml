@@ -19,3 +19,6 @@ self.was_shake_effect = false
 
 // self.current_angle
 // self.image_angle
+
+var inst = instance_create_layer(self.x, self.y, "Bloom", oSwordBloom)
+inst.following = self
