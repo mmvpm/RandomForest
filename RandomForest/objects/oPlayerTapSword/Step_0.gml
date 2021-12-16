@@ -5,6 +5,12 @@ if (self.current_speed > 0 and self.flight_time_counter == 0) {
 	return
 }
 
+// Bungalo defense
+if (place_meeting(self.x, self.y, oBungaloSword)) {
+	funPlayerTapSwordDestroy()
+	return
+}
+
 // on landing
 if (self.current_speed == 0 and !self.was_shake_effect) {
 	funCameraShake(1)

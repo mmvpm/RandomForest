@@ -1,6 +1,14 @@
 function funBungaloAttackStart() {
 	self.sprite_index = sBungaloAttack
-	self.image_index = 0
+
+	if (self.defense_activated) {
+		self.image_index = 2
+		self.defense_activated = false
+	}
+	else {
+		self.image_index = 0
+	}
+
 	self.attack_animation_ended = false
 	self.current_xspeed = 0
 	self.sword_created = false

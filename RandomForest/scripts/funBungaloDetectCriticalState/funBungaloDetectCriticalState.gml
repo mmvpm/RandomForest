@@ -3,7 +3,7 @@ function funBungaloDetectCriticalState() {
 	var hurt_allowed = self.hurt_countdown_counter == 0
 	var is_trapped = place_meeting(self.x, self.y, oTrap)
 	var is_hit_by_player = place_meeting(self.x, self.y, oPlayerSword)
-	
+
 	if (is_trapped) {
 		var nearest_trap = instance_nearest(self.x, self.y, oTrap)
 		self.future_damage = nearest_trap.damage
@@ -18,7 +18,7 @@ function funBungaloDetectCriticalState() {
 		self.future_damage = oPlayerSword.damage
 		return bungalo_states.hurt
 	}
-	
+
 	// nothing special
 	return undefined
 }
