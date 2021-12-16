@@ -55,7 +55,8 @@ if (!success_move) {
 
 // collide with enemy
 var nearest_enemy = instance_place(self.x, self.y, oEnemy)
-if (nearest_enemy != noone) {
+var nearest_slime = instance_place(self.x, self.y, oSlime)
+if (nearest_enemy != noone and nearest_enemy != nearest_slime) {
 	if (self.collide_with_enemy_counter == 0) {
 		funPlayerTapSwordDestroy()
 		return
