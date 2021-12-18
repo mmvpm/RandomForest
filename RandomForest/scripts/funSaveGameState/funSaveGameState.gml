@@ -26,6 +26,11 @@ function funSaveGameState() {
 		ini_write_real("general", "is_game_finished", global.is_game_finished)
 	}
 
+	// "hit is stronger than tap-attack" shown or not
+	if (global.hit_vs_tap_text_shown != undefined) {
+		ini_write_real("general", "hit_vs_tap_text_shown", global.hit_vs_tap_text_shown)
+	}
+
 	// save time records
 	if (global.time_records != undefined) {
 		var levels_count = array_length(global.time_records)

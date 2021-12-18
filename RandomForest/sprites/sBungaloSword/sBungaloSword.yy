@@ -1,5 +1,5 @@
 {
-  "bboxMode": 0,
+  "bboxMode": 2,
   "collisionKind": 1,
   "type": 0,
   "origin": 6,
@@ -10,12 +10,12 @@
   "bbox_left": 0,
   "bbox_right": 49,
   "bbox_top": 0,
-  "bbox_bottom": 14,
+  "bbox_bottom": 24,
   "HTile": false,
   "VTile": false,
   "For3D": false,
   "width": 50,
-  "height": 15,
+  "height": 25,
   "textureGroupId": {
     "name": "Default",
     "path": "texturegroups/Default",
@@ -24,9 +24,9 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"e3568b73-4058-42a5-b984-bc17360d1c8b","path":"sprites/sBungaloSword/sBungaloSword.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"e3568b73-4058-42a5-b984-bc17360d1c8b","path":"sprites/sBungaloSword/sBungaloSword.yy",},"LayerId":{"name":"d359368f-ca65-48ec-831e-2b9135facb6b","path":"sprites/sBungaloSword/sBungaloSword.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"sBungaloSword","path":"sprites/sBungaloSword/sBungaloSword.yy",},"resourceVersion":"1.0","name":"e3568b73-4058-42a5-b984-bc17360d1c8b","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"7784a0f0-da86-4424-ad63-ab97127f6378","path":"sprites/sBungaloSword/sBungaloSword.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"7784a0f0-da86-4424-ad63-ab97127f6378","path":"sprites/sBungaloSword/sBungaloSword.yy",},"LayerId":{"name":"d359368f-ca65-48ec-831e-2b9135facb6b","path":"sprites/sBungaloSword/sBungaloSword.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"sBungaloSword","path":"sprites/sBungaloSword/sBungaloSword.yy",},"resourceVersion":"1.0","name":"7784a0f0-da86-4424-ad63-ab97127f6378","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
     "spriteId": {"name":"sBungaloSword","path":"sprites/sBungaloSword/sBungaloSword.yy",},
@@ -41,7 +41,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"1df55ac7-727d-4565-a9e2-55df8b66475b","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"e3568b73-4058-42a5-b984-bc17360d1c8b","path":"sprites/sBungaloSword/sBungaloSword.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"557e0810-30ed-4c00-a50f-6a41232454a1","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"7784a0f0-da86-4424-ad63-ab97127f6378","path":"sprites/sBungaloSword/sBungaloSword.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -55,7 +55,7 @@
     "backdropXOffset": 0.0,
     "backdropYOffset": 0.0,
     "xorigin": 0,
-    "yorigin": 15,
+    "yorigin": 25,
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"sBungaloSword","path":"sprites/sBungaloSword/sBungaloSword.yy",},

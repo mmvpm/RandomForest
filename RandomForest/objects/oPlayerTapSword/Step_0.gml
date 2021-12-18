@@ -5,6 +5,12 @@ if (self.current_speed > 0 and self.flight_time_counter == 0) {
 	return
 }
 
+// Bungalo defense
+if (place_meeting(self.x, self.y, oBungaloSword)) {
+	funPlayerTapSwordDestroy()
+	return
+}
+
 // on landing
 if (self.current_speed == 0 and !self.was_shake_effect) {
 	funCameraShake(1)
@@ -55,10 +61,20 @@ if (!success_move) {
 
 // collide with enemy
 var nearest_enemy = instance_place(self.x, self.y, oEnemy)
-if (nearest_enemy != noone) {
+var nearest_slime = instance_place(self.x, self.y, oSlime)
+if (nearest_enemy != noone and nearest_enemy != nearest_slime) {
 	if (self.collide_with_enemy_counter == 0) {
 		funPlayerTapSwordDestroy()
 		return
 	}
 	self.collide_with_enemy_counter--
+}
+if (nearest_enemy != noone and !global.hit_vs_tap_text_shown) {
+	var text = instance_create_depth(self.x, self.y - 20, self.depth - 1, oFadingText)
+	text.text = "Удар мечом (X) намного сильнее броска!"
+	text.text_size = 14
+	text.active_time = 3 * 60 // frames
+	text.fading_time = 2 * 60 // frames
+	global.hit_vs_tap_text_shown = true
+	funSaveGameState()
 }
