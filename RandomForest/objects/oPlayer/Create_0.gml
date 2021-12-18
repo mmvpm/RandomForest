@@ -86,3 +86,15 @@ self.die_animation_ended = false
 // bloom
 var bloom = instance_create_layer(self.x, self.y, "Bloom", oPlayerBloom)
 bloom.following = self
+
+// fireflies
+var n_ff = 7
+var dw = sprite_get_width(sBackground_x13) / n_ff
+var dh = sprite_get_height(sBackground_x13) / n_ff
+for (var i = 0; i < n_ff; i++) {
+	for (var j = 0; j < n_ff; j++) {
+		var ff_x = random_range(i * dw, (i + 1) * dw)
+		var ff_y = random_range(j * dh, (j + 1) * dh)
+		instance_create_layer(ff_x, ff_y, "Bloom", oFirefly)
+	}
+}
