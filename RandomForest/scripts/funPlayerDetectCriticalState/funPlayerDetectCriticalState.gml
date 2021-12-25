@@ -1,7 +1,15 @@
 function funPlayerDetectCriticalState() {
 	// hurt
 	var is_trapped = place_meeting(self.x, self.y, oTrap)
-	var is_hit_by_enemy = place_meeting(self.x, self.y, oEnemy)
+	var placed_enemy = instance_place(self.x, self.y, oEnemy)
+	var is_hit_by_enemy = placed_enemy != noone
+	if (is_hit_by_enemy) {
+		is_hit_by_enemy = // extra conditions
+			is_hit_by_enemy and
+			placed_enemy.state != slime_states.die and
+			placed_enemy.state != bungalo_states.die and  // ~ empty collision mask on die sprite
+			placed_enemy.state != skeleton_states.die
+	}
 	var hurt_allowed = self.hurt_countdown_counter == 0
 
 	if (hurt_allowed) {
