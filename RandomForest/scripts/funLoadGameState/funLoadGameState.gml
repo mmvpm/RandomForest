@@ -17,7 +17,7 @@ function funLoadGameState() {
 	global.is_game_finished = ini_read_real("general", "is_game_finished", 0) // false by default
 
 	// "hit is stronger than tap-attack" shown or not
-	global.hit_vs_tap_text_shown = ini_read_real("general", "hit_vs_tap_text_shown", 0) // false by default
+	global.hit_vs_tap_text_shown = ini_read_real("general", "hit_vs_tap_text_shown", 0) // 0 by default
 
 	// save time records
 	var levels_count = 2 // IMPORTANT

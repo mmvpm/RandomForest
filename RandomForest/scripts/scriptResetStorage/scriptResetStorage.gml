@@ -5,7 +5,7 @@ function funResetGeneral() {
 	global.current_level = 0
 	global.is_training_completed = false
 	global.is_game_finished = false
-	global.hit_vs_tap_text_shown = false
+	global.hit_vs_tap_text_shown = 0
 
 	funSaveGameState()
 }
