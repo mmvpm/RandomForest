@@ -17,6 +17,8 @@ alarm[0] = true // for centering
 
 // Temporary config
 
+global.default_font = font_add("glasstown.ttf", 24, true, false, 32, 128)
+
 global.key_move_left = vk_left
 global.key_move_right = vk_right
 global.key_jump = vk_up
