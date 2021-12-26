@@ -6,7 +6,6 @@ function funMenuShowControls() {
 }
 
 function funMenuGoPlay() {
-	//if (global.is_training_completed) {
 	switch (global.current_level) {
 		case 0:
 			room_goto(rTutorial00)
@@ -18,10 +17,6 @@ function funMenuGoPlay() {
 			room_goto(rLevel01)
 			break
 	}
-	//}
-	/*else {
-		room_goto(rTraining)
-	}*/
 }
 
 function funMenuResetLevelsAndGo() {

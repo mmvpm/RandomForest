@@ -99,6 +99,7 @@
     {"id":{"name":"oPointer","path":"objects/oPointer/oPointer.yy",},"order":3,},
     {"id":{"name":"scriptSkeletonHurtState","path":"scripts/scriptSkeletonHurtState/scriptSkeletonHurtState.yy",},"order":4,},
     {"id":{"name":"soundPlayerTapAttack","path":"sounds/soundPlayerTapAttack/soundPlayerTapAttack.yy",},"order":6,},
+    {"id":{"name":"oCurrentLevel","path":"objects/oCurrentLevel/oCurrentLevel.yy",},"order":9,},
     {"id":{"name":"oTrap","path":"objects/oTrap/oTrap.yy",},"order":5,},
     {"id":{"name":"oCoin","path":"objects/oCoin/oCoin.yy",},"order":0,},
     {"id":{"name":"sTapArrow","path":"sprites/sTapArrow/sTapArrow.yy",},"order":2,},
