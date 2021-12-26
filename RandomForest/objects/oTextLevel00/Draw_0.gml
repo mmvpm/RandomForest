@@ -1,6 +1,6 @@
 draw_set_halign(fa_middle)
 draw_set_valign(fa_middle)
-draw_set_font(self.default_font)
+draw_set_font(global.default_font_24)
 
 draw_text_color(
 	self.x, self.y, 

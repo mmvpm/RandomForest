@@ -1,7 +1,3 @@
-// upload font
-self.default_font_12 = font_add("glasstown.ttf", 12, true, false, 32, 128)
-self.default_font_24 = font_add("glasstown.ttf", 24, true, false, 32, 128)
-
 // texts
 self.victory_text  = "Поздравляю, вы прошли игру"
 self.continue_text = "Для выхода в меню нажмите любую клавишу"

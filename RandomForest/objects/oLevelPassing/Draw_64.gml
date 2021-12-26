@@ -18,7 +18,7 @@ draw_set_alpha(cur_alpha)
 for (var i = 0; i < self.items_count; i++) {
 	var button_color = c_white
 	var ui_scale = 1
-	draw_set_font(self.default_font)
+	draw_set_font(global.default_font_24)
 	if (i == self.current_index) {
 		draw_set_color(self.current_color)
 		button_color = self.current_button_color
@@ -75,7 +75,7 @@ if (!surface_exists(self.border_surf)) {
 surface_set_target(self.border_surf)
 draw_set_alpha(1)
 draw_set_color(self.default_color)
-draw_set_font(self.border_font)
+draw_set_font(global.default_font_24)
 
 draw_sprite_stretched_ext(
 	sBorder3, 0,

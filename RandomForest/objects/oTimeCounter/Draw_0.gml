@@ -13,7 +13,7 @@ self.y += camera_get_view_y(view_camera[0])
 // set up font
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
-draw_set_font(self.default_font)
+draw_set_font(global.default_font_12)
 
 // draw time
 

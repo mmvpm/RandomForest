@@ -23,7 +23,6 @@ self.border_width = 130
 self.border_height = 35
 
 self.text_scale = 20 / 24
-self.default_font = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
 self.separate_dist = 45
 self.top_item = 80
