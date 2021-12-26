@@ -9,7 +9,7 @@ function funMenuGoPlay() {
 	//if (global.is_training_completed) {
 	switch (global.current_level) {
 		case 0:
-			room_goto(rTutotial00)
+			room_goto(rTutorial00)
 			break
 		case 1:
 			room_goto(rLevel00)
