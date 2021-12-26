@@ -3,7 +3,7 @@ function funGetStarCount(time) {
 
 	switch(funGetRoomIndex()) {
 		case 0:
-			times = [7, 20]
+			times = [6, 8]
 			break
 		case 1:
 			times = [8, 25]
