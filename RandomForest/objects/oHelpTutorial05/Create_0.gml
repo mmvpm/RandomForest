@@ -3,7 +3,7 @@ self.text_scale_16 = 16 / 24
 
 // text
 self.help_top_text = "Ты можешь бросить меч только 1 раз"
-self.help_bottom_text = "Но счётчик сбрасывается, если персонаж стоит на земле"
+self.help_bottom_text = "Но счётчик сбрасывается, когда персонаж касается земли"
 
 // size constants
 self.key_scale = 2

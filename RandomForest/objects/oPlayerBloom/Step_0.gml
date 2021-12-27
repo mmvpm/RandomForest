@@ -4,8 +4,20 @@ if (self.following != noone) {
 		self.y = self.following.y
 		self.image_xscale = self.following.image_xscale
 		self.image_yscale = self.following.image_yscale
+
+		// bloom when player may spawn tap-sword
+		/*var may_tap_attack =
+			self.following.tap_attack_allowed and
+			self.following.sword_destroyed and
+			self.following.tap_attack_countdown_counter == 0
+		if (may_tap_attack) {
+			self.image_alpha = self.following.image_alpha
+		}
+		else {
+			self.image_alpha = 0
+		}*/
 		self.image_alpha = min(0.6, self.following.image_alpha)
-		
+
 		switch (self.following.sprite_index) {
 			case sPlayerDie:
 				self.y -= 8 * self.image_yscale
