@@ -17,11 +17,11 @@ var cam = view_camera[0]
 self.room_x0 = -camera_get_view_x(cam)
 self.room_y0 = -camera_get_view_y(cam)
 
-self.c_key_start_x = self.room_x0 + 148
-self.c_key_start_y = self.room_y0 + 12
+self.c_key_start_x = self.room_x0 + 140
+self.c_key_start_y = self.room_y0 + 10
 
-self.x_key_start_x = self.room_x0 + 148
-self.x_key_start_y = self.room_y0 + 232
+self.x_key_start_x = self.room_x0 + 140
+self.x_key_start_y = self.room_y0 + 240
 
 // alpha settings
 self.text_alpha = 0.8
