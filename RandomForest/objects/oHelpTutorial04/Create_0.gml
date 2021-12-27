@@ -2,8 +2,8 @@
 self.text_scale_16 = 16 / 24
 
 // text
-self.c_key_text = "   -   Бросок меча / Телепорт"
-self.help_text = "Зажми клавишу C, чтобы выбрать направление броска стрелочками"
+self.help_top_text = "Бросок меча намного слабее удара (атаки)"
+self.help_bottom_text = "Телепортироваться к мечу можно во время его полёта"
 
 // size constants
 self.key_scale = 2
@@ -17,11 +17,14 @@ var cam = view_camera[0]
 self.room_x0 = -camera_get_view_x(cam)
 self.room_y0 = -camera_get_view_y(cam)
 
-self.c_key_start_x = self.room_x0 + 152
-self.c_key_start_y = self.room_y0 + 10
+self.room_center_x = camera_get_view_width(cam) / 2
+self.room_bottom_y = camera_get_view_height(cam)
 
-self.help_start_x = camera_get_view_width(cam) / 2
-self.help_start_y = camera_get_view_height(cam) - 18
+self.help_top_start_x = self.room_center_x
+self.help_top_start_y = self.room_y0 + 14
+
+self.help_bottom_start_x = self.room_center_x
+self.help_bottom_start_y = self.room_bottom_y - 18
 
 // alpha settings
 self.text_alpha = 0.8
