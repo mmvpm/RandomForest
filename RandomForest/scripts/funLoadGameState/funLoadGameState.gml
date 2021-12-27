@@ -20,7 +20,7 @@ function funLoadGameState() {
 	global.hit_vs_tap_text_shown = ini_read_real("general", "hit_vs_tap_text_shown", 0) // 0 by default
 
 	// save time records
-	var levels_count = 5 // IMPORTANT
+	var levels_count = 6 // IMPORTANT
 	for (var i = 0; i < levels_count; ++i) {
 		var str_i = string(i) // "1"
 		if (i < 10) {
