@@ -13,7 +13,7 @@ function funGetStarCount(time) {
 			times = [8, 20]
 			break
 		case 3:
-			times = [8, 20]
+			times = [11, 18]
 			break
 		// game
 		case 4:
