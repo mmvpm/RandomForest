@@ -2,6 +2,7 @@ function funGetStarCount(time) {
 	var times = [0, 0]
 
 	switch(funGetRoomIndex()) {
+		// tutorial
 		case 0:
 			times = [6, 8]
 			break
@@ -9,9 +10,13 @@ function funGetStarCount(time) {
 			times = [9, 20]
 			break
 		case 2:
+			times = [7, 15]
+			break
+		// game
+		case 3:
 			times = [8, 25]
 			break
-		case 3:
+		case 4:
 			times = [45, 120]
 			break
 	}
