@@ -1,3 +1,5 @@
+funLoadGameState()
+
 if (global.is_game_finished) {
 	self.items_count = 3
 	self.strings = [
