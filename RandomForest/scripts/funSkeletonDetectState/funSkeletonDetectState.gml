@@ -4,11 +4,11 @@ function funSkeletonDetectState() {
 	if (critical_state != undefined) {
 		return critical_state
 	}
-	
+
 	if (funSkeletonWantAttack()) {
 		return skeleton_states.attack
 	}
-	
+
 	if (funSkeletonSeePlayer()) {
 		return skeleton_states.react
 	}
