@@ -68,7 +68,7 @@ if (nearest_enemy != noone) {
 	}
 	self.collide_with_enemy_counter--
 }
-if (nearest_enemy != noone and global.hit_vs_tap_text_shown < 2 and !instance_exists(oFadingText)) {
+/*if (nearest_enemy != noone and global.hit_vs_tap_text_shown < 2 and !instance_exists(oFadingText)) {
 	// show help text (twice!)
 	var text = instance_create_depth(self.x, self.y - 20, self.depth - 1, oFadingText)
 	text.text = "Удар мечом (X) намного сильнее броска!"
@@ -77,4 +77,4 @@ if (nearest_enemy != noone and global.hit_vs_tap_text_shown < 2 and !instance_ex
 	text.fading_time = 2 * 60 // frames
 	global.hit_vs_tap_text_shown += 1
 	funSaveGameState()
-}
+}*/
