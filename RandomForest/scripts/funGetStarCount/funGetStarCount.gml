@@ -6,9 +6,12 @@ function funGetStarCount(time) {
 			times = [6, 8]
 			break
 		case 1:
-			times = [8, 25]
+			times = [9, 20]
 			break
 		case 2:
+			times = [8, 25]
+			break
+		case 3:
 			times = [45, 120]
 			break
 	}

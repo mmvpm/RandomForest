@@ -256,10 +256,10 @@
     {"roomId":{"name":"rMenu","path":"rooms/rMenu/rMenu.yy",},},
     {"roomId":{"name":"rTraining","path":"rooms/rTraining/rTraining.yy",},},
     {"roomId":{"name":"rTutorial00","path":"rooms/rTutorial00/rTutorial00.yy",},},
+    {"roomId":{"name":"rTutorial01","path":"rooms/rTutorial01/rTutorial01.yy",},},
     {"roomId":{"name":"rLevel00","path":"rooms/rLevel00/rLevel00.yy",},},
     {"roomId":{"name":"rLevel01","path":"rooms/rLevel01/rLevel01.yy",},},
     {"roomId":{"name":"rVictory","path":"rooms/rVictory/rVictory.yy",},},
-    {"roomId":{"name":"rTutorial01","path":"rooms/rTutorial01/rTutorial01.yy",},},
     {"roomId":{"name":"rTutorial02","path":"rooms/rTutorial02/rTutorial02.yy",},},
   ],
   "Folders": [
