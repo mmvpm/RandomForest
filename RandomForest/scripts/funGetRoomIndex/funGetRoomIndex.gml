@@ -10,10 +10,12 @@ function funGetRoomIndex() {
 			return 3
 		case "rTutorial04":
 			return 4
-		case "rLevel00":
+		case "rTutorial05":
 			return 5
-		case "rLevel01":
+		case "rLevel00":
 			return 6
+		case "rLevel01":
+			return 7
 	}
 	return -1
 }

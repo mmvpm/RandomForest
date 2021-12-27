@@ -23,9 +23,12 @@ function funMenuGoPlay() {
 			room_goto(rTutorial04)
 			break
 		case 5:
-			room_goto(rLevel00)
+			room_goto(rTutorial05)
 			break
 		case 6:
+			room_goto(rLevel00)
+			break
+		case 7:
 			room_goto(rLevel01)
 			break
 	}
