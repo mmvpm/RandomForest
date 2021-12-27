@@ -1,6 +1,5 @@
 // font settings
 self.text_scale_16 = 16 / 24
-self.text_scale_20 = 16 / 24
 
 // text
 self.arrow_keys_text = "     -     Движение персонажа"

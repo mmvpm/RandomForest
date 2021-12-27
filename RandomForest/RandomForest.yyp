@@ -38,6 +38,7 @@
     {"id":{"name":"sBorderNobac3","path":"sprites/sBorderNobac3/sBorderNobac3.yy",},"order":5,},
     {"id":{"name":"oCoinBloom","path":"objects/oCoinBloom/oCoinBloom.yy",},"order":0,},
     {"id":{"name":"scriptPlayerDieState","path":"scripts/scriptPlayerDieState/scriptPlayerDieState.yy",},"order":11,},
+    {"id":{"name":"oHelpTutorial01","path":"objects/oHelpTutorial01/oHelpTutorial01.yy",},"order":1,},
     {"id":{"name":"scriptMenuFunctions","path":"scripts/scriptMenuFunctions/scriptMenuFunctions.yy",},"order":0,},
     {"id":{"name":"soundBungaloSteps","path":"sounds/soundBungaloSteps/soundBungaloSteps.yy",},"order":3,},
     {"id":{"name":"scriptResetStorage","path":"scripts/scriptResetStorage/scriptResetStorage.yy",},"order":3,},
@@ -179,6 +180,7 @@
     {"id":{"name":"funSkeletonDetectCriticalState","path":"scripts/funSkeletonDetectCriticalState/funSkeletonDetectCriticalState.yy",},"order":0,},
     {"id":{"name":"oVictory","path":"objects/oVictory/oVictory.yy",},"order":8,},
     {"id":{"name":"soundPlayerAttack1","path":"sounds/soundPlayerAttack1/soundPlayerAttack1.yy",},"order":0,},
+    {"id":{"name":"rTutorial02","path":"rooms/rTutorial02/rTutorial02.yy",},"order":9,},
     {"id":{"name":"oLoading","path":"objects/oLoading/oLoading.yy",},"order":0,},
     {"id":{"name":"tsSpikes","path":"tilesets/tsSpikes/tsSpikes.yy",},"order":1,},
     {"id":{"name":"sSpikes","path":"sprites/sSpikes/sSpikes.yy",},"order":4,},
@@ -258,6 +260,7 @@
     {"roomId":{"name":"rLevel01","path":"rooms/rLevel01/rLevel01.yy",},},
     {"roomId":{"name":"rVictory","path":"rooms/rVictory/rVictory.yy",},},
     {"roomId":{"name":"rTutorial01","path":"rooms/rTutorial01/rTutorial01.yy",},},
+    {"roomId":{"name":"rTutorial02","path":"rooms/rTutorial02/rTutorial02.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Sprites.yy","order":1,"resourceVersion":"1.0","name":"Sprites","tags":[],"resourceType":"GMFolder",},

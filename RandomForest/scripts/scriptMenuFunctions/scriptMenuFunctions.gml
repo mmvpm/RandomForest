@@ -8,7 +8,7 @@ function funMenuShowControls() {
 function funMenuGoPlay() {
 	switch (global.current_level) {
 		case 0:
-			room_goto(rTutorial00)
+			room_goto(rTutorial01)
 			break
 		case 1:
 			room_goto(rLevel00)

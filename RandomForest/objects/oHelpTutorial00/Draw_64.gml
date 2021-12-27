@@ -27,4 +27,4 @@ draw_text_transformed_color(arrow_keys_text_x, arrow_keys_text_y, self.arrow_key
 
 // type collect all coins text
 draw_set_halign(fa_middle)
-draw_text_transformed_color(self.collect_coins_start_x, self.collect_coins_start_y, self.collect_all_coins_text, self.text_scale_20, self.text_scale_20, 0, c_white, c_white, c_white, c_white, self.text_alpha)
+draw_text_transformed_color(self.collect_coins_start_x, self.collect_coins_start_y, self.collect_all_coins_text, self.text_scale_16, self.text_scale_16, 0, c_white, c_white, c_white, c_white, self.text_alpha)
