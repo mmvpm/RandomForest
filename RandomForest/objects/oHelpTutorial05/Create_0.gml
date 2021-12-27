@@ -21,7 +21,7 @@ self.room_center_x = camera_get_view_width(cam) / 2
 self.room_bottom_y = camera_get_view_height(cam)
 
 self.help_top_start_x = self.room_center_x
-self.help_top_start_y = self.room_y0 + 16
+self.help_top_start_y = self.room_y0 + 14
 
 self.help_bottom_start_x = self.room_center_x
 self.help_bottom_start_y = self.room_bottom_y - 18
