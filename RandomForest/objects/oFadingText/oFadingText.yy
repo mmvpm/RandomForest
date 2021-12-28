@@ -28,8 +28,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "UI",
-    "path": "folders/Objects/UI.yy",
+    "name": "HelpTexts",
+    "path": "folders/Objects/HelpTexts.yy",
   },
   "resourceVersion": "1.0",
   "name": "oFadingText",

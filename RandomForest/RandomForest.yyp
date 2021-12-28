@@ -56,7 +56,7 @@
     {"id":{"name":"sPortalBloom","path":"sprites/sPortalBloom/sPortalBloom.yy",},"order":6,},
     {"id":{"name":"sPlayerAttack3","path":"sprites/sPlayerAttack3/sPlayerAttack3.yy",},"order":11,},
     {"id":{"name":"funSkeletonWantAttack","path":"scripts/funSkeletonWantAttack/funSkeletonWantAttack.yy",},"order":2,},
-    {"id":{"name":"oFadingText","path":"objects/oFadingText/oFadingText.yy",},"order":9,},
+    {"id":{"name":"oFadingText","path":"objects/oFadingText/oFadingText.yy",},"order":6,},
     {"id":{"name":"sTeleportStart","path":"sprites/sTeleportStart/sTeleportStart.yy",},"order":3,},
     {"id":{"name":"funResizeWindow","path":"scripts/funResizeWindow/funResizeWindow.yy",},"order":3,},
     {"id":{"name":"oAlwaysDraw","path":"objects/oAlwaysDraw/oAlwaysDraw.yy",},"order":8,},
