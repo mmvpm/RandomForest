@@ -1,7 +1,7 @@
 function funResizeWindow() {
 	global.scale = 3
 
-	var cam = room_get_camera(rLevel00, 0)
+	var cam = room_get_camera(rLevel01, 0)
 	var cam_width = camera_get_view_width(cam)
 	var cam_height = camera_get_view_height(cam)
 	var window_width_scaled = cam_width * global.scale
