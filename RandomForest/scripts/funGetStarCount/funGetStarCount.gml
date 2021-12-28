@@ -21,25 +21,25 @@ function funGetStarCount(time) {
 		case 5:
 			times = [7, 17]
 			break
+		// game
 		case 6:
-			times = [7, 19]
+			times = [10, 25]
 			break
 		case 7:
-			times = [7, 18]
+			times = [7, 19]
 			break
-		// game
 		case 8:
-			times = [10, 25]
+			times = [7, 18]
 			break
 		case 9:
 			times = [60, 120]
 			break
 	}
 
-	var n_levels = array_length(times)
-	for (var i = 0; i < n_levels; i++) {
+	var n_stars = array_length(times)
+	for (var i = 0; i < n_stars; i++) {
 		if (time <= times[i] * 60) {
-			return n_levels + 1 - i
+			return n_stars + 1 - i
 		}
 	}
 
