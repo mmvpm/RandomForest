@@ -1,7 +1,7 @@
 // set up font
 draw_set_halign(fa_middle)
 draw_set_valign(fa_middle)
-draw_set_font(self.default_font_24)
+draw_set_font(global.default_font_24)
 
 // draw text
 self.text_scale = self.text_size / 24

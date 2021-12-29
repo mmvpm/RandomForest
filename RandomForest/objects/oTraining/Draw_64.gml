@@ -43,7 +43,7 @@ draw_sprite_ext(sKeyF, 0, f_key_start_x, f_key_start_y, self.key_scale, self.key
 // set up font for controls
 draw_set_halign(fa_left)
 draw_set_valign(fa_middle)
-draw_set_font(self.default_font_24)
+draw_set_font(global.default_font_24)
 
 // type arrow keys text
 var arrow_keys_text_x = self.start_x + 3 * (self.key_width + self.key_shift)
@@ -71,7 +71,7 @@ draw_text_transformed_color(f_key_text_x, f_key_text_y, self.fullscreen_text, se
 // set up font for continue
 draw_set_halign(fa_middle)
 draw_set_valign(fa_middle)
-draw_set_font(self.default_font_12)
+draw_set_font(global.default_font_12)
 
 // type text
 self.text_continue_alpha_current =

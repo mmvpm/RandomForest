@@ -17,7 +17,8 @@ function funSkeletonMoveLogic() {
 	
 	var success_xmove = true
 	var fully_on_ground = funDefaultFullyOnGround()
-	if (!fully_on_ground) {
+	var dangerous_move = place_meeting(self.x + self.current_xspeed, self.y, oTrap)
+	if (!fully_on_ground or dangerous_move) {
 		self.current_xspeed = 0
 		success_xmove = false
 	}

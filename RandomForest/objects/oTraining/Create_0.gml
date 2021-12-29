@@ -1,7 +1,5 @@
 // upload font
-self.default_font_12 = font_add("glasstown.ttf", 12, true, false, 32, 128)
 self.text_scale_20 = 20 / 24
-self.default_font_24 = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
 // texts
 self.shift_text      = "    -   "

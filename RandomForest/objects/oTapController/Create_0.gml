@@ -21,4 +21,4 @@ self.timeout_counter = self.timeout_counter_max
 
 // time-freeze logic
 instance_deactivate_all(true)
-instance_activate_object(oFadingText)
+instance_activate_object(oAlwaysDraw)

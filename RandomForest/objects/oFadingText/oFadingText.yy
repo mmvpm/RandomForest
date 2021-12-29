@@ -4,7 +4,10 @@
   "visible": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "oAlwaysDraw",
+    "path": "objects/oAlwaysDraw/oAlwaysDraw.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
@@ -25,8 +28,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "UI",
-    "path": "folders/Objects/UI.yy",
+    "name": "HelpTexts",
+    "path": "folders/Objects/HelpTexts.yy",
   },
   "resourceVersion": "1.0",
   "name": "oFadingText",

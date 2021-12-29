@@ -61,20 +61,20 @@ if (!success_move) {
 
 // collide with enemy
 var nearest_enemy = instance_place(self.x, self.y, oEnemy)
-var nearest_slime = instance_place(self.x, self.y, oSlime)
-if (nearest_enemy != noone and nearest_enemy != nearest_slime) {
+if (nearest_enemy != noone) {
 	if (self.collide_with_enemy_counter == 0) {
 		funPlayerTapSwordDestroy()
 		return
 	}
 	self.collide_with_enemy_counter--
 }
-if (nearest_enemy != noone and !global.hit_vs_tap_text_shown) {
+/*if (nearest_enemy != noone and global.hit_vs_tap_text_shown < 2 and !instance_exists(oFadingText)) {
+	// show help text (twice!)
 	var text = instance_create_depth(self.x, self.y - 20, self.depth - 1, oFadingText)
 	text.text = "Удар мечом (X) намного сильнее броска!"
 	text.text_size = 14
 	text.active_time = 3 * 60 // frames
 	text.fading_time = 2 * 60 // frames
-	global.hit_vs_tap_text_shown = true
+	global.hit_vs_tap_text_shown += 1
 	funSaveGameState()
-}
+}*/

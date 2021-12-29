@@ -54,7 +54,6 @@ self.border_width = 160
 self.border_height = 35
 
 self.text_scale = 20 / 24
-self.default_font = font_add("glasstown.ttf", 24, true, false, 32, 128)
 
 if (self.items_count == 4) {
 	self.separate_dist = 42

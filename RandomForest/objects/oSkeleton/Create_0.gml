@@ -24,7 +24,7 @@ self.current_xspeed = 0
 self.current_yspeed = 0
 self.gravitation = 0.5
 
-self.vision_radius = 120 // in pixels
+self.vision_radius = 160 // in pixels
 self.current_direction = 1 // or -1
 
 // attack

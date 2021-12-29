@@ -1,7 +1,7 @@
 // set up font for controls
 draw_set_halign(fa_middle)
 draw_set_valign(fa_middle)
-draw_set_font(self.default_font_24)
+draw_set_font(global.default_font_24)
 
 // type arrow keys text
 var victory_text_x = self.room_center_x
@@ -12,7 +12,7 @@ draw_text_color(victory_text_x, victory_text_y, self.victory_text, c_white, c_wh
 // set up font for continue
 draw_set_halign(fa_middle)
 draw_set_valign(fa_middle)
-draw_set_font(self.default_font_12)
+draw_set_font(global.default_font_12)
 
 // type text
 self.text_continue_alpha_current =
