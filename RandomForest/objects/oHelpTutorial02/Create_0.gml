@@ -2,8 +2,7 @@
 self.text_scale_16 = 16 / 24
 
 // text
-self.c_key_text = "   -   Бросок меча / Телепорт"
-self.x_key_text = "   -   Возврат брошенного меча"
+self.x_key_text = "   -   Атака"
 
 // size constants
 self.key_scale = 2
@@ -17,11 +16,8 @@ var cam = view_camera[0]
 self.room_x0 = -camera_get_view_x(cam)
 self.room_y0 = -camera_get_view_y(cam)
 
-self.c_key_start_x = self.room_x0 + 140
-self.c_key_start_y = self.room_y0 + 10
-
-self.x_key_start_x = self.room_x0 + 140
-self.x_key_start_y = self.room_y0 + 240
+self.x_key_start_x = self.room_x0 + 148
+self.x_key_start_y = self.room_y0 + 12
 
 // alpha settings
 self.text_alpha = 0.8

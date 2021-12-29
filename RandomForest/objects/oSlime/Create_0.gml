@@ -1,5 +1,6 @@
 // states
 enum slime_states {
+	fake, // otherwise (skeleton_states.hurt == slime_states.die) in `funPlayerDetectCriticalState`: 
 	idle,
 	move,
 	attack,

@@ -31,7 +31,7 @@
     "path": "folders/Objects/HelpTexts.yy",
   },
   "resourceVersion": "1.0",
-  "name": "oHelpTutorial00",
+  "name": "oHelpTutorial06",
   "tags": [],
   "resourceType": "GMObject",
 }

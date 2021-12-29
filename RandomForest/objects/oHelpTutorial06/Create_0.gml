@@ -2,8 +2,8 @@
 self.text_scale_16 = 16 / 24
 
 // text
-self.help_top_text = "Бросок меча намного слабее удара (атаки)"
-self.help_bottom_text = "Телепортироваться к мечу можно во время его полёта"
+self.help_top_text = "В воздухе можно бросить меч только 1 раз"
+self.help_bottom_text = "Но после приземления ограничение пропадает"
 
 // size constants
 self.key_scale = 2
