@@ -6,6 +6,9 @@ function funMenuShowControls() {
 }
 
 function funMenuGoPlay() {
+	audio_stop_sound(musicMenu)
+	audio_play_sound(musicGame, 0, true)
+
 	switch (global.current_level) {
 		case 0:
 			room_goto(rTutorial01)

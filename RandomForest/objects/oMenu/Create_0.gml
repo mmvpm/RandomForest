@@ -96,3 +96,7 @@ self.x_left_cached = []
 self.y_top_cached = []
 self.x_right_cached = []
 self.y_bottom_cached = []
+
+// music
+audio_stop_all()
+audio_play_sound(musicMenu, 0, true)

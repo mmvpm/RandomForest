@@ -10,14 +10,14 @@
     "name": "audiogroup_default",
     "path": "audiogroups/audiogroup_default",
   },
-  "soundFile": "musicVictory.mp3",
-  "duration": 17.376,
+  "soundFile": "musicMenu.mp3",
+  "duration": 60.5518379,
   "parent": {
     "name": "Sounds",
     "path": "folders/Sounds.yy",
   },
   "resourceVersion": "1.0",
-  "name": "musicVictory",
+  "name": "musicMenu",
   "tags": [],
   "resourceType": "GMSound",
 }
