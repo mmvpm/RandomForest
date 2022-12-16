@@ -33,21 +33,21 @@ for (var i = 0; i < self.items_count; i++) {
 	var x_pos = cam_w * 0.8
 	var y_pos = cam_h * (self.top_item + self.separate_dist * i)
 	
-	var x_center = x_pos
-	var y_center = y_pos + 1.5
 	var x_width  = self.border_width  * ui_scale
 	var y_height = self.border_height * ui_scale
+	var x_left = x_pos - x_width / 2
+	var y_up   = y_pos + 1.5 - y_height / 2
 
 	draw_sprite_stretched_ext(
 		self.border_sprite, 0,
-		x_center, y_center,
+		x_left, y_up,
 		x_width, y_height,
 		button_color, 1
 	)
 
 	// cache for mouse
-	self.x_left_cached[i] = x_center - x_width / 2
-	self.y_top_cached[i]  = y_center - y_height / 2
+	self.x_left_cached[i] = x_left
+	self.y_top_cached[i]  = y_up
 	self.x_right_cached[i]  = self.x_left_cached[i] + x_width
 	self.y_bottom_cached[i] = self.y_top_cached[i]  + y_height
 	self.x_shift_cached = 40
@@ -79,8 +79,7 @@ draw_set_font(global.default_font_24)
 
 draw_sprite_stretched_ext(
 	sBorder3, 0,
-	0.5 * bw, 
-	0.5 * bh,
+	0, 0,
 	bw, bh,
 	c_white, 1
 )
