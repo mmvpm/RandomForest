@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "UI",
-    "path": "folders/Scripts/UI.yy",
+  "$GMScript":"v1",
+  "%Name":"funDrawStar",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funDrawStar",
+  "parent":{
+    "name":"UI",
+    "path":"folders/Scripts/UI.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funDrawStar",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

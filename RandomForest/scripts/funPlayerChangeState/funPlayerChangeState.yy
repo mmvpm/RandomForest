@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "StateMachine",
-    "path": "folders/Scripts/Player/StateMachine.yy",
+  "$GMScript":"v1",
+  "%Name":"funPlayerChangeState",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funPlayerChangeState",
+  "parent":{
+    "name":"StateMachine",
+    "path":"folders/Scripts/Player/StateMachine.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funPlayerChangeState",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

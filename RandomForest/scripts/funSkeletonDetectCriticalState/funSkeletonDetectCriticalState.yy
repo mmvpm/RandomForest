@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "StateMachine",
-    "path": "folders/Scripts/Skeleton/StateMachine.yy",
+  "$GMScript":"v1",
+  "%Name":"funSkeletonDetectCriticalState",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funSkeletonDetectCriticalState",
+  "parent":{
+    "name":"StateMachine",
+    "path":"folders/Scripts/Skeleton/StateMachine.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funSkeletonDetectCriticalState",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

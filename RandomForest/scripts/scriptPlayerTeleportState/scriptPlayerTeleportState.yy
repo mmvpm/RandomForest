@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "StateMachine",
-    "path": "folders/Scripts/Player/StateMachine.yy",
+  "$GMScript":"v1",
+  "%Name":"scriptPlayerTeleportState",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scriptPlayerTeleportState",
+  "parent":{
+    "name":"StateMachine",
+    "path":"folders/Scripts/Player/StateMachine.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "scriptPlayerTeleportState",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Skeleton",
-    "path": "folders/Scripts/Skeleton.yy",
+  "$GMScript":"v1",
+  "%Name":"funSkeletonWantAttack",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funSkeletonWantAttack",
+  "parent":{
+    "name":"Skeleton",
+    "path":"folders/Scripts/Skeleton.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funSkeletonWantAttack",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

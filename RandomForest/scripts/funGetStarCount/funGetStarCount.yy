@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "UI",
-    "path": "folders/Scripts/UI.yy",
+  "$GMScript":"v1",
+  "%Name":"funGetStarCount",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funGetStarCount",
+  "parent":{
+    "name":"UI",
+    "path":"folders/Scripts/UI.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funGetStarCount",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

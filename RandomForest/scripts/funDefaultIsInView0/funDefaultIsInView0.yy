@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Default",
-    "path": "folders/Scripts/Default.yy",
+  "$GMScript":"v1",
+  "%Name":"funDefaultIsInView0",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funDefaultIsInView0",
+  "parent":{
+    "name":"Default",
+    "path":"folders/Scripts/Default.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funDefaultIsInView0",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

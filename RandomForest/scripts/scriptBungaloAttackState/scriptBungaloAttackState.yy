@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "StateMachine",
-    "path": "folders/Scripts/Bungalo/StateMachine.yy",
+  "$GMScript":"v1",
+  "%Name":"scriptBungaloAttackState",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scriptBungaloAttackState",
+  "parent":{
+    "name":"StateMachine",
+    "path":"folders/Scripts/Bungalo/StateMachine.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "scriptBungaloAttackState",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

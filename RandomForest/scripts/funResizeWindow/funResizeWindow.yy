@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "UI",
-    "path": "folders/Scripts/UI.yy",
+  "$GMScript":"v1",
+  "%Name":"funResizeWindow",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funResizeWindow",
+  "parent":{
+    "name":"UI",
+    "path":"folders/Scripts/UI.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funResizeWindow",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "StateMachine",
-    "path": "folders/Scripts/Player/StateMachine.yy",
+  "$GMScript":"v1",
+  "%Name":"scriptPlayerAttackState",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scriptPlayerAttackState",
+  "parent":{
+    "name":"StateMachine",
+    "path":"folders/Scripts/Player/StateMachine.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "scriptPlayerAttackState",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

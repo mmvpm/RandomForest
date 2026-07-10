@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Default",
-    "path": "folders/Scripts/Default.yy",
+  "$GMScript":"v1",
+  "%Name":"funDefaultChangeState",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funDefaultChangeState",
+  "parent":{
+    "name":"Default",
+    "path":"folders/Scripts/Default.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funDefaultChangeState",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "UI",
-    "path": "folders/Scripts/UI.yy",
+  "$GMScript":"v1",
+  "%Name":"funCameraShake",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funCameraShake",
+  "parent":{
+    "name":"UI",
+    "path":"folders/Scripts/UI.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funCameraShake",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

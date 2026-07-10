@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "StateMachine",
-    "path": "folders/Scripts/Slime/StateMachine.yy",
+  "$GMScript":"v1",
+  "%Name":"scriptSlimeMoveState",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scriptSlimeMoveState",
+  "parent":{
+    "name":"StateMachine",
+    "path":"folders/Scripts/Slime/StateMachine.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "scriptSlimeMoveState",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

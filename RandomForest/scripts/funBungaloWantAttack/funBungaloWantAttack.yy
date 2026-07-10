@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Bungalo",
-    "path": "folders/Scripts/Bungalo.yy",
+  "$GMScript":"v1",
+  "%Name":"funBungaloWantAttack",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funBungaloWantAttack",
+  "parent":{
+    "name":"Bungalo",
+    "path":"folders/Scripts/Bungalo.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funBungaloWantAttack",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Bungalo",
-    "path": "folders/Scripts/Bungalo.yy",
+  "$GMScript":"v1",
+  "%Name":"funBungaloSeePlayer",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funBungaloSeePlayer",
+  "parent":{
+    "name":"Bungalo",
+    "path":"folders/Scripts/Bungalo.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funBungaloSeePlayer",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

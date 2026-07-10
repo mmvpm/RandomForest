@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Storage",
-    "path": "folders/Scripts/Storage.yy",
+  "$GMScript":"v1",
+  "%Name":"funLoadGameState",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funLoadGameState",
+  "parent":{
+    "name":"Storage",
+    "path":"folders/Scripts/Storage.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funLoadGameState",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

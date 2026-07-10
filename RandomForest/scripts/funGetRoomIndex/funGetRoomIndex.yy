@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Storage",
-    "path": "folders/Scripts/Storage.yy",
+  "$GMScript":"v1",
+  "%Name":"funGetRoomIndex",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funGetRoomIndex",
+  "parent":{
+    "name":"Storage",
+    "path":"folders/Scripts/Storage.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funGetRoomIndex",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

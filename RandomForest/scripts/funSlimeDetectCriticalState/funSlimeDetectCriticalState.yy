@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "StateMachine",
-    "path": "folders/Scripts/Slime/StateMachine.yy",
+  "$GMScript":"v1",
+  "%Name":"funSlimeDetectCriticalState",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funSlimeDetectCriticalState",
+  "parent":{
+    "name":"StateMachine",
+    "path":"folders/Scripts/Slime/StateMachine.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funSlimeDetectCriticalState",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

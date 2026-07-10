@@ -1,12 +1,13 @@
 {
-  "isDnD": false,
-  "isCompatibility": false,
-  "parent": {
-    "name": "Controls",
-    "path": "folders/Scripts/Events/Controls.yy",
+  "$GMScript":"v1",
+  "%Name":"funReadInputs",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funReadInputs",
+  "parent":{
+    "name":"Controls",
+    "path":"folders/Scripts/Events/Controls.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "funReadInputs",
-  "tags": [],
-  "resourceType": "GMScript",
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }
