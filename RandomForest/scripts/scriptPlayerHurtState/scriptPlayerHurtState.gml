@@ -4,7 +4,9 @@ function funPlayerHurtStart() {
 	self.hurt_animation_ended = false
 	self.hurt_countdown_counter = self.hurt_countdown
 
-	self.health = max(0, self.health - self.future_damage)
+	var applied_damage = min(self.health, self.future_damage)
+	self.health = max(0, self.health - applied_damage)
+	funShowDamageText(self, applied_damage, true)
 	self.future_damage = 0 // just in case
 
 	// add with red visual effect
