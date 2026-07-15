@@ -4,6 +4,9 @@ if (any_button_pressed and self.goto_next_level_counter < 2) {
 }
 
 if (self.goto_next_level_counter == 2) {
+	// Mark the transition as started so only one fade-out is created.
+	self.goto_next_level_counter = 3
+
 	var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
 	fade_out_effect.alpha_step = 0.02
 

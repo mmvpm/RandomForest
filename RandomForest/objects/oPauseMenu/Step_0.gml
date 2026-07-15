@@ -9,6 +9,10 @@ function __funHandleButtonAction(button_index) {
 	// it's not mistake
 	switch (button_index) {
 		case 0:
+			if (sprite_exists(self.screenshot)) {
+				sprite_delete(self.screenshot)
+			}
+			self.screenshot = noone
 			self.paused = false
 			break
 		case 1:
@@ -59,7 +63,10 @@ if (keyboard_check_pressed(global.key_pause)) {
 		)
 		surface_free(surf)
 	} else {
-		sprite_delete(self.screenshot)
+		if (sprite_exists(self.screenshot)) {
+			sprite_delete(self.screenshot)
+		}
+		self.screenshot = noone
 	}
 }
 
