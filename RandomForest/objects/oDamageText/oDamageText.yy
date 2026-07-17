@@ -10,8 +10,8 @@
   "name":"oDamageText",
   "overriddenProperties":[],
   "parent":{
-    "name":"Effects",
-    "path":"folders/Objects/Effects.yy",
+    "name":"UI",
+    "path":"folders/Objects/UI.yy",
   },
   "parentObjectId":null,
   "persistent":false,
