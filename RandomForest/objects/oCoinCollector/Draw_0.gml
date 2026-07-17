@@ -12,7 +12,7 @@ draw_set_valign(fa_middle)
 draw_set_font(global.default_font_12)
 
 var score_to_show = string(self.coins_collected) + "/" + string(self.coins_all)
-draw_text_ext(self.x + 12 + 6, self.y - 2, score_to_show, 0, 12)
+draw_text_ext(self.x + 12 + 6, self.y + 6, score_to_show, 0, 12)
 
 // draw myself
 draw_self()
