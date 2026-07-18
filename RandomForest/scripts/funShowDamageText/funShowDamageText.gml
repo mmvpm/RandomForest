@@ -12,8 +12,8 @@ function funShowDamageText(damaged_instance, damage_amount, is_player) {
 	var view_top = camera_get_view_y(cam)
 	var view_right = view_left + camera_get_view_width(cam)
 
-	var spawn_x = clamp(damaged_instance.x, view_left + 8, view_right - 8)
-	var spawn_y = max(damaged_instance.bbox_top - 4, view_top + 8)
+	var spawn_x = round(clamp(damaged_instance.x, view_left + 8, view_right - 8))
+	var spawn_y = round(max(damaged_instance.bbox_top - 4, view_top + 8))
 	var damage_text = instance_create_depth(
 		spawn_x,
 		spawn_y,
@@ -22,16 +22,10 @@ function funShowDamageText(damaged_instance, damage_amount, is_player) {
 	)
 
 	var displayed_damage = floor(damage_amount)
-	var size_damage = clamp(displayed_damage, 1, 3)
 	damage_text.text = "-" + string(displayed_damage)
 	damage_text.text_color = is_player
 		? c_white
 		: make_color_rgb(182, 190, 194)
-	damage_text.base_scale = 0.67 + 0.08 * size_damage
-	if (is_player) {
-		damage_text.base_scale += 0.08
-	}
-	damage_text.current_scale = damage_text.base_scale * 0.75
 
 	return damage_text
 }

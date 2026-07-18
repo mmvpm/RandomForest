@@ -19,6 +19,7 @@ alarm[0] = true // for centering
 
 global.default_font_12 = font_add("glasstown.ttf", 12, true, false, 32, 128)
 global.default_font_24 = font_add("glasstown.ttf", 24, true, false, 32, 128)
+global.damage_font_10 = font_add("glasstown.ttf", 10, true, false, 32, 128)
 
 global.key_move_left = vk_left
 global.key_move_right = vk_right
