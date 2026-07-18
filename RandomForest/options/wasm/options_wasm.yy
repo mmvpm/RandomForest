@@ -4,7 +4,7 @@
   "name":"wasm",
   "option_wasm_game_name":"RandomForest",
   "option_wasm_icon":"${base_options_dir}/wasm/icon.png",
-  "option_wasm_interpolate_pixels":true,
+  "option_wasm_interpolate_pixels":false,
   "option_wasm_scale":0,
   "option_wasm_splash_screen":"${base_options_dir}/wasm/splash.png",
   "option_wasm_texture_page":"2048x2048",

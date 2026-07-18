@@ -5,7 +5,7 @@
   "option_ps5_display_cursor":false,
   "option_ps5_foreground_screen":"${base_options_dir}/ps5/sce_sys/pic2.png",
   "option_ps5_icon":"${base_options_dir}/ps5/sce_sys/icon0.png",
-  "option_ps5_interpolate_pixels":true,
+  "option_ps5_interpolate_pixels":false,
   "option_ps5_max_display_height":-1,
   "option_ps5_max_display_width":-1,
   "option_ps5_nptitledat":"",
