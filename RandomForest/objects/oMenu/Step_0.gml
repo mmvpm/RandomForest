@@ -1,7 +1,14 @@
 function __funHandleButtonAction3(button_index) { // `3` because of gms2 (you never know what...)
 	var chosen_function = self.functions[button_index]
 	if (chosen_function != undefined) {
+		// Level selection is a menu screen, so it opens without a fade delay.
+		if (button_index == self.level_select_index) {
+			chosen_function()
+			return
+		}
+
 		var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
+		fade_out_effect.alpha_step = 0.02
 		fade_out_effect.end_function = chosen_function
 	}
 }

@@ -1,3 +1,4 @@
+// Shows the controls overlay without leaving the main menu.
 function funMenuShowControls() {
 	oMenu.alpha_animation_counter = oMenu.alpha_animation_time
 	var inst = instance_create_depth(0, 0, 0, oTraining)
@@ -5,11 +6,17 @@ function funMenuShowControls() {
 	instance_deactivate_object(oMenu)
 }
 
-function funMenuGoPlay() {
+// Opens the level selection screen and keeps the menu music playing.
+function funMenuOpenLevelSelect() {
+	room_goto(rLevelSelect)
+}
+
+// Starts the requested level or the furthest unlocked level by default.
+function funMenuGoPlay(level_index = global.current_level) {
 	audio_stop_sound(musicMenu)
 	audio_play_sound(musicGame, 0, true)
 
-	switch (global.current_level) {
+	switch (level_index) {
 		case 0:
 			room_goto(rTutorial01)
 			break
@@ -43,11 +50,13 @@ function funMenuGoPlay() {
 	}
 }
 
+// Resets progress and immediately starts the first level.
 function funMenuResetLevelsAndGo() {
 	funResetLevels()
 	funMenuGoPlay()
 }
 
+// Closes the game from the main menu.
 function funMenuExit() {
 	game_end()
 }

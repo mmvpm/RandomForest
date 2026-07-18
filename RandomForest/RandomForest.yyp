@@ -98,6 +98,7 @@
     {"id":{"name":"oHelpTutorial05","path":"objects/oHelpTutorial05/oHelpTutorial05.yy",},},
     {"id":{"name":"oHelpTutorial06","path":"objects/oHelpTutorial06/oHelpTutorial06.yy",},},
     {"id":{"name":"oJumpThru","path":"objects/oJumpThru/oJumpThru.yy",},},
+    {"id":{"name":"oLevelSelect","path":"objects/oLevelSelect/oLevelSelect.yy",},},
     {"id":{"name":"oLevelPassing","path":"objects/oLevelPassing/oLevelPassing.yy",},},
     {"id":{"name":"oLoading","path":"objects/oLoading/oLoading.yy",},},
     {"id":{"name":"oMenu","path":"objects/oMenu/oMenu.yy",},},
@@ -130,6 +131,7 @@
     {"id":{"name":"rLevel02","path":"rooms/rLevel02/rLevel02.yy",},},
     {"id":{"name":"rLevel03","path":"rooms/rLevel03/rLevel03.yy",},},
     {"id":{"name":"rLevel04","path":"rooms/rLevel04/rLevel04.yy",},},
+    {"id":{"name":"rLevelSelect","path":"rooms/rLevelSelect/rLevelSelect.yy",},},
     {"id":{"name":"rLoading","path":"rooms/rLoading/rLoading.yy",},},
     {"id":{"name":"rMenu","path":"rooms/rMenu/rMenu.yy",},},
     {"id":{"name":"rTemplate","path":"rooms/rTemplate/rTemplate.yy",},},
@@ -325,6 +327,7 @@
   "RoomOrderNodes":[
     {"roomId":{"name":"rLoading","path":"rooms/rLoading/rLoading.yy",},},
     {"roomId":{"name":"rMenu","path":"rooms/rMenu/rMenu.yy",},},
+    {"roomId":{"name":"rLevelSelect","path":"rooms/rLevelSelect/rLevelSelect.yy",},},
     {"roomId":{"name":"rTraining","path":"rooms/rTraining/rTraining.yy",},},
     {"roomId":{"name":"rTutorial01","path":"rooms/rTutorial01/rTutorial01.yy",},},
     {"roomId":{"name":"rTutorial02","path":"rooms/rTutorial02/rTutorial02.yy",},},

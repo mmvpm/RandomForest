@@ -1,17 +1,7 @@
+self.level_select_index = -1
+
 if (global.is_game_finished) {
-	self.items_count = 3
-	self.strings = [
-		"Начать заново",
-		"Справка",
-		"Выйти",
-	]
-	self.functions = [
-		funMenuResetLevelsAndGo,
-		funMenuShowControls,
-		funMenuExit,
-	]
-}
-else if (global.is_training_completed) {
+	self.level_select_index = 0
 	self.items_count = 4
 	self.strings = [
 		"Продолжить",
@@ -20,7 +10,23 @@ else if (global.is_training_completed) {
 		"Выйти",
 	]
 	self.functions = [
-		funMenuGoPlay,
+		funMenuOpenLevelSelect,
+		funMenuResetLevelsAndGo,
+		funMenuShowControls,
+		funMenuExit,
+	]
+}
+else if (global.is_training_completed) {
+	self.level_select_index = 0
+	self.items_count = 4
+	self.strings = [
+		"Продолжить",
+		"Начать заново",
+		"Справка",
+		"Выйти",
+	]
+	self.functions = [
+		funMenuOpenLevelSelect,
 		funMenuResetLevelsAndGo,
 		funMenuShowControls,
 		funMenuExit,
@@ -72,6 +78,10 @@ self.back_surf = noone
 // fade in
 self.alpha_animation_time = 60
 self.alpha_animation_counter = self.alpha_animation_time
+if (variable_global_exists("skip_menu_fade_once") and global.skip_menu_fade_once) {
+	self.alpha_animation_counter = 0
+	global.skip_menu_fade_once = false
+}
 
 // background pos
 var cam = view_camera[0]
