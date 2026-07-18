@@ -27,7 +27,8 @@ function funPlayerHandleTapSword() {
 				self.tap_attack_countdown_counter = self.tap_attack_countdown
 
 				var half_height = abs(self.bbox_top - self.bbox_bottom) / 2
-				var tap_controller = instance_create_depth(self.x, self.y - half_height, self.depth, oTapController)
+				// Draw the frozen frame after world tile layers, but before the UI.
+				var tap_controller = instance_create_depth(self.x, self.y - half_height, 50, oTapController)
 				tap_controller.shift_of_player_y = half_height
 
 				return true

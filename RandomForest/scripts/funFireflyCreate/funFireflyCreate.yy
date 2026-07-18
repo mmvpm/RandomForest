@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"funFireflyCreate",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funFireflyCreate",
+  "parent":{
+    "name":"Default",
+    "path":"folders/Scripts/Default.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
