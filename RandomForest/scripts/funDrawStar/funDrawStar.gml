@@ -1,6 +1,6 @@
 /// Draws an animated original-color star over its black inactive state.
 function funDrawStar(x_start, y_start, scale_start, x_end, y_end, scale_end, rotation, t) {
-	draw_sprite_ext(sStar, 0, x_end, y_end, scale_end, scale_end, rotation, c_black, 0.9)
+	draw_sprite_ext(sStar, 0, x_end, y_end, scale_end, scale_end, rotation, make_color_rgb(72, 72, 72), 0.9)
 
 	if (t > 0) {
 		var x_pos = lerp(x_start, x_end, t)

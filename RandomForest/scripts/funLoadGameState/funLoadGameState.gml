@@ -1,3 +1,4 @@
+/// Loads persistent progress and audio preferences for the current level catalog.
 function funLoadGameState() {
 	ini_open("save.ini")
 
@@ -16,6 +17,30 @@ function funLoadGameState() {
 			str_i = "0" + str_i
 		}
 		global.time_records[i] = ini_read_real("time_records", "level" + str_i, -1)
+	}
+
+	// Load the two persistent mastery goals for every level.
+	global.enemy_clear_records = array_create(levels_count, false)
+	global.flawless_records = array_create(levels_count, false)
+	for (var achievement_index = 0; achievement_index < levels_count; ++achievement_index) {
+		var achievement_key = string(achievement_index)
+		if (achievement_index < 10) {
+			achievement_key = "0" + achievement_key
+		}
+		global.enemy_clear_records[achievement_index] = (
+			ini_read_real(
+				"enemy_clear_records",
+				"level" + achievement_key,
+				0
+			) != 0
+		)
+		global.flawless_records[achievement_index] = (
+			ini_read_real(
+				"flawless_records",
+				"level" + achievement_key,
+				0
+			) != 0
+		)
 	}
 
 	// current_level is the furthest unlocked absolute level index.
@@ -46,5 +71,13 @@ function funLoadGameState() {
 	// "hit is stronger than tap-attack" shown or not
 	global.hit_vs_tap_text_shown = ini_read_real("general", "hit_vs_tap_text_shown", 0) // 0 by default
 
+	// Main-menu audio settings.
+	global.music_enabled = ini_read_real("general", "music_enabled", 1) != 0
+	global.sfx_enabled = ini_read_real("general", "sfx_enabled", 1) != 0
+
 	ini_close()
+
+	// Completion UI uses these runtime-only values.
+	global.last_completion_result = undefined
+	global.pending_completed_page = -1
 }

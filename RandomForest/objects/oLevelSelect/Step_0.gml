@@ -258,6 +258,38 @@ if (self.mouse_allowed_counter != 0) {
 }
 self.mouse_allowed_counter = max(0, self.mouse_allowed_counter - 1)
 
+// Start the one-time completion sweep when its page becomes visible.
+if (
+	self.completion_animation_counter < 0
+	and global.pending_completed_page == self.page_index
+) {
+	self.completion_animation_counter = 0
+	global.pending_completed_page = -1
+}
+
+// Enter or click skips the sweep without activating the selected control.
+if (
+	self.completion_animation_counter >= 0
+	and (
+		keyboard_check_pressed(vk_enter)
+		or mouse_check_button_pressed(mb_left)
+	)
+) {
+	self.completion_animation_counter = -1
+	exit
+}
+
+if (self.completion_animation_counter >= 0) {
+	++self.completion_animation_counter
+	if (
+		self.completion_animation_counter
+		>= self.completion_animation_duration
+	) {
+		self.completion_animation_counter = -1
+		audio_play_sound(soundStarCollecting, 0, false)
+	}
+}
+
 if (keyboard_check_pressed(global.key_pause)) {
 	__funActivateLevelButton(self.exit_index)
 }

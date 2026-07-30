@@ -6,6 +6,9 @@ function funPlayerHurtStart() {
 
 	var applied_damage = min(self.health, self.future_damage)
 	self.health = max(0, self.health - applied_damage)
+	if (applied_damage > 0) {
+		funMarkAchievementDamage()
+	}
 	funShowDamageText(self, applied_damage, true)
 	self.future_damage = 0 // just in case
 

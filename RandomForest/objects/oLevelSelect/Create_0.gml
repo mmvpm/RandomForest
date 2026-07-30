@@ -1,5 +1,3 @@
-#macro LEVEL_SELECT_PAGE_SIZE 10
-
 // Load the complete level sequence and generated star metadata once.
 var catalog = funLoadChallengeCatalog()
 self.generated_paths = catalog.levels
@@ -109,3 +107,7 @@ self.x_left_cached = array_create(self.buttons_count, -1000)
 self.y_top_cached = array_create(self.buttons_count, -1000)
 self.x_right_cached = array_create(self.buttons_count, -1000)
 self.y_bottom_cached = array_create(self.buttons_count, -1000)
+
+// A newly perfected page uses one short, skippable border sweep.
+self.completion_animation_counter = -1
+self.completion_animation_duration = 42

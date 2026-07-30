@@ -34,6 +34,44 @@ function __funHandleButtonAction2(button_index) { // `2` because of gms2 (you ne
 	}
 }
 
+/// Starts the next new achievement badge animation.
+function __funStartNextBadgeAnimation() {
+	if (self.badge_queue_position >= array_length(self.badge_queue)) {
+		self.badge_animation_index = -1
+		self.badge_animation_counter = 0
+		return
+	}
+	self.badge_animation_index = self.badge_queue[self.badge_queue_position]
+	++self.badge_queue_position
+	self.badge_animation_counter = (
+		self.badge_animation_time + self.badge_animation_delay
+	)
+}
+
+/// Returns whether result rewards are still being revealed.
+function __funResultAnimationActive() {
+	return (
+		self.stats_animation_counter > 0
+		or !self.reward_animation_started
+		or self.star_animation_counter > 0
+		or self.badge_animation_counter > 0
+		or self.badge_queue_position < array_length(self.badge_queue)
+	)
+}
+
+/// Immediately reveals every result reward.
+function __funFinishResultAnimation() {
+	self.stats_animation_counter = 0
+	self.reward_animation_started = true
+	self.shown_stars = self.max_stars
+	self.star_animation_counter = 0
+	self.enemy_badge_t = self.enemy_clear_earned ? 1 : 0
+	self.flawless_badge_t = self.flawless_earned ? 1 : 0
+	self.badge_queue_position = array_length(self.badge_queue)
+	self.badge_animation_index = -1
+	self.badge_animation_counter = 0
+}
+
 
 // mouse counter
 if (self.mouse_allowed_counter != 0) {
@@ -44,17 +82,27 @@ self.mouse_allowed_counter = max(0, self.mouse_allowed_counter - 1)
 
 
 if (keyboard_check_pressed(vk_enter)) {
-	__funHandleButtonAction2(self.current_index)
+	if (__funResultAnimationActive()) {
+		__funFinishResultAnimation()
+	}
+	else {
+		__funHandleButtonAction2(self.current_index)
+	}
 }
 else if (mouse_check_button_pressed(mb_left)) {
-	var new_button_index = funGetButtonByMouse(
-		self.x_left_cached, self.x_right_cached,
-		self.y_top_cached, self.y_bottom_cached,
-		self.x_shift_cached, self.y_shift_cached, 
-		view_camera[0], false
-	)
-	if (new_button_index != -1) {
-		__funHandleButtonAction2(new_button_index)
+	if (__funResultAnimationActive()) {
+		__funFinishResultAnimation()
+	}
+	else {
+		var new_button_index = funGetButtonByMouse(
+			self.x_left_cached, self.x_right_cached,
+			self.y_top_cached, self.y_bottom_cached,
+			self.x_shift_cached, self.y_shift_cached,
+			view_camera[0], false
+		)
+		if (new_button_index != -1) {
+			__funHandleButtonAction2(new_button_index)
+		}
 	}
 }
 else if (keyboard_check_pressed(vk_down)) {
@@ -94,6 +142,21 @@ if (self.stats_animation_counter > 0) {
 	--self.stats_animation_counter
 }
 
+if (
+	self.stats_animation_counter == 0
+	and !self.reward_animation_started
+) {
+	self.reward_animation_started = true
+	if (self.shown_stars < self.max_stars) {
+		self.star_animation_counter = (
+			self.star_animation_time + self.star_animation_delay
+		)
+	}
+	else {
+		__funStartNextBadgeAnimation()
+	}
+}
+
 if (self.star_animation_counter > 0) {
 	--self.star_animation_counter
 	if (self.star_animation_counter == 0) {
@@ -102,5 +165,36 @@ if (self.star_animation_counter > 0) {
 		if (self.shown_stars < self.max_stars) {
 			self.star_animation_counter = self.star_animation_time + self.star_animation_delay
 		}
+		else {
+			__funStartNextBadgeAnimation()
+		}
+	}
+}
+
+if (self.badge_animation_counter > 0) {
+	--self.badge_animation_counter
+	var badge_t = clamp(
+		1 - self.badge_animation_counter / self.badge_animation_time,
+		0,
+		1
+	)
+	if (self.badge_animation_index == 0) {
+		self.enemy_badge_t = badge_t
+	}
+	else if (self.badge_animation_index == 1) {
+		self.flawless_badge_t = badge_t
+	}
+
+	if (self.badge_animation_counter == self.badge_animation_time) {
+		audio_play_sound(soundStarCollecting, 0, false)
+	}
+	if (self.badge_animation_counter == 0) {
+		if (self.badge_animation_index == 0) {
+			self.enemy_badge_t = 1
+		}
+		else if (self.badge_animation_index == 1) {
+			self.flawless_badge_t = 1
+		}
+		__funStartNextBadgeAnimation()
 	}
 }

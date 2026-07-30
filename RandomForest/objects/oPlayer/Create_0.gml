@@ -15,8 +15,9 @@ self.state = player_states.idle
 self.state_changed = true
 
 // health
-self.max_health = 4
+self.max_health = 7
 self.health = self.max_health
+funBeginAchievementRun()
 
 // buffers
 self.jump_buffer_max = 5 // frames

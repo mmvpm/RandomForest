@@ -19,6 +19,7 @@ function funOpenGeneratedLevel(level_index) {
 	global.playing_level = level_index
 	global.playing_level_star_times = level_data.star_times
 	global.generated_level_data = level_data
+	global.last_completion_result = undefined
 	audio_stop_sound(musicMenu)
 	if (!audio_is_playing(musicGame)) {
 		audio_play_sound(musicGame, 0, true)

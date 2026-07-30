@@ -1,5 +1,10 @@
 gpu_set_tex_filter(false)
 
+// Settings replaces the menu controls while keeping its moving background.
+if (instance_exists(oSettings)) {
+	exit
+}
+
 var cam = view_camera[0]
 var cam_w = camera_get_view_width(cam)
 

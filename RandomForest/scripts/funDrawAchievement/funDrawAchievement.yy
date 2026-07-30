@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"funDrawAchievement",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funDrawAchievement",
+  "parent":{
+    "name":"UI",
+    "path":"folders/Scripts/UI.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

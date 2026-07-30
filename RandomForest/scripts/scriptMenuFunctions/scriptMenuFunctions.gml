@@ -11,6 +11,13 @@ function funMenuOpenLevelSelect() {
 	room_goto(rLevelSelect)
 }
 
+// Opens the audio settings overlay over the existing menu background.
+function funMenuOpenSettings() {
+	if (!instance_exists(oSettings)) {
+		instance_create_depth(0, 0, -1, oSettings)
+	}
+}
+
 // Opens one level from the shared campaign and generated-level sequence.
 function funOpenLevel(level_index = global.current_level) {
 	var levels_count = funGetLevelsCount()
@@ -24,6 +31,7 @@ function funOpenLevel(level_index = global.current_level) {
 
 	global.playing_level = level_index
 	global.playing_level_star_times = undefined
+	global.last_completion_result = undefined
 	audio_stop_sound(musicMenu)
 	if (!audio_is_playing(musicGame)) {
 		audio_play_sound(musicGame, 0, true)

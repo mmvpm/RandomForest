@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"funAchievementRun",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funAchievementRun",
+  "parent":{
+    "name":"Events",
+    "path":"folders/Scripts/Events.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

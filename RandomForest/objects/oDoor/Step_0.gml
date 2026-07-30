@@ -21,6 +21,7 @@ else {
 self.image_xscale = self.x_factor * self.scale
 self.image_yscale = self.y_factor * self.scale
 
+// Opens the existing result overlay after the room fade.
 function __funPassingLevel() {
 	instance_create_layer(0, 0, "UI", oLevelPassing)
 }
@@ -29,7 +30,83 @@ function __funPassingLevel() {
 function __funCompleteLevel() {
 	var level_index = global.playing_level
 	var levels_count = funGetLevelsCount()
-	funUpdateTimeRecord(oTimeCounter.time_counter, level_index)
+	var completion_time = oTimeCounter.time_counter
+	var star_times = funGetLevelStarTimes(
+		level_index,
+		global.playing_level_star_times
+	)
+	var page_index = level_index div LEVEL_SELECT_PAGE_SIZE
+	var page_star_times = array_create(levels_count, undefined)
+	var first_page_level = page_index * LEVEL_SELECT_PAGE_SIZE
+	var last_page_level = min(
+		first_page_level + LEVEL_SELECT_PAGE_SIZE,
+		levels_count
+	)
+	for (
+		var page_level = first_page_level;
+		page_level < last_page_level;
+		++page_level
+	) {
+		page_star_times[page_level] = funGetLevelStarTimes(
+			page_level,
+			page_level == level_index ? star_times : undefined
+		)
+	}
+	var page_before = funGetAchievementPageProgress(
+		page_index,
+		LEVEL_SELECT_PAGE_SIZE,
+		page_star_times
+	)
+
+	var stars_before = funGetStarCount(
+		global.time_records[level_index],
+		level_index,
+		star_times
+	)
+	var enemy_clear_before = global.enemy_clear_records[level_index]
+	var flawless_before = global.flawless_records[level_index]
+	var enemy_clear_run = funAreAllCombatEnemiesDefeated()
+	var flawless_run = (
+		variable_global_exists("current_run_flawless")
+		and global.current_run_flawless
+	)
+
+	funUpdateTimeRecord(completion_time, level_index)
+	global.enemy_clear_records[level_index] = (
+		enemy_clear_before or enemy_clear_run
+	)
+	global.flawless_records[level_index] = (
+		flawless_before or flawless_run
+	)
+
+	var stars_after = funGetStarCount(
+		global.time_records[level_index],
+		level_index,
+		star_times
+	)
+	var page_after = funGetAchievementPageProgress(
+		page_index,
+		LEVEL_SELECT_PAGE_SIZE,
+		page_star_times
+	)
+	if (!page_before.is_complete and page_after.is_complete) {
+		global.pending_completed_page = page_index
+	}
+
+	global.last_completion_result = {
+		level_index: level_index,
+		current_time: completion_time,
+		best_time: global.time_records[level_index],
+		stars_before: stars_before,
+		stars_after: stars_after,
+		enemy_clear_before: enemy_clear_before,
+		enemy_clear_after: global.enemy_clear_records[level_index],
+		flawless_before: flawless_before,
+		flawless_after: global.flawless_records[level_index],
+		new_enemy_clear: !enemy_clear_before and enemy_clear_run,
+		new_flawless: !flawless_before and flawless_run,
+	}
+
 	global.current_level = max(
 		global.current_level,
 		min(level_index + 1, levels_count - 1)

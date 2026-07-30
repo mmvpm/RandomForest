@@ -1,30 +1,34 @@
 if (global.is_training_completed) {
-	self.items_count = 3
+	self.items_count = 4
 	self.strings = [
 		"Продолжить",
 		"Справка",
+		"Настройки",
 		"Выйти",
 	]
 	self.functions = [
 		funMenuOpenLevelSelect,
 		funMenuShowControls,
+		funMenuOpenSettings,
 		funMenuExit,
 	]
-	self.immediate_actions = [true, false, false]
+	self.immediate_actions = [true, false, true, false]
 }
 else {
-	self.items_count = 3
+	self.items_count = 4
 	self.strings = [
 		"Начать играть",
 		"Справка",
+		"Настройки",
 		"Выйти",
 	]
 	self.functions = [
 		funOpenLevel,
 		funMenuShowControls,
+		funMenuOpenSettings,
 		funMenuExit,
 	]
-	self.immediate_actions = [false, false, false]
+	self.immediate_actions = [false, false, true, false]
 }
 
 self.current_color = make_color_rgb(112, 211, 112) // light-green
@@ -42,8 +46,8 @@ self.border_height = 35
 
 self.text_scale = 20 / 24
 
-self.separate_dist = 42
-self.top_item = 105
+self.separate_dist = 40
+self.top_item = 88
 
 self.current_index = 0
 

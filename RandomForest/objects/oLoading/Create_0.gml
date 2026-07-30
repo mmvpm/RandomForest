@@ -3,6 +3,8 @@
 // Load saved state
 
 funLoadGameState()
+audio_master_gain(1)
+funApplyAudioSettings()
 
 // disable anti-aliasing
 font_add_enable_aa(false)

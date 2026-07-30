@@ -8,50 +8,11 @@ function funGetStarCount(
 		return 0
 	}
 
-	var times = [0, 0]
-
-	if (level_star_times != undefined) {
-		times = [
-			level_star_times.three_stars,
-			level_star_times.two_stars,
-		]
-	}
-	else {
-		switch(level_index) {
-			// tutorial
-			case 0:
-				times = [6, 9]
-				break
-			case 1:
-				times = [9, 20]
-				break
-			case 2:
-				times = [8, 20]
-				break
-			case 3:
-				times = [17, 25]
-				break
-			case 4:
-				times = [9, 25]
-				break
-			case 5:
-				times = [7, 17]
-				break
-			// game
-			case 6:
-				times = [10, 25]
-				break
-			case 7:
-				times = [7, 19]
-				break
-			case 8:
-				times = [7, 18]
-				break
-			case 9:
-				times = [60, 120]
-				break
-		}
-	}
+	var star_times = funGetLevelStarTimes(level_index, level_star_times)
+	var times = [
+		star_times.three_stars,
+		star_times.two_stars,
+	]
 
 	var n_stars = array_length(times)
 	for (var i = 0; i < n_stars; i++) {

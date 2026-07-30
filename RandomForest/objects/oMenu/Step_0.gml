@@ -13,6 +13,10 @@ function __funHandleButtonAction3(button_index) { // `3` because of gms2 (you ne
 	}
 }
 
+// Settings owns input while its overlay is visible.
+if (instance_exists(oSettings)) {
+	exit
+}
 
 // mouse counter
 if (self.mouse_allowed_counter != 0) {
