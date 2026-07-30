@@ -1,17 +1,22 @@
+/// Returns an immediate slime state without starting ordinary patrol movement.
 function funSlimeDetectState() {
 	var critical_state = funSlimeDetectCriticalState()
 	if (critical_state != undefined) {
 		return critical_state
 	}
+
+	if (funEnemyPositionIsDangerous(self.x, self.y)) {
+		var escape_direction = funEnemyGetEscapeDirection()
+		if (escape_direction != 0) {
+			self.escape_hazard = true
+			self.current_direction = escape_direction
+			return slime_states.move
+		}
+	}
 	
-	var new_attack_allowed = self.cooldown_counter == 0
-	if (funSlimeSeePlayer() and new_attack_allowed) {
+	if (funSlimeSeePlayer()) {
 		return slime_states.attack
 	}
 	
-	if (self.idle_countdown_counter == 0) {
-		return slime_states.move
-	}
-	
-	return slime_states.idle
+	return undefined
 }

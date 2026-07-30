@@ -1,27 +1,30 @@
+/// Chooses damage or attack states that interrupt ordinary player movement.
 function funPlayerDetectCriticalState() {
 	// hurt
 	var is_trapped = place_meeting(self.x, self.y, oTrap)
-	var placed_enemy = instance_place(self.x, self.y, oEnemy)
-	var is_hit_by_enemy = placed_enemy != noone
-	if (is_hit_by_enemy) {
-		is_hit_by_enemy = // extra conditions
-			is_hit_by_enemy and
-			placed_enemy.state != slime_states.die and
-			placed_enemy.state != bungalo_states.die and  // ~ empty collision mask on die sprite
-			placed_enemy.state != skeleton_states.die
+	var placed_enemy = noone
+	var enemy_list = ds_list_create()
+	var enemy_count = instance_place_list(self.x, self.y, oEnemy, enemy_list, false)
+	for (var i = 0; i < enemy_count; ++i) {
+		var candidate = enemy_list[| i]
+		if (candidate.can_damage_player and !candidate.is_dead) {
+			placed_enemy = candidate
+			break
+		}
 	}
+	ds_list_destroy(enemy_list)
+	var is_hit_by_enemy = placed_enemy != noone
 	var hurt_allowed = self.hurt_countdown_counter == 0
 
 	if (hurt_allowed) {
 
 		if (is_hit_by_enemy) {
-			var nearest_enemy = instance_place(self.x, self.y, oEnemy)
-			var direction_to_nearest_enemy = sign(nearest_enemy.x - self.x)
+			var direction_to_nearest_enemy = sign(placed_enemy.x - self.x)
 			if (direction_to_nearest_enemy != 0) {
 				self.direction_to_enemy = direction_to_nearest_enemy
 			}
 			
-			self.future_damage = nearest_enemy.damage
+			self.future_damage = placed_enemy.damage
 		}
 		else if (is_trapped) {
 			var nearest_trap = instance_place(self.x, self.y, oTrap)

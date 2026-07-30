@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"funEnemySeePlayer",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funEnemySeePlayer",
+  "parent":{
+    "name":"Default",
+    "path":"folders/Scripts/Default.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

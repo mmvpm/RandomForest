@@ -1,5 +1,4 @@
 self.damage = 1
+self.can_damage_player = true
+self.is_dead = false
 // self.owner_id
-
-// for fake empty collision mask on die state (see `funPlayerDetectCriticalState`)
-self.state = undefined

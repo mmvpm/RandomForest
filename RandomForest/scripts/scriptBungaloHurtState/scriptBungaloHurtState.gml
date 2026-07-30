@@ -1,9 +1,12 @@
+/// Applies pending damage and starts bungalo invulnerability.
 function funBungaloHurtStart() {
+	funEnemyCancelAirMovement()
 	self.sprite_index = sBungaloHurt
 	self.image_index = 0
+	self.image_speed = 1
 	self.current_xspeed = 0
 	self.hurt_animation_ended = false
-	self.hurt_countdown_counter = hurt_countdown
+	self.hurt_countdown_counter = self.hurt_countdown
 	
 	var applied_damage = min(self.health, self.future_damage)
 	self.health = max(0, self.health - applied_damage)
@@ -11,6 +14,7 @@ function funBungaloHurtStart() {
 	self.future_damage = 0 // just in case
 }
 
+/// Finishes damage, death, or recovery after the hurt animation.
 function funBungaloHurtLogic() {
 	funDefaultStepMove()
 	

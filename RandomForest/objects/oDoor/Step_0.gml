@@ -25,16 +25,29 @@ function __funPassingLevel() {
 	instance_create_layer(0, 0, "UI", oLevelPassing)
 }
 
+// Saves the record and unlocks the next level in the shared sequence.
+function __funCompleteLevel() {
+	var level_index = global.playing_level
+	var levels_count = funGetLevelsCount()
+	funUpdateTimeRecord(oTimeCounter.time_counter, level_index)
+	global.current_level = max(
+		global.current_level,
+		min(level_index + 1, levels_count - 1)
+	)
+	if (level_index == levels_count - 1) {
+		global.is_game_finished = true
+	}
+	funSaveGameState()
+}
+
 // on collision with player	
 if (place_meeting(self.x, self.y, oPlayer) and self.is_opened and !self.goto_next_level) {
 	self.goto_next_level = true
-
-	// update time record with new value
-	funUpdateTimeRecord(oTimeCounter.time_counter)
 
 	// fade out effect
 	oPlayer.image_alpha = 0 // for visual correct fade out
 	oTimeCounter.may_count = false // stops timer
 	var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
+	__funCompleteLevel()
 	fade_out_effect.end_function = __funPassingLevel
 }

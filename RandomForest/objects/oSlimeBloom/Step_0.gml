@@ -7,6 +7,7 @@ if (self.following != noone) {
 		
 		switch (self.following.sprite_index) {
 			case sSlimeIdle:
+			case sSlimeMove:
 				self.y -= self.image_yscale * 7
 				break
 			case sSlimeAttack:

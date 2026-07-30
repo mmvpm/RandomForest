@@ -1,4 +1,5 @@
 .DS_Store
-overview.md
-AGENTS.md
 tmp/
+__pycache__/
+*.py[cod]
+.temp

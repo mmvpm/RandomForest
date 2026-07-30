@@ -1,0 +1,1601 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Forest — просмотрщик уровней</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --page: #0d1512;
+      --panel: rgba(22, 35, 29, 0.92);
+      --panel-strong: #17251f;
+      --line: rgba(226, 238, 218, 0.12);
+      --line-strong: rgba(226, 238, 218, 0.22);
+      --text: #edf3e9;
+      --muted: #98a79c;
+      --accent: #d9f071;
+      --accent-dark: #243218;
+      --danger: #ff7c69;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--page);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background:
+        radial-gradient(circle at 16% -8%, rgba(142, 176, 88, 0.16), transparent 34rem),
+        radial-gradient(circle at 92% 18%, rgba(37, 95, 70, 0.18), transparent 28rem),
+        var(--page);
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      content: "";
+      opacity: 0.24;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 72%);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    .page {
+      width: min(1540px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 7px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 18px;
+      height: 2px;
+      content: "";
+      border-radius: 2px;
+      background: currentColor;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 680;
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    .subtitle {
+      max-width: 630px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .level-picker {
+      display: grid;
+      grid-template-columns: auto 108px;
+      gap: 7px 14px;
+      align-items: center;
+      flex: 0 0 auto;
+      padding: 13px 14px 13px 17px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(13, 22, 18, 0.75);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16);
+      backdrop-filter: blur(14px);
+    }
+
+    .level-picker label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .level-input-wrap {
+      position: relative;
+      grid-row: span 2;
+      grid-column: 2;
+    }
+
+    .level-input-wrap::before {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      color: var(--muted);
+      content: "#";
+      font-weight: 800;
+      transform: translateY(-50%);
+    }
+
+    #level-number {
+      width: 100%;
+      height: 48px;
+      padding: 0 8px 0 31px;
+      border: 1px solid var(--line-strong);
+      border-radius: 11px;
+      outline: none;
+      color: var(--text);
+      font-size: 21px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+      background: #101c17;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    #level-number:focus {
+      border-color: rgba(217, 240, 113, 0.64);
+      box-shadow: 0 0 0 4px rgba(217, 240, 113, 0.08);
+    }
+
+    .picker-hint {
+      color: #708078;
+      font-size: 11px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 246px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .map-panel,
+    .side-panel {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .map-panel {
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .panel-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 58px;
+      padding: 10px 14px 10px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .status {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-dot {
+      position: relative;
+      width: 9px;
+      height: 9px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(217, 240, 113, 0.1);
+    }
+
+    .status-dot::after {
+      position: absolute;
+      inset: -4px;
+      content: "";
+      border: 1px solid rgba(217, 240, 113, 0.32);
+      border-radius: inherit;
+      animation: pulse 2.2s ease-out infinite;
+    }
+
+    .status.is-error .status-dot {
+      background: var(--danger);
+      box-shadow: 0 0 0 4px rgba(255, 124, 105, 0.1);
+    }
+
+    .status.is-error .status-dot::after {
+      display: none;
+    }
+
+    .status-copy {
+      min-width: 0;
+    }
+
+    #status-title {
+      overflow: hidden;
+      margin: 0 0 2px;
+      font-size: 12px;
+      font-weight: 720;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #status-detail {
+      overflow: hidden;
+      margin: 0;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 10px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .zoom-controls {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex: 0 0 auto;
+    }
+
+    .icon-button {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+
+    .icon-button:hover,
+    .icon-button:focus-visible {
+      border-color: var(--line-strong);
+      outline: none;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.065);
+    }
+
+    #zoom-label {
+      width: 43px;
+      color: var(--muted);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+    }
+
+    .canvas-viewport {
+      position: relative;
+      min-height: clamp(420px, 68vh, 850px);
+      max-height: calc(100vh - 164px);
+      overflow: auto;
+      scrollbar-color: #44534b #101a16;
+      background:
+        linear-gradient(45deg, rgba(255, 255, 255, 0.014) 25%, transparent 25%) 0 0 / 18px 18px,
+        linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.014) 75%) 0 0 / 18px 18px,
+        #101914;
+    }
+
+    .canvas-stage {
+      display: grid;
+      min-width: 100%;
+      min-height: 100%;
+      place-items: center;
+      padding: 24px;
+    }
+
+    #map-canvas {
+      display: block;
+      border: 1px solid rgba(236, 248, 226, 0.12);
+      border-radius: 4px;
+      outline: none;
+      cursor: crosshair;
+      image-rendering: pixelated;
+      touch-action: none;
+      box-shadow:
+        0 22px 50px rgba(0, 0, 0, 0.32),
+        0 0 0 1px rgba(0, 0, 0, 0.45);
+      background: #142019;
+    }
+
+    .cell-tooltip {
+      position: fixed;
+      z-index: 10;
+      display: none;
+      min-width: 116px;
+      padding: 8px 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 9px;
+      pointer-events: none;
+      font-size: 11px;
+      line-height: 1.4;
+      background: rgba(8, 14, 11, 0.95);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
+    }
+
+    .cell-tooltip strong {
+      color: var(--accent);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .side-panel {
+      position: sticky;
+      top: 16px;
+      overflow: hidden;
+    }
+
+    .side-section {
+      padding: 17px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .side-section:last-child {
+      border-bottom: 0;
+    }
+
+    .section-label {
+      margin: 0 0 13px;
+      color: #77877e;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 9px 12px;
+      margin: 0;
+      font-size: 12px;
+    }
+
+    .facts dt {
+      color: var(--muted);
+    }
+
+    .facts dd {
+      margin: 0;
+      font-weight: 670;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .entity-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .entity-chip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 29px;
+      padding: 0 9px 0 7px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      cursor: pointer;
+      color: #cbd6cd;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.025);
+      transition: border-color 140ms ease, background 140ms ease;
+    }
+
+    .entity-chip:hover,
+    .entity-chip:focus-visible {
+      border-color: var(--line-strong);
+      outline: none;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .entity-chip.is-selected {
+      border-color: rgba(217, 240, 113, 0.7);
+      background: rgba(217, 240, 113, 0.1);
+    }
+
+    .chip-dot {
+      width: 9px;
+      height: 9px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: inset 0 0 0 2px var(--panel-strong);
+    }
+
+    .chip-count {
+      color: var(--text);
+      font-weight: 760;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .legend-row {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      gap: 9px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.2;
+    }
+
+    .legend-symbol {
+      display: grid;
+      width: 20px;
+      height: 20px;
+      place-items: center;
+      border-radius: 5px;
+      color: #0d1512;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .legend-symbol.mass {
+      color: #849089;
+      background: #26322c;
+    }
+
+    .legend-symbol.solid {
+      background: #677b42;
+    }
+
+    .legend-symbol.platform {
+      color: #d3b577;
+      background: #4b402b;
+    }
+
+    .legend-symbol.hazard {
+      color: #ff9b77;
+      background: #4b2923;
+    }
+
+    .keyboard-hint {
+      margin: 12px 0 0;
+      color: #65736c;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    @keyframes pulse {
+      from {
+        opacity: 0.8;
+        transform: scale(0.7);
+      }
+      to {
+        opacity: 0;
+        transform: scale(1.7);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        width: min(100% - 20px, 720px);
+        padding-top: 20px;
+      }
+
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .level-picker {
+        width: 100%;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .side-panel {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .side-section {
+        border-right: 1px solid var(--line);
+      }
+
+      .canvas-viewport {
+        min-height: 52vh;
+        max-height: 72vh;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 12px, 520px);
+        padding-top: 14px;
+      }
+
+      .panel-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .zoom-controls {
+        align-self: flex-end;
+      }
+
+      .canvas-stage {
+        padding: 12px;
+      }
+
+      .side-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .side-section {
+        border-right: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Level inspector</p>
+        <h1>Random Forest</h1>
+        <p class="subtitle">
+          Живое превью challenge-карт. Правьте выбранный JSON — схема обновится
+          автоматически, как только файл снова станет валидным.
+        </p>
+      </div>
+
+      <div class="level-picker">
+        <label for="level-number">Номер уровня</label>
+        <span id="level-range" class="picker-hint">Загрузка…</span>
+        <div class="level-input-wrap">
+          <input
+            id="level-number"
+            type="number"
+            min="1"
+            step="1"
+            value="1"
+            inputmode="numeric"
+            aria-label="Номер уровня"
+          >
+        </div>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <section class="map-panel" aria-label="Карта выбранного уровня">
+        <div class="panel-toolbar">
+          <div id="status" class="status" role="status" aria-live="polite">
+            <span class="status-dot" aria-hidden="true"></span>
+            <div class="status-copy">
+              <p id="status-title">Загрузка уровня…</p>
+              <p id="status-detail">../RandomForest/datafiles/challenge_levels/01.json</p>
+            </div>
+          </div>
+
+          <div class="zoom-controls" aria-label="Масштаб карты">
+            <button id="zoom-out" class="icon-button" type="button" aria-label="Уменьшить">−</button>
+            <span id="zoom-label">100%</span>
+            <button id="zoom-in" class="icon-button" type="button" aria-label="Увеличить">+</button>
+          </div>
+        </div>
+
+        <div id="canvas-viewport" class="canvas-viewport">
+          <div class="canvas-stage">
+            <canvas id="map-canvas" tabindex="0" aria-label="Схема уровня"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side-panel" aria-label="Информация об уровне">
+        <section class="side-section">
+          <p class="section-label">Параметры</p>
+          <dl class="facts">
+            <dt>Размер</dt>
+            <dd id="fact-size">—</dd>
+            <dt>Seed</dt>
+            <dd id="fact-seed">—</dd>
+            <dt>Профиль</dt>
+            <dd id="fact-profile">—</dd>
+            <dt>Трава</dt>
+            <dd id="fact-grass">—</dd>
+            <dt>★★★</dt>
+            <dd id="fact-three-stars">—</dd>
+            <dt>★★</dt>
+            <dd id="fact-two-stars">—</dd>
+          </dl>
+        </section>
+
+        <section class="side-section">
+          <p class="section-label">Объекты и блоки</p>
+          <div id="entity-chips" class="entity-chips">
+            <span class="entity-chip">Нет данных</span>
+          </div>
+        </section>
+
+        <section class="side-section">
+          <p class="section-label">Обозначения</p>
+          <div class="legend">
+            <div class="legend-row">
+              <span class="legend-symbol mass">X</span>
+              <span>Масса без collision</span>
+            </div>
+            <div class="legend-row">
+              <span class="legend-symbol solid">#</span>
+              <span>Solid-платформа</span>
+            </div>
+            <div class="legend-row">
+              <span class="legend-symbol platform">=</span>
+              <span>Jump-through</span>
+            </div>
+            <div class="legend-row">
+              <span class="legend-symbol hazard">▲</span>
+              <span>Направленные шипы</span>
+            </div>
+          </div>
+          <p class="keyboard-hint">
+            Нажмите ЛКМ и ведите по карте, чтобы удалять объекты или ставить
+            выбранный в пустые клетки. Наведите на клетку и нажмите R/К, чтобы
+            сменить направление или фазу. Cmd/Ctrl+Z отменяет последнюю правку.
+            Стрелки ← → переключают уровни.
+          </p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <div id="cell-tooltip" class="cell-tooltip" aria-hidden="true"></div>
+
+  <script>
+    "use strict";
+
+    const LEVEL_DIRECTORY = "../RandomForest/datafiles/challenge_levels";
+    const LEVEL_CATALOG_PATH = `${LEVEL_DIRECTORY}/catalog.json`;
+    const SAVE_ENDPOINT = "http://127.0.0.1:8000/api/levels";
+    const POLL_INTERVAL_MS = 800;
+    const CELL_SIZE = 16;
+    const MIN_LEVEL = 1;
+    const MIN_ZOOM = 0.1;
+    const MAX_ZOOM = 2;
+
+    const SYMBOL_NAMES = {
+      ".": "Пустота",
+      "#": "Solid-платформа",
+      "X": "Масса без collision",
+      "=": "Jump-through платформа",
+      "^": "Шипы вверх",
+      "v": "Шипы вниз",
+      "<": "Шипы влево",
+      ">": "Шипы вправо",
+      "U": "Шипы вверх, край",
+      "D": "Шипы вниз, край",
+      "L": "Шипы влево, край",
+      "R": "Шипы вправо, край",
+      "@": "Игрок",
+      "O": "Дверь вправо",
+      "o": "Дверь влево",
+      "*": "Ягода",
+      "S": "Slime вправо",
+      "s": "Slime влево",
+      "K": "Skeleton вправо",
+      "k": "Skeleton влево",
+      "B": "Bungalo вправо",
+      "b": "Bungalo влево",
+      "P": "Pointer вправо",
+      "p": "Pointer влево"
+    };
+
+    const PALETTE_ITEMS = [
+      { label: "Solid", symbol: "#", symbols: "#", color: "#93a95c" },
+      { label: "Масса", symbol: "X", symbols: "X", color: "#849089" },
+      { label: "Jump-through", symbol: "=", symbols: "=", color: "#d3b577" },
+      { label: "Шипы ↑", symbol: "^", symbols: "^U", color: "#ff8466" },
+      { label: "Шипы ↓", symbol: "v", symbols: "vD", color: "#ff8466" },
+      { label: "Шипы ←", symbol: "<", symbols: "<L", color: "#ff8466" },
+      { label: "Шипы →", symbol: ">", symbols: ">R", color: "#ff8466" },
+      { label: "Игрок", symbol: "@", symbols: "@", color: "#72cef2" },
+      { label: "Дверь", symbol: "O", symbols: "Oo", color: "#d8a8ff" },
+      { label: "Ягоды", symbol: "*", symbols: "*", color: "#ff667e" },
+      { label: "Slime", symbol: "S", symbols: "Ss", color: "#86e87c" },
+      { label: "Skeleton", symbol: "K", symbols: "Kk", color: "#f0ead5" },
+      { label: "Bungalo", symbol: "B", symbols: "Bb", color: "#f1a966" },
+      { label: "Pointer", symbol: "P", symbols: "Pp", color: "#ffd86b" }
+    ];
+
+    const ROTATED_SYMBOLS = {
+      "^": "U",
+      U: "^",
+      v: "D",
+      D: "v",
+      "<": "L",
+      L: "<",
+      ">": "R",
+      R: ">",
+      O: "o",
+      o: "O",
+      S: "s",
+      s: "S",
+      K: "k",
+      k: "K",
+      B: "b",
+      b: "B",
+      P: "p",
+      p: "P"
+    };
+
+    const elements = {
+      levelNumber: document.getElementById("level-number"),
+      levelRange: document.getElementById("level-range"),
+      status: document.getElementById("status"),
+      statusTitle: document.getElementById("status-title"),
+      statusDetail: document.getElementById("status-detail"),
+      canvas: document.getElementById("map-canvas"),
+      viewport: document.getElementById("canvas-viewport"),
+      tooltip: document.getElementById("cell-tooltip"),
+      zoomOut: document.getElementById("zoom-out"),
+      zoomIn: document.getElementById("zoom-in"),
+      zoomLabel: document.getElementById("zoom-label"),
+      factSize: document.getElementById("fact-size"),
+      factSeed: document.getElementById("fact-seed"),
+      factProfile: document.getElementById("fact-profile"),
+      factGrass: document.getElementById("fact-grass"),
+      factThreeStars: document.getElementById("fact-three-stars"),
+      factTwoStars: document.getElementById("fact-two-stars"),
+      entityChips: document.getElementById("entity-chips")
+    };
+
+    const state = {
+      level: null,
+      levelNumber: 1,
+      maxLevel: MIN_LEVEL,
+      selectedSymbol: PALETTE_ITEMS[0].symbol,
+      hoveredCell: null,
+      loadedPath: "",
+      loadedText: "",
+      zoomScale: 1,
+      requestInProgress: false,
+      inputTimer: 0,
+      editRevision: 0,
+      pendingSaveCount: 0,
+      saveQueue: Promise.resolve(),
+      undoStack: [],
+      dragMode: null,
+      dragVisited: new Set()
+    };
+
+    // Clamps and converts the level selector value to an integer.
+    function normalizeLevelNumber(value) {
+      const parsed = Number.parseInt(value, 10);
+      if (!Number.isFinite(parsed)) {
+        return state.levelNumber;
+      }
+      return Math.min(state.maxLevel, Math.max(MIN_LEVEL, parsed));
+    }
+
+    // Loads the real level count from the same catalog used by the game.
+    async function loadLevelCount() {
+      const response = await fetch(`${LEVEL_CATALOG_PATH}?load=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const catalog = await response.json();
+      if (!Array.isArray(catalog.levels) || catalog.levels.length === 0) {
+        throw new Error("В каталоге нет уровней");
+      }
+
+      state.maxLevel = catalog.levels.length;
+      elements.levelNumber.max = String(state.maxLevel);
+      elements.levelRange.textContent = `01 — ${String(state.maxLevel).padStart(2, "0")}`;
+      elements.levelNumber.setAttribute(
+        "aria-label",
+        `Номер уровня от ${MIN_LEVEL} до ${state.maxLevel}`
+      );
+    }
+
+    // Produces the zero-padded file name used by challenge levels.
+    function getLevelPath(levelNumber) {
+      const fileName = String(levelNumber).padStart(2, "0");
+      return `${LEVEL_DIRECTORY}/${fileName}.json`;
+    }
+
+    // Produces the local server endpoint used to save a numbered level.
+    function getLevelSaveUrl(levelNumber) {
+      const fileName = String(levelNumber).padStart(2, "0");
+      return `${SAVE_ENDPOINT}/${fileName}.json`;
+    }
+
+    // Updates the compact loading or error status above the map.
+    function setStatus(title, detail, isError = false) {
+      elements.statusTitle.textContent = title;
+      elements.statusDetail.textContent = detail;
+      elements.status.classList.toggle("is-error", isError);
+    }
+
+    // Checks the minimum shape needed to safely draw a level.
+    function validateLevel(level) {
+      if (!level || !Number.isInteger(level.width) || !Number.isInteger(level.height)) {
+        throw new Error("Отсутствуют целые width и height");
+      }
+      if (!Array.isArray(level.map) || level.map.length !== level.height) {
+        throw new Error(`Ожидалось строк карты: ${level.height}`);
+      }
+      const invalidRow = level.map.findIndex((row) => typeof row !== "string" || row.length !== level.width);
+      if (invalidRow !== -1) {
+        throw new Error(`Неверная ширина строки ${invalidRow + 1}`);
+      }
+    }
+
+    // Serializes the edited level in a stable, readable JSON form.
+    function serializeLevel(level) {
+      return `${JSON.stringify(level, null, 2)}\n`;
+    }
+
+    // Writes one immutable level snapshot through the local editor server.
+    async function saveLevelSnapshot(levelNumber, text, revision) {
+      const path = getLevelPath(levelNumber);
+      const saveUrl = getLevelSaveUrl(levelNumber);
+
+      try {
+        const response = await fetch(saveUrl, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          body: text
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        if (levelNumber === state.levelNumber && revision === state.editRevision) {
+          setStatus(
+            `Уровень ${String(levelNumber).padStart(2, "0")} · изменения сохранены`,
+            `${path} · ${new Date().toLocaleTimeString("ru-RU")}`
+          );
+        }
+      } catch (error) {
+        if (levelNumber === state.levelNumber) {
+          setStatus("Не удалось сохранить JSON", `${path} · ${error.message}`, true);
+        }
+      } finally {
+        state.pendingSaveCount -= 1;
+      }
+    }
+
+    // Queues saves so rapid edits cannot reach the file out of order.
+    function queueLevelSave() {
+      const levelNumber = state.levelNumber;
+      const revision = state.editRevision;
+      const text = serializeLevel(state.level);
+      const path = getLevelPath(levelNumber);
+
+      state.loadedPath = path;
+      state.loadedText = text;
+      state.pendingSaveCount += 1;
+      setStatus("Сохранение изменений…", path);
+      state.saveQueue = state.saveQueue.then(
+        () => saveLevelSnapshot(levelNumber, text, revision)
+      );
+    }
+
+    // Fetches the selected JSON and redraws only when its text has changed.
+    async function pollSelectedLevel() {
+      if (state.requestInProgress || state.pendingSaveCount > 0) {
+        return;
+      }
+
+      const requestedLevelNumber = state.levelNumber;
+      const requestedEditRevision = state.editRevision;
+      const path = getLevelPath(requestedLevelNumber);
+      state.requestInProgress = true;
+
+      try {
+        const response = await fetch(`${path}?watch=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const text = await response.text();
+        if (
+          requestedLevelNumber !== state.levelNumber ||
+          requestedEditRevision !== state.editRevision
+        ) {
+          return;
+        }
+        if (path === state.loadedPath && text === state.loadedText) {
+          return;
+        }
+
+        const level = JSON.parse(text);
+        validateLevel(level);
+
+        state.undoStack = [];
+        state.level = level;
+        state.loadedPath = path;
+        state.loadedText = text;
+        fitZoomToViewport(level);
+        renderLevel();
+        updateLevelInformation(level);
+        setStatus(
+          `Уровень ${String(requestedLevelNumber).padStart(2, "0")} · слежу за изменениями`,
+          `${path} · обновлено ${new Date().toLocaleTimeString("ru-RU")}`
+        );
+      } catch (error) {
+        const hint = location.protocol === "file:"
+          ? "Откройте страницу через локальный HTTP-сервер"
+          : `${path} · ${error.message}`;
+        setStatus("Не удалось прочитать JSON", hint, true);
+      } finally {
+        state.requestInProgress = false;
+      }
+    }
+
+    // Switches polling to a new level and resets its cached source text.
+    function selectLevel(value) {
+      state.levelNumber = normalizeLevelNumber(value);
+      state.editRevision += 1;
+      state.hoveredCell = null;
+      state.undoStack = [];
+      state.dragMode = null;
+      state.dragVisited.clear();
+      state.loadedPath = "";
+      state.loadedText = "";
+      elements.levelNumber.value = String(state.levelNumber);
+      elements.tooltip.style.display = "none";
+      setStatus("Загрузка уровня…", getLevelPath(state.levelNumber));
+      pollSelectedLevel();
+    }
+
+    // Debounces typing so partially entered level numbers do not flash errors.
+    function handleLevelInput() {
+      window.clearTimeout(state.inputTimer);
+      state.inputTimer = window.setTimeout(() => selectLevel(elements.levelNumber.value), 180);
+    }
+
+    // Returns the symbol stored at the requested map cell.
+    function getSymbolAt(level, x, y) {
+      if (x < 0 || y < 0 || x >= level.width || y >= level.height) {
+        return ".";
+      }
+      return level.map[y][x];
+    }
+
+    // Draws the forest-toned background and a subtle cell grid.
+    function drawBackground(context, level) {
+      const width = level.width * CELL_SIZE;
+      const height = level.height * CELL_SIZE;
+      context.fillStyle = "#132019";
+      context.fillRect(0, 0, width, height);
+
+      context.strokeStyle = "rgba(222, 238, 211, 0.026)";
+      context.lineWidth = 1;
+      context.beginPath();
+      for (let x = CELL_SIZE; x < width; x += CELL_SIZE) {
+        context.moveTo(x + 0.5, 0);
+        context.lineTo(x + 0.5, height);
+      }
+      for (let y = CELL_SIZE; y < height; y += CELL_SIZE) {
+        context.moveTo(0, y + 0.5);
+        context.lineTo(width, y + 0.5);
+      }
+      context.stroke();
+    }
+
+    // Draws non-colliding platform mass as recessed stone.
+    function drawMass(context, x, y) {
+      const left = x * CELL_SIZE;
+      const top = y * CELL_SIZE;
+      context.fillStyle = "#26342d";
+      context.fillRect(left, top, CELL_SIZE, CELL_SIZE);
+      context.fillStyle = "rgba(255, 255, 255, 0.026)";
+      context.fillRect(left + 2, top + 2, CELL_SIZE - 4, 1);
+    }
+
+    // Draws a collision block with a brighter exposed edge.
+    function drawSolid(context, level, x, y) {
+      const left = x * CELL_SIZE;
+      const top = y * CELL_SIZE;
+      const exposedTop = !["#", "X"].includes(getSymbolAt(level, x, y - 1));
+
+      context.fillStyle = "#53623b";
+      context.fillRect(left, top, CELL_SIZE, CELL_SIZE);
+      context.fillStyle = "#3e4d32";
+      context.fillRect(left + 2, top + 4, CELL_SIZE - 4, CELL_SIZE - 4);
+
+      if (exposedTop) {
+        context.fillStyle = "#a4bd58";
+        context.fillRect(left, top, CELL_SIZE, 3);
+        context.fillStyle = "#d3df7c";
+        context.fillRect(left + 2, top, CELL_SIZE - 5, 1);
+      }
+    }
+
+    // Draws a thin wooden jump-through platform.
+    function drawJumpThrough(context, x, y) {
+      const left = x * CELL_SIZE;
+      const top = y * CELL_SIZE;
+      context.fillStyle = "rgba(10, 16, 13, 0.6)";
+      context.fillRect(left + 1, top + 8, CELL_SIZE - 2, 4);
+      context.fillStyle = "#c69b55";
+      context.fillRect(left, top + 6, CELL_SIZE, 4);
+      context.fillStyle = "#ebcc7c";
+      context.fillRect(left, top + 6, CELL_SIZE, 1);
+    }
+
+    // Maps both hazard alphabets to one of four directions.
+    function getHazardDirection(symbol) {
+      if ("^U".includes(symbol)) return "up";
+      if ("vD".includes(symbol)) return "down";
+      if ("<L".includes(symbol)) return "left";
+      return "right";
+    }
+
+    // Draws a directional triangular hazard and marks boundary-aligned phases.
+    function drawHazard(context, symbol, x, y) {
+      const left = x * CELL_SIZE;
+      const top = y * CELL_SIZE;
+      const centerX = left + CELL_SIZE / 2;
+      const centerY = top + CELL_SIZE / 2;
+      const direction = getHazardDirection(symbol);
+      const boundaryAligned = "UDLR".includes(symbol);
+
+      context.save();
+      context.translate(centerX, centerY);
+      const rotations = { up: 0, right: Math.PI / 2, down: Math.PI, left: -Math.PI / 2 };
+      context.rotate(rotations[direction]);
+      context.beginPath();
+      context.moveTo(0, -7);
+      context.lineTo(6.5, 6);
+      context.lineTo(0, 3.5);
+      context.lineTo(-6.5, 6);
+      context.closePath();
+      context.fillStyle = boundaryAligned ? "#ff9a70" : "#ef6f54";
+      context.fill();
+      context.strokeStyle = "rgba(255, 224, 188, 0.7)";
+      context.lineWidth = 1;
+      context.stroke();
+      if (boundaryAligned) {
+        context.fillStyle = "#5b2f27";
+        context.fillRect(-6, 5, 12, 2);
+      }
+      context.restore();
+    }
+
+    // Draws the player as a compact blue figure.
+    function drawPlayer(context, x, y) {
+      const centerX = x * CELL_SIZE + 8;
+      const top = y * CELL_SIZE + 2;
+      context.fillStyle = "#9de6ff";
+      context.beginPath();
+      context.arc(centerX, top + 3.5, 3, 0, Math.PI * 2);
+      context.fill();
+      context.fillStyle = "#42a9d3";
+      context.fillRect(centerX - 3.5, top + 7, 7, 6);
+      context.fillStyle = "#d8f6ff";
+      context.fillRect(centerX + 1, top + 3, 1.5, 1.5);
+    }
+
+    // Draws an arched purple door with facing shown by its handle.
+    function drawDoor(context, x, y, mirrored) {
+      const left = x * CELL_SIZE + 3;
+      const top = y * CELL_SIZE + 1;
+      context.fillStyle = "#8b5cc2";
+      context.beginPath();
+      context.moveTo(left, top + 14);
+      context.lineTo(left, top + 5);
+      context.arc(left + 5, top + 5, 5, Math.PI, 0);
+      context.lineTo(left + 10, top + 14);
+      context.closePath();
+      context.fill();
+      context.strokeStyle = "#dcb8ff";
+      context.lineWidth = 1.2;
+      context.stroke();
+      context.fillStyle = "#f4dc7b";
+      context.beginPath();
+      context.arc(left + (mirrored ? 3 : 7), top + 9, 1, 0, Math.PI * 2);
+      context.fill();
+    }
+
+    // Draws a berry with a small leaf for instant recognition.
+    function drawBerry(context, x, y) {
+      const centerX = x * CELL_SIZE + 8;
+      const centerY = y * CELL_SIZE + 9;
+      context.fillStyle = "#ff5776";
+      context.beginPath();
+      context.arc(centerX, centerY, 4.2, 0, Math.PI * 2);
+      context.fill();
+      context.fillStyle = "#ff98aa";
+      context.beginPath();
+      context.arc(centerX - 1.5, centerY - 1.5, 1.1, 0, Math.PI * 2);
+      context.fill();
+      context.fillStyle = "#9ed45b";
+      context.beginPath();
+      context.ellipse(centerX + 2, centerY - 5, 3, 1.6, -0.5, 0, Math.PI * 2);
+      context.fill();
+    }
+
+    // Draws a soft green slime with one eye indicating its facing.
+    function drawSlime(context, x, y, mirrored) {
+      const left = x * CELL_SIZE + 2;
+      const top = y * CELL_SIZE + 5;
+      context.fillStyle = "#6ccc6d";
+      context.beginPath();
+      context.moveTo(left, top + 8);
+      context.quadraticCurveTo(left + 1, top, left + 7, top);
+      context.quadraticCurveTo(left + 13, top, left + 12, top + 8);
+      context.closePath();
+      context.fill();
+      context.fillStyle = "#d9ffd6";
+      context.fillRect(left + (mirrored ? 3 : 8), top + 3, 2, 2);
+    }
+
+    // Draws a pale skull for skeleton entities.
+    function drawSkeleton(context, x, y, mirrored) {
+      const left = x * CELL_SIZE + 3;
+      const top = y * CELL_SIZE + 2;
+      context.fillStyle = "#e6e5d5";
+      context.beginPath();
+      context.arc(left + 5, top + 5, 5, 0, Math.PI * 2);
+      context.fill();
+      context.fillRect(left + 2, top + 8, 6, 5);
+      context.fillStyle = "#354039";
+      context.fillRect(left + (mirrored ? 2 : 6), top + 4, 2, 2);
+      context.fillRect(left + 4, top + 9, 1, 3);
+    }
+
+    // Draws the larger orange Bungalo silhouette with two horns.
+    function drawBungalo(context, x, y, mirrored) {
+      const left = x * CELL_SIZE + 1;
+      const top = y * CELL_SIZE + 3;
+      context.fillStyle = "#e59a52";
+      context.beginPath();
+      context.moveTo(left + 1, top + 3);
+      context.lineTo(left + 3, top - 2);
+      context.lineTo(left + 6, top + 2);
+      context.lineTo(left + 10, top - 2);
+      context.lineTo(left + 13, top + 3);
+      context.lineTo(left + 13, top + 11);
+      context.lineTo(left + 1, top + 11);
+      context.closePath();
+      context.fill();
+      context.fillStyle = "#33251d";
+      context.fillRect(left + (mirrored ? 3 : 9), top + 5, 2, 2);
+    }
+
+    // Draws a yellow navigation pointer aimed by letter case.
+    function drawPointer(context, x, y, mirrored) {
+      const centerX = x * CELL_SIZE + 8;
+      const centerY = y * CELL_SIZE + 8;
+      context.save();
+      context.translate(centerX, centerY);
+      context.scale(mirrored ? -1 : 1, 1);
+      context.fillStyle = "#ffd861";
+      context.beginPath();
+      context.moveTo(7, 0);
+      context.lineTo(-4, -5);
+      context.lineTo(-1, 0);
+      context.lineTo(-4, 5);
+      context.closePath();
+      context.fill();
+      context.restore();
+    }
+
+    // Draws the non-empty terrain and entity represented by one map symbol.
+    function drawSymbol(context, level, symbol, x, y) {
+      if (symbol === "X") {
+        drawMass(context, x, y);
+      } else if (symbol === "#") {
+        drawSolid(context, level, x, y);
+      } else if (symbol === "=") {
+        drawJumpThrough(context, x, y);
+      } else if ("^v<>UDLR".includes(symbol)) {
+        drawHazard(context, symbol, x, y);
+      } else if (symbol === "@") {
+        drawPlayer(context, x, y);
+      } else if ("Oo".includes(symbol)) {
+        drawDoor(context, x, y, symbol === "o");
+      } else if (symbol === "*") {
+        drawBerry(context, x, y);
+      } else if ("Ss".includes(symbol)) {
+        drawSlime(context, x, y, symbol === "s");
+      } else if ("Kk".includes(symbol)) {
+        drawSkeleton(context, x, y, symbol === "k");
+      } else if ("Bb".includes(symbol)) {
+        drawBungalo(context, x, y, symbol === "b");
+      } else if ("Pp".includes(symbol)) {
+        drawPointer(context, x, y, symbol === "p");
+      }
+    }
+
+    // Renders the complete level at device resolution and applies display zoom.
+    function renderLevel() {
+      if (!state.level) {
+        return;
+      }
+
+      const level = state.level;
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      const logicalWidth = level.width * CELL_SIZE;
+      const logicalHeight = level.height * CELL_SIZE;
+      const context = elements.canvas.getContext("2d");
+
+      elements.canvas.width = logicalWidth * pixelRatio;
+      elements.canvas.height = logicalHeight * pixelRatio;
+      elements.canvas.style.width = `${logicalWidth * state.zoomScale}px`;
+      elements.canvas.style.height = `${logicalHeight * state.zoomScale}px`;
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      drawBackground(context, level);
+
+      for (let y = 0; y < level.height; y += 1) {
+        for (let x = 0; x < level.width; x += 1) {
+          drawSymbol(context, level, level.map[y][x], x, y);
+        }
+      }
+    }
+
+    // Counts symbols used by an entity or hazard group.
+    function countSymbols(level, symbols) {
+      let count = 0;
+      for (const row of level.map) {
+        for (const symbol of row) {
+          if (symbols.includes(symbol)) {
+            count += 1;
+          }
+        }
+      }
+      return count;
+    }
+
+    // Selects the symbol that clicks will place into empty cells.
+    function selectPaletteSymbol(symbol) {
+      state.selectedSymbol = symbol;
+      updateEntityChips(state.level);
+    }
+
+    // Rebuilds the complete selectable palette next to the map.
+    function updateEntityChips(level) {
+      elements.entityChips.replaceChildren();
+      for (const item of PALETTE_ITEMS) {
+        const count = countSymbols(level, item.symbols);
+        const chip = document.createElement("button");
+        const isSelected = item.symbol === state.selectedSymbol;
+        chip.type = "button";
+        chip.className = `entity-chip${isSelected ? " is-selected" : ""}`;
+        chip.setAttribute("aria-pressed", String(isSelected));
+        chip.innerHTML = `
+          <span class="chip-dot" style="color: ${item.color}"></span>
+          <span>${item.label}</span>
+          <span class="chip-count">${count}</span>
+        `;
+        chip.addEventListener("click", () => selectPaletteSymbol(item.symbol));
+        elements.entityChips.appendChild(chip);
+      }
+    }
+
+    // Updates dimensions, style and star thresholds from the loaded JSON.
+    function updateLevelInformation(level) {
+      elements.factSize.textContent = `${level.width} × ${level.height}`;
+      elements.factSeed.textContent = level.style?.seed ?? "—";
+      elements.factProfile.textContent = level.style?.profile ?? "—";
+      elements.factGrass.textContent = Number.isFinite(level.style?.grass_chance)
+        ? `${Math.round(level.style.grass_chance * 100)}%`
+        : "—";
+      elements.factThreeStars.textContent = Number.isFinite(level.star_times?.three_stars)
+        ? `${level.star_times.three_stars} сек`
+        : "—";
+      elements.factTwoStars.textContent = Number.isFinite(level.star_times?.two_stars)
+        ? `${level.star_times.two_stars} сек`
+        : "—";
+      updateEntityChips(level);
+    }
+
+    // Fits the map exactly to the viewport width after every JSON update.
+    function fitZoomToViewport(level) {
+      const stageStyles = window.getComputedStyle(elements.canvas.parentElement);
+      const horizontalPadding =
+        Number.parseFloat(stageStyles.paddingLeft) +
+        Number.parseFloat(stageStyles.paddingRight);
+      const availableWidth = Math.max(
+        1,
+        elements.viewport.clientWidth - horizontalPadding - 2
+      );
+      const fitScale = availableWidth / (level.width * CELL_SIZE);
+      state.zoomScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, fitScale));
+      updateZoomLabel();
+    }
+
+    // Displays the current canvas scale as a rounded percentage.
+    function updateZoomLabel() {
+      elements.zoomLabel.textContent = `${Math.round(state.zoomScale * 100)}%`;
+    }
+
+    // Changes canvas display scale without rerendering level data.
+    function changeZoom(direction) {
+      const factor = direction > 0 ? 1.2 : 1 / 1.2;
+      const nextScale = Math.min(
+        MAX_ZOOM,
+        Math.max(MIN_ZOOM, state.zoomScale * factor)
+      );
+      if (nextScale === state.zoomScale) {
+        return;
+      }
+
+      state.zoomScale = nextScale;
+      updateZoomLabel();
+      renderLevel();
+    }
+
+    // Converts a pointer position into a level cell.
+    function getCellFromPointer(event) {
+      if (!state.level) {
+        return null;
+      }
+
+      const bounds = elements.canvas.getBoundingClientRect();
+      const x = Math.floor(((event.clientX - bounds.left) / bounds.width) * state.level.width);
+      const y = Math.floor(((event.clientY - bounds.top) / bounds.height) * state.level.height);
+      if (x < 0 || y < 0 || x >= state.level.width || y >= state.level.height) {
+        return null;
+      }
+      return { x, y };
+    }
+
+    // Updates the tooltip text for the current cell.
+    function updateCellTooltip(cell) {
+      const symbol = state.level.map[cell.y][cell.x];
+      elements.tooltip.innerHTML = `
+        <strong>[${cell.x}, ${cell.y}] · ${symbol}</strong><br>
+        ${SYMBOL_NAMES[symbol] ?? "Неизвестный символ"}
+      `;
+    }
+
+    // Shows the source symbol and zero-based coordinates under the pointer.
+    function showCellTooltip(event) {
+      const cell = getCellFromPointer(event);
+      state.hoveredCell = cell;
+      if (!cell) {
+        elements.tooltip.style.display = "none";
+        return;
+      }
+
+      updateCellTooltip(cell);
+      elements.tooltip.style.left = `${Math.min(window.innerWidth - 145, event.clientX + 14)}px`;
+      elements.tooltip.style.top = `${Math.min(window.innerHeight - 56, event.clientY + 14)}px`;
+      elements.tooltip.style.display = "block";
+    }
+
+    // Hides the map-cell tooltip when the cursor leaves the canvas.
+    function hideCellTooltip() {
+      state.hoveredCell = null;
+      elements.tooltip.style.display = "none";
+    }
+
+    // Replaces one map symbol and immediately redraws and saves the level.
+    function replaceCellSymbol(cell, symbol, rememberUndo = true) {
+      const row = state.level.map[cell.y];
+      const previousSymbol = row[cell.x];
+      if (previousSymbol === symbol) {
+        return;
+      }
+      if (rememberUndo) {
+        state.undoStack.push({ x: cell.x, y: cell.y, symbol: previousSymbol });
+      }
+
+      state.level.map[cell.y] = `${row.slice(0, cell.x)}${symbol}${row.slice(cell.x + 1)}`;
+      state.editRevision += 1;
+      renderLevel();
+      updateLevelInformation(state.level);
+      updateCellTooltip(cell);
+      queueLevelSave();
+    }
+
+    // Restores the symbol changed by the most recent local edit.
+    function undoLastEdit() {
+      const edit = state.undoStack.pop();
+      if (!edit || !state.level) {
+        return false;
+      }
+
+      replaceCellSymbol(edit, edit.symbol, false);
+      return true;
+    }
+
+    // Applies the active paint or erase mode once to a dragged-over cell.
+    function applyDragToCell(cell) {
+      const cellKey = `${cell.x}:${cell.y}`;
+      if (state.dragVisited.has(cellKey)) {
+        return;
+      }
+      state.dragVisited.add(cellKey);
+
+      const currentSymbol = state.level.map[cell.y][cell.x];
+      if (state.dragMode === "erase" && currentSymbol !== ".") {
+        replaceCellSymbol(cell, ".");
+      } else if (state.dragMode === "paint" && currentSymbol === ".") {
+        replaceCellSymbol(cell, state.selectedSymbol);
+      }
+    }
+
+    // Starts painting from an empty cell or erasing from an occupied cell.
+    function startCanvasDrag(event) {
+      if (event.button !== 0) {
+        return;
+      }
+
+      elements.canvas.focus({ preventScroll: true });
+      const cell = getCellFromPointer(event);
+      if (!cell) {
+        return;
+      }
+
+      const currentSymbol = state.level.map[cell.y][cell.x];
+      state.dragMode = currentSymbol === "." ? "paint" : "erase";
+      state.dragVisited.clear();
+      elements.canvas.setPointerCapture(event.pointerId);
+      applyDragToCell(cell);
+      event.preventDefault();
+    }
+
+    // Extends the current paint or erase stroke across a new cell.
+    function continueCanvasDrag(event) {
+      if (!state.dragMode) {
+        return;
+      }
+
+      const cell = getCellFromPointer(event);
+      if (cell) {
+        applyDragToCell(cell);
+      }
+    }
+
+    // Finishes the current paint or erase stroke.
+    function finishCanvasDrag() {
+      state.dragMode = null;
+      state.dragVisited.clear();
+    }
+
+    // Rotates or changes the phase of the symbol under the pointer.
+    function rotateHoveredSymbol() {
+      if (!state.level || !state.hoveredCell) {
+        return false;
+      }
+
+      const cell = state.hoveredCell;
+      const symbol = state.level.map[cell.y][cell.x];
+      const rotatedSymbol = ROTATED_SYMBOLS[symbol];
+      if (!rotatedSymbol) {
+        return false;
+      }
+
+      replaceCellSymbol(cell, rotatedSymbol);
+      return true;
+    }
+
+    // Detects the platform-standard undo shortcut in any keyboard layout.
+    function isUndoShortcut(event) {
+      const zPressed =
+        event.code === "KeyZ" ||
+        event.key.toLocaleLowerCase() === "z" ||
+        event.key.toLocaleLowerCase() === "я";
+      return (
+        zPressed &&
+        (event.metaKey || event.ctrlKey) &&
+        !event.shiftKey &&
+        !event.altKey
+      );
+    }
+
+    // Handles undo before VS Code Preview consumes its standard shortcut.
+    function handleKeyboardNavigation(event) {
+      if (isUndoShortcut(event)) {
+        if (undoLastEdit()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        return;
+      }
+
+      if (event.code === "KeyR" && rotateHoveredSymbol()) {
+        event.preventDefault();
+        return;
+      }
+
+      if (document.activeElement === elements.levelNumber) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        selectLevel(state.levelNumber - 1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        selectLevel(state.levelNumber + 1);
+      }
+    }
+
+    // Wires controls and starts the live JSON polling loop.
+    async function initialize() {
+      elements.levelNumber.addEventListener("input", handleLevelInput);
+      elements.levelNumber.addEventListener("change", () => selectLevel(elements.levelNumber.value));
+      elements.zoomOut.addEventListener("click", () => changeZoom(-1));
+      elements.zoomIn.addEventListener("click", () => changeZoom(1));
+      elements.canvas.addEventListener("mousemove", showCellTooltip);
+      elements.canvas.addEventListener("mouseleave", hideCellTooltip);
+      elements.canvas.addEventListener("pointerdown", startCanvasDrag);
+      elements.canvas.addEventListener("pointermove", continueCanvasDrag);
+      elements.canvas.addEventListener("pointerup", finishCanvasDrag);
+      elements.canvas.addEventListener("pointercancel", finishCanvasDrag);
+      window.addEventListener("keydown", handleKeyboardNavigation, { capture: true });
+
+      try {
+        await loadLevelCount();
+      } catch (error) {
+        const hint = location.protocol === "file:"
+          ? "Откройте страницу через локальный HTTP-сервер"
+          : `${LEVEL_CATALOG_PATH} · ${error.message}`;
+        setStatus("Не удалось прочитать каталог уровней", hint, true);
+        return;
+      }
+
+      window.setInterval(pollSelectedLevel, POLL_INTERVAL_MS);
+      selectLevel(1);
+    }
+
+    initialize();
+  </script>
+</body>
+</html>

@@ -72,6 +72,7 @@
     {"name":"funDefaultStepMove","order":1,"path":"scripts/funDefaultStepMove/funDefaultStepMove.yy",},
     {"name":"funDrawStar","order":3,"path":"scripts/funDrawStar/funDrawStar.yy",},
     {"name":"funGetButtonByMouse","order":5,"path":"scripts/funGetButtonByMouse/funGetButtonByMouse.yy",},
+    {"name":"funGetLevelsCount","order":6,"path":"scripts/funGetLevelsCount/funGetLevelsCount.yy",},
     {"name":"funGetRoomIndex","order":4,"path":"scripts/funGetRoomIndex/funGetRoomIndex.yy",},
     {"name":"funGetStarCount","order":4,"path":"scripts/funGetStarCount/funGetStarCount.yy",},
     {"name":"funGetTimeString","order":2,"path":"scripts/funGetTimeString/funGetTimeString.yy",},

@@ -35,9 +35,9 @@ function funSaveGameState() {
 	if (global.time_records != undefined) {
 		var levels_count = array_length(global.time_records)
 		for (var i = 0; i < levels_count; ++i) {
-			var str_i = string(i) // "1"
+			var str_i = string(i)
 			if (i < 10) {
-				str_i = "0" + str_i // "01"
+				str_i = "0" + str_i
 			}
 
 			ini_write_real("time_records", "level" + str_i, global.time_records[i])

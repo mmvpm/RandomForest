@@ -1,7 +1,8 @@
 // update counters
-self.cooldown_counter = max(0, self.cooldown_counter - 1)
 self.idle_countdown_counter = max(0, self.idle_countdown_counter - 1)
 self.hurt_countdown_counter = max(0, self.hurt_countdown_counter - 1)
+funEnemyUpdateMovement()
+self.sees_player = funEnemySeePlayer()
 
 switch (self.state) {
 
@@ -45,3 +46,5 @@ switch (self.state) {
 		funSlimeDieLogic()
 		break
 }
+
+funSlimeUpdateAirVisual()

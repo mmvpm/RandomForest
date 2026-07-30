@@ -11,10 +11,23 @@ function funMenuOpenLevelSelect() {
 	room_goto(rLevelSelect)
 }
 
-// Starts the requested level or the furthest unlocked level by default.
-function funMenuGoPlay(level_index = global.current_level) {
+// Opens one level from the shared campaign and generated-level sequence.
+function funOpenLevel(level_index = global.current_level) {
+	var levels_count = funGetLevelsCount()
+	if (level_index < 0 or level_index >= levels_count) {
+		return false
+	}
+
+	if (level_index >= CAMPAIGN_LEVELS_COUNT) {
+		return funOpenGeneratedLevel(level_index)
+	}
+
+	global.playing_level = level_index
+	global.playing_level_star_times = undefined
 	audio_stop_sound(musicMenu)
-	audio_play_sound(musicGame, 0, true)
+	if (!audio_is_playing(musicGame)) {
+		audio_play_sound(musicGame, 0, true)
+	}
 
 	switch (level_index) {
 		case 0:
@@ -48,12 +61,7 @@ function funMenuGoPlay(level_index = global.current_level) {
 			room_goto(rLevel04)
 			break
 	}
-}
-
-// Resets progress and immediately starts the first level.
-function funMenuResetLevelsAndGo() {
-	funResetLevels()
-	funMenuGoPlay()
+	return true
 }
 
 // Closes the game from the main menu.

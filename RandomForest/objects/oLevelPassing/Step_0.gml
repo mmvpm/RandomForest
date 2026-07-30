@@ -1,14 +1,30 @@
+// Opens the next absolute level or the victory screen after the final level.
+function __funContinueLevel() {
+	var next_index = global.playing_level + 1
+	var levels_count = funGetLevelsCount()
+	if (next_index < levels_count) {
+		funOpenLevel(next_index)
+	}
+	else {
+		room_goto(rVictory)
+	}
+}
+
+// Runs one selected action after the standard fade.
 function __funHandleButtonAction2(button_index) { // `2` because of gms2 (you never know what...)
 	var chosen_function = undefined
 	switch (button_index) {
 		case 0:
-			chosen_function = room_goto_next
+			chosen_function = __funContinueLevel
 			break
 		case 1:
 			chosen_function = room_restart
 			break
 		case 2:
-			function __temp() { room_goto(rMenu) }
+			function __temp() {
+				audio_stop_sound(musicGame)
+				room_goto(rMenu)
+			}
 			chosen_function = __temp
 			break
 	}

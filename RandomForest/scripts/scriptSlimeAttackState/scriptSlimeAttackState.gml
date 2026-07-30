@@ -1,39 +1,49 @@
+/// Starts one slime approach.
 function funSlimeAttackStart() {
 	self.sprite_index = sSlimeAttack
 	self.image_index = 0
-	self.cooldown_counter = self.cooldown
+	self.image_speed = 1
+	self.current_xspeed = 0
 }
 
 
+/// Pursues a visible player without moving away from them.
 function funSlimeAttackLogic() {
 	if (2 <= self.image_index and self.image_index <= 3 and !audio_is_playing(soundSlimeAttack)) {
-
 		audio_play_sound(soundSlimeAttack, 1, false)
 	}
 
-	var direction_to_player = oPlayer.x - self.x
-	if (abs(direction_to_player) < 12) {
-		direction_to_player = 0
-	}
-	direction_to_player = sign(direction_to_player)
-	
-	if (direction_to_player != 0) {
-		self.current_direction = direction_to_player
-		self.image_xscale = self.current_direction * abs(self.image_xscale)
-	}
-	
-	self.current_xspeed = self.step_xspeed * self.current_direction
-	
-	funDefaultStepMove()
-	
 	var critical_state = funSlimeDetectCriticalState()
 	if (critical_state != undefined) {
 		funDefaultChangeState(critical_state)
 		return
 	}
-	
+
+	if (self.air_navigation_active) {
+		funEnemyApplyAirMovement()
+		funDefaultStepMove()
+		funEnemyFinishAirMovement()
+		return
+	}
+
 	if (!funSlimeSeePlayer()) {
 		funDefaultChangeState(slime_states.idle)
 		return
 	}
+
+	if (!funEnemyTryPursuitAction(oPlayer.x, oPlayer.bbox_bottom, -4, 1)) {
+		self.current_xspeed = 0
+		funDefaultStepMove()
+		return
+	}
+
+	if (self.air_navigation_active) {
+		funEnemyApplyAirMovement()
+		funDefaultStepMove()
+		funEnemyFinishAirMovement()
+		return
+	}
+
+	self.current_xspeed = self.step_xspeed * self.current_direction
+	funDefaultStepMove()
 }

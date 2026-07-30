@@ -1,12 +1,13 @@
+/// Returns an immediate damage state for the skeleton, if one is allowed.
 function funSkeletonDetectCriticalState() {
 	// hurt
 	var hurt_allowed = self.hurt_countdown_counter == 0
 	var is_trapped = place_meeting(self.x, self.y, oTrap)
 	var is_hit_by_player = place_meeting(self.x, self.y, oPlayerSword)
 
-	if (is_trapped) {
-		var nearest_trap = instance_nearest(self.x, self.y, oTrap)
-		self.future_damage = nearest_trap.damage
+	if (is_trapped and hurt_allowed) {
+		var overlapping_trap = instance_place(self.x, self.y, oTrap)
+		self.future_damage = overlapping_trap.damage
 		return skeleton_states.hurt
 	}
 	if (is_hit_by_player and hurt_allowed) {

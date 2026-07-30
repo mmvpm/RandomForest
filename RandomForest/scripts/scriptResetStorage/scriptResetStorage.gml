@@ -3,6 +3,8 @@
 function funResetGeneral() {
 	global.is_fullscreen = false
 	global.current_level = 0
+	global.playing_level = 0
+	global.playing_level_star_times = undefined
 	global.is_training_completed = false
 	global.is_game_finished = false
 	global.hit_vs_tap_text_shown = 0
@@ -12,6 +14,8 @@ function funResetGeneral() {
 
 function funResetLevels() {
 	global.current_level = 0
+	global.playing_level = 0
+	global.playing_level_star_times = undefined
 	global.is_training_completed = false
 	global.is_game_finished = false
 

@@ -1,36 +1,16 @@
-self.level_select_index = -1
-
-if (global.is_game_finished) {
-	self.level_select_index = 0
-	self.items_count = 4
+if (global.is_training_completed) {
+	self.items_count = 3
 	self.strings = [
 		"Продолжить",
-		"Начать заново",
 		"Справка",
 		"Выйти",
 	]
 	self.functions = [
 		funMenuOpenLevelSelect,
-		funMenuResetLevelsAndGo,
 		funMenuShowControls,
 		funMenuExit,
 	]
-}
-else if (global.is_training_completed) {
-	self.level_select_index = 0
-	self.items_count = 4
-	self.strings = [
-		"Продолжить",
-		"Начать заново",
-		"Справка",
-		"Выйти",
-	]
-	self.functions = [
-		funMenuOpenLevelSelect,
-		funMenuResetLevelsAndGo,
-		funMenuShowControls,
-		funMenuExit,
-	]
+	self.immediate_actions = [true, false, false]
 }
 else {
 	self.items_count = 3
@@ -40,10 +20,11 @@ else {
 		"Выйти",
 	]
 	self.functions = [
-		funMenuGoPlay,
+		funOpenLevel,
 		funMenuShowControls,
 		funMenuExit,
 	]
+	self.immediate_actions = [false, false, false]
 }
 
 self.current_color = make_color_rgb(112, 211, 112) // light-green
@@ -61,14 +42,8 @@ self.border_height = 35
 
 self.text_scale = 20 / 24
 
-if (self.items_count == 4) {
-	self.separate_dist = 42
-	self.top_item = 105
-}
-else {
-	self.separate_dist = 45
-	self.top_item = 105
-}
+self.separate_dist = 42
+self.top_item = 105
 
 self.current_index = 0
 

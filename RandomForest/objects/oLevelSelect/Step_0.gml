@@ -1,30 +1,253 @@
-// Returns whether a level button can be selected.
-function __funLevelIsUnlocked(button_index) {
-	return button_index >= 0 and button_index < self.levels_count and button_index <= global.current_level
+// Returns the number of level buttons visible on the current page.
+function __funVisibleLevelCount() {
+	var first_level = self.page_index * self.page_size
+	return min(self.page_size, self.levels_count - first_level)
 }
 
-// Changes selection only to enabled levels or the exit button.
+// Returns whether one level or navigation button can be used.
+function __funLevelButtonIsEnabled(button_index) {
+	if (button_index >= 0 and button_index < __funVisibleLevelCount()) {
+		var level_index = self.page_index * self.page_size + button_index
+		return level_index <= global.current_level
+	}
+	if (button_index == self.previous_index) {
+		return self.page_index > 0
+	}
+	if (button_index == self.next_index) {
+		return self.page_index < self.page_count - 1
+	}
+	return button_index == self.exit_index
+}
+
+// Changes selection only to a visible and enabled button.
 function __funSelectLevelButton(button_index) {
-	var button_allowed = button_index == self.exit_index or __funLevelIsUnlocked(button_index)
-	if (button_allowed and button_index != self.current_index) {
+	if (
+		__funLevelButtonIsEnabled(button_index)
+		and button_index != self.current_index
+	) {
 		self.current_index = button_index
 		audio_play_sound(soundMenuButton, 0, false)
 	}
 }
 
-// Opens a level or returns to the main menu immediately.
+// Opens a page and selects its first unlocked level when possible.
+function __funOpenLevelPage(page_index) {
+	self.page_index = clamp(page_index, 0, self.page_count - 1)
+	var first_level = self.page_index * self.page_size
+	self.current_index = (
+		first_level <= global.current_level
+		? 0
+		: self.previous_index
+	)
+	audio_play_sound(soundMenuButton, 0, false)
+}
+
+// Opens a level or handles one of the navigation controls.
 function __funActivateLevelButton(button_index) {
-	if (button_index != self.exit_index and !__funLevelIsUnlocked(button_index)) {
+	if (!__funLevelButtonIsEnabled(button_index)) {
+		return
+	}
+	if (button_index == self.previous_index) {
+		__funOpenLevelPage(self.page_index - 1)
+		return
+	}
+	if (button_index == self.next_index) {
+		__funOpenLevelPage(self.page_index + 1)
+		return
+	}
+	if (button_index == self.exit_index) {
+		global.skip_menu_fade_once = true
+		room_goto(rMenu)
 		return
 	}
 
-	if (button_index == self.exit_index) {
-		// Skip the main menu fade only for this immediate return.
-		global.skip_menu_fade_once = true
-		room_goto(rMenu)
+	var level_index = self.page_index * self.page_size + button_index
+	funOpenLevel(level_index)
+}
+
+// Returns the first unlocked level button on the current page.
+function __funFirstAvailableLevelButton() {
+	return __funLevelButtonIsEnabled(0) ? 0 : -1
+}
+
+// Returns the last unlocked level button on the current page.
+function __funLastAvailableLevelButton() {
+	var first_level = self.page_index * self.page_size
+	var last_visible = __funVisibleLevelCount() - 1
+	var last_unlocked = global.current_level - first_level
+	var button_index = min(last_visible, last_unlocked)
+	return button_index >= 0 ? button_index : -1
+}
+
+// Returns an enabled control when the page contains no unlocked levels.
+function __funLevelControlFallback() {
+	if (
+		self.current_index != self.previous_index
+		and __funLevelButtonIsEnabled(self.previous_index)
+	) {
+		return self.previous_index
+	}
+	if (
+		self.current_index != self.next_index
+		and __funLevelButtonIsEnabled(self.next_index)
+	) {
+		return self.next_index
+	}
+	if (self.current_index != self.exit_index) {
+		return self.exit_index
+	}
+	return self.current_index
+}
+
+// Returns the requested level or an enabled navigation control.
+function __funLevelOrFallback(button_index) {
+	if (__funLevelButtonIsEnabled(button_index)) {
+		return button_index
+	}
+	return __funLevelControlFallback()
+}
+
+// Enters the grid from the previous-page button.
+function __funEnterLevelGridFromLeft() {
+	var lower_left = self.columns_count
+	if (__funLevelButtonIsEnabled(lower_left)) {
+		return lower_left
+	}
+	return __funLevelOrFallback(__funFirstAvailableLevelButton())
+}
+
+// Enters the grid from the next-page button.
+function __funEnterLevelGridFromRight() {
+	var lower_right = self.page_size - 1
+	if (__funLevelButtonIsEnabled(lower_right)) {
+		return lower_right
+	}
+	return __funLevelOrFallback(__funLastAvailableLevelButton())
+}
+
+// Returns the closest unlocked button in the next grid row.
+function __funLevelBelow() {
+	var next_row_start = (
+		(self.current_index div self.columns_count + 1)
+		* self.columns_count
+	)
+	var last_available = __funLastAvailableLevelButton()
+	if (next_row_start > last_available) {
+		return self.exit_index
+	}
+	var column = self.current_index mod self.columns_count
+	return min(next_row_start + column, last_available)
+}
+
+// Returns a lower-row level on the requested side of the exit button.
+function __funExitSideLevel(direction_x) {
+	var last_available = __funLastAvailableLevelButton()
+	if (last_available < 0) {
+		return __funLevelControlFallback()
+	}
+	var row_start = (last_available div self.columns_count) * self.columns_count
+	var preferred_column = direction_x < 0 ? 1 : 3
+	return min(row_start + preferred_column, last_available)
+}
+
+// Returns the closest upper or lower destination for a page button.
+function __funPageButtonVertical(direction_y, from_left) {
+	var last_available = __funLastAvailableLevelButton()
+	if (last_available < 0) {
+		return __funLevelControlFallback()
+	}
+	if (direction_y < 0) {
+		var top_target = from_left ? 0 : min(self.columns_count - 1, last_available)
+		return __funLevelOrFallback(top_target)
+	}
+	var bottom_row_start = (
+		(last_available div self.columns_count)
+		* self.columns_count
+	)
+	var bottom_target = from_left ? bottom_row_start : last_available
+	return __funLevelOrFallback(bottom_target)
+}
+
+// Moves one grid selection without horizontal edge wrapping.
+function __funMoveLevel(direction_x, direction_y) {
+	var column = self.current_index mod self.columns_count
+	if (direction_x < 0) {
+		var left_index = self.current_index - 1
+		if (column == 0) {
+			left_index = (
+				__funLevelButtonIsEnabled(self.previous_index)
+				? self.previous_index
+				: self.current_index
+			)
+		}
+		__funSelectLevelButton(left_index)
+		return
+	}
+	if (direction_x > 0) {
+		var right_index = self.current_index + 1
+		if (
+			column == self.columns_count - 1
+			or !__funLevelButtonIsEnabled(right_index)
+		) {
+			right_index = (
+				__funLevelButtonIsEnabled(self.next_index)
+				? self.next_index
+				: self.current_index
+			)
+		}
+		__funSelectLevelButton(right_index)
+		return
+	}
+	if (direction_y < 0) {
+		var upper_index = self.current_index - self.columns_count
+		__funSelectLevelButton(
+			upper_index >= 0 ? upper_index : self.exit_index
+		)
+		return
+	}
+	__funSelectLevelButton(__funLevelBelow())
+}
+
+// Applies page-aware keyboard navigation.
+function __funMoveLevelSelection(direction_x, direction_y) {
+	if (self.current_index < self.page_size) {
+		__funMoveLevel(direction_x, direction_y)
+		return
+	}
+	if (self.current_index == self.previous_index) {
+		var previous_target = self.current_index
+		if (direction_x > 0) {
+			previous_target = __funEnterLevelGridFromLeft()
+		}
+		else if (direction_y != 0) {
+			previous_target = __funPageButtonVertical(direction_y, true)
+		}
+		__funSelectLevelButton(previous_target)
+		return
+	}
+	if (self.current_index == self.next_index) {
+		var next_target = self.current_index
+		if (direction_x < 0) {
+			next_target = __funEnterLevelGridFromRight()
+		}
+		else if (direction_y != 0) {
+			next_target = __funPageButtonVertical(direction_y, false)
+		}
+		__funSelectLevelButton(next_target)
+		return
+	}
+	if (direction_y < 0) {
+		__funSelectLevelButton(
+			__funLevelOrFallback(__funLastAvailableLevelButton())
+		)
+	}
+	else if (direction_y > 0) {
+		__funSelectLevelButton(
+			__funLevelOrFallback(__funFirstAvailableLevelButton())
+		)
 	}
 	else {
-		funMenuGoPlay(button_index)
+		__funSelectLevelButton(__funExitSideLevel(direction_x))
 	}
 }
 
@@ -35,7 +258,10 @@ if (self.mouse_allowed_counter != 0) {
 }
 self.mouse_allowed_counter = max(0, self.mouse_allowed_counter - 1)
 
-if (keyboard_check_pressed(vk_enter)) {
+if (keyboard_check_pressed(global.key_pause)) {
+	__funActivateLevelButton(self.exit_index)
+}
+else if (keyboard_check_pressed(vk_enter)) {
 	__funActivateLevelButton(self.current_index)
 }
 else if (mouse_check_button_pressed(mb_left)) {
@@ -50,42 +276,16 @@ else if (mouse_check_button_pressed(mb_left)) {
 	}
 }
 else if (keyboard_check_pressed(vk_left)) {
-	if (self.current_index != self.exit_index) {
-		var current_column = self.current_index mod self.columns_count
-		if (current_column > 0) {
-			__funSelectLevelButton(self.current_index - 1)
-		}
-	}
+	__funMoveLevelSelection(-1, 0)
 }
 else if (keyboard_check_pressed(vk_right)) {
-	if (self.current_index != self.exit_index) {
-		var current_column = self.current_index mod self.columns_count
-		if (current_column < self.columns_count - 1) {
-			__funSelectLevelButton(self.current_index + 1)
-		}
-	}
+	__funMoveLevelSelection(1, 0)
 }
 else if (keyboard_check_pressed(vk_up)) {
-	if (self.current_index == self.exit_index) {
-		__funSelectLevelButton(clamp(floor(global.current_level), 0, self.levels_count - 1))
-	}
-	else {
-		var upper_index = self.current_index - self.columns_count
-		if (upper_index >= 0) {
-			__funSelectLevelButton(upper_index)
-		}
-	}
+	__funMoveLevelSelection(0, -1)
 }
 else if (keyboard_check_pressed(vk_down)) {
-	if (self.current_index != self.exit_index) {
-		var lower_index = self.current_index + self.columns_count
-		if (__funLevelIsUnlocked(lower_index)) {
-			__funSelectLevelButton(lower_index)
-		}
-		else {
-			__funSelectLevelButton(self.exit_index)
-		}
-	}
+	__funMoveLevelSelection(0, 1)
 }
 else if (self.mouse_allowed_counter == 0) {
 	var hovered_index = funGetButtonByMouse(

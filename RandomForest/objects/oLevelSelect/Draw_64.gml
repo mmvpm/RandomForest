@@ -1,82 +1,130 @@
-var cam_w = camera_get_view_width(view_camera[0])
-
-draw_set_halign(fa_center)
-draw_set_valign(fa_middle)
-draw_set_font(global.default_font_24)
-
-// Match the main menu logo.
-draw_set_color(c_white)
-draw_text_transformed(0.5 * cam_w + 2, 30, "Random Forest", 2, 2, 0)
-
-// Draw level buttons and cache their mouse hit boxes.
-for (var i = 0; i < self.levels_count; ++i) {
-	var unlocked = i <= global.current_level
+// Draws one level or navigation button and caches its mouse bounds.
+function __funDrawLevelSelectButton(
+	button_index,
+	x_pos,
+	y_pos,
+	width,
+	height,
+	text,
+	enabled,
+	text_offset_x = 0,
+	text_offset_y = 0
+) {
 	var ui_scale = self.default_scale
 	var button_color = self.default_button_color
 	draw_set_color(self.default_color)
 
-	if (!unlocked) {
+	if (!enabled) {
 		button_color = self.locked_button_color
 		draw_set_color(self.locked_color)
 	}
-	else if (i == self.current_index) {
+	else if (button_index == self.current_index) {
 		ui_scale = self.current_scale
 		button_color = self.current_button_color
 		draw_set_color(self.current_color)
 	}
 
-	var column = i mod self.columns_count
-	var row = i div self.columns_count
-	var x_pos = self.grid_left + self.grid_step * column
-	var y_pos = self.grid_top + self.grid_step * row
-	var button_size = self.level_button_size * ui_scale
-	var x_left = x_pos - button_size / 2
-	var y_top = y_pos - button_size / 2
-
+	var button_width = width * ui_scale
+	var button_height = height * ui_scale
+	var x_left = x_pos - button_width / 2
+	var y_top = y_pos - button_height / 2
 	draw_sprite_stretched_ext(
 		self.border_sprite, 0,
 		x_left, y_top,
-		button_size, button_size,
+		button_width, button_height,
 		button_color, 1
 	)
 
-	self.x_left_cached[i] = x_left
-	self.y_top_cached[i] = y_top
-	self.x_right_cached[i] = x_left + button_size
-	self.y_bottom_cached[i] = y_top + button_size
+	if (enabled) {
+		self.x_left_cached[button_index] = x_left
+		self.y_top_cached[button_index] = y_top
+		self.x_right_cached[button_index] = x_left + button_width
+		self.y_bottom_cached[button_index] = y_top + button_height
+	}
 
-	var number_scale = ui_scale * self.text_scale
-	draw_text_transformed(x_pos, y_pos, string(i + 1), number_scale, number_scale, 0)
+	var label_scale = ui_scale * self.text_scale
+	draw_text_transformed(
+		x_pos + text_offset_x,
+		y_pos + text_offset_y,
+		text,
+		label_scale,
+		label_scale,
+		0
+	)
+	return button_width
 }
 
-// Draw the exit button below the level grid.
-var exit_scale = self.default_scale
-var exit_button_color = self.default_button_color
-draw_set_color(self.default_color)
-if (self.current_index == self.exit_index) {
-	exit_scale = self.current_scale
-	exit_button_color = self.current_button_color
-	draw_set_color(self.current_color)
+var cam_w = camera_get_view_width(view_camera[0])
+draw_set_halign(fa_center)
+draw_set_valign(fa_middle)
+draw_set_font(global.default_font_24)
+
+// Clear bounds for unused slots and disabled page controls.
+for (var clear_index = 0; clear_index < self.buttons_count; ++clear_index) {
+	self.x_left_cached[clear_index] = -1000
+	self.y_top_cached[clear_index] = -1000
+	self.x_right_cached[clear_index] = -1000
+	self.y_bottom_cached[clear_index] = -1000
 }
 
-var exit_width = self.exit_button_width * exit_scale
-var exit_height = self.exit_button_height * exit_scale
-var exit_left = self.exit_x - exit_width / 2
-var exit_top = self.exit_y - exit_height / 2
-draw_sprite_stretched_ext(
-	self.border_sprite, 0,
-	exit_left, exit_top,
-	exit_width, exit_height,
-	exit_button_color, 1
+// Keep the original level-select title and visual hierarchy.
+draw_set_color(c_white)
+draw_text_transformed(0.5 * cam_w + 2, 30, "Random Forest", 2, 2, 0)
+
+var first_level = self.page_index * self.page_size
+var visible_count = min(self.page_size, self.levels_count - first_level)
+for (var i = 0; i < visible_count; ++i) {
+	var level_index = first_level + i
+	var x_pos = self.button_x[i]
+	var y_pos = self.button_y[i]
+	var button_size = __funDrawLevelSelectButton(
+		i,
+		x_pos,
+		y_pos,
+		self.level_button_size,
+		self.level_button_size,
+		string(level_index + 1),
+		level_index <= global.current_level
+	)
+	var earned_stars = funGetStarCount(
+		global.time_records[level_index],
+		level_index,
+		self.level_star_times[level_index]
+	)
+	funDrawLevelStars(x_pos, y_pos, button_size, earned_stars)
+}
+
+__funDrawLevelSelectButton(
+	self.previous_index,
+	self.previous_x,
+	self.page_buttons_y,
+	self.page_button_width,
+	self.page_button_height,
+	"<",
+	self.page_index > 0,
+	0,
+	-2
 )
-
-self.x_left_cached[self.exit_index] = exit_left
-self.y_top_cached[self.exit_index] = exit_top
-self.x_right_cached[self.exit_index] = exit_left + exit_width
-self.y_bottom_cached[self.exit_index] = exit_top + exit_height
-
-var exit_text_scale = exit_scale * self.text_scale
-draw_text_transformed(self.exit_x, self.exit_y, "Выйти в меню", exit_text_scale, exit_text_scale, 0)
+__funDrawLevelSelectButton(
+	self.next_index,
+	self.next_x,
+	self.page_buttons_y,
+	self.page_button_width,
+	self.page_button_height,
+	">",
+	self.page_index < self.page_count - 1,
+	1,
+	-2
+)
+__funDrawLevelSelectButton(
+	self.exit_index,
+	self.exit_x,
+	self.exit_y,
+	self.exit_button_width,
+	self.exit_button_height,
+	"Выйти в меню",
+	true
+)
 
 draw_set_color(c_white)
 draw_set_alpha(1)

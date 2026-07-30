@@ -1,3 +1,4 @@
+/// Chooses the bungalo's next local combat or patrol state.
 function funBungaloDetectState() {
 	// critical states
 	var critical_state = funBungaloDetectCriticalState()
@@ -5,33 +6,42 @@ function funBungaloDetectState() {
 		return critical_state
 	}
 
-	// attack
-	if (funBungaloWantAttack()) {
-		return bungalo_states.attack
+	if (funEnemyPositionIsDangerous(self.x, self.y)) {
+		self.escape_hazard = true
+		return bungalo_states.move
 	}
 
 	// defense by attack
-	if (funBungaloSeeTapSword()) {
+	var incoming_sword = funBungaloSeeTapSword()
+	if (incoming_sword != noone) {
 		self.defense_activated = true
-		var direction_to_sword = sign(oPlayerTapSword.x - self.x)
+		self.defense_sword_id = incoming_sword
+		var direction_to_sword = sign(incoming_sword.x - self.x)
 		if (direction_to_sword != 0) {
 			self.image_xscale = direction_to_sword * abs(self.image_xscale)
 		}
 		return bungalo_states.attack
 	}
 
+	// attack
+	if (funBungaloWantAttack()) {
+		return bungalo_states.attack
+	}
+
 	// move
 	if (funBungaloSeePlayer()) {
-		var direction_to_player = sign(oPlayer.x - self.x)
+		var distance_to_player = oPlayer.x - self.x
+		// Match move logic so an aligned player cannot restart movement every frame.
+		if (abs(distance_to_player) < 12) {
+			return bungalo_states.idle
+		}
+
+		var direction_to_player = sign(distance_to_player)
 		if (direction_to_player != 0) {
 			self.image_xscale = direction_to_player * abs(self.image_xscale)
 		}
 
-		var fully_on_ground = funDefaultFullyOnGround()
-		var new_x = self.x + sign(self.image_xscale) * self.step_xspeed
-		var may_move = !place_meeting(new_x, self.y, oSolid)
-
-		if (may_move and fully_on_ground) {
+		if (funEnemyCanWalk(direction_to_player)) {
 			return bungalo_states.move
 		}
 		else {

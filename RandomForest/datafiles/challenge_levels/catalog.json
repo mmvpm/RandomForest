@@ -1,0 +1,14 @@
+{
+  "levels": [
+    "challenge_levels/01.json",
+    "challenge_levels/02.json",
+    "challenge_levels/03.json",
+    "challenge_levels/04.json",
+    "challenge_levels/05.json",
+    "challenge_levels/06.json",
+    "challenge_levels/07.json",
+    "challenge_levels/08.json",
+    "challenge_levels/09.json",
+    "challenge_levels/10.json"
+  ]
+}

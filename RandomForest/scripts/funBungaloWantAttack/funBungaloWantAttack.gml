@@ -1,4 +1,9 @@
+/// Returns whether the visible player is inside the bungalo's forward sword reach.
 function funBungaloWantAttack() {
+	if (!funBungaloSeePlayer()) {
+		return false
+	}
+
 	var by_x = self.image_xscale * self.attack_radius // not |bbox_right - bbox_left| just because
 	var by_y = self.image_yscale * abs(sprite_get_bbox_bottom(sBungaloSword) - sprite_get_bbox_top(sBungaloSword))
 

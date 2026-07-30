@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"funBuildGeneratedLevel",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funBuildGeneratedLevel",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

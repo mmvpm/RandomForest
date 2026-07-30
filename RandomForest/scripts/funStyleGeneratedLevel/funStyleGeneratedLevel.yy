@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"funStyleGeneratedLevel",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funStyleGeneratedLevel",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
