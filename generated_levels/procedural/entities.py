@@ -7,7 +7,18 @@ import random
 
 from . import config
 from .berry_distribution import BerryCandidate, select_berry_candidates
-from .placement import berry_has_safe_landing, pixel_footprint_clear
+from .encounters import (
+    build_encounter_zones,
+    candidate_suitability,
+    encounter_enemy_target,
+    ordered_encounter_zones,
+)
+from .placement import (
+    berry_has_safe_landing,
+    ground_support_bounds,
+    pixel_footprint_clear,
+)
+from .repair import RepairBudget, repair_ground_support_near
 from .topology import build_navigation_search, navigation_distances
 
 
@@ -29,24 +40,30 @@ def _hazard_near(hazards: list[list[str]], x: int, y: int, radius: int) -> bool:
 def _ground_candidate(
     terrain: list[list[str]], hazards: list[list[str]], x: int, y: int, symbol: str
 ) -> bool:
-    """Check floor width, headroom, and hazard clearance for a grounded entity."""
-    left_px, top_px, right_px, _ = config.ENTITY_FOOTPRINTS[symbol]
-    footprint_width = right_px - left_px
-    floor_width = math.ceil(
-        (footprint_width + config.ENTITY_PATROL_MARGIN[symbol]) / config.CELL_SIZE
-    )
-    headroom = math.ceil(abs(top_px) / config.CELL_SIZE)
-    left = x - (floor_width - 1) // 2
-    right = left + floor_width
-    if left < 1 or right >= len(terrain[0]) - 1 or y - headroom < 1:
+    """Check hard footprint support, headroom, and hazard clearance."""
+    left, right = ground_support_bounds(x, symbol)
+    if left < 1 or right >= len(terrain[0]) - 1 or y < 2:
         return False
     for floor_x in range(left, right):
         if terrain[y][floor_x] != "#":
             return False
-        if any(terrain[air_y][floor_x] != "." for air_y in range(y - headroom, y)):
-            return False
     return _footprint_clear(terrain, x, y, symbol) and not _hazard_near(
         hazards, x, y - 1, 2
+    )
+
+
+def _has_patrol_comfort(terrain: list[list[str]], point: Point, symbol: str) -> bool:
+    """Return whether a safe anchor also has the preferred patrol width."""
+    x, y = point
+    left_px, _, right_px, _ = config.ENTITY_FOOTPRINTS[symbol]
+    floor_width = math.ceil(
+        (right_px - left_px + config.ENTITY_PATROL_MARGIN[symbol])
+        / config.CELL_SIZE
+    )
+    left = x - (floor_width - 1) // 2
+    right = left + floor_width
+    return left >= 1 and right < len(terrain[0]) - 1 and all(
+        terrain[y][floor_x] == "#" for floor_x in range(left, right)
     )
 
 
@@ -82,14 +99,18 @@ def _sword_ray_clear(terrain: list[list[str]], start: Point, target: Point) -> b
 
 
 def _ground_candidates(
-    terrain: list[list[str]], hazards: list[list[str]], symbol: str
+    terrain: list[list[str]],
+    hazards: list[list[str]],
+    symbol: str,
+    require_comfort: bool = False,
 ) -> list[Point]:
-    """Return all valid anchors for one floor-bound entity type."""
+    """Return hard-safe anchors, optionally retaining conservative comfort."""
     return [
         (x, y)
         for y in range(2, len(terrain) - 1)
         for x in range(2, len(terrain[0]) - 2)
         if _ground_candidate(terrain, hazards, x, y, symbol)
+        and (not require_comfort or _has_patrol_comfort(terrain, (x, y), symbol))
     ]
 
 
@@ -305,7 +326,7 @@ def place_entities(
     width = len(terrain[0])
     entities = [["."] * width for _ in range(height)]
     rng = random.Random(seed ^ 0x454E54495459)
-    player_floors = _ground_candidates(terrain, hazards, "@")
+    player_floors = _ground_candidates(terrain, hazards, "@", require_comfort=True)
     door_floors = [floor for floor in player_floors if _door_anchor(terrain, floor)]
     start_floor, door_floor, selected_route = _choose_start_and_door_floor(
         terrain,
@@ -330,7 +351,9 @@ def place_entities(
     ]
 
     level_area = width * height
-    target = enemy_target(level_area)
+    zones = build_encounter_zones(terrain, route_metrics, seed)
+    target = encounter_enemy_target(enemy_target(level_area), zones)
+    encounter_schedule = ordered_encounter_zones(zones, target)
     enemy_candidates = {
         symbol: _ground_candidates(terrain, hazards, symbol)
         for symbol in ("S", "K", "B")
@@ -339,9 +362,10 @@ def place_entities(
         rng.shuffle(candidates)
     placed_enemies = 0
     enemy_points: list[Point] = []
+    repair_budget = RepairBudget(config.LOCAL_REPAIR_BUDGET)
     for enemy_index in range(target):
         preferred_type = _weighted_enemy(rng)
-        desired_stage = (enemy_index + 1) / (target + 1)
+        zone = encounter_schedule[enemy_index]
         available_types = (preferred_type,) + tuple(
             symbol for symbol in ("S", "K", "B") if symbol != preferred_type
         )
@@ -356,13 +380,31 @@ def place_entities(
                 continue
             point = min(
                 usable,
-                key=lambda candidate: abs(
-                    _route_stage(candidate, route_metrics) - desired_stage
+                key=lambda candidate: candidate_suitability(
+                    terrain,
+                    symbol,
+                    candidate,
+                    _route_stage(candidate, route_metrics),
+                    zone,
                 )
                 + rng.random() * 0.08,
             )
             choice = symbol, point
             break
+        if choice is None:
+            repaired = repair_ground_support_near(
+                terrain,
+                hazards,
+                preferred_type,
+                zone.center,
+                selected_route,
+                occupied,
+                repair_budget,
+            )
+            if repaired is not None and _ground_candidate(
+                terrain, hazards, repaired[0], repaired[1], preferred_type
+            ):
+                choice = preferred_type, repaired
         if choice is None:
             continue
         symbol, point = choice

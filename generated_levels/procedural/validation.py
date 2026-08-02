@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 
 from . import config
+from .affordance import platform_runs_are_supported
 from .features import spike_has_deep_backing, spike_run_has_side_backing
 from .level_format import (
     ENTITY_SYMBOLS,
@@ -12,7 +13,11 @@ from .level_format import (
     TERRAIN_SYMBOLS,
     decode_level,
 )
-from .placement import berry_has_safe_landing, pixel_footprint_clear
+from .placement import (
+    berry_has_safe_landing,
+    ground_support_bounds,
+    pixel_footprint_clear,
+)
 
 
 def _validate_layer(level: dict[str, object], name: str, symbols: frozenset[str]) -> None:
@@ -193,7 +198,7 @@ def _validate_hazards(terrain: list[str], hazards: list[str]) -> None:
 
 
 def _validate_jump_throughs(terrain: list[str]) -> None:
-    """Require every jump-through run to be horizontally anchored and usable."""
+    """Require valid runs whose complete construction links back to rock."""
     height = len(terrain)
     width = len(terrain[0])
     for y in range(height):
@@ -208,16 +213,14 @@ def _validate_jump_throughs(terrain: list[str]) -> None:
             length = x - start
             if not config.JUMP_THRU_MIN_LENGTH <= length <= config.JUMP_THRU_MAX_LENGTH:
                 raise ValueError(f"Invalid jump-through length at ({start}, {y})")
-            left_anchor = start > 0 and terrain[y][start - 1] == "#"
-            right_anchor = x < width and terrain[y][x] == "#"
-            if not (left_anchor or right_anchor):
-                raise ValueError(f"Jump-through floats at ({start}, {y})")
             for platform_x in range(start, x):
                 if any(
                     terrain[check_y][platform_x] not in ".="
                     for check_y in range(y - 3, y)
                 ):
                     raise ValueError(f"Jump-through lacks headroom at ({platform_x}, {y})")
+    if not platform_runs_are_supported(terrain):
+        raise ValueError("Jump-through construction is disconnected from rock")
 
 
 def _footprint_clear(terrain: list[str], x: int, y: int, symbol: str) -> bool:
@@ -242,28 +245,11 @@ def _validate_entities(terrain: list[str], hazards: list[str], entities: list[st
             if upper in ("@", "S", "K", "B"):
                 if terrain[y][x] != "#":
                     raise ValueError(f"Ground entity lacks a floor anchor at ({x}, {y})")
-                left_px, top_px, right_px, _ = config.ENTITY_FOOTPRINTS[upper]
-                floor_width = math.ceil(
-                    (
-                        right_px
-                        - left_px
-                        + config.ENTITY_PATROL_MARGIN[upper]
-                    )
-                    / config.CELL_SIZE
-                )
-                headroom = math.ceil(abs(top_px) / config.CELL_SIZE)
-                left = x - (floor_width - 1) // 2
-                right = left + floor_width
-                if left < 0 or right > len(row) or y - headroom < 0:
+                left, right = ground_support_bounds(x, upper)
+                if left < 0 or right > len(row):
                     raise ValueError(f"Ground entity footprint leaves the map at ({x}, {y})")
                 if any(terrain[y][floor_x] != "#" for floor_x in range(left, right)):
-                    raise ValueError(f"Ground entity platform is too short at ({x}, {y})")
-                if any(
-                    terrain[air_y][floor_x] != "."
-                    for air_y in range(y - headroom, y)
-                    for floor_x in range(left, right)
-                ):
-                    raise ValueError(f"Ground entity lacks headroom at ({x}, {y})")
+                    raise ValueError(f"Ground entity footprint lacks support at ({x}, {y})")
                 if not _footprint_clear(terrain, x, y, upper):
                     raise ValueError(f"Ground entity pixel footprint is blocked at ({x}, {y})")
                 hazard_nearby = any(

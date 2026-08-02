@@ -20,6 +20,16 @@ def footprint_cells(
     )
 
 
+def ground_support_bounds(anchor_x: int, symbol: str) -> tuple[int, int]:
+    """Return the half-open floor span required by the real entity footprint."""
+    left, _, right, _ = config.ENTITY_FOOTPRINTS[symbol]
+    first = math.floor((anchor_x * config.CELL_SIZE + left) / config.CELL_SIZE)
+    last = math.floor(
+        (anchor_x * config.CELL_SIZE + right - 1e-6) / config.CELL_SIZE
+    )
+    return first, last + 1
+
+
 def pixel_footprint_clear(
     terrain: list[list[str]] | list[str],
     anchor_x: float,

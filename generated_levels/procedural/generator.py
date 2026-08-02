@@ -9,12 +9,17 @@ from itertools import count
 from typing import Callable
 
 from . import config
-from .cave import generate_cave
+from .cave import CaveResult, generate_cave
+from .composition import analyze_composition, composition_route, composition_score
 from .entities import enemy_target, place_entities
 from .features import place_hazards, place_jump_throughs
 from .frame import add_outer_frame
 from .level_format import encode_level
-from .morphology import MorphologyMetrics, morphology_is_qualified
+from .morphology import (
+    MorphologyMetrics,
+    collision_depth_is_qualified,
+    morphology_is_qualified,
+)
 from .star_times import calculate_star_times
 from .topology import TopologyMetrics, topology_is_qualified
 from .validation import validate_level
@@ -80,6 +85,8 @@ def _full_level_score(
     level: dict[str, object],
     topology: TopologyMetrics,
     morphology: MorphologyMetrics,
+    repair_cost: int = 0,
+    composition_seed: int | None = None,
 ) -> float:
     """Score the final authored composition after every feature is present."""
     terrain_rows = level["terrain"]
@@ -110,13 +117,81 @@ def _full_level_score(
     ) * 80.0
     score -= straight_edge_penalty * 0.35
     score -= abs(hazard_count - target_hazards) / target_hazards * 18.0
-    score -= abs(enemy_count - target_enemies) * 2.5
+    score -= max(0, target_enemies - enemy_count) * 2.5
     score += min(terrain["="], 26) * 0.25
     score += len(occupied_bands) * 4.0
     score += min(topology.detour_ratio, 5.0) * 12.0
     score += min(topology.horizontal_surface_ratio, 2.0) * 10.0
     score -= topology.long_sightline_ratio * 120.0
+    route = composition_route(terrain_rows, entity_rows)
+    style = level["style"]
+    assert isinstance(style, dict)
+    metrics = analyze_composition(
+        terrain_rows,
+        hazard_rows,
+        entity_rows,
+        route,
+        int(style["seed"]) if composition_seed is None else composition_seed,
+    )
+    score += composition_score(metrics, repair_cost)
     return score
+
+
+def _content_layout(
+    cave: CaveResult,
+    inner_width: int,
+    inner_height: int,
+    actual_seed: int,
+    content_seed: int,
+    topology_settings: config.TopologySettings,
+) -> tuple[float, dict[str, object]]:
+    """Build, validate, and score one content layout over an accepted cave."""
+    terrain = [row[:] for row in cave.terrain]
+    air_count = len(cave.air)
+    place_jump_throughs(terrain, air_count, content_seed)
+    hazards = place_hazards(terrain, air_count, cave.route, content_seed)
+    hazard_count = sum(cell in "^v<>UDLR" for row in hazards for cell in row)
+    hazard_target = round(air_count * config.HAZARD_AIR_RATIO)
+    if hazard_count < hazard_target * config.MIN_HAZARD_TARGET_RATIO:
+        raise ValueError("The cave cannot support the requested hazard pacing")
+    terrain_before_entities = tuple(tuple(row) for row in terrain)
+    entities = place_entities(
+        terrain,
+        hazards,
+        cave.route,
+        content_seed,
+        topology_settings,
+    )
+    if not collision_depth_is_qualified(terrain):
+        raise ValueError("Collision rock extends deeper than two cells")
+    repair_cost = sum(
+        terrain[y][x] != terrain_before_entities[y][x]
+        for y in range(len(terrain))
+        for x in range(len(terrain[0]))
+    )
+    inner_level: dict[str, object] = {
+        "width": inner_width,
+        "height": inner_height,
+        "style": {
+            "profile": "forest",
+            "seed": actual_seed,
+            "grass_chance": 0.4,
+        },
+        "terrain": _serialize(terrain),
+        "hazards": _serialize(hazards),
+        "entities": _serialize(entities),
+    }
+    level = add_outer_frame(inner_level, config.OUTER_X_PADDING)
+    level["star_times"] = calculate_star_times(level)
+    validate_level(level)
+    score = _full_level_score(
+        inner_level,
+        cave.topology,
+        cave.morphology,
+        repair_cost,
+        content_seed,
+    )
+    return score, level
 
 
 def generate_level(
@@ -170,56 +245,30 @@ def generate_level(
             rejected_morphology += 1
             report(attempt, "morphology rejected")
             continue
-        try:
-            report(attempt, "features")
-            terrain = [row[:] for row in cave.terrain]
-            air_count = len(cave.air)
-            place_jump_throughs(terrain, air_count, generation_seed)
-            hazards = place_hazards(terrain, air_count, cave.route, generation_seed)
-            hazard_count = sum(
-                cell in "^v<>UDLR" for row in hazards for cell in row
-            )
-            hazard_target = round(air_count * config.HAZARD_AIR_RATIO)
-            if hazard_count < hazard_target * config.MIN_HAZARD_TARGET_RATIO:
-                raise ValueError("The cave cannot support the requested hazard pacing")
-            report(attempt, "entities")
-            entities = place_entities(
-                terrain,
-                hazards,
-                cave.route,
-                generation_seed,
-                topology_settings,
-            )
-            inner_level: dict[str, object] = {
-                "width": inner_width,
-                "height": inner_height,
-                "style": {
-                    "profile": "forest",
-                    "seed": actual_seed,
-                    "grass_chance": 0.4,
-                },
-                "terrain": _serialize(terrain),
-                "hazards": _serialize(hazards),
-                "entities": _serialize(entities),
-            }
-            level = add_outer_frame(inner_level, config.OUTER_X_PADDING)
-            level["star_times"] = calculate_star_times(level)
-            validate_level(level)
-            completed.append(
-                (
-                    _full_level_score(
-                        inner_level,
-                        cave.topology,
-                        cave.morphology,
-                    ),
-                    level,
+        layouts: list[tuple[float, dict[str, object]]] = []
+        for layout_index in range(config.CONTENT_LAYOUT_VARIANTS):
+            content_seed = (
+                generation_seed + (layout_index + 1) * 1_000_003
+            ) & 0x7FFFFFFF
+            try:
+                report(attempt, f"content {layout_index + 1}/{config.CONTENT_LAYOUT_VARIANTS}")
+                layouts.append(
+                    _content_layout(
+                        cave,
+                        inner_width,
+                        inner_height,
+                        actual_seed,
+                        content_seed,
+                        topology_settings,
+                    )
                 )
-            )
+            except ValueError as error:
+                rejected_content += 1
+                report(attempt, "content rejected", str(error))
+        if layouts:
+            completed.append(max(layouts, key=lambda candidate: candidate[0]))
             report(attempt, "accepted")
             if len(completed) >= topology_settings.valid_candidate_target:
                 break
-        except ValueError as error:
-            rejected_content += 1
-            report(attempt, "content rejected", str(error))
     selected = max(completed, key=lambda candidate: candidate[0])[1]
     return encode_level(selected)

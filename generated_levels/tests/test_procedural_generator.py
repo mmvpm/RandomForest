@@ -21,7 +21,12 @@ from generated_levels.procedural.berry_distribution import (
     BerryCandidate,
     select_berry_candidates,
 )
-from generated_levels.procedural.cave import generate_cave
+from generated_levels.procedural.affordance import platform_runs_are_supported
+from generated_levels.procedural.cave import _terrain_from_air, generate_cave
+from generated_levels.procedural.composition import (
+    CompositionMetrics,
+    composition_score,
+)
 from generated_levels.procedural.entities import (
     _sword_ray_clear,
     enemy_target,
@@ -36,8 +41,12 @@ from generated_levels.procedural.features import (
 )
 from generated_levels.procedural.frame import strip_outer_frame
 from generated_levels.procedural.level_format import decode_level
-from generated_levels.procedural.morphology import analyze_morphology
+from generated_levels.procedural.morphology import (
+    analyze_morphology,
+    collision_depth_is_qualified,
+)
 from generated_levels.procedural.placement import berry_has_safe_landing
+from generated_levels.procedural.repair import RepairBudget, repair_ground_support_near
 from generated_levels.procedural.skeleton import (
     SkeletonAirResult,
     _lattice_adjacency,
@@ -237,8 +246,11 @@ class ProceduralGeneratorTests(unittest.TestCase):
             expected_berries + config.BERRY_COUNT_VARIATION,
         )
         expected_enemies = enemy_target(inner_area)
-        self.assertEqual(
-            sum(entities[symbol] for symbol in "SsKkBb"), expected_enemies
+        actual_enemies = sum(entities[symbol] for symbol in "SsKkBb")
+        self.assertGreaterEqual(actual_enemies, expected_enemies)
+        self.assertLessEqual(
+            actual_enemies,
+            expected_enemies + round(expected_enemies * config.ENCOUNTER_MAX_BONUS_RATIO),
         )
         hazard_target = round(terrain["."] * config.HAZARD_AIR_RATIO)
         hazard_count = sum(hazards[symbol] for symbol in "^v<>UDLR")
@@ -373,6 +385,7 @@ class ProceduralGeneratorTests(unittest.TestCase):
                 "generated_levels.procedural.generator.encode_level",
                 side_effect=lambda selected: selected,
             ),
+            patch.object(config, "CONTENT_LAYOUT_VARIANTS", 1),
         ):
             level = generate_level(46, 29, 123, progress=progress.append)
         self.assertEqual(generate_cave_mock.call_count, 52)
@@ -380,6 +393,100 @@ class ProceduralGeneratorTests(unittest.TestCase):
         accepted = [state for state in progress if state.stage == "accepted"]
         self.assertEqual([state.valid_candidates for state in accepted], [1, 2, 3])
         self.assertEqual(accepted[-1].topology_rejected, 49)
+
+    def test_generation_compares_content_layouts_on_one_cave(self) -> None:
+        """One accepted geometry must receive several independently scored layouts."""
+        cave = SimpleNamespace(topology=object(), morphology=object())
+        layouts = (
+            (1.0, {"choice": "first"}),
+            (4.0, {"choice": "best"}),
+            (2.0, {"choice": "last"}),
+        )
+        with (
+            patch(
+                "generated_levels.procedural.generator.generate_cave",
+                return_value=cave,
+            ) as generate_cave_mock,
+            patch(
+                "generated_levels.procedural.generator.topology_is_qualified",
+                return_value=True,
+            ),
+            patch(
+                "generated_levels.procedural.generator.morphology_is_qualified",
+                return_value=True,
+            ),
+            patch(
+                "generated_levels.procedural.generator._content_layout",
+                side_effect=layouts,
+            ) as content_layout_mock,
+            patch(
+                "generated_levels.procedural.generator.encode_level",
+                side_effect=lambda selected: selected,
+            ),
+        ):
+            level = generate_level(
+                46,
+                29,
+                123,
+                TopologySettings(valid_candidate_target=1),
+            )
+        self.assertEqual(level["choice"], "best")
+        self.assertEqual(generate_cave_mock.call_count, 1)
+        self.assertEqual(content_layout_mock.call_count, config.CONTENT_LAYOUT_VARIANTS)
+
+    def test_collision_shell_thickness_does_not_cascade(self) -> None:
+        """The decorative second shell must read only the frozen first shell."""
+        air = [[False] * 9 for _ in range(9)]
+        air[4][4] = True
+        with patch(
+            "generated_levels.procedural.cave.warped_fbm",
+            return_value=1.0,
+        ):
+            terrain = _terrain_from_air(air, 7)
+        self.assertEqual(terrain[4][2], "#")
+        self.assertEqual(terrain[4][1], "X")
+        self.assertTrue(collision_depth_is_qualified(terrain))
+        terrain[4][1] = "#"
+        self.assertFalse(collision_depth_is_qualified(terrain))
+
+    def test_floating_platform_must_link_to_rock_affordance(self) -> None:
+        """A floating run is valid only as part of a reachable construction."""
+        terrain = [list("....................") for _ in range(20)]
+        for x in range(2, 7):
+            terrain[15][x] = "#"
+        terrain[15][7:9] = "=="
+        terrain[12][9:11] = "=="
+        self.assertTrue(platform_runs_are_supported(terrain))
+        terrain[12][9:11] = ".."
+        terrain[5][15:17] = "=="
+        self.assertFalse(platform_runs_are_supported(terrain))
+
+    def test_composition_score_rewards_rhythm_and_useful_features(self) -> None:
+        """Composition scoring must prefer directed scenes over empty pacing."""
+        sparse = CompositionMetrics(5, 4, 0, 1, 1, 2, 1, 4, 4.0)
+        directed = CompositionMetrics(9, 1, 0, 3, 4, 5, 0, 2, 2.0)
+        self.assertGreater(composition_score(directed), composition_score(sparse))
+        self.assertLess(composition_score(directed, 2), composition_score(directed))
+
+    def test_local_repair_adds_only_one_natural_support_cell(self) -> None:
+        """A repair may complete a ledge without changing air connectivity."""
+        terrain = [list("....................") for _ in range(20)]
+        hazards = [list("....................") for _ in range(20)]
+        terrain[10][5] = "#"
+        terrain[11][6] = "X"
+        budget = RepairBudget(3)
+        point = repair_ground_support_near(
+            terrain,
+            hazards,
+            "B",
+            (6, 10),
+            ((2, 2),),
+            [],
+            budget,
+        )
+        self.assertEqual(point, (6, 10))
+        self.assertEqual(terrain[10][6], "#")
+        self.assertEqual(budget.spent, 1)
 
     def test_lattice_keeps_horizontal_connections_on_outer_rows(self) -> None:
         """Top and bottom nodes must not be forced into vertical teeth."""

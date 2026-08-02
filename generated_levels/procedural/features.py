@@ -78,6 +78,64 @@ def _has_jump_affordance(
     )
 
 
+def _chain_candidates(
+    terrain: list[list[str]],
+    source: tuple[tuple[int, int], ...],
+) -> list[tuple[tuple[int, int], ...]]:
+    """Find floating runs that continue one useful platform construction."""
+    center_x = round(sum(x for x, _ in source) / len(source))
+    source_y = source[0][1]
+    horizontal_span = math.ceil(config.PLAYER_JUMP_SPAN / config.CELL_SIZE) + 1
+    candidates: list[tuple[tuple[int, int], ...]] = []
+    for y in range(max(4, source_y - 4), min(len(terrain) - 3, source_y + 5)):
+        if abs(y - source_y) < config.JUMP_THRU_MIN_VERTICAL_STEP:
+            continue
+        for length in range(config.JUMP_THRU_MIN_LENGTH, 5):
+            first_start = max(2, center_x - horizontal_span - length + 1)
+            last_start = min(
+                len(terrain[0]) - length - 2,
+                center_x + horizontal_span,
+            )
+            for start in range(first_start, last_start + 1):
+                cells = tuple((x, y) for x in range(start, start + length))
+                if not all(_clear_vertical(terrain, x, y) for x, _ in cells):
+                    continue
+                target = cells[len(cells) // 2]
+                source_anchor = source[len(source) // 2]
+                linked = _jump_trajectory_clear(terrain, source_anchor, target) or (
+                    _jump_trajectory_clear(terrain, target, source_anchor)
+                )
+                if linked and _has_jump_affordance(terrain, cells):
+                    candidates.append(cells)
+    return candidates
+
+
+def _place_platform_chains(
+    terrain: list[list[str]],
+    placed_runs: list[tuple[tuple[int, int], ...]],
+    air_count: int,
+    rng: random.Random,
+) -> None:
+    """Add rare short platform chains after ordinary anchored ledges."""
+    chain_target = air_count // config.PLATFORM_CHAIN_AIR_PER_CHAIN
+    if chain_target <= 0 or not placed_runs:
+        return
+    sources = list(placed_runs)
+    rng.shuffle(sources)
+    for source in sources[:chain_target]:
+        current = source
+        for _ in range(config.PLATFORM_CHAIN_MAX_RUNS - 1):
+            candidates = _chain_candidates(terrain, current)
+            if not candidates:
+                break
+            rng.shuffle(candidates)
+            cells = max(candidates[:12], key=lambda run: abs(run[0][1] - source[0][1]))
+            for x, y in cells:
+                terrain[y][x] = "="
+            placed_runs.append(cells)
+            current = cells
+
+
 def _player_clear_at(terrain: list[list[str]], pixel_x: float, pixel_y: float) -> bool:
     """Check the player's exact pixel footprint at one trajectory sample."""
     left, top, right, bottom = config.ENTITY_FOOTPRINTS["@"]
@@ -132,12 +190,13 @@ def _jump_trajectory_clear(
 
 
 def place_jump_throughs(terrain: list[list[str]], air_count: int, seed: int) -> None:
-    """Place a restrained set of naturally anchored one-way platforms."""
+    """Place anchored platforms and rare physically linked platform chains."""
     rng = random.Random(seed ^ 0x4A554D50)
     candidates = _jump_through_candidates(terrain)
     rng.shuffle(candidates)
     target_runs = max(2, round(air_count / config.JUMP_THRU_AIR_PER_RUN))
     occupied: set[tuple[int, int]] = set()
+    placed_runs: list[tuple[tuple[int, int], ...]] = []
     placed = 0
     for cells in candidates:
         if placed >= target_runs:
@@ -152,7 +211,9 @@ def place_jump_throughs(terrain: list[list[str]], air_count: int, seed: int) -> 
         for x, y in cells:
             terrain[y][x] = "="
             occupied.add((x, y))
+        placed_runs.append(cells)
         placed += 1
+    _place_platform_chains(terrain, placed_runs, air_count, rng)
 
 
 def _surface_cell_valid(

@@ -19,7 +19,7 @@ from procedural import GenerationProgress, TopologySettings, generate_level
 
 
 # Edit these values before running this script
-BATCH_LEVEL_COUNT = 3
+BATCH_LEVEL_COUNT = 10
 LEVEL_WIDTH_RANGE = (70, 110)
 LEVEL_HEIGHT_RANGE = (40, 60)
 LEVEL_TOPOLOGY = TopologySettings()

@@ -44,19 +44,21 @@ def _terrain_from_air(air: list[list[bool]], seed: int) -> list[list[str]]:
                 for nx in range(x - 1, x + 2)
             ):
                 terrain[y][x] = "#"
+    # Read a frozen first shell so decorative thickness cannot cascade by scan order.
+    first_shell = tuple(tuple(cell for cell in row) for row in terrain)
     for y in range(1, height - 1):
         for x in range(1, width - 1):
-            if terrain[y][x] != "X" or warped_fbm(seed ^ 0x5348454C4C, x, y) <= 0.32:
+            if first_shell[y][x] != "X" or warped_fbm(seed ^ 0x5348454C4C, x, y) <= 0.32:
                 continue
             if any(
-                terrain[ny][nx] == "#"
+                first_shell[ny][nx] == "#"
                 for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1))
             ):
                 terrain[y][x] = "#"
     return terrain
 
 
-def _composition_score(
+def _geometry_score(
     topology: TopologyMetrics,
     morphology: MorphologyMetrics,
 ) -> float:
@@ -89,7 +91,7 @@ def _build_cave_result(
         terrain=terrain,
         air=air,
         route=topology.route,
-        score=_composition_score(topology, morphology),
+        score=_geometry_score(topology, morphology),
         topology=topology,
         morphology=morphology,
         skeleton=skeleton,

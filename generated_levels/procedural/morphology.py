@@ -101,6 +101,23 @@ def analyze_morphology(terrain: list[list[str]] | list[str]) -> MorphologyMetric
     )
 
 
+def collision_depth_is_qualified(terrain: list[list[str]] | list[str]) -> bool:
+    """Return whether visible collision rock stays within two cells of air."""
+    grid = [list(row) for row in terrain]
+    height = len(grid)
+    width = len(grid[0])
+    return all(
+        grid[y][x] != "#"
+        or any(
+            grid[check_y][check_x] in ".="
+            for check_y in range(max(0, y - 2), min(height, y + 3))
+            for check_x in range(max(0, x - 2), min(width, x + 3))
+        )
+        for y in range(height)
+        for x in range(width)
+    )
+
+
 def morphology_is_qualified(
     metrics: MorphologyMetrics,
     settings: config.TopologySettings,
