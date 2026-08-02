@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 
 from . import config
-from .features import spike_has_deep_backing
+from .features import spike_has_deep_backing, spike_run_has_side_backing
 from .level_format import (
     ENTITY_SYMBOLS,
     HAZARD_SYMBOLS,
@@ -59,6 +59,50 @@ def _hazard_direction(symbol: str) -> str:
     return directions[symbol]
 
 
+def _hazard_runs(
+    hazards: list[str],
+) -> list[tuple[tuple[tuple[int, int], ...], str]]:
+    """Collect contiguous spike runs with one normalized direction."""
+    height = len(hazards)
+    width = len(hazards[0])
+    runs: list[tuple[tuple[tuple[int, int], ...], str]] = []
+    for y in range(height):
+        x = 0
+        while x < width:
+            symbol = hazards[y][x]
+            if symbol not in "^UvD":
+                x += 1
+                continue
+            direction = _hazard_direction(symbol)
+            cells: list[tuple[int, int]] = []
+            while (
+                x < width
+                and hazards[y][x] in "^UvD"
+                and _hazard_direction(hazards[y][x]) == direction
+            ):
+                cells.append((x, y))
+                x += 1
+            runs.append((tuple(cells), direction))
+    for x in range(width):
+        y = 0
+        while y < height:
+            symbol = hazards[y][x]
+            if symbol not in "<L>R":
+                y += 1
+                continue
+            direction = _hazard_direction(symbol)
+            cells = []
+            while (
+                y < height
+                and hazards[y][x] in "<L>R"
+                and _hazard_direction(hazards[y][x]) == direction
+            ):
+                cells.append((x, y))
+                y += 1
+            runs.append((tuple(cells), direction))
+    return runs
+
+
 def _spike_sections(
     x: int, y: int, symbol: str
 ) -> tuple[set[tuple[int, int]], set[tuple[int, int]], set[tuple[int, int]], set[tuple[int, int]]]:
@@ -106,6 +150,9 @@ def _validate_hazards(terrain: list[str], hazards: list[str]) -> None:
         for x in range(width)
         if hazards[y][x] != "."
     }
+    for cells, direction in _hazard_runs(hazards):
+        if not spike_run_has_side_backing(terrain, cells, direction):
+            raise ValueError(f"Spike sides lack deep black backing at {cells[0]}")
     for y in range(height):
         for x in range(width):
             symbol = hazards[y][x]
@@ -136,13 +183,6 @@ def _validate_hazards(terrain: list[str], hazards: list[str]) -> None:
                 raise ValueError(f"Spike base is unsupported at ({x}, {y})")
             if not spike_has_deep_backing(terrain, hazards, x, y, symbol):
                 raise ValueError(f"Spike backing is only one cell deep at ({x}, {y})")
-            if not all(
-                0 <= nx < width
-                and 0 <= ny < height
-                and (terrain[ny][nx] == "#" or hazards[ny][nx] != ".")
-                for nx, ny in neighbors
-            ):
-                raise ValueError(f"Spike side is unsupported at ({x}, {y})")
             if not any(
                 0 <= nx < width
                 and 0 <= ny < height
@@ -173,7 +213,10 @@ def _validate_jump_throughs(terrain: list[str]) -> None:
             if not (left_anchor or right_anchor):
                 raise ValueError(f"Jump-through floats at ({start}, {y})")
             for platform_x in range(start, x):
-                if any(terrain[check_y][platform_x] != "." for check_y in range(y - 3, y)):
+                if any(
+                    terrain[check_y][platform_x] not in ".="
+                    for check_y in range(y - 3, y)
+                ):
                     raise ValueError(f"Jump-through lacks headroom at ({platform_x}, {y})")
 
 

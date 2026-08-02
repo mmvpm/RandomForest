@@ -143,7 +143,8 @@ def place_jump_throughs(terrain: list[list[str]], air_count: int, seed: int) -> 
         if placed >= target_runs:
             break
         if any(
-            abs(x - ox) <= 2 and abs(y - oy) <= 3
+            abs(x - ox) <= 2
+            and abs(y - oy) < config.JUMP_THRU_MIN_VERTICAL_STEP
             for x, y in cells
             for ox, oy in occupied
         ):
@@ -201,17 +202,41 @@ def _collect_surface_runs(terrain: list[list[str]]) -> list[_SurfaceRun]:
     return runs
 
 
-def _side_anchored(terrain: list[list[str]], run: _SurfaceRun) -> bool:
-    """Require rock immediately beyond both lateral ends of a spike run."""
-    first = run.cells[0]
-    last = run.cells[-1]
-    if run.direction in ("up", "down"):
-        before = first[0] - 1, first[1]
-        after = last[0] + 1, last[1]
+def spike_run_has_side_backing(
+    terrain: Sequence[Sequence[str]],
+    cells: Sequence[tuple[int, int]],
+    direction: str,
+) -> bool:
+    """Require black mass beside the run and one cell behind both ends."""
+    if not cells:
+        return False
+    first = cells[0]
+    last = cells[-1]
+    if direction in ("up", "down"):
+        side_cells = ((first[0] - 1, first[1]), (last[0] + 1, last[1]))
+        backing = (0, 1 if direction == "up" else -1)
     else:
-        before = first[0], first[1] - 1
-        after = last[0], last[1] + 1
-    return all(terrain[y][x] == "#" for x, y in (before, after))
+        side_cells = ((first[0], first[1] - 1), (last[0], last[1] + 1))
+        backing = (1 if direction == "left" else -1, 0)
+    required = {
+        (x, y)
+        for side_x, side_y in side_cells
+        for x, y in (
+            (side_x, side_y),
+            (side_x + backing[0], side_y + backing[1]),
+        )
+    }
+    return all(
+        0 <= y < len(terrain)
+        and 0 <= x < len(terrain[0])
+        and terrain[y][x] in "#X"
+        for x, y in required
+    )
+
+
+def _side_anchored(terrain: list[list[str]], run: _SurfaceRun) -> bool:
+    """Require two-cell-deep black sides around one spike run."""
+    return spike_run_has_side_backing(terrain, run.cells, run.direction)
 
 
 def _hazard_symbol(direction: str, centered: bool) -> str:

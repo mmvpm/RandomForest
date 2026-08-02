@@ -30,7 +30,9 @@ from generated_levels.procedural.entities import (
 from generated_levels.procedural.features import (
     _remove_shallow_spike_runs,
     _spike_run_rear_overlaps,
+    place_jump_throughs,
     spike_has_deep_backing,
+    spike_run_has_side_backing,
 )
 from generated_levels.procedural.frame import strip_outer_frame
 from generated_levels.procedural.level_format import decode_level
@@ -56,7 +58,7 @@ from generated_levels.procedural.topology import (
     build_navigation_search,
     topology_is_qualified,
 )
-from generated_levels.procedural.validation import validate_level
+from generated_levels.procedural.validation import _validate_jump_throughs, validate_level
 
 
 class ProceduralGeneratorTests(unittest.TestCase):
@@ -145,6 +147,55 @@ class ProceduralGeneratorTests(unittest.TestCase):
             [(((2, 1),), "<"), (((4, 1),), ">")],
         )
         self.assertEqual("".join(paired_hazards[1]), "..<.>..")
+
+    def test_spike_runs_require_two_cell_deep_black_sides(self) -> None:
+        """Every run direction must extend its side mass behind the spike base."""
+        cases = (
+            (((2, 2), (3, 2), (4, 2)), "up", ((1, 2), (1, 3), (5, 2), (5, 3))),
+            (((2, 4), (3, 4), (4, 4)), "down", ((1, 4), (1, 3), (5, 4), (5, 3))),
+            (((2, 2), (2, 3), (2, 4)), "left", ((2, 1), (3, 1), (2, 5), (3, 5))),
+            (((4, 2), (4, 3), (4, 4)), "right", ((4, 1), (3, 1), (4, 5), (3, 5))),
+        )
+        for cells, direction, side_cells in cases:
+            with self.subTest(direction=direction):
+                terrain = [list(".......") for _ in range(7)]
+                for index, (x, y) in enumerate(side_cells):
+                    terrain[y][x] = "#" if index % 2 == 0 else "X"
+                self.assertTrue(
+                    spike_run_has_side_backing(terrain, cells, direction)
+                )
+                missing_x, missing_y = side_cells[-1]
+                terrain[missing_y][missing_x] = "."
+                self.assertFalse(
+                    spike_run_has_side_backing(terrain, cells, direction)
+                )
+
+    def test_jump_throughs_allow_two_cell_vertical_step(self) -> None:
+        """Nearby platform runs may differ by two rows but never by only one."""
+        self.assertEqual(config.JUMP_THRU_MIN_VERTICAL_STEP, 2)
+        terrain = [list("........") for _ in range(8)]
+        terrain[2][1] = "#"
+        terrain[4][1] = "#"
+        two_cell_step = [((2, 2), (3, 2)), ((2, 4), (3, 4))]
+        with patch(
+            "generated_levels.procedural.features._jump_through_candidates",
+            return_value=two_cell_step,
+        ):
+            place_jump_throughs(terrain, 0, 7)
+        self.assertEqual("".join(terrain[2][2:4]), "==")
+        self.assertEqual("".join(terrain[4][2:4]), "==")
+        _validate_jump_throughs(["".join(row) for row in terrain])
+
+        terrain = [list("........") for _ in range(8)]
+        terrain[2][1] = "#"
+        terrain[3][1] = "#"
+        one_cell_step = [((2, 2), (3, 2)), ((2, 3), (3, 3))]
+        with patch(
+            "generated_levels.procedural.features._jump_through_candidates",
+            return_value=one_cell_step,
+        ):
+            place_jump_throughs(terrain, 0, 7)
+        self.assertEqual(sum(cell == "=" for row in terrain for cell in row), 2)
 
     def test_different_seeds_change_geometry(self) -> None:
         """Different seeds must not merely restyle the same semantic map."""
@@ -621,7 +672,7 @@ class ProceduralGeneratorTests(unittest.TestCase):
                 )
                 self.assertTrue(
                     all(
-                        terrain[ny][nx] == "#" or hazards[ny][nx] != "."
+                        terrain[ny][nx] in "#X" or hazards[ny][nx] != "."
                         for nx, ny in neighbors
                     ),
                     f"Spike side is unsupported at {(x, y)}",
