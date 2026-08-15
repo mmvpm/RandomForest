@@ -162,7 +162,7 @@ def analyze_composition(
     )
 
 
-def composition_score(metrics: CompositionMetrics, repair_cost: int = 0) -> float:
+def composition_score(metrics: CompositionMetrics) -> float:
     """Rank deliberate scene composition while retaining valuable empty beats."""
     score = metrics.occupied_stages * 3.0
     score -= max(0, metrics.longest_empty_stage_run - 1) ** 2 * 2.0
@@ -173,5 +173,4 @@ def composition_score(metrics: CompositionMetrics, repair_cost: int = 0) -> floa
     score -= metrics.isolated_platform_runs * 6.0
     score -= metrics.repeated_enemy_pairs * 0.6
     score -= metrics.encounter_fit_cost * 0.20
-    score -= repair_cost * config.LOCAL_REPAIR_SCORE_COST
     return score

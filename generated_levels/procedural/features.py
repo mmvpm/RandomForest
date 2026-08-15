@@ -51,7 +51,7 @@ def _jump_through_candidates(terrain: list[list[str]]) -> list[tuple[tuple[int, 
 def _has_jump_affordance(
     terrain: list[list[str]], cells: tuple[tuple[int, int], ...]
 ) -> bool:
-    """Require exact takeoff-to-platform and platform-to-landing trajectories."""
+    """Require a comfortable takeoff and a concrete onward landing."""
     center_x = round(sum(x for x, _ in cells) / len(cells))
     platform_y = cells[0][1]
     span = math.ceil(config.PLAYER_JUMP_SPAN / config.CELL_SIZE) + 2
@@ -64,9 +64,23 @@ def _has_jump_affordance(
         for x in range(first_x, last_x):
             if terrain[y][x] == "#" and terrain[y - 1][x] == ".":
                 surfaces.append((x, y))
+    platform_columns = {x for x, _ in cells}
+    direct_floor_rises = [
+        surface_y - platform_y
+        for surface_x, surface_y in surfaces
+        if surface_x in platform_columns and surface_y > platform_y
+    ]
+    if (
+        direct_floor_rises
+        and min(direct_floor_rises) > config.JUMP_THRU_MAX_UPWARD_STEP
+    ):
+        return False
     platform = (center_x, platform_y)
     takeoffs = [
-        surface for surface in surfaces if _jump_trajectory_clear(terrain, surface, platform)
+        surface
+        for surface in surfaces
+        if surface[1] - platform_y <= config.JUMP_THRU_MAX_UPWARD_STEP
+        and _jump_trajectory_clear(terrain, surface, platform)
     ]
     landings = [
         surface for surface in surfaces if _jump_trajectory_clear(terrain, platform, surface)
@@ -87,8 +101,16 @@ def _chain_candidates(
     source_y = source[0][1]
     horizontal_span = math.ceil(config.PLAYER_JUMP_SPAN / config.CELL_SIZE) + 1
     candidates: list[tuple[tuple[int, int], ...]] = []
-    for y in range(max(4, source_y - 4), min(len(terrain) - 3, source_y + 5)):
-        if abs(y - source_y) < config.JUMP_THRU_MIN_VERTICAL_STEP:
+    for y in range(
+        max(4, source_y - config.JUMP_THRU_MAX_UPWARD_STEP),
+        min(len(terrain) - 3, source_y + config.JUMP_THRU_MAX_UPWARD_STEP + 1),
+    ):
+        vertical_step = abs(y - source_y)
+        if not (
+            config.JUMP_THRU_MIN_VERTICAL_STEP
+            <= vertical_step
+            <= config.JUMP_THRU_MAX_UPWARD_STEP
+        ):
             continue
         for length in range(config.JUMP_THRU_MIN_LENGTH, 5):
             first_start = max(2, center_x - horizontal_span - length + 1)

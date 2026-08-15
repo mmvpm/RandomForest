@@ -133,6 +133,7 @@ def candidate_suitability(
         / config.CELL_SIZE
     )
     comfort = min(1.0, width / max(1, preferred_width))
+    patrol_shortfall = 1.0 - comfort
     type_bonus = 0.0
     if symbol == "K":
         type_bonus = 0.8 if width <= preferred_width else 0.2
@@ -143,6 +144,6 @@ def candidate_suitability(
     return (
         abs(stage - zone.stage) * 7.0
         + distance * 0.035
-        + (1.0 - comfort) * 0.8
+        + patrol_shortfall * config.ENEMY_PATROL_SHORTFALL_COST
         - type_bonus
     )

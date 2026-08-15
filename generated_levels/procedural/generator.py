@@ -85,7 +85,6 @@ def _full_level_score(
     level: dict[str, object],
     topology: TopologyMetrics,
     morphology: MorphologyMetrics,
-    repair_cost: int = 0,
     composition_seed: int | None = None,
 ) -> float:
     """Score the final authored composition after every feature is present."""
@@ -133,7 +132,7 @@ def _full_level_score(
         route,
         int(style["seed"]) if composition_seed is None else composition_seed,
     )
-    score += composition_score(metrics, repair_cost)
+    score += composition_score(metrics)
     return score
 
 
@@ -154,7 +153,6 @@ def _content_layout(
     hazard_target = round(air_count * config.HAZARD_AIR_RATIO)
     if hazard_count < hazard_target * config.MIN_HAZARD_TARGET_RATIO:
         raise ValueError("The cave cannot support the requested hazard pacing")
-    terrain_before_entities = tuple(tuple(row) for row in terrain)
     entities = place_entities(
         terrain,
         hazards,
@@ -164,11 +162,6 @@ def _content_layout(
     )
     if not collision_depth_is_qualified(terrain):
         raise ValueError("Collision rock extends deeper than two cells")
-    repair_cost = sum(
-        terrain[y][x] != terrain_before_entities[y][x]
-        for y in range(len(terrain))
-        for x in range(len(terrain[0]))
-    )
     inner_level: dict[str, object] = {
         "width": inner_width,
         "height": inner_height,
@@ -188,7 +181,6 @@ def _content_layout(
         inner_level,
         cave.topology,
         cave.morphology,
-        repair_cost,
         content_seed,
     )
     return score, level

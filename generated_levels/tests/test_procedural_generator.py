@@ -27,12 +27,20 @@ from generated_levels.procedural.composition import (
     CompositionMetrics,
     composition_score,
 )
+from generated_levels.procedural.encounters import (
+    EncounterZone,
+    candidate_suitability,
+)
 from generated_levels.procedural.entities import (
+    _choose_enemy_candidate,
     _sword_ray_clear,
     enemy_target,
+    place_entities,
     scaled_entity_count,
 )
 from generated_levels.procedural.features import (
+    _chain_candidates,
+    _has_jump_affordance,
     _remove_shallow_spike_runs,
     _spike_run_rear_overlaps,
     place_jump_throughs,
@@ -46,7 +54,6 @@ from generated_levels.procedural.morphology import (
     collision_depth_is_qualified,
 )
 from generated_levels.procedural.placement import berry_has_safe_landing
-from generated_levels.procedural.repair import RepairBudget, repair_ground_support_near
 from generated_levels.procedural.skeleton import (
     SkeletonAirResult,
     _lattice_adjacency,
@@ -205,6 +212,121 @@ class ProceduralGeneratorTests(unittest.TestCase):
         ):
             place_jump_throughs(terrain, 0, 7)
         self.assertEqual(sum(cell == "=" for row in terrain for cell in row), 2)
+
+    def test_jump_through_takeoff_rejects_three_cell_rise(self) -> None:
+        """A side anchor must not mask a three-cell floor rise."""
+        two_cell_terrain = [list("." * 24) for _ in range(16)]
+        three_cell_terrain = [row[:] for row in two_cell_terrain]
+        for x in range(3, 21):
+            two_cell_terrain[11][x] = "#"
+            three_cell_terrain[11][x] = "#"
+        two_cell_platform = tuple((x, 9) for x in range(10, 13))
+        three_cell_platform = tuple((x, 8) for x in range(10, 13))
+        two_cell_terrain[9][13] = "#"
+        three_cell_terrain[8][13] = "#"
+        self.assertEqual(config.JUMP_THRU_MAX_UPWARD_STEP, 2)
+        self.assertTrue(_has_jump_affordance(two_cell_terrain, two_cell_platform))
+        self.assertFalse(
+            _has_jump_affordance(three_cell_terrain, three_cell_platform)
+        )
+
+    def test_platform_chain_candidates_use_exact_two_cell_steps(self) -> None:
+        """Consecutive chain runs must use the configured comfortable step."""
+        terrain = [list("." * 24) for _ in range(16)]
+        source = ((10, 8), (11, 8))
+        with (
+            patch(
+                "generated_levels.procedural.features._has_jump_affordance",
+                return_value=True,
+            ),
+            patch(
+                "generated_levels.procedural.features._jump_trajectory_clear",
+                return_value=True,
+            ),
+        ):
+            candidates = _chain_candidates(terrain, source)
+        self.assertEqual(
+            {run[0][1] for run in candidates},
+            {source[0][1] - 2, source[0][1] + 2},
+        )
+
+    def test_enemy_suitability_strongly_prefers_patrol_width(self) -> None:
+        """An ordinary full-width floor must beat an equivalent narrow floor."""
+        zone = EncounterZone((6, 8), 0.5, 0.6, 0.0, 0.5)
+        narrow = [list("." * 13) for _ in range(10)]
+        wide = [row[:] for row in narrow]
+        narrow[8][5:8] = "###"
+        wide[8][4:9] = "#####"
+        narrow_cost = candidate_suitability(narrow, "S", (6, 8), 0.5, zone)
+        wide_cost = candidate_suitability(wide, "S", (6, 8), 0.5, zone)
+        self.assertGreater(narrow_cost - wide_cost, 0.8)
+
+    def test_context_can_still_make_a_skeleton_perch_win(self) -> None:
+        """A strong encounter fit may still justify a short skeleton perch."""
+        terrain = [list("." * 24) for _ in range(12)]
+        terrain[8][3:6] = "###"
+        terrain[8][14:20] = "######"
+        zone = EncounterZone((4, 8), 0.2, 0.5, 0.0, 0.5)
+        perch_cost = candidate_suitability(terrain, "K", (4, 8), 0.2, zone)
+        distant_cost = candidate_suitability(terrain, "K", (16, 8), 0.5, zone)
+        self.assertLess(perch_cost, distant_cost)
+
+    def test_enemy_choice_compares_geometry_across_types(self) -> None:
+        """A much better alternate type may beat the randomly preferred type."""
+        terrain = [list("." * 12) for _ in range(10)]
+        route = [((2, 8), 0.0), ((9, 8), 1.0)]
+        zone = EncounterZone((6, 8), 0.5, 0.5, 0.0, 0.5)
+        candidates = {"S": [(4, 8)], "K": [], "B": [(8, 8)]}
+        with patch(
+            "generated_levels.procedural.entities.candidate_suitability",
+            side_effect=lambda _terrain, symbol, *_args: 0.0 if symbol == "S" else 1.0,
+        ):
+            choice = _choose_enemy_candidate(
+                terrain,
+                candidates,
+                [],
+                route,
+                zone,
+                "B",
+                random.Random(7),
+            )
+        self.assertEqual(choice, ("S", (4, 8)))
+
+    def test_entity_placement_does_not_repair_terrain(self) -> None:
+        """Entity layout must leave the accepted cave geometry unchanged."""
+        terrain = [list("." * 12) for _ in range(10)]
+        terrain[8][1:11] = "##########"
+        hazards = [list("." * 12) for _ in range(10)]
+        selected_route = ((3, 8), (4, 7), (6, 7), (8, 6))
+        before = [row[:] for row in terrain]
+        with (
+            patch(
+                "generated_levels.procedural.entities._choose_start_and_door_floor",
+                return_value=((3, 8), (8, 8), selected_route),
+            ),
+            patch(
+                "generated_levels.procedural.entities.build_encounter_zones",
+                return_value=(),
+            ),
+            patch(
+                "generated_levels.procedural.entities.encounter_enemy_target",
+                return_value=0,
+            ),
+            patch(
+                "generated_levels.procedural.entities.scaled_entity_count",
+                return_value=0,
+            ),
+            patch(
+                "generated_levels.procedural.entities._berry_candidates",
+                return_value=[],
+            ),
+            patch(
+                "generated_levels.procedural.entities.select_berry_candidates",
+                return_value=[],
+            ),
+        ):
+            place_entities(terrain, hazards, selected_route, 7)
+        self.assertEqual(terrain, before)
 
     def test_different_seeds_change_geometry(self) -> None:
         """Different seeds must not merely restyle the same semantic map."""
@@ -466,27 +588,6 @@ class ProceduralGeneratorTests(unittest.TestCase):
         sparse = CompositionMetrics(5, 4, 0, 1, 1, 2, 1, 4, 4.0)
         directed = CompositionMetrics(9, 1, 0, 3, 4, 5, 0, 2, 2.0)
         self.assertGreater(composition_score(directed), composition_score(sparse))
-        self.assertLess(composition_score(directed, 2), composition_score(directed))
-
-    def test_local_repair_adds_only_one_natural_support_cell(self) -> None:
-        """A repair may complete a ledge without changing air connectivity."""
-        terrain = [list("....................") for _ in range(20)]
-        hazards = [list("....................") for _ in range(20)]
-        terrain[10][5] = "#"
-        terrain[11][6] = "X"
-        budget = RepairBudget(3)
-        point = repair_ground_support_near(
-            terrain,
-            hazards,
-            "B",
-            (6, 10),
-            ((2, 2),),
-            [],
-            budget,
-        )
-        self.assertEqual(point, (6, 10))
-        self.assertEqual(terrain[10][6], "#")
-        self.assertEqual(budget.spent, 1)
 
     def test_lattice_keeps_horizontal_connections_on_outer_rows(self) -> None:
         """Top and bottom nodes must not be forced into vertical teeth."""

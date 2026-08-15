@@ -8,6 +8,7 @@ import random
 from . import config
 from .berry_distribution import BerryCandidate, select_berry_candidates
 from .encounters import (
+    EncounterZone,
     build_encounter_zones,
     candidate_suitability,
     encounter_enemy_target,
@@ -18,7 +19,6 @@ from .placement import (
     ground_support_bounds,
     pixel_footprint_clear,
 )
-from .repair import RepairBudget, repair_ground_support_near
 from .topology import build_navigation_search, navigation_distances
 
 
@@ -228,6 +228,42 @@ def _weighted_enemy(rng: random.Random) -> str:
     return config.ENEMY_WEIGHTS[-1][0]
 
 
+def _choose_enemy_candidate(
+    terrain: list[list[str]],
+    candidates_by_type: dict[str, list[Point]],
+    occupied: list[tuple[Point, int]],
+    route: list[RouteMetric],
+    zone: EncounterZone,
+    preferred_type: str,
+    rng: random.Random,
+) -> tuple[str, Point] | None:
+    """Choose the best type and natural anchor for one encounter slot."""
+    choices: list[tuple[float, str, Point]] = []
+    for symbol, candidates in candidates_by_type.items():
+        type_cost = (
+            0.0
+            if symbol == preferred_type
+            else config.ENEMY_ALTERNATIVE_TYPE_COST
+        )
+        for candidate in candidates:
+            if _reserved(candidate, occupied):
+                continue
+            suitability = candidate_suitability(
+                terrain,
+                symbol,
+                candidate,
+                _route_stage(candidate, route),
+                zone,
+            )
+            choices.append(
+                (suitability + type_cost + rng.random() * 0.08, symbol, candidate)
+            )
+    if not choices:
+        return None
+    _, symbol, point = min(choices, key=lambda choice: choice[0])
+    return symbol, point
+
+
 def _berry_candidates(
     terrain: list[list[str]],
     hazards: list[list[str]],
@@ -362,49 +398,18 @@ def place_entities(
         rng.shuffle(candidates)
     placed_enemies = 0
     enemy_points: list[Point] = []
-    repair_budget = RepairBudget(config.LOCAL_REPAIR_BUDGET)
     for enemy_index in range(target):
         preferred_type = _weighted_enemy(rng)
         zone = encounter_schedule[enemy_index]
-        available_types = (preferred_type,) + tuple(
-            symbol for symbol in ("S", "K", "B") if symbol != preferred_type
+        choice = _choose_enemy_candidate(
+            terrain,
+            enemy_candidates,
+            occupied,
+            route_metrics,
+            zone,
+            preferred_type,
+            rng,
         )
-        choice: tuple[str, Point] | None = None
-        for symbol in available_types:
-            usable = [
-                candidate
-                for candidate in enemy_candidates[symbol]
-                if not _reserved(candidate, occupied)
-            ]
-            if not usable:
-                continue
-            point = min(
-                usable,
-                key=lambda candidate: candidate_suitability(
-                    terrain,
-                    symbol,
-                    candidate,
-                    _route_stage(candidate, route_metrics),
-                    zone,
-                )
-                + rng.random() * 0.08,
-            )
-            choice = symbol, point
-            break
-        if choice is None:
-            repaired = repair_ground_support_near(
-                terrain,
-                hazards,
-                preferred_type,
-                zone.center,
-                selected_route,
-                occupied,
-                repair_budget,
-            )
-            if repaired is not None and _ground_candidate(
-                terrain, hazards, repaired[0], repaired[1], preferred_type
-            ):
-                choice = preferred_type, repaired
         if choice is None:
             continue
         symbol, point = choice
