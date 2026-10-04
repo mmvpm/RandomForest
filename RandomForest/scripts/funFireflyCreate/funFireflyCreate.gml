@@ -1,13 +1,14 @@
-/// Creates one autonomous firefly inside the current camera rectangle.
+/// Creates one autonomous firefly inside the supplied rectangle.
 function funFireflyCreate(
 	cam_x,
 	cam_y,
 	cam_w,
 	cam_h,
 	is_initial,
-	is_orange = false
+	is_orange = false,
+	margin = 16
 ) {
-	var margin = 16
+	// Callers choose whether spawn centres need an inset from the rectangle.
 	var initial_angle = random(360)
 	var initial_speed = random_range(0.15, 0.50)
 	var firefly = {

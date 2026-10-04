@@ -88,14 +88,20 @@ for (var i = 0; i < array_length(self.fireflies); i++) {
 		firefly.is_orange ? self.orange_core_scale : self.core_scale,
 		0,
 		firefly.is_orange ? self.orange_core_colour : self.core_colour,
-		visual_alpha * (firefly.is_orange ? 0.95 : 0.8)
+		visual_alpha * (
+			firefly.is_orange ? ORANGE_FIREFLY_BODY_ALPHA : 0.8
+		)
 	)
 	draw_set_color(
 		firefly.is_orange
-			? make_color_rgb(255, 196, 96)
+			? ORANGE_FIREFLY_HIGHLIGHT_COLOUR
 			: c_white
 	)
-	draw_set_alpha(visual_alpha * 0.65)
+	draw_set_alpha(
+		visual_alpha * (
+			firefly.is_orange ? ORANGE_FIREFLY_HIGHLIGHT_ALPHA : 0.65
+		)
+	)
 	draw_circle(firefly.x, firefly.y, 1, false)
 	if (firefly.is_orange) {
 		gpu_set_blendmode(bm_add)

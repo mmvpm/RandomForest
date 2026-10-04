@@ -1,3 +1,72 @@
+// Draws a menu firefly as integer-aligned game pixels behind tile content.
+function __funDrawLevelOrangeFirefly(
+	firefly,
+	center_x,
+	center_y,
+	color,
+	alpha
+) {
+	var pixel_x = round(center_x + firefly.x)
+	var pixel_y = round(center_y + firefly.y)
+	var body_left = pixel_x - 1
+	var body_top = pixel_y - 1
+
+	// A sparse one-pixel ring hints at bloom without creating a soft blob.
+	gpu_set_blendmode(bm_add)
+	draw_set_color(color)
+	draw_set_alpha(alpha * 0.05)
+	draw_rectangle(
+		body_left,
+		body_top - 1,
+		body_left + 2,
+		body_top,
+		false
+	)
+	draw_rectangle(
+		body_left,
+		body_top + 2,
+		body_left + 2,
+		body_top + 3,
+		false
+	)
+	draw_rectangle(
+		body_left - 1,
+		body_top,
+		body_left,
+		body_top + 2,
+		false
+	)
+	draw_rectangle(
+		body_left + 2,
+		body_top,
+		body_left + 3,
+		body_top + 2,
+		false
+	)
+
+	// One brighter pixel gives the 2x2 body volume without subpixel drawing.
+	gpu_set_blendmode(bm_normal)
+	draw_set_alpha(alpha * 0.65)
+	draw_rectangle(
+		body_left,
+		body_top,
+		body_left + 2,
+		body_top + 2,
+		false
+	)
+	draw_set_color(merge_color(color, c_white, 0.2))
+	draw_set_alpha(alpha)
+	draw_rectangle(
+		body_left + 1,
+		body_top,
+		body_left + 2,
+		body_top + 1,
+		false
+	)
+	draw_set_alpha(1)
+	draw_set_color(c_white)
+}
+
 // Draws one level or navigation button and caches its mouse bounds.
 function __funDrawLevelSelectButton(
 	button_index,
@@ -10,11 +79,11 @@ function __funDrawLevelSelectButton(
 	text_offset_x = 0,
 	text_offset_y = 0,
 	pulse = 0,
-	border_tint = undefined
+	orange_firefly = undefined
 ) {
 	var ui_scale = self.default_scale
 	var button_color = self.default_button_color
-	var has_border_tint = enabled and border_tint != undefined
+	var has_orange_firefly = enabled and orange_firefly != undefined
 	draw_set_color(self.default_color)
 
 	if (!enabled) {
@@ -34,15 +103,6 @@ function __funDrawLevelSelectButton(
 			pulse
 		)
 	}
-	if (has_border_tint) {
-		// A weak tint marks the secret without replacing the shaded base colour.
-		button_color = merge_color(
-			button_color,
-			border_tint,
-			self.orange_firefly_tint_amount
-		)
-	}
-
 	var button_width = width * ui_scale
 	var button_height = height * ui_scale
 	var x_left = x_pos - button_width / 2
@@ -53,6 +113,15 @@ function __funDrawLevelSelectButton(
 		button_width, button_height,
 		button_color, 1
 	)
+	if (has_orange_firefly) {
+		__funDrawLevelOrangeFirefly(
+			orange_firefly,
+			x_pos,
+			y_pos,
+			self.orange_firefly_menu_color,
+			self.level_firefly_alpha
+		)
+	}
 
 	if (enabled) {
 		self.x_left_cached[button_index] = x_left
@@ -93,7 +162,7 @@ function __funDrawOrangeFireflyProgress(center_x, earned, maximum) {
 		icon_scale,
 		icon_scale,
 		0,
-		self.orange_firefly_icon_color,
+		self.orange_firefly_menu_color,
 		1
 	)
 	draw_set_color(c_ltgray)
@@ -105,7 +174,7 @@ function __funDrawOrangeFireflyProgress(center_x, earned, maximum) {
 	draw_set_color(make_color_rgb(72, 72, 72))
 	draw_rectangle(meter_x, 78, meter_x + meter_width, 79, false)
 	if (maximum > 0 and earned > 0) {
-		draw_set_color(self.orange_firefly_icon_color)
+		draw_set_color(self.orange_firefly_menu_color)
 		draw_rectangle(
 			meter_x,
 			78,
@@ -241,9 +310,9 @@ for (var i = 0; i < visible_count; ++i) {
 		}
 	}
 	var level_enabled = level_index <= global.current_level
-	var border_tint = undefined
+	var orange_firefly = undefined
 	if (level_enabled and global.orange_firefly_records[level_index]) {
-		border_tint = self.orange_firefly_color
+		orange_firefly = self.level_orange_fireflies[level_index]
 	}
 	var button_size = __funDrawLevelSelectButton(
 		i,
@@ -256,7 +325,7 @@ for (var i = 0; i < visible_count; ++i) {
 		0,
 		0,
 		pulse,
-		border_tint
+		orange_firefly
 	)
 	if (level_enabled) {
 		var earned_stars = funGetStarCount(

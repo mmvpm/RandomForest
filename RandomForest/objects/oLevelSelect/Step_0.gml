@@ -4,6 +4,31 @@ function __funVisibleLevelCount() {
 	return min(self.page_size, self.levels_count - first_level)
 }
 
+// Advances a menu firefly and reflects it from the tile interior.
+function __funUpdateLevelFirefly(firefly, extent) {
+	funFireflyUpdate(firefly, self.level_firefly_speed)
+	if (firefly.x < -extent) {
+		firefly.x = -extent
+		firefly.vx = abs(firefly.vx)
+		firefly.target_vx = abs(firefly.target_vx)
+	}
+	else if (firefly.x > extent) {
+		firefly.x = extent
+		firefly.vx = -abs(firefly.vx)
+		firefly.target_vx = -abs(firefly.target_vx)
+	}
+	if (firefly.y < -extent) {
+		firefly.y = -extent
+		firefly.vy = abs(firefly.vy)
+		firefly.target_vy = abs(firefly.target_vy)
+	}
+	else if (firefly.y > extent) {
+		firefly.y = extent
+		firefly.vy = -abs(firefly.vy)
+		firefly.target_vy = -abs(firefly.target_vy)
+	}
+}
+
 // Returns whether one level or navigation button can be used.
 function __funLevelButtonIsEnabled(button_index) {
 	if (button_index >= 0 and button_index < __funVisibleLevelCount()) {
@@ -257,6 +282,24 @@ if (self.mouse_allowed_counter != 0) {
 	self.last_mouse_y = mouse_y - camera_get_view_y(view_camera[0])
 }
 self.mouse_allowed_counter = max(0, self.mouse_allowed_counter - 1)
+
+// Only visible records need animation work; their local state survives paging.
+var first_visible_level = self.page_index * self.page_size
+var visible_level_count = __funVisibleLevelCount()
+for (
+	var visible_index = 0;
+	visible_index < visible_level_count;
+	++visible_index
+) {
+	var visible_level = first_visible_level + visible_index
+	var tile_firefly = self.level_orange_fireflies[visible_level]
+	if (tile_firefly != undefined) {
+		__funUpdateLevelFirefly(
+			tile_firefly,
+			self.level_firefly_extent
+		)
+	}
+}
 
 // Start the one-time completion sweep when its page becomes visible.
 if (

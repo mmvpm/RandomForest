@@ -38,9 +38,7 @@ self.locked_color = c_dkgray
 self.current_button_color = make_color_rgb(58, 110, 58) // dark-green
 self.default_button_color = c_ltgray
 self.locked_button_color = make_color_rgb(72, 72, 72)
-self.orange_firefly_color = ORANGE_FIREFLY_UI_COLOUR
-self.orange_firefly_icon_color = ORANGE_FIREFLY_ICON_COLOUR
-self.orange_firefly_tint_amount = 0.23
+self.orange_firefly_menu_color = ORANGE_FIREFLY_MENU_COLOUR
 self.current_scale = 1.0
 self.default_scale = 0.9
 self.border_sprite = sBorder4
@@ -86,6 +84,28 @@ self.button_x[self.exit_index] = self.exit_x
 self.button_y[self.exit_index] = self.exit_y
 self.button_x[self.next_index] = self.next_x
 self.button_y[self.next_index] = self.page_buttons_y
+
+// Collected fireflies keep autonomous local positions inside their level tiles.
+self.level_orange_fireflies = array_create(self.levels_count, undefined)
+self.level_firefly_speed = 0.25
+// Tune this single value to change the whole menu-firefly transparency.
+self.level_firefly_alpha = 1
+self.level_firefly_extent = floor(
+	self.level_button_size * self.default_scale / 2 - 3
+)
+for (var firefly_level = 0; firefly_level < self.levels_count; ++firefly_level) {
+	if (global.orange_firefly_records[firefly_level]) {
+		self.level_orange_fireflies[firefly_level] = funFireflyCreate(
+			-self.level_firefly_extent,
+			-self.level_firefly_extent,
+			2 * self.level_firefly_extent,
+			2 * self.level_firefly_extent,
+			true,
+			true,
+			0
+		)
+	}
+}
 
 // Blurred moving background.
 self.back_surf = noone
