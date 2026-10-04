@@ -31,6 +31,7 @@ function funPlayerTransformStart() {
     } else {
         self.sprite_index = self.transform_target_dark ? sPlayerLightTransform : sPlayerDarkTransform
     }
+    funPlayerStartTransformFx()
 }
 
 /// Converts the authored frame's body rectangle into world pixel coordinates.
@@ -73,6 +74,7 @@ function funPlayerTransformBlocked(old_rect, new_rect) {
 
 /// Restores ordinary movement at the body position of the last safe frame.
 function funPlayerTransformAbort() {
+    funPlayerStopTransformFx()
     var body_rect = funPlayerTransformBodyBounds(floor(self.image_index))
     var body_bottom = body_rect[3]
     var cancel = self.transform_cancel
@@ -116,6 +118,7 @@ function funPlayerTransformLogic() {
 
     if (self.state == player_states.stomp and self.image_index >= 24 and !self.transform_impact_created) {
         self.transform_impact_created = true
+        self.stomp_cooldown_counter = round(global.campaign_abilities_config.stomp_cooldown_seconds * game_get_speed(gamespeed_fps))
         var wave = instance_create_depth(self.x, self.transform_ground_y, self.depth - 1, oPlayerStompWave)
         wave.max_radius = self.stomp_radius
         audio_play_sound(soundPlayerLanding, 1, false)
@@ -123,6 +126,7 @@ function funPlayerTransformLogic() {
     }
 
     if (self.transform_progress >= 38) {
+        funPlayerStopTransformFx()
         var complete = self.transform_complete
         if (self.state == player_states.story_transform) self.is_dark = self.transform_target_dark
         self.mask_index = -1

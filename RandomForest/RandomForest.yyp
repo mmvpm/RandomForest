@@ -106,6 +106,10 @@
   },
   "name":"RandomForest",
   "resources":[
+    {"id":{"name":"sPlayerFxLight","path":"sprites/sPlayerFxLight/sPlayerFxLight.yy"}},
+    {"id":{"name":"sPlayerFxDark","path":"sprites/sPlayerFxDark/sPlayerFxDark.yy"}},
+    {"id":{"name":"oPlayerTransformFx","path":"objects/oPlayerTransformFx/oPlayerTransformFx.yy"}},
+    {"id":{"name":"scriptPlayerTransformFx","path":"scripts/scriptPlayerTransformFx/scriptPlayerTransformFx.yy"}},
     {"id":{"name":"oAirBack","path":"objects/oAirBack/oAirBack.yy",},},
     {"id":{"name":"oAirBurst","path":"objects/oAirBurst/oAirBurst.yy",},},
     {"id":{"name":"oAlwaysDraw","path":"objects/oAlwaysDraw/oAlwaysDraw.yy",},},

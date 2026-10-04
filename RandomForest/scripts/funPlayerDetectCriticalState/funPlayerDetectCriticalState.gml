@@ -38,6 +38,7 @@ function funPlayerDetectCriticalState() {
 
     // A grounded stomp cannot interrupt an attack or a one-shot story transform.
     if (self.key_stomp_pressed and self.stomp_unlocked and !self.story_pending
+        and self.stomp_cooldown_counter <= 0
         and self.is_on_ground and self.state != player_states.attack
         and self.state != player_states.teleport and self.state != player_states.stomp
         and self.state != player_states.story_transform) {
