@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"funOrangeFireflyProgress",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"funOrangeFireflyProgress",
+  "parent":{
+    "name":"UI",
+    "path":"folders/Scripts/UI.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

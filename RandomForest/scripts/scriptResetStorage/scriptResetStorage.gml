@@ -33,6 +33,7 @@ function funResetRecords() {
 		global.time_records[i] = -1
 		global.enemy_clear_records[i] = false
 		global.flawless_records[i] = false
+		global.orange_firefly_records[i] = false
 	}
 
 	funSaveGameState()

@@ -89,5 +89,21 @@ function funSaveGameState() {
 		}
 	}
 
+	// Save orange-firefly progress independently from level completion.
+	if (global.orange_firefly_records != undefined) {
+		var orange_levels_count = array_length(global.orange_firefly_records)
+		for (var orange_index = 0; orange_index < orange_levels_count; ++orange_index) {
+			var orange_key = string(orange_index)
+			if (orange_index < 10) {
+				orange_key = "0" + orange_key
+			}
+			ini_write_real(
+				"orange_firefly_records",
+				"level" + orange_key,
+				global.orange_firefly_records[orange_index]
+			)
+		}
+	}
+
 	ini_close()
 }

@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"soundCoinCollecting",
+  "%Name":"soundOrangeFirefly",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.16997732,
+  "duration":0.32,
   "exportDir":"",
-  "name":"soundCoinCollecting",
+  "name":"soundOrangeFirefly",
   "parent":{
     "name":"Sounds",
     "path":"folders/Sounds.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"soundCoinCollecting.mp3",
+  "soundFile":"soundOrangeFirefly.wav",
   "volume":1.0,
 }

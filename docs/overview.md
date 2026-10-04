@@ -270,9 +270,11 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 [oFireflyManager](../RandomForest/objects/oFireflyManager/oFireflyManager.yy) создаётся камерой на depth 550: огоньки видны поверх фона, но Bloom и все остальные слои перекрывают их. Менеджер хранит целевую популяцию из одиннадцати светлячков в одном массиве структур; отдельные экземпляры, частицы, surfaces и шейдеры не используются.
 
+Оранжевый светлячок (ОС) — специальная запись того же массива: одновременно активен максимум один. Константа `ORANGE_FIREFLY_SPAWN_CHANCE = 0.30` применяется один раз ко всей стартовой пачке и к каждому последующему одиночному спавну; после сохранённого убийства ОС на этом уровне больше не появляется. Основной цвет ОС — `#FF6400`, цвет ободка — `#F28C3A`, а прогресс-бара и mystery-иконки — приглушённый `#D6A06C`.
+
 Светлячки блуждают в мировых координатах по плавным извилистым траекториям. Вышедший за текущий экран огонёк удаляется, а недостающее количество восполняется по одному после случайной задержки. В первом видимом кадре комнаты сразу создаются семь полностью проявленных огоньков. Новый светлячок плавно проявляется, затем светится ровно: мягкое тело диаметром около 8 px окружено заметным тёплым additive-bloom радиусом около 30 px. Размер и интенсивность ореола независимо задаются в Create менеджера. Превышение целевого количества не вызывает принудительного удаления.
 
-Обычный и брошенный мечи могут убить светлячка касанием видимого тела. Тело светлячка исчезает в тот же кадр, а увеличенный ореол следующие десять кадров сжимается и гаснет. Это локальная механика менеджера: светлячок не считается врагом, поэтому текст урона и прочие вражеские эффекты не запускаются.
+Обычный и брошенный мечи могут убить светлячка касанием видимого тела. Тело светлячка исчезает в тот же кадр, а увеличенный ореол следующие десять кадров сжимается и гаснет. Это локальная механика менеджера: светлячок не считается врагом, поэтому текст урона и прочие вражеские эффекты не запускаются. Громкость его звука запечена в WAV с коэффициентом `0.035`, так как общий SFX-toggle устанавливает resource gain в `1`.
 
 Одноразовые эффекты уничтожаются на Animation End: [oAirBurst](../RandomForest/objects/oAirBurst/oAirBurst.yy), [oAirBack](../RandomForest/objects/oAirBack/oAirBack.yy), [oTapDestroy](../RandomForest/objects/oTapDestroy/oTapDestroy.yy), [oTeleportStart](../RandomForest/objects/oTeleportStart/oTeleportStart.yy), [oTeleportEnd](../RandomForest/objects/oTeleportEnd/oTeleportEnd.yy), [oPlayerJumpEffect](../RandomForest/objects/oPlayerJumpEffect/oPlayerJumpEffect.yy), [oPlayerLandingEffect](../RandomForest/objects/oPlayerLandingEffect/oPlayerLandingEffect.yy). Их отрисовка/следование приведены в полном индексе.
 
@@ -287,6 +289,8 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 [oMenu](../RandomForest/objects/oMenu/oMenu.yy) собирает три кнопки в [Create](../RandomForest/objects/oMenu/Create_0.gml): игровой маршрут, справка и выход. До обучения маршрут называется «Начать играть» и открывает первый уровень; после — «Продолжить» и открывает общий выбор уровней. Объект обрабатывает клавиатуру/мышь в [Step](../RandomForest/objects/oMenu/Step_0.gml) и лениво создаёт размытый фон в [Draw](../RandomForest/objects/oMenu/Draw_0.gml). Общая hit-test-функция [funGetButtonByMouse](../RandomForest/scripts/funGetButtonByMouse/funGetButtonByMouse.gml) намеренно использует self.last_mouse_* текущего вызывающего объекта: её нельзя безопасно вызывать из объекта без этого набора полей.
 
 [oLevelSelect](../RandomForest/objects/oLevelSelect/oLevelSelect.yy) объединяет обычные и сгенерированные уровни без визуального разделения. Страницы содержат по 10 кнопок; при каждом входе страница и выделение вычисляются из `global.current_level`, а стрелки позволяют просматривать остальные страницы.
+
+Четвёртый индикатор страницы скрыт за приглушённой оранжевой иконкой-клавишей `?` ([1-bit Pixel Icons, Nikoichu](https://nikoichu.itch.io/pixel-icons)), а у соответствующего доступного уровня лишь слабо тонируется исходный ободок `sBorder4`; звёзды и значки сохраняют свои цвета.
 
 [oPauseMenu](../RandomForest/objects/oPauseMenu/oPauseMenu.yy) похож по структуре, но при паузе делает снимок сцены, деактивирует мир и оставляет активными debug/fullscreen. Реализация: [Create](../RandomForest/objects/oPauseMenu/Create_0.gml), [Step](../RandomForest/objects/oPauseMenu/Step_0.gml), [Draw](../RandomForest/objects/oPauseMenu/Draw_0.gml), [Draw GUI](../RandomForest/objects/oPauseMenu/Draw_64.gml).
 
@@ -317,6 +321,8 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 [funLoadGameState](../RandomForest/scripts/funLoadGameState/funLoadGameState.gml) и [funSaveGameState](../RandomForest/scripts/funSaveGameState/funSaveGameState.gml) читают/пишут save.ini. `current_level` — абсолютный индекс самого дальнего открытого уровня, а `time_records` содержит по одному рекорду на каждый обычный и каталожный уровень. `is_training_completed` фактически отмечает начало кампании и открывает выбор уровней; `hit_vs_tap_text_shown` остался от отключённой подсказки и сейчас не используется. Старые отдельные challenge-ключи не читаются. При расширении каталога прохождение прежнего финального уровня открывает ровно следующий новый уровень и сбрасывает устаревший флаг победы.
 
+`orange_firefly_records` хранит отдельный bool для каждого абсолютного уровня и сохраняется сразу при убийстве ОС, без требования пройти уровень; общий результат вычисляет [funGetOrangeFireflyCount](../RandomForest/scripts/funOrangeFireflyProgress/funOrangeFireflyProgress.gml).
+
 Функции обслуживания сохранений находятся в [scriptResetStorage](../RandomForest/scripts/scriptResetStorage/scriptResetStorage.gml): «начать заново» сбрасывает прогресс, но не рекорды и не флаг показанной подсказки; полный сброс и сброс рекордов доступны только debug-командами.
 
 ## Окно и debug
@@ -331,6 +337,8 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 - Q — добавить все оставшиеся ягоды в счётчик и уничтожить oCoin.
 
 Команды намеренно не защищены от неподходящей комнаты: например, Q в меню может обратиться к отсутствующему oCoinCollector.
+
+Путь до локальных debug-сохранений: ~/Library/Application Support/com.yoyogames.macyoyorunner/save.ini
 
 ## Карта рисков и неявных связей
 
@@ -477,7 +485,7 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 #### Прогресс, UI и системные функции
 
 - [scriptMenuFunctions](../RandomForest/scripts/scriptMenuFunctions/scriptMenuFunctions.gml), [funGetButtonByMouse](../RandomForest/scripts/funGetButtonByMouse/funGetButtonByMouse.gml), [funBlurSurface](../RandomForest/scripts/funBlurSurface/funBlurSurface.gml), [funCameraShake](../RandomForest/scripts/funCameraShake/funCameraShake.gml).
-- [funFireflyChooseTarget](../RandomForest/scripts/funFireflyChooseTarget/funFireflyChooseTarget.gml), [funFireflyCreate](../RandomForest/scripts/funFireflyCreate/funFireflyCreate.gml), [funFireflyUpdate](../RandomForest/scripts/funFireflyUpdate/funFireflyUpdate.gml).
+- [funFireflyChooseTarget](../RandomForest/scripts/funFireflyChooseTarget/funFireflyChooseTarget.gml), [funFireflyCreate](../RandomForest/scripts/funFireflyCreate/funFireflyCreate.gml), [funFireflyUpdate](../RandomForest/scripts/funFireflyUpdate/funFireflyUpdate.gml), [funOrangeFireflyProgress](../RandomForest/scripts/funOrangeFireflyProgress/funOrangeFireflyProgress.gml).
 - [funShowDamageText](../RandomForest/scripts/funShowDamageText/funShowDamageText.gml).
 - [funGetLevelsCount](../RandomForest/scripts/funGetLevelsCount/funGetLevelsCount.gml), [funGetRoomIndex](../RandomForest/scripts/funGetRoomIndex/funGetRoomIndex.gml), [funGetTimeString](../RandomForest/scripts/funGetTimeString/funGetTimeString.gml), [funGetStarCount](../RandomForest/scripts/funGetStarCount/funGetStarCount.gml), [funDrawStar](../RandomForest/scripts/funDrawStar/funDrawStar.gml), [funUpdateTimeRecord](../RandomForest/scripts/funUpdateTimeRecord/funUpdateTimeRecord.gml).
 - [funLoadChallengeCatalog](../RandomForest/scripts/funLoadChallengeCatalog/funLoadChallengeCatalog.gml), [funOpenGeneratedLevel](../RandomForest/scripts/funOpenGeneratedLevel/funOpenGeneratedLevel.gml), [funGenerateLevel](../RandomForest/scripts/funGenerateLevel/funGenerateLevel.gml), [funValidateGeneratedLevel](../RandomForest/scripts/funValidateGeneratedLevel/funValidateGeneratedLevel.gml), [funStyleGeneratedLevel](../RandomForest/scripts/funStyleGeneratedLevel/funStyleGeneratedLevel.gml), [funBuildGeneratedLevel](../RandomForest/scripts/funBuildGeneratedLevel/funBuildGeneratedLevel.gml), [funDecodeGeneratedLevelMap](../RandomForest/scripts/funDecodeGeneratedLevelMap/funDecodeGeneratedLevelMap.gml).

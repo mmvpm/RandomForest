@@ -1,5 +1,12 @@
 /// Creates one autonomous firefly inside the current camera rectangle.
-function funFireflyCreate(cam_x, cam_y, cam_w, cam_h, is_initial) {
+function funFireflyCreate(
+	cam_x,
+	cam_y,
+	cam_w,
+	cam_h,
+	is_initial,
+	is_orange = false
+) {
 	var margin = 16
 	var initial_angle = random(360)
 	var initial_speed = random_range(0.15, 0.50)
@@ -15,6 +22,7 @@ function funFireflyCreate(cam_x, cam_y, cam_w, cam_h, is_initial) {
 		fade_speed: 1 / random_range(30, 60),
 		glow_scale_multiplier: 1,
 		is_dying: false,
+		is_orange: is_orange,
 		drift_phase: random(2 * pi),
 		drift_speed: random_range(0.025, 0.055),
 		drift_strength: random_range(0.04, 0.12),

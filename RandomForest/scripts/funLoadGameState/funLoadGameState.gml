@@ -19,9 +19,10 @@ function funLoadGameState() {
 		global.time_records[i] = ini_read_real("time_records", "level" + str_i, -1)
 	}
 
-	// Load the two persistent mastery goals for every level.
+	// Load persistent mastery goals and orange-firefly progress for every level.
 	global.enemy_clear_records = array_create(levels_count, false)
 	global.flawless_records = array_create(levels_count, false)
+	global.orange_firefly_records = array_create(levels_count, false)
 	for (var achievement_index = 0; achievement_index < levels_count; ++achievement_index) {
 		var achievement_key = string(achievement_index)
 		if (achievement_index < 10) {
@@ -37,6 +38,13 @@ function funLoadGameState() {
 		global.flawless_records[achievement_index] = (
 			ini_read_real(
 				"flawless_records",
+				"level" + achievement_key,
+				0
+			) != 0
+		)
+		global.orange_firefly_records[achievement_index] = (
+			ini_read_real(
+				"orange_firefly_records",
 				"level" + achievement_key,
 				0
 			) != 0

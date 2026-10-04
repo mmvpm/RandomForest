@@ -12,6 +12,7 @@ function funGetAchievementPageProgress(
 	var earned_stars = 0
 	var earned_enemy_clears = 0
 	var earned_flawless = 0
+	var earned_orange_fireflies = 0
 
 	for (var offset = 0; offset < levels_on_page; ++offset) {
 		var level_index = first_level + offset
@@ -30,6 +31,7 @@ function funGetAchievementPageProgress(
 		)
 		earned_enemy_clears += global.enemy_clear_records[level_index]
 		earned_flawless += global.flawless_records[level_index]
+		earned_orange_fireflies += global.orange_firefly_records[level_index]
 	}
 
 	var max_stars = levels_on_page * 3
@@ -40,6 +42,7 @@ function funGetAchievementPageProgress(
 		max_stars: max_stars,
 		earned_enemy_clears: earned_enemy_clears,
 		earned_flawless: earned_flawless,
+		earned_orange_fireflies: earned_orange_fireflies,
 		is_complete: (
 			levels_on_page > 0
 			and earned_stars == max_stars

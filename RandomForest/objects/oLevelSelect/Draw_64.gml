@@ -9,10 +9,12 @@ function __funDrawLevelSelectButton(
 	enabled,
 	text_offset_x = 0,
 	text_offset_y = 0,
-	pulse = 0
+	pulse = 0,
+	border_tint = undefined
 ) {
 	var ui_scale = self.default_scale
 	var button_color = self.default_button_color
+	var has_border_tint = enabled and border_tint != undefined
 	draw_set_color(self.default_color)
 
 	if (!enabled) {
@@ -30,6 +32,14 @@ function __funDrawLevelSelectButton(
 			button_color,
 			self.current_button_color,
 			pulse
+		)
+	}
+	if (has_border_tint) {
+		// A weak tint marks the secret without replacing the shaded base colour.
+		button_color = merge_color(
+			button_color,
+			border_tint,
+			self.orange_firefly_tint_amount
 		)
 	}
 
@@ -61,6 +71,49 @@ function __funDrawLevelSelectButton(
 		0
 	)
 	return button_width
+}
+
+// Draws deliberately ambiguous progress with an orange mystery icon.
+function __funDrawOrangeFireflyProgress(center_x, earned, maximum) {
+	var icon_scale = 0.75
+	var progress_text = string(earned) + "/" + string(maximum)
+	draw_set_font(global.default_font_12)
+	var icon_width = sprite_get_width(sAchievementMystery) * icon_scale
+	var content_gap = 4
+	var content_width = icon_width + content_gap + string_width(progress_text)
+	var content_left = center_x - content_width / 2
+	var icon_x = content_left + icon_width / 2
+	var text_x = content_left + icon_width + content_gap
+
+	draw_sprite_ext(
+		sAchievementMystery,
+		0,
+		icon_x,
+		68,
+		icon_scale,
+		icon_scale,
+		0,
+		self.orange_firefly_icon_color,
+		1
+	)
+	draw_set_color(c_ltgray)
+	draw_set_halign(fa_left)
+	draw_text(text_x, 68, progress_text)
+
+	var meter_width = 48
+	var meter_x = center_x - meter_width / 2
+	draw_set_color(make_color_rgb(72, 72, 72))
+	draw_rectangle(meter_x, 78, meter_x + meter_width, 79, false)
+	if (maximum > 0 and earned > 0) {
+		draw_set_color(self.orange_firefly_icon_color)
+		draw_rectangle(
+			meter_x,
+			78,
+			meter_x + meter_width * earned / maximum,
+			79,
+			false
+		)
+	}
 }
 
 // Draws one compact page-progress counter and its two-pixel meter.
@@ -148,22 +201,27 @@ var page_progress = funGetAchievementPageProgress(
 	self.level_star_times
 )
 __funDrawPageProgress(
-	175,
+	144,
 	sStar,
 	page_progress.earned_stars,
 	page_progress.max_stars,
 	true
 )
 __funDrawPageProgress(
-	240,
+	208,
 	sAchievementEnemies,
 	page_progress.earned_enemy_clears,
 	page_progress.levels_count
 )
 __funDrawPageProgress(
-	305,
+	272,
 	sAchievementFlawless,
 	page_progress.earned_flawless,
+	page_progress.levels_count
+)
+__funDrawOrangeFireflyProgress(
+	336,
+	page_progress.earned_orange_fireflies,
 	page_progress.levels_count
 )
 
@@ -182,6 +240,11 @@ for (var i = 0; i < visible_count; ++i) {
 			pulse = sin(pi * pulse_frame / 12)
 		}
 	}
+	var level_enabled = level_index <= global.current_level
+	var border_tint = undefined
+	if (level_enabled and global.orange_firefly_records[level_index]) {
+		border_tint = self.orange_firefly_color
+	}
 	var button_size = __funDrawLevelSelectButton(
 		i,
 		x_pos,
@@ -189,12 +252,13 @@ for (var i = 0; i < visible_count; ++i) {
 		self.level_button_size,
 		self.level_button_size,
 		string(level_index + 1),
-		level_index <= global.current_level,
+		level_enabled,
 		0,
 		0,
-		pulse
+		pulse,
+		border_tint
 	)
-	if (level_index <= global.current_level) {
+	if (level_enabled) {
 		var earned_stars = funGetStarCount(
 			global.time_records[level_index],
 			level_index,
