@@ -2,6 +2,7 @@
 
 // Load saved state
 
+funLoadBlackRoomConfig()
 funLoadGameState()
 audio_master_gain(1)
 funApplyAudioSettings()
@@ -22,6 +23,8 @@ alarm[0] = true // for centering
 global.default_font_12 = font_add("glasstown.ttf", 12, true, false, 32, 128)
 global.default_font_24 = font_add("glasstown.ttf", 24, true, false, 32, 128)
 global.damage_font_10 = font_add("glasstown.ttf", 10, true, false, 32, 128)
+// Dialogue uses the same pixel font, including Cyrillic and both Yo characters.
+global.dialogue_font_12 = font_add("glasstown.ttf", 12, true, false, 32, 1105)
 
 global.key_move_left = vk_left
 global.key_move_right = vk_right

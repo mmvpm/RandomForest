@@ -24,6 +24,9 @@ function funOpenLevel(level_index = global.current_level) {
 	if (level_index < 0 or level_index >= levels_count) {
 		return false
 	}
+	// A story room may still own an optional track while its results are visible.
+	funStopBlackRoomMusic()
+	global.black_room_context = undefined
 
 	if (level_index >= CAMPAIGN_LEVELS_COUNT) {
 		return funOpenGeneratedLevel(level_index)

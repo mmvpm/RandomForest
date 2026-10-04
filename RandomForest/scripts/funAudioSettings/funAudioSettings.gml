@@ -7,6 +7,17 @@ function funApplyMusicSetting(fade_ms = 0) {
 		musicVictory,
 		musicVictoryMem,
 	]
+	// Future story tracks follow the same saved music toggle as existing music.
+	var scenes = global.black_room_config.scenes
+	for (var scene_index = 0; scene_index < array_length(scenes); ++scene_index) {
+		var track = funBlackRoomSetting(scenes[scene_index], "music")
+		if (track != undefined) {
+			var sound = asset_get_index(track)
+			if (sound != -1) {
+				array_push(music_assets, sound)
+			}
+		}
+	}
 	for (var i = 0; i < array_length(music_assets); ++i) {
 		audio_sound_gain(music_assets[i], gain, fade_ms)
 	}

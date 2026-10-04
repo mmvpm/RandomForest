@@ -1,30 +1,6 @@
-// compute scale
-var all_coins_collected = not instance_exists(oCoin)
-self.scale += self.scale_speed
-if (all_coins_collected) {
-	self.is_opened = true
-    self.scale_speed = self.scale_open_speed
-	self.scale = min(1.0, self.scale)
-}
-else {
-	if (self.scale > self.scale_max) {
-		self.scale = self.scale_max
-		self.scale_speed = -abs(self.scale_speed)
-	}
-	else if (self.scale < self.scale_min) {
-		self.scale = self.scale_min
-		self.scale_speed = abs(self.scale_speed)
-	}
-}
-
-// resize
-self.image_xscale = self.x_factor * self.scale
-self.image_yscale = self.y_factor * self.scale
-
-// Opens the existing result overlay after the room fade.
-function __funPassingLevel() {
-	instance_create_layer(0, 0, "UI", oLevelPassing)
-}
+/// Opens the gameplay portal once every berry is collected.
+self.is_opened = !instance_exists(oCoin)
+funUpdatePortalVisual(self.is_opened)
 
 // Saves the record and unlocks the next level in the shared sequence.
 function __funCompleteLevel() {
@@ -126,5 +102,5 @@ if (place_meeting(self.x, self.y, oPlayer) and self.is_opened and !self.goto_nex
 	oTimeCounter.may_count = false // stops timer
 	var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
 	__funCompleteLevel()
-	fade_out_effect.end_function = __funPassingLevel
+	fade_out_effect.end_function = funShowCompletedLevel
 }

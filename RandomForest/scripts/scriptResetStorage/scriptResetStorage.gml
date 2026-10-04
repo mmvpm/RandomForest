@@ -2,6 +2,7 @@
 
 /// Restores general progress and audio preferences to defaults.
 function funResetGeneral() {
+	funResetBlackRoomScenes()
 	global.is_fullscreen = false
 	global.current_level = 0
 	global.playing_level = 0
@@ -18,6 +19,7 @@ function funResetGeneral() {
 
 /// Locks the level sequence back to its first level.
 function funResetLevels() {
+	funResetBlackRoomScenes()
 	global.current_level = 0
 	global.playing_level = 0
 	global.playing_level_star_times = undefined

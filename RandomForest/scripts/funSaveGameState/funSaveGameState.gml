@@ -105,5 +105,13 @@ function funSaveGameState() {
 		}
 	}
 
+	// Finishing a conversation alone does not count as a completed visit.
+	var scenes = global.black_room_config.scenes
+	for (var scene_index = 0; scene_index < array_length(scenes); ++scene_index) {
+		var scene_id = scenes[scene_index].id
+		ini_write_real("black_room_seen", scene_id,
+			variable_struct_get(global.black_room_seen, scene_id))
+	}
+
 	ini_close()
 }

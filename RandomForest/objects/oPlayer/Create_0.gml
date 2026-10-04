@@ -17,7 +17,10 @@ self.state_changed = true
 // health
 self.max_health = 7
 self.health = self.max_health
-funBeginAchievementRun()
+// The story room continues a completed attempt rather than starting a new one.
+if (room != rBlackRoom) {
+	funBeginAchievementRun()
+}
 
 // buffers
 self.jump_buffer_max = 5 // frames

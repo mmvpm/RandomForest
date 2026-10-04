@@ -1,0 +1,48 @@
+{
+  "opening": [
+    {
+      "speaker": "Голос",
+      "text": "Тестовая ЧК после уровня 40."
+    }
+  ],
+  "variants": [
+    {
+      "when": {
+        "collected_below_level_ratio": 0.5
+      },
+      "lines": [
+        {
+          "speaker": "Голос",
+          "text": "[Тест: меньше половины]\nПамять: [orange]{collected}[/orange]. Этап: {after_level}."
+        }
+      ]
+    },
+    {
+      "when": {
+        "min_collected": 40,
+        "max_collected": 40
+      },
+      "lines": [
+        {
+          "speaker": "Голос",
+          "text": "[Тест: ровно 40]\nВсе фрагменты памяти собраны."
+        }
+      ]
+    },
+    {
+      "when": {},
+      "lines": [
+        {
+          "speaker": "Голос",
+          "text": "[Тест: обычный прогресс]\nСобрано: [orange]{collected}[/orange]. Этап: {after_level}."
+        }
+      ]
+    }
+  ],
+  "closing": [
+    {
+      "speaker": "Голос",
+      "text": "Тест завершён. Портал открывается."
+    }
+  ]
+}

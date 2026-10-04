@@ -83,6 +83,15 @@ function funLoadGameState() {
 	global.music_enabled = ini_read_real("general", "music_enabled", 1) != 0
 	global.sfx_enabled = ini_read_real("general", "sfx_enabled", 1) != 0
 
+	// Visits are keyed by stable scene IDs, independently of level records.
+	global.black_room_seen = {}
+	var scenes = global.black_room_config.scenes
+	for (var scene_index = 0; scene_index < array_length(scenes); ++scene_index) {
+		var scene_id = scenes[scene_index].id
+		variable_struct_set(global.black_room_seen, scene_id,
+			ini_read_real("black_room_seen", scene_id, 0) != 0)
+	}
+
 	ini_close()
 
 	// Completion UI uses these runtime-only values.

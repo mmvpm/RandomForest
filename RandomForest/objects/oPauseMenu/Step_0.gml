@@ -16,7 +16,12 @@ function __funHandleButtonAction(button_index) {
 			self.paused = false
 			break
 		case 1:
-			room_restart()
+			if (room == rBlackRoom) {
+				funRestartPlayingLevel()
+			}
+			else {
+				room_restart()
+			}
 			break
 		case 2:
 			var inst = instance_create_layer(0, 0, "UI", oTraining)

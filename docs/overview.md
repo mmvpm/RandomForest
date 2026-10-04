@@ -18,7 +18,7 @@
 | Главное меню | [oMenu](../RandomForest/objects/oMenu/oMenu.yy) выбирает обработчик из [scriptMenuFunctions](../RandomForest/scripts/scriptMenuFunctions/scriptMenuFunctions.gml). «Начать играть» открывает первый уровень, а «Продолжить» — единый [rLevelSelect](../RandomForest/rooms/rLevelSelect/rLevelSelect.yy). |
 | Выбор уровня | [oLevelSelect](../RandomForest/objects/oLevelSelect/oLevelSelect.yy) показывает всю последовательность страницами по 10. При входе открывается страница `global.current_level div 10`, поэтому для текущего уровня 11+ сразу виден и выделен именно он. |
 | Игровые уровни | [funOpenLevel](../RandomForest/scripts/scriptMenuFunctions/scriptMenuFunctions.gml) открывает обычную комнату для индексов 0–9 или выбранный JSON в [rGeneratedLevel](../RandomForest/rooms/rGeneratedLevel/rGeneratedLevel.yy) для индексов 10+. |
-| Завершение | Дверь сохраняет общий рекорд, открывает следующий абсолютный индекс и создаёт стандартный экран прохождения. Уровень 10 переходит к `challenge_levels/01.json`. |
+| Завершение | Дверь сохраняет общий рекорд и открывает следующий абсолютный индекс. Перед статистикой может открыться ещё не просмотренная ЧК; сейчас включена только сцена после 01. Уровень 10 переходит к `challenge_levels/01.json`. |
 | Финал | После последней записи текущего каталога кнопка «Перейти дальше» открывает [rVictory](../RandomForest/rooms/rVictory/rVictory.yy). Его [RoomCreationCode](../RandomForest/rooms/rVictory/RoomCreationCode.gml) выставляет глобальный флаг завершения. [oVictory](../RandomForest/objects/oVictory/oVictory.yy) по двойному нажатию возвращает в меню. |
 
 Первые десять абсолютных индексов сопоставлены комнатам в [funOpenLevel](../RandomForest/scripts/scriptMenuFunctions/scriptMenuFunctions.gml) и [funGetRoomIndex](../RandomForest/scripts/funGetRoomIndex/funGetRoomIndex.gml). Все последующие индексы вычисляются из порядка `challenge_levels/catalog.json`; порядок комнат проекта для перехода между игровыми уровнями не используется.
@@ -175,9 +175,37 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 - следующий абсолютный уровень становится доступен в общем `global.current_level`;
 - игрок скрывается, таймер останавливается;
 - создаётся [oFadeOut](../RandomForest/objects/oFadeOut/oFadeOut.yy);
-- после callback создаётся [oLevelPassing](../RandomForest/objects/oLevelPassing/oLevelPassing.yy) на слое UI.
+- после callback [funShowCompletedLevel](../RandomForest/scripts/scriptBlackRoomFlow/scriptBlackRoomFlow.gml) открывает непосещённую ЧК или создаёт [oLevelPassing](../RandomForest/objects/oLevelPassing/oLevelPassing.yy) на слое UI.
 
 [oLevelPassing](../RandomForest/objects/oLevelPassing/oLevelPassing.yy) деактивирует игровой мир в [Create](../RandomForest/objects/oLevelPassing/Create_0.gml), оставляя [oDebug](../RandomForest/objects/oDebug/oDebug.yy) и [oFullscreen](../RandomForest/objects/oFullscreen/oFullscreen.yy). В [Step](../RandomForest/objects/oLevelPassing/Step_0.gml) доступны «Дальше», «Заново», «В меню»; «Дальше» вызывает общий `funOpenLevel`, а после последнего каталожного уровня открывает `rVictory`. [Draw](../RandomForest/objects/oLevelPassing/Draw_0.gml) и [Draw GUI](../RandomForest/objects/oLevelPassing/Draw_64.gml) рисуют размытый фон, статистику и звёзды.
+
+### Чёрная комната и диалоги
+
+[rBlackRoom](../RandomForest/rooms/rBlackRoom/rBlackRoom.yy) — отдельная редактируемая
+комната с невидимой геометрией, обычным игроком и порталом. Здесь нет игрового HUD,
+ягод, врагов или светлячков; камера сохраняет обычные границы и эффекты, но не
+создаёт `oFireflyManager`. Время и достижения уже зафиксированы на исходном уровне.
+
+`oBlackRoomController` восстанавливает здоровье игрока и после входного затемнения
+отсчитывает время свободного движения: 5 секунд перед первой сценой, 3 перед
+остальными по умолчанию. `oDialogue` выводит сверху монолог с посимвольной печатью,
+стабильными переносами, страницами и оранжевыми фрагментами. Только Enter / Return
+допечатывает страницу или переключает её; движение, прыжки и атаки разрешены
+всё время. Escape остаётся паузой, F — полноэкранным режимом. Диалог наследует
+`oAlwaysDraw`, поэтому виден при выборе направления броска.
+
+`oBlackRoomPortal` открывается после последней реплики. Полностью выросший портал
+нужно покинуть и снова коснуться; стояние в нём не вызывает автоматического выхода.
+Только завершение выхода отмечает просмотр по ID сцены и показывает сохранённый
+`global.last_completion_result`. «Заново» из ЧК или её статистики открывает исходный
+уровень. В тестовой комнате нет музыки, после выхода возвращается `musicGame`.
+
+Реестр, задержки и ссылки на монологи находятся в
+[narrative/black_room.json](../RandomForest/datafiles/narrative/black_room.json),
+тексты — в отдельном Included File на сцену. Активна только ЧК после 01; остальные
+точки таймлайна — выключенные тестовые заготовки. Формат, условия по ОС и порядок
+ветвлений описаны в [black-room-format.md](black-room-format.md). Перки и финальные
+действия здесь пока не реализованы.
 
 ## Враги
 
@@ -298,6 +326,9 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 Затемнения реализуют [oFadeIn](../RandomForest/objects/oFadeIn/oFadeIn.yy) и [oFadeOut](../RandomForest/objects/oFadeOut/oFadeOut.yy). Их Step изменяет global_alpha, а два события Draw/Draw GUI накрывают и мир, и UI. Эффект размытия создаёт [funBlurSurface](../RandomForest/scripts/funBlurSurface/funBlurSurface.gml), использующий [вершинный шейдер](../RandomForest/shaders/shBlur/shBlur.vsh) и [фрагментный шейдер](../RandomForest/shaders/shBlur/shBlur.fsh): это два прохода гауссова blur по X и Y с опциональным затемнением.
 
+Оба затемнения имеют безопасный `alpha_step = 0.05` по умолчанию; ЧК задаёт
+его из своей настройки длительности перехода.
+
 ### Звуки
 
 Музыка запускается в [Create меню](../RandomForest/objects/oMenu/Create_0.gml), переключается в [funOpenLevel](../RandomForest/scripts/scriptMenuFunctions/scriptMenuFunctions.gml) и вручную повторяется в [Draw финала](../RandomForest/objects/oVictory/Draw_0.gml). Звуки действий привязаны к кадрам анимации в state-скриптах. Проверки audio_is_playing для шагов слизня и бунгало глобальны для конкретного sound asset, поэтому несколько однотипных врагов не обязаны звучать одновременно.
@@ -323,6 +354,10 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 `orange_firefly_records` хранит отдельный bool для каждого абсолютного уровня и сохраняется сразу при убийстве ОС, без требования пройти уровень; общий результат вычисляет [funGetOrangeFireflyCount](../RandomForest/scripts/funOrangeFireflyProgress/funOrangeFireflyProgress.gml).
 
+`black_room_seen` хранит просмотренные ЧК по стабильным ID сцен в одноимённой секции
+`save.ini`. Просмотр сохраняется при выходе через портал, а не после разговора.
+Сброс кампании очищает эти флаги; отдельный сброс рекордов их сохраняет.
+
 Функции обслуживания сохранений находятся в [scriptResetStorage](../RandomForest/scripts/scriptResetStorage/scriptResetStorage.gml): «начать заново» сбрасывает прогресс, но не рекорды и не флаг показанной подсказки; полный сброс и сброс рекордов доступны только debug-командами.
 
 ## Окно и debug
@@ -344,7 +379,6 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 | Приоритет | Наблюдение | Почему важно / как безопаснее менять |
 | --- | --- | --- |
-| Высокий | У [oFadeIn](../RandomForest/objects/oFadeIn/oFadeIn.yy) и [oFadeOut](../RandomForest/objects/oFadeOut/oFadeOut.yy) в [Create](../RandomForest/objects/oFadeIn/Create_0.gml) и [Create](../RandomForest/objects/oFadeOut/Create_0.gml) нет значения alpha_step. | Их Step требует alpha_step. Пауза и обучение задают его явно, но [oDoor](../RandomForest/objects/oDoor/oDoor.yy), [oMenu](../RandomForest/objects/oMenu/oMenu.yy) и [oLevelPassing](../RandomForest/objects/oLevelPassing/oLevelPassing.yy) создают FadeOut только с callback; стартовые экземпляры FadeIn комнат тоже не имеют creation code. Перед доработкой переходов проверьте это в рантайме и лучше задайте безопасный default в Create. |
 | Высокий | [funGetTimeString](../RandomForest/scripts/funGetTimeString/funGetTimeString.gml) интерпретирует кадры как минуты: при 60 FPS значение 60 выводится как 01:00. | Пороги звёзд в [funGetStarCount](../RandomForest/scripts/funGetStarCount/funGetStarCount.gml) явно умножаются на 60, то есть работают в кадрах. Если нужен обычный mm:ss, форматирование нужно исправлять отдельно от порогов. |
 | Высокий | Код использует объектные имена игрока, камеры и счетчиков как singletons. | Несколько игроков, камер или счетчиков создадут недетерминированность. Мечи врагов уже используют личные instance ID владельцев, но остальные singleton-контракты сохраняются. |
 | Высокий | Первые десять индексов сопоставлены комнатам вручную. | При добавлении обычной комнаты синхронно обновлять [funGetRoomIndex](../RandomForest/scripts/funGetRoomIndex/funGetRoomIndex.gml), [funOpenLevel](../RandomForest/scripts/scriptMenuFunctions/scriptMenuFunctions.gml), обычные пороги в [funGetStarCount](../RandomForest/scripts/funGetStarCount/funGetStarCount.gml) и `CAMPAIGN_LEVELS_COUNT`. Сгенерированные уровни добавляются только через конец каталога. |
@@ -411,6 +445,12 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 - [oDamageText](../RandomForest/objects/oDamageText/oDamageText.yy): [Create](../RandomForest/objects/oDamageText/Create_0.gml), [Step](../RandomForest/objects/oDamageText/Step_0.gml), [Draw](../RandomForest/objects/oDamageText/Draw_0.gml).
 - [oFadingText](../RandomForest/objects/oFadingText/oFadingText.yy): [Create](../RandomForest/objects/oFadingText/Create_0.gml), [Step](../RandomForest/objects/oFadingText/Step_0.gml), [Draw GUI](../RandomForest/objects/oFadingText/Draw_64.gml).
 - [oAlwaysDraw](../RandomForest/objects/oAlwaysDraw/oAlwaysDraw.yy) и [oPointer](../RandomForest/objects/oPointer/oPointer.yy): ресурсы без собственного GML.
+
+#### Повествование
+
+- [oBlackRoomController](../RandomForest/objects/oBlackRoomController/oBlackRoomController.yy): [Create](../RandomForest/objects/oBlackRoomController/Create_0.gml), [Step](../RandomForest/objects/oBlackRoomController/Step_0.gml), [Clean Up](../RandomForest/objects/oBlackRoomController/CleanUp_0.gml).
+- [oBlackRoomPortal](../RandomForest/objects/oBlackRoomPortal/oBlackRoomPortal.yy): [Create](../RandomForest/objects/oBlackRoomPortal/Create_0.gml), [Step](../RandomForest/objects/oBlackRoomPortal/Step_0.gml).
+- [oDialogue](../RandomForest/objects/oDialogue/oDialogue.yy): [Create](../RandomForest/objects/oDialogue/Create_0.gml), [Step](../RandomForest/objects/oDialogue/Step_0.gml), [Draw GUI](../RandomForest/objects/oDialogue/Draw_64.gml).
 
 #### Игрок и его эффекты
 
@@ -491,6 +531,12 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 - [funLoadChallengeCatalog](../RandomForest/scripts/funLoadChallengeCatalog/funLoadChallengeCatalog.gml), [funOpenGeneratedLevel](../RandomForest/scripts/funOpenGeneratedLevel/funOpenGeneratedLevel.gml), [funGenerateLevel](../RandomForest/scripts/funGenerateLevel/funGenerateLevel.gml), [funValidateGeneratedLevel](../RandomForest/scripts/funValidateGeneratedLevel/funValidateGeneratedLevel.gml), [funStyleGeneratedLevel](../RandomForest/scripts/funStyleGeneratedLevel/funStyleGeneratedLevel.gml), [funBuildGeneratedLevel](../RandomForest/scripts/funBuildGeneratedLevel/funBuildGeneratedLevel.gml), [funDecodeGeneratedLevelMap](../RandomForest/scripts/funDecodeGeneratedLevelMap/funDecodeGeneratedLevelMap.gml).
 - [funLoadGameState](../RandomForest/scripts/funLoadGameState/funLoadGameState.gml), [funSaveGameState](../RandomForest/scripts/funSaveGameState/funSaveGameState.gml), [scriptResetStorage](../RandomForest/scripts/scriptResetStorage/scriptResetStorage.gml).
 - [funResizeWindow](../RandomForest/scripts/funResizeWindow/funResizeWindow.gml), [funUpdateFullscreen](../RandomForest/scripts/funUpdateFullscreen/funUpdateFullscreen.gml).
+
+#### Скрипты повествования
+
+- [scriptBlackRoomConfig](../RandomForest/scripts/scriptBlackRoomConfig/scriptBlackRoomConfig.gml), [scriptBlackRoomDialogue](../RandomForest/scripts/scriptBlackRoomDialogue/scriptBlackRoomDialogue.gml), [scriptBlackRoomFlow](../RandomForest/scripts/scriptBlackRoomFlow/scriptBlackRoomFlow.gml).
+- [scriptDialogueText](../RandomForest/scripts/scriptDialogueText/scriptDialogueText.gml), [scriptDialogueLayout](../RandomForest/scripts/scriptDialogueLayout/scriptDialogueLayout.gml), [scriptDialoguePlayback](../RandomForest/scripts/scriptDialoguePlayback/scriptDialoguePlayback.gml).
+- [scriptPortalVisual](../RandomForest/scripts/scriptPortalVisual/scriptPortalVisual.gml) — общая анимация обычного портала и портала ЧК.
 
 ### Шейдер и код комнаты
 
