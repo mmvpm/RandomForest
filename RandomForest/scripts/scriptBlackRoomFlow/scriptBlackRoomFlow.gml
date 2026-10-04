@@ -1,5 +1,9 @@
 /// Opens either the pending story room or the normal completion overlay.
 function funShowCompletedLevel() {
+	if (!funLevelTracksProgress(global.playing_level)) {
+		room_goto(rVictory)
+		return
+	}
 	var scene = funFindBlackRoomScene(global.playing_level)
 	if (scene == undefined) {
 		instance_create_layer(0, 0, "UI", oLevelPassing)
@@ -10,6 +14,8 @@ function funShowCompletedLevel() {
 		progress: funBlackRoomProgress(scene.after_level),
 		health: oPlayer.health,
 		max_health: oPlayer.max_health,
+		reward_staged: false,
+		current_dark: funCampaignPlayerIsDark(),
 	}
 	room_goto(rBlackRoom)
 }

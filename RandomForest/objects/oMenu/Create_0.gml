@@ -23,7 +23,7 @@ else {
 		"Выйти",
 	]
 	self.functions = [
-		funOpenLevel,
+		funMenuBeginCampaign,
 		funMenuShowControls,
 		funMenuOpenSettings,
 		funMenuExit,

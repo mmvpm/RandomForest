@@ -20,6 +20,16 @@ function funBungaloDetectCriticalState() {
 		return bungalo_states.hurt
 	}
 
+    if (hurt_allowed) {
+        var wave = funPlayerStompWaveDamage()
+        if (wave != noone) {
+            var direction_to_wave = sign(wave.x - self.x)
+            if (direction_to_wave != 0) self.image_xscale = abs(self.image_xscale) * direction_to_wave
+            self.future_damage = 1
+            return bungalo_states.hurt
+        }
+    }
+
 	// nothing special
 	return undefined
 }

@@ -77,7 +77,8 @@ if (current_count < self.target_count) {
 	self.spawn_timer--
 	if (self.spawn_timer <= 0) {
 		var can_spawn_orange = (
-			!global.orange_firefly_records[global.playing_level]
+			funLevelTracksProgress(global.playing_level)
+			and !global.orange_firefly_records[global.playing_level]
 			and !self.orange_firefly_active
 		)
 		var spawn_orange = (

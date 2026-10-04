@@ -8,7 +8,8 @@ if (!self.initialised) {
 	var cam_h = camera_get_view_height(cam)
 	var initial_orange_index = -1
 	var can_spawn_orange = (
-		!global.orange_firefly_records[global.playing_level]
+		funLevelTracksProgress(global.playing_level)
+		and !global.orange_firefly_records[global.playing_level]
 		and random(1) < ORANGE_FIREFLY_SPAWN_CHANCE
 	)
 	if (can_spawn_orange) {

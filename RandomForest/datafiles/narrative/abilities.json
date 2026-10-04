@@ -1,0 +1,14 @@
+{
+  "base": {
+    "max_health": 2,
+    "double_jump": false,
+    "melee_bonus": 0,
+    "dark_skin": false,
+    "stomp": false,
+    "stomp_radius": 72
+  },
+  "dark_levels": [
+    31,
+    40
+  ]
+}

@@ -94,7 +94,7 @@ self.level_firefly_extent = floor(
 	self.level_button_size * self.default_scale / 2 - 3
 )
 for (var firefly_level = 0; firefly_level < self.levels_count; ++firefly_level) {
-	if (global.orange_firefly_records[firefly_level]) {
+	if (funLevelTracksProgress(firefly_level) and global.orange_firefly_records[firefly_level]) {
 		self.level_orange_fireflies[firefly_level] = funFireflyCreate(
 			-self.level_firefly_extent,
 			-self.level_firefly_extent,

@@ -1,5 +1,6 @@
 // attack
 self.damage = 1
+self.sprite_index = oPlayer.is_dark ? sPlayerDarkTapSword : sPlayerTapSword
 
 // move
 self.current_speed = 6

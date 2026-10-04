@@ -1,9 +1,12 @@
 // returns true if oTapController was created
 
+/// Handles throwing, recall, and teleport outside locked transform states.
 function funPlayerHandleTapSword() {
 
 	// prohibited states
 	switch (self.state) {
+		case player_states.stomp:
+		case player_states.story_transform:
 		case player_states.attack:
 			return false
 		//case player_states.hurt:

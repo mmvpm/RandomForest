@@ -71,9 +71,12 @@ function funLoadGameState() {
 	global.is_training_completed = ini_read_real("general", "is_training_completed", 0) // false by default
 
 	// A saved victory becomes stale when new levels are appended.
+	global.campaign_intro_seen = ini_read_real("general", "campaign_intro_seen", 0) != 0
+	global.special_level_completed = ini_read_real("general", "special_level_completed", 0) != 0
 	global.is_game_finished = (
 		ini_read_real("general", "is_game_finished", 0)
-		and global.time_records[levels_count - 1] != -1
+		and (funLevelTracksProgress(levels_count - 1)
+			? global.time_records[levels_count - 1] != -1 : global.special_level_completed)
 	)
 
 	// "hit is stronger than tap-attack" shown or not

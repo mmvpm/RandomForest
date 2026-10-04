@@ -1,4 +1,4 @@
-if (not self.timer_drawing_enabled) {
+if (!funLevelTracksProgress(global.playing_level) or not self.timer_drawing_enabled) {
 	return
 }
 

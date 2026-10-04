@@ -235,6 +235,10 @@ function __funMoveLevel(direction_x, direction_y) {
 
 // Applies page-aware keyboard navigation.
 function __funMoveLevelSelection(direction_x, direction_y) {
+	if (funIsSpecialLevelPage(self.page_index, self.page_size, self.levels_count)) {
+		funMoveSpecialLevelSelection(direction_x, direction_y)
+		return
+	}
 	if (self.current_index < self.page_size) {
 		__funMoveLevel(direction_x, direction_y)
 		return

@@ -1,3 +1,4 @@
+/// Chooses and initializes the next melee combo animation.
 function funPlayerAttackStart() {
 	// go to next animation type if in combo
 	if (self.attack_combo_buffer_counter > 0) {
@@ -11,15 +12,15 @@ function funPlayerAttackStart() {
 	// choose animation type
 	switch (self.attack_animation_type) {
 		case 1:
-			self.sprite_index = sPlayerAttack1
+			self.sprite_index = funPlayerSkinSprite(sPlayerAttack1)
 			self.attack_need_shake = false
 			break
 		case 2:
-			self.sprite_index = sPlayerAttack2
+			self.sprite_index = funPlayerSkinSprite(sPlayerAttack2)
 			self.attack_need_shake = false
 			break
 		case 3:
-			self.sprite_index = sPlayerAttack3
+			self.sprite_index = funPlayerSkinSprite(sPlayerAttack3)
 			self.attack_need_shake = true
 			break
 	}
@@ -33,6 +34,7 @@ function funPlayerAttackStart() {
 }
 
 
+/// Coordinates the short melee hit window and interruptible animation.
 function funPlayerAttackLogic() {
 	funPlayerStepMove()
 
@@ -81,6 +83,7 @@ function funPlayerAttackLogic() {
 }
 
 
+/// Creates one melee hitbox with the current campaign damage bonus.
 function funPlayerCreateAttackSword() {
 	// create collision mask for sword
 	var created_sword = instance_create_depth(self.x, self.y, -1, oPlayerSword)
@@ -90,25 +93,26 @@ function funPlayerCreateAttackSword() {
 		case 1:
 			created_sword.xscale_factor = 1
 			created_sword.yscale_factor = 1
-			created_sword.damage = 2
+			created_sword.damage = 2 + self.melee_bonus
 			audio_play_sound(soundPlayerAttack1, 2, false)
 			break
 		case 2:
 			created_sword.xscale_factor = 0.9
 			created_sword.yscale_factor = 1.7
-			created_sword.damage = 2
+			created_sword.damage = 2 + self.melee_bonus
 			audio_play_sound(soundPlayerAttack2, 2, false)
 			break
 		case 3:
 			created_sword.xscale_factor = 0.8
 			created_sword.yscale_factor = 2.1
-			created_sword.damage = 3
+			created_sword.damage = 3 + self.melee_bonus
 			audio_play_sound(soundPlayerAttack3, 2, false)
 			break
 	}
 }
 
 
+/// Releases the melee hitbox and opens the combo continuation window.
 function funPlayerAttackClean() {
 	instance_destroy(oPlayerSword)
 	self.sword_destroyed = true

@@ -9,11 +9,30 @@ self.lines = funLoadBlackRoomLines(self.scene, self.context.progress)
 self.delay_frames = round(60 * funBlackRoomSetting(self.scene, "exploration_seconds"))
 self.dialogue_started = false
 self.dialogue_finished = false
+self.portal_ready = false
+self.transform_running = false
 self.exiting = false
 
 /// A bound callback also reaches this instance while aiming deactivates the world.
 self.finish_dialogue = method(self, function() {
 	self.dialogue_finished = true
+	self.context.reward_staged = true
+	with (oPlayer) funPlayerRefreshAbilities()
+	oPlayer.story_pending = self.scene.transform != undefined
+	self.portal_ready = self.scene.transform == undefined
+})
+
+/// Only a successful, completed transformation releases the story portal.
+self.finish_transform = method(self, function() {
+	self.context.current_dark = self.scene.transform == "dark"
+	self.transform_running = false
+	self.portal_ready = true
+	oPlayer.story_pending = false
+})
+
+/// An interrupted transformation keeps the portal closed and permits a retry.
+self.cancel_transform = method(self, function() {
+	self.transform_running = false
 })
 
 oPlayer.health = self.context.health

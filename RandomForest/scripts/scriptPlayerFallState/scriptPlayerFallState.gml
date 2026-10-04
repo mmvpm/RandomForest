@@ -1,9 +1,11 @@
+/// Selects the falling animation for the current skin.
 function funPlayerFallStart() {
-	self.sprite_index = sPlayerFall
+	self.sprite_index = funPlayerSkinSprite(sPlayerFall)
 	self.image_index = 0
 }
 
 
+/// Moves downward, checks another jump, and handles landing.
 function funPlayerFallLogic() {
 	var dx = key_move_right_pressed - key_move_left_pressed // -1, 0, +1
 
@@ -37,6 +39,7 @@ function funPlayerFallLogic() {
 }
 
 
+/// Plays the landing feedback after a normal fall.
 function funPlayerFallEnd() {
 	instance_create_depth(self.x, self.y, self.depth - 1, oPlayerLandingEffect) // under player by Z
 	audio_play_sound(soundPlayerLanding, 1, false)

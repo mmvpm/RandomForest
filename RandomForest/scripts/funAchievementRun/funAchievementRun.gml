@@ -1,11 +1,11 @@
 /// Starts achievement tracking for a fresh room attempt.
 function funBeginAchievementRun() {
-	global.current_run_flawless = true
+	global.current_run_flawless = funLevelTracksProgress(global.playing_level)
 }
 
 /// Marks the current room attempt as having taken damage.
 function funMarkAchievementDamage() {
-	global.current_run_flawless = false
+	if (funLevelTracksProgress(global.playing_level)) global.current_run_flawless = false
 }
 
 /// Returns whether every combat enemy in the current room is fully defeated.

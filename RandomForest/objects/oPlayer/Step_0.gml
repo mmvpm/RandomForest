@@ -16,6 +16,7 @@ if (self.is_on_ground) {
 
 if (self.is_on_ground) {
 	self.tap_attack_allowed = true
+	self.air_jump_available = true
 }
 
 
@@ -87,6 +88,15 @@ switch (self.state) {
 		}
 		funPlayerHurtLogic()
 		break
+
+    case player_states.stomp:
+    case player_states.story_transform:
+        if (self.state_changed) {
+            funPlayerTransformStart()
+            self.state_changed = false
+        }
+        funPlayerTransformLogic()
+        break
 
 	case player_states.die:
 		if (self.state_changed) {

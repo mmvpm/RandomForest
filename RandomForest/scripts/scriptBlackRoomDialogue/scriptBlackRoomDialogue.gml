@@ -53,6 +53,16 @@ function funLoadBlackRoomLines(scene, progress) {
 		}
 		break
 	}
+	// Recurring comments supplement the main branch instead of hiding it.
+	if (variable_struct_exists(dialogue, "comments")) {
+		for (var c = 0; c < array_length(dialogue.comments); ++c) {
+			var comment = dialogue.comments[c]
+			if (!funBlackRoomConditionMatches(comment.when, progress)) continue
+			for (var l = 0; l < array_length(comment.lines); ++l) {
+				array_push(lines, comment.lines[l])
+			}
+		}
+	}
 	for (var k = 0; k < array_length(dialogue.closing); ++k) {
 		array_push(lines, dialogue.closing[k])
 	}

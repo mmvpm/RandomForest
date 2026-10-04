@@ -8,17 +8,6 @@
   "variants": [
     {
       "when": {
-        "collected_below_level_ratio": 0.5
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: меньше половины]\nПамять: [orange]{collected}[/orange]. Этап: {after_level}."
-        }
-      ]
-    },
-    {
-      "when": {
         "min_collected": 40,
         "max_collected": 40
       },
@@ -42,7 +31,20 @@
   "closing": [
     {
       "speaker": "Голос",
-      "text": "Тест завершён. Портал открывается."
+      "text": "[Тест превращения] Подтверди реплику, затем нажми Space, стоя на земле."
+    }
+  ],
+  "comments": [
+    {
+      "when": {
+        "collected_below_level_ratio": 0.5
+      },
+      "lines": [
+        {
+          "speaker": "Голос",
+          "text": "[Тест: меньше половины] Собрано {collected}, этап {after_level}."
+        }
+      ]
     }
   ]
 }

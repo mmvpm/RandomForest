@@ -9,6 +9,7 @@ function funGetAchievementPageProgress(
 	var levels_count = funGetLevelsCount()
 	var first_level = page_index * page_size
 	var levels_on_page = max(0, min(page_size, levels_count - first_level))
+	var tracked_levels = 0
 	var earned_stars = 0
 	var earned_enemy_clears = 0
 	var earned_flawless = 0
@@ -16,6 +17,8 @@ function funGetAchievementPageProgress(
 
 	for (var offset = 0; offset < levels_on_page; ++offset) {
 		var level_index = first_level + offset
+		if (!funLevelTracksProgress(level_index)) continue
+		++tracked_levels
 		var star_times = undefined
 		if (
 			is_array(level_star_times)
@@ -34,20 +37,20 @@ function funGetAchievementPageProgress(
 		earned_orange_fireflies += global.orange_firefly_records[level_index]
 	}
 
-	var max_stars = levels_on_page * 3
+	var max_stars = tracked_levels * 3
 	return {
 		first_level: first_level,
-		levels_count: levels_on_page,
+		levels_count: tracked_levels,
 		earned_stars: earned_stars,
 		max_stars: max_stars,
 		earned_enemy_clears: earned_enemy_clears,
 		earned_flawless: earned_flawless,
 		earned_orange_fireflies: earned_orange_fireflies,
 		is_complete: (
-			levels_on_page > 0
+			tracked_levels > 0
 			and earned_stars == max_stars
-			and earned_enemy_clears == levels_on_page
-			and earned_flawless == levels_on_page
+			and earned_enemy_clears == tracked_levels
+			and earned_flawless == tracked_levels
 		)
 	}
 }

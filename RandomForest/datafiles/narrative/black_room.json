@@ -11,67 +11,107 @@
       "enabled": true,
       "after_level": 1,
       "dialogue": "narrative/dialogues/ck_after_01.json",
-      "exploration_seconds": 5
+      "exploration_seconds": 5,
+      "reward": {},
+      "transform": null
     },
     {
       "id": "ck_after_09",
-      "enabled": false,
+      "enabled": true,
       "after_level": 9,
-      "dialogue": "narrative/dialogues/ck_after_09.json"
+      "dialogue": "narrative/dialogues/ck_after_09.json",
+      "reward": {
+        "max_health": 3
+      },
+      "transform": null
     },
     {
       "id": "ck_after_14",
-      "enabled": false,
+      "enabled": true,
       "after_level": 14,
-      "dialogue": "narrative/dialogues/ck_after_14.json"
+      "dialogue": "narrative/dialogues/ck_after_14.json",
+      "reward": {
+        "max_health": 4
+      },
+      "transform": null
     },
     {
       "id": "ck_after_20",
-      "enabled": false,
+      "enabled": true,
       "after_level": 20,
-      "dialogue": "narrative/dialogues/ck_after_20.json"
+      "dialogue": "narrative/dialogues/ck_after_20.json",
+      "reward": {
+        "double_jump": true
+      },
+      "transform": null
     },
     {
       "id": "ck_after_23",
-      "enabled": false,
+      "enabled": true,
       "after_level": 23,
-      "dialogue": "narrative/dialogues/ck_after_23.json"
+      "dialogue": "narrative/dialogues/ck_after_23.json",
+      "reward": {
+        "melee_bonus": 1
+      },
+      "transform": null
     },
     {
       "id": "ck_after_26",
-      "enabled": false,
+      "enabled": true,
       "after_level": 26,
-      "dialogue": "narrative/dialogues/ck_after_26.json"
+      "dialogue": "narrative/dialogues/ck_after_26.json",
+      "reward": {
+        "stomp": true
+      },
+      "transform": null
     },
     {
       "id": "ck_after_30",
-      "enabled": false,
+      "enabled": true,
       "after_level": 30,
-      "dialogue": "narrative/dialogues/ck_after_30.json"
+      "dialogue": "narrative/dialogues/ck_after_30.json",
+      "reward": {
+        "dark_skin": true
+      },
+      "transform": "dark"
     },
     {
       "id": "ck_after_32",
-      "enabled": false,
+      "enabled": true,
       "after_level": 32,
-      "dialogue": "narrative/dialogues/ck_after_32.json"
+      "dialogue": "narrative/dialogues/ck_after_32.json",
+      "reward": {
+        "max_health": 5
+      },
+      "transform": null
     },
     {
       "id": "ck_after_36",
-      "enabled": false,
+      "enabled": true,
       "after_level": 36,
-      "dialogue": "narrative/dialogues/ck_after_36.json"
+      "dialogue": "narrative/dialogues/ck_after_36.json",
+      "reward": {
+        "stomp_radius": 108
+      },
+      "transform": null
     },
     {
       "id": "ck_after_40",
-      "enabled": false,
+      "enabled": true,
       "after_level": 40,
-      "dialogue": "narrative/dialogues/ck_after_40.json"
+      "dialogue": "narrative/dialogues/ck_after_40.json",
+      "reward": {
+        "max_health": 6
+      },
+      "transform": "light"
     },
     {
       "id": "ck_after_41",
       "enabled": false,
       "after_level": 41,
-      "dialogue": "narrative/dialogues/ck_after_41.json"
+      "dialogue": "narrative/dialogues/ck_after_41.json",
+      "reward": {},
+      "transform": null
     }
   ]
 }

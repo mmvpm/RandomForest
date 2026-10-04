@@ -269,6 +269,7 @@ var page_progress = funGetAchievementPageProgress(
 	self.page_size,
 	self.level_star_times
 )
+if (page_progress.levels_count > 0) {
 __funDrawPageProgress(
 	144,
 	sStar,
@@ -294,14 +295,17 @@ __funDrawOrangeFireflyProgress(
 	page_progress.levels_count
 )
 
+}
+
 // Progress helpers use the small font and left alignment; restore button style.
 draw_set_font(global.default_font_24)
 draw_set_halign(fa_center)
 draw_set_valign(fa_middle)
 for (var i = 0; i < visible_count; ++i) {
 	var level_index = first_level + i
-	var x_pos = self.button_x[i]
-	var y_pos = self.button_y[i]
+	var center = funLevelSelectButtonCenter(i)
+	var x_pos = center.x
+	var y_pos = center.y
 	var pulse = 0
 	if (self.completion_animation_counter >= 0) {
 		var pulse_frame = self.completion_animation_counter - i * 3
@@ -311,7 +315,7 @@ for (var i = 0; i < visible_count; ++i) {
 	}
 	var level_enabled = level_index <= global.current_level
 	var orange_firefly = undefined
-	if (level_enabled and global.orange_firefly_records[level_index]) {
+	if (level_enabled and funLevelTracksProgress(level_index) and global.orange_firefly_records[level_index]) {
 		orange_firefly = self.level_orange_fireflies[level_index]
 	}
 	var button_size = __funDrawLevelSelectButton(
@@ -320,14 +324,14 @@ for (var i = 0; i < visible_count; ++i) {
 		y_pos,
 		self.level_button_size,
 		self.level_button_size,
-		string(level_index + 1),
+		funCampaignLevelLabel(level_index),
 		level_enabled,
 		0,
 		0,
 		pulse,
 		orange_firefly
 	)
-	if (level_enabled) {
+	if (level_enabled and funLevelTracksProgress(level_index)) {
 		var earned_stars = funGetStarCount(
 			global.time_records[level_index],
 			level_index,

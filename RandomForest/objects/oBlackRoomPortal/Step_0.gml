@@ -1,5 +1,5 @@
 /// Requires a fresh approach after opening, even if the player waited in the portal.
-var opened = oBlackRoomController.dialogue_finished
+var opened = oBlackRoomController.portal_ready
 if (opened and !self.is_opened) {
 	self.departed = false
 }

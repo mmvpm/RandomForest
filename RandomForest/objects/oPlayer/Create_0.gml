@@ -8,15 +8,24 @@ enum player_states {
 	teleport,
 	attack,
 	hurt,
-	die
+	die,
+	stomp,
+	story_transform
 }
 
 self.state = player_states.idle
 self.state_changed = true
 
 // health
-self.max_health = 7
+self.max_health = funCampaignAbilities().max_health
 self.health = self.max_health
+self.is_dark = funCampaignPlayerIsDark()
+self.story_pending = false
+self.air_jump_available = true
+self.transform_complete = undefined
+self.transform_cancel = undefined
+funPlayerRefreshAbilities()
+self.sprite_index = funPlayerSkinSprite(sPlayerIdle)
 // The story room continues a completed attempt rather than starting a new one.
 if (room != rBlackRoom) {
 	funBeginAchievementRun()

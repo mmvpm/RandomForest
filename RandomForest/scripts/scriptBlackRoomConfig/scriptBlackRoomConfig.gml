@@ -4,6 +4,8 @@
 function funLoadBlackRoomConfig() {
 	global.black_room_config = json_parse(funReadGeneratedLevelFile(BLACK_ROOM_CONFIG_PATH))
 	global.black_room_context = undefined
+	global.campaign_abilities_config = json_parse(funReadGeneratedLevelFile("narrative/abilities.json"))
+	global.campaign_levels_config = json_parse(funReadGeneratedLevelFile("narrative/levels.json"))
 }
 
 /// Returns a scene setting or its shared default.
@@ -35,4 +37,6 @@ function funResetBlackRoomScenes() {
 		variable_struct_set(global.black_room_seen, scenes[i].id, false)
 	}
 	global.black_room_context = undefined
+	global.campaign_intro_seen = false
+	global.special_level_completed = false
 }

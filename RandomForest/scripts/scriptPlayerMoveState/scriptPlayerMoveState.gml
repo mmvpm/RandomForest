@@ -1,9 +1,11 @@
+/// Selects the running animation for the current skin.
 function funPlayerMoveStart() {
-	self.sprite_index = sPlayerMove
+	self.sprite_index = funPlayerSkinSprite(sPlayerMove)
 	self.image_index = 0
 }
 
 
+/// Moves sideways and checks the next player action.
 function funPlayerMoveLogic() {
 	var dx = key_move_right_pressed - key_move_left_pressed // -1, 0, +1
 

@@ -1,5 +1,6 @@
+/// Applies pending damage and starts knockback and temporary invulnerability.
 function funPlayerHurtStart() {
-	self.sprite_index = sPlayerHurt
+	self.sprite_index = funPlayerSkinSprite(sPlayerHurt)
 	self.image_index = 0
 	self.hurt_animation_ended = false
 	self.hurt_countdown_counter = self.hurt_countdown
@@ -36,6 +37,7 @@ function funPlayerHurtStart() {
 }
 
 
+/// Moves knockback before death or recovery.
 function funPlayerHurtLogic() {	
 	funPlayerStepMove()
 

@@ -47,6 +47,7 @@ function __funTrainingEndFunctionDefault() {
 
 self.end_function = __funTrainingEndFunctionDefault
 
-// fade in
-var inst = instance_create_depth(0, 0, -10, oFadeIn)
-inst.alpha_step = 0.02
+// An unlocked stomp adds one compact controls row.
+self.show_stomp = funCampaignAbilities().stomp
+self.stomp_key_text = "    -   Топот (с земли)"
+if (self.show_stomp) self.start_y -= 16

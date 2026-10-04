@@ -8,17 +8,6 @@
   "variants": [
     {
       "when": {
-        "collected_below_level_ratio": 0.5
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: меньше половины]\nПамять: [orange]{collected}[/orange]. Этап: {after_level}."
-        }
-      ]
-    },
-    {
-      "when": {
         "max_collected": 19
       },
       "lines": [
@@ -54,6 +43,19 @@
     {
       "speaker": "Голос",
       "text": "Тест завершён. Портал открывается."
+    }
+  ],
+  "comments": [
+    {
+      "when": {
+        "collected_below_level_ratio": 0.5
+      },
+      "lines": [
+        {
+          "speaker": "Голос",
+          "text": "[Тест: меньше половины] Собрано {collected}, этап {after_level}."
+        }
+      ]
     }
   ]
 }
