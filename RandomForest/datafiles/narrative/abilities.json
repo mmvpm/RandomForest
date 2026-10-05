@@ -5,11 +5,11 @@
     "melee_bonus": 0,
     "dark_skin": false,
     "stomp": false,
-    "stomp_radius": 48
+    "stomp_radius": 60
   },
   "dark_levels": [
     31,
     40
   ],
-  "stomp_cooldown_seconds": 10
+  "stomp_cooldown_seconds": 9
 }

@@ -19,6 +19,20 @@ LEVEL_PATH_PATTERN = re.compile(r"^/api/levels/(?P<file_name>\d+\.json)$")
 class LevelEditorHandler(SimpleHTTPRequestHandler):
     """Serve project files and accept writes only for existing numbered levels."""
 
+    # Reports save capability without reading or modifying a level.
+    def do_GET(self) -> None:
+        if urlsplit(self.path).path != "/api/status":
+            super().do_GET()
+            return
+
+        contents = b'{"can_save":true}'
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(contents)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(contents)
+
     # Allows PUT requests from a VS Code HTML preview.
     def do_OPTIONS(self) -> None:
         if not LEVEL_PATH_PATTERN.fullmatch(unquote(urlsplit(self.path).path)):
@@ -59,7 +73,7 @@ class LevelEditorHandler(SimpleHTTPRequestHandler):
     # Adds the headers required by VS Code webview cross-origin requests.
     def end_headers(self) -> None:
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "PUT, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, PUT, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         super().end_headers()
 

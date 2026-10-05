@@ -49,5 +49,5 @@ self.end_function = __funTrainingEndFunctionDefault
 
 // An unlocked stomp adds one compact controls row.
 self.show_stomp = funCampaignAbilities().stomp
-self.stomp_key_text = "    -   Топот (с земли)"
+self.stomp_key_text = "    -   Топот"
 if (self.show_stomp) self.start_y -= 16

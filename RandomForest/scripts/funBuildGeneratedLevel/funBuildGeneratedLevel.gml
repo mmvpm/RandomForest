@@ -321,4 +321,6 @@ function funBuildGeneratedLevel(styled_level) {
 	__funBuildGeneratedJumpThroughs(level_data)
 	__funBuildGeneratedTraps(level_data)
 	__funBuildGeneratedEntities(level_data)
+	funBuildGeneratedWallMemoryAnchors(level_data)
+	funBeginWallMemories()
 }

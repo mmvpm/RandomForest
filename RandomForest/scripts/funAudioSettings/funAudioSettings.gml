@@ -29,6 +29,7 @@ function funApplySfxSetting(fade_ms = 0) {
 	var sfx_assets = [
 		soundTapSwordReturn,
 		soundPlayerLanding,
+		soundPlayerStompImpact,
 		soundMenuButton,
 		soundOrangeFirefly,
 		soundStarCollecting,

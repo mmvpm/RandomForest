@@ -1,6 +1,6 @@
 // Shows the controls overlay without leaving the main menu.
 function funMenuShowControls() {
-	oMenu.alpha_animation_counter = oMenu.alpha_animation_time
+	oMenu.alpha_animation_counter = 0
 	var inst = instance_create_depth(0, 0, 0, oTraining)
 	inst.end_function = instance_activate_all
 	instance_deactivate_object(oMenu)

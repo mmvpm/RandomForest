@@ -1,0 +1,446 @@
+{
+  "defaults": {
+    "width": 168,
+    "font_size": 18,
+    "line_height": 20,
+    "activation_distance": 120,
+    "leave_distance": 180,
+    "hold_seconds": 2.5,
+    "appear_seconds": 0.3,
+    "fade_seconds": 0.5,
+    "opacity": 0.9
+  },
+  "styles": {
+    "day": [
+      206,
+      193,
+      170
+    ],
+    "evening": [
+      203,
+      183,
+      177
+    ],
+    "night": [
+      190,
+      195,
+      216
+    ],
+    "morning": [
+      214,
+      207,
+      190
+    ]
+  },
+  "special": {
+    "text": "Там, позади... что-то осталось.",
+    "highlight_word": "осталось",
+    "highlight_colour": [
+      217,
+      148,
+      82
+    ]
+  },
+  "phrases": [
+    {
+      "id": "first_who",
+      "text": "Кто я?",
+      "from_level": 1,
+      "to_level": 1,
+      "min_collected": 0
+    },
+    {
+      "id": "first_where",
+      "text": "Где я?",
+      "from_level": 1,
+      "to_level": 1,
+      "min_collected": 0
+    },
+    {
+      "id": "first_run",
+      "text": "Куда я бегу?",
+      "from_level": 1,
+      "to_level": 1,
+      "min_collected": 0
+    },
+    {
+      "id": "first_why",
+      "text": "Почему я бегу?",
+      "from_level": 1,
+      "to_level": 1,
+      "min_collected": 0
+    },
+    {
+      "id": "first_what",
+      "text": "Что это?",
+      "from_level": 1,
+      "to_level": 1,
+      "min_collected": 0
+    },
+    {
+      "id": "first_stop",
+      "text": "Стой.",
+      "from_level": 1,
+      "to_level": 1,
+      "min_collected": 0
+    },
+    {
+      "id": "first_breathe",
+      "text": "Дышать.",
+      "from_level": 1,
+      "to_level": 1,
+      "min_collected": 0
+    },
+    {
+      "id": "first_direction",
+      "text": "Куда?",
+      "from_level": 1,
+      "to_level": 1,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_02_01",
+      "text": "Я здесь уже была?",
+      "from_level": 2,
+      "to_level": 2,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_02_02",
+      "text": "Пальцы сжались сами.",
+      "from_level": 2,
+      "to_level": 2,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_02_03",
+      "text": "Но я же не хотела этого...",
+      "from_level": 2,
+      "to_level": 2,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_02_04",
+      "text": "Нееет!",
+      "from_level": 2,
+      "to_level": 2,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_02_05",
+      "text": "Снова вперед. Почему?",
+      "from_level": 2,
+      "to_level": 2,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_02_06",
+      "text": "Подожди.",
+      "from_level": 2,
+      "to_level": 2,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_02_07",
+      "text": "Я не успеваю думать.",
+      "from_level": 2,
+      "to_level": 2,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_03_01",
+      "text": "Ноги идут сами.",
+      "from_level": 3,
+      "to_level": 9,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_03_02",
+      "text": "Шаг. Прыжок. Без мысли.",
+      "from_level": 3,
+      "to_level": 9,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_03_03",
+      "text": "Я не могу остановиться.",
+      "from_level": 3,
+      "to_level": 9,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_03_04",
+      "text": "Руки не слушают.",
+      "from_level": 3,
+      "to_level": 9,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_03_05",
+      "text": "Тело не ждет.",
+      "from_level": 3,
+      "to_level": 9,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_03_06",
+      "text": "Опять?",
+      "from_level": 3,
+      "to_level": 9,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_03_07",
+      "text": "Зачем?",
+      "from_level": 3,
+      "to_level": 9,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_03_08",
+      "text": "Не слушаются...",
+      "from_level": 3,
+      "to_level": 9,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_03_09",
+      "text": "Движение без меня.",
+      "from_level": 3,
+      "to_level": 9,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_10_01",
+      "text": "Я помню это место...",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_10_02",
+      "text": "Здесь уже была кровь.",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_10_03",
+      "text": "Сколько раз я была здесь?",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_10_04",
+      "text": "Тот огонек... он знал меня.",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 1
+    },
+    {
+      "id": "memory_10_05",
+      "text": "Это не первая попытка.",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_10_06",
+      "text": "Опять сначала.",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_10_07",
+      "text": "Знакомый холод.",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_10_08",
+      "text": "Я уже падала сюда?",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_10_09",
+      "text": "Это уже случалось.",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_10_10",
+      "text": "Почему я это помню?",
+      "from_level": 10,
+      "to_level": 20,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_21_01",
+      "text": "Мне больно...",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_21_02",
+      "text": "Отпусти меня.",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_21_03",
+      "text": "Мне страшно...",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_21_04",
+      "text": "Весело?",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_21_05",
+      "text": "Хватит.",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_21_06",
+      "text": "Не туда...",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_21_07",
+      "text": "За что?",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_21_08",
+      "text": "Пожалуйста, стой.",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_21_09",
+      "text": "Почему так больно?",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_21_10",
+      "text": "Я устала падать.",
+      "from_level": 21,
+      "to_level": 30,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_31_01",
+      "text": "Нас много...",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_31_02",
+      "text": "Я помню каждую из нас.",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 30
+    },
+    {
+      "id": "memory_31_03",
+      "text": "Я не хотела.",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_31_04",
+      "text": "Мы все еще здесь?",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_31_05",
+      "text": "Сколько еще упадет?",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 0
+    },
+    {
+      "id": "memory_31_06",
+      "text": "Я помню, как они кричали.",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 20
+    },
+    {
+      "id": "memory_31_07",
+      "text": "Каждая смерть осталась во мне.",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 20
+    },
+    {
+      "id": "memory_31_08",
+      "text": "Кто из нас настоящая?",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 10
+    },
+    {
+      "id": "memory_31_09",
+      "text": "Память не моя. Но она во мне.",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 20
+    },
+    {
+      "id": "memory_31_10",
+      "text": "Я — это они.",
+      "from_level": 31,
+      "to_level": 40,
+      "min_collected": 30
+    },
+    {
+      "id": "final_circle",
+      "text": "Последний круг.",
+      "from_level": 41,
+      "to_level": 41,
+      "min_collected": 0
+    },
+    {
+      "id": "final_memory",
+      "text": "Я всё помню.",
+      "from_level": 41,
+      "to_level": 41,
+      "min_collected": 0,
+      "requires_all_previous": true
+    },
+    {
+      "id": "final_end",
+      "text": "Дорога кончилась..",
+      "from_level": 41,
+      "to_level": 41,
+      "min_collected": 0
+    }
+  ]
+}

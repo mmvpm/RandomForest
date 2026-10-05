@@ -91,7 +91,7 @@
       "after_level": 36,
       "dialogue": "narrative/dialogues/ck_after_36.json",
       "reward": {
-        "stomp_radius": 72
+        "stomp_radius": 84
       },
       "transform": null
     },

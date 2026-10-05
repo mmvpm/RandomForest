@@ -71,7 +71,8 @@ draw_text_transformed_color(f_key_text_x, f_key_text_y, self.fullscreen_text, se
 // The extra action stays below existing controls and above the dismissal hint.
 if (self.show_stomp) {
     var stomp_y = f_key_start_y + self.key_height + self.key_shift + self.line_interval
-    draw_sprite_ext(sKeySpace, 0, x_key_start_x - 10, stomp_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+    var space_x = x_key_start_x + (self.key_width - sprite_get_width(sKeySpace) * self.key_scale) / 2
+    draw_sprite_ext(sKeySpace, 0, space_x, stomp_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
     draw_text_transformed_color(x_key_text_x, stomp_y + self.magic_shift, self.stomp_key_text,
         self.text_scale_20, self.text_scale_20, 0, c_white, c_white, c_white, c_white, self.text_alpha)
 }

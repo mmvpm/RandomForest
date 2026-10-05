@@ -10,6 +10,29 @@ from generated_levels.procedural.level_format import decode_level, encode_level
 class LevelFormatTests(unittest.TestCase):
     """Verify lossless conversion at the authoring/runtime boundary."""
 
+    def test_wall_memories_survive_map_round_trip(self) -> None:
+        """World-space text anchors must not consume or move gameplay map cells."""
+        authored = {
+            "width": 3,
+            "height": 3,
+            "map": ["...", ".@.", "###"],
+            "wall_memories": [
+                {
+                    "id": "near_player",
+                    "x": 12,
+                    "y": 24,
+                    "align": "right",
+                    "width": 90,
+                    "role": "missing_previous",
+                    "text_id": "",
+                }
+            ],
+        }
+
+        rebuilt = encode_level(decode_level(authored))
+        self.assertEqual(rebuilt["map"], authored["map"])
+        self.assertEqual(rebuilt["wall_memories"], authored["wall_memories"])
+
     def test_semantic_layers_round_trip_through_one_editable_map(self) -> None:
         """Ground entities must display above their unchanged runtime anchors."""
         semantic = {

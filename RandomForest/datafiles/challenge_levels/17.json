@@ -53,5 +53,34 @@
     "XXXXXXXXXXXXXXXXXX######XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  ],
+  "wall_memories": [
+    {
+      "id": "route_memory_1",
+      "x": 18,
+      "y": 374,
+      "align": "left",
+      "width": 132,
+      "role": "regular",
+      "text_id": ""
+    },
+    {
+      "id": "route_memory_2",
+      "x": 528,
+      "y": 12,
+      "align": "left",
+      "width": 168,
+      "role": "regular",
+      "text_id": ""
+    },
+    {
+      "id": "previous_memory",
+      "x": 246,
+      "y": 12,
+      "align": "left",
+      "width": 288,
+      "role": "missing_previous",
+      "text_id": ""
+    }
   ]
 }

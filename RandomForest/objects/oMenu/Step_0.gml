@@ -1,7 +1,7 @@
 function __funHandleButtonAction3(button_index) { // `3` because of gms2 (you never know what...)
 	var chosen_function = self.functions[button_index]
 	if (chosen_function != undefined) {
-		// Level selection is a menu screen, so it opens without a fade delay.
+		// Menu overlays and level selection open without a fade delay.
 		if (self.immediate_actions[button_index]) {
 			chosen_function()
 			return

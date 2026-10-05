@@ -1,0 +1,24 @@
+[hidden] { display: none !important; }
+.side-panel { display: block; }
+.side-panel .side-section { border-right: 0; }
+#wall-memory-panel { border-bottom: 0; }
+.editor-mode-switch { display: flex; gap: 3px; padding: 5px; margin: 12px; border: 1px solid var(--line); border-radius: 9px; background: #101c16; }
+.editor-mode-switch button { flex: 1; min-width: 0; padding: 10px 8px; border: 1px solid transparent; border-radius: 5px; background: transparent; color: #a6b8ab; font: inherit; font-size: 13px; cursor: pointer; }
+.editor-mode-switch button[aria-pressed="true"] { background: #29392e; color: #ffe1a7; border-color: #756442; }
+.editor-mode-switch button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Retry shares the existing zoom row, so errors cannot push the canvas down. */
+.toolbar-actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+#retry-save { margin: 0; white-space: nowrap; }
+@media (max-width: 560px) { .toolbar-actions { align-self: flex-end; } }
+.memory-fields { display: grid; gap: 9px; }
+.memory-fields label { display: grid; gap: 4px; font-size: 12px; color: var(--muted, #b8beb5); }
+.memory-fields input:not([type="checkbox"]):not([type="range"]), .memory-fields select, .memory-fields textarea { width: 100%; min-width: 0; box-sizing: border-box; padding: 7px 8px; border: 1px solid #526257; border-radius: 6px; background: #17221c; color: #e9e9db; font: inherit; }
+.memory-fields .memory-check { display: flex; align-items: center; gap: 7px; }
+.memory-fields input:disabled, .memory-fields select:disabled { opacity: .45; }
+.memory-note { font-size: 11px; line-height: 1.5; color: #a6b8ab; margin: 8px 0; }
+.memory-fields textarea { font: inherit; font-size: 13px; min-height: 66px; resize: vertical; }
+/* Suggestions stay directly below their field in the sidebar's normal flow. */
+.memory-phrase-picker { min-width: 0; }
+.memory-phrase-list { margin-top: 4px; max-height: 180px; overflow-y: auto; border: 1px solid #526257; border-radius: 6px; background: #17221c; }
+.memory-phrase-option { display: block; width: 100%; padding: 8px; border: 0; background: transparent; color: #e9e9db; font: inherit; font-size: 12px; text-align: left; overflow-wrap: anywhere; cursor: pointer; }
+.memory-phrase-option:hover, .memory-phrase-option[aria-selected="true"], .memory-phrase-option:focus-visible { background: #29392e; color: #ffe1a7; }

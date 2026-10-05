@@ -588,6 +588,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="wall-memories.css">
 </head>
 <body>
   <main class="page">
@@ -629,10 +630,13 @@
             </div>
           </div>
 
-          <div class="zoom-controls" aria-label="Масштаб карты">
-            <button id="zoom-out" class="icon-button" type="button" aria-label="Уменьшить">−</button>
-            <span id="zoom-label">100%</span>
-            <button id="zoom-in" class="icon-button" type="button" aria-label="Увеличить">+</button>
+          <div class="toolbar-actions">
+            <button id="retry-save" class="entity-chip" type="button" hidden>Повторить сохранение</button>
+            <div class="zoom-controls" aria-label="Масштаб карты">
+              <button id="zoom-out" class="icon-button" type="button" aria-label="Уменьшить">−</button>
+              <span id="zoom-label">100%</span>
+              <button id="zoom-in" class="icon-button" type="button" aria-label="Увеличить">+</button>
+            </div>
           </div>
         </div>
 
@@ -644,6 +648,40 @@
       </section>
 
       <aside class="side-panel" aria-label="Информация об уровне">
+        <div class="editor-mode-switch" role="group" aria-label="Режим редактора">
+          <button type="button" data-editor-mode="inscriptions" aria-pressed="false" aria-controls="wall-memory-panel">Надписи</button>
+          <button type="button" data-editor-mode="map" aria-pressed="true" aria-controls="map-editor-panel">Карта</button>
+        </div>
+        <section id="wall-memory-panel" class="side-section" hidden>
+          <p class="memory-note">В режиме надписей: клик создаёт или выбирает, перетаскивание двигает, Delete удаляет.</p>
+          <p data-memory="position" class="memory-note"></p>
+          <div class="memory-fields">
+            <label>Выравнивание <select data-memory="align"><option value="left">Влево</option><option value="right">Вправо</option></select></label>
+            <label>Ширина, пиксели <input data-memory="width" type="number" min="16" step="1" value="168"></label>
+            <label>Роль <select data-memory="role"><option value="regular">Обычная</option><option value="missing_previous">Пропущена предыдущая память</option></select></label>
+            <div class="memory-phrase-picker">
+              <label>Фраза из библиотеки (пусто — из пула)
+                <input data-memory="text_id" type="text" placeholder="Поиск по фразе или ID" autocomplete="off"
+                  role="combobox" aria-autocomplete="list" aria-controls="wall-text-ids" aria-expanded="false">
+              </label>
+              <div id="wall-text-ids" data-memory="text_ids" class="memory-phrase-list" role="listbox" aria-label="Фразы из библиотеки" hidden></div>
+            </div>
+            <button data-memory="delete" class="entity-chip" type="button">Удалить выбранную</button>
+            <label class="memory-check"><input data-memory="preview" type="checkbox" checked> Показывать текст</label>
+            <label class="memory-check"><input data-memory="boxes" type="checkbox" checked> Показывать рамки якорей</label>
+            <label class="memory-check"><input data-memory="missing" type="checkbox"> Предыдущая память пропущена (превью)</label>
+            <label>Собрано ОС: <span data-memory="count">0</span><input data-memory="collected" type="range" min="0" max="40" value="0"></label>
+            <label>Пробный текст выбранного якоря (не сохраняется)<textarea data-memory="sample" placeholder="Пусто — фраза из настроек игры"></textarea></label>
+          </div>
+          <p data-memory="message" class="memory-note">Загрузка фраз и шрифта…</p>
+        </section>
+        <div id="map-editor-panel">
+        <section class="side-section">
+          <p class="section-label">Объекты и блоки</p>
+          <div id="entity-chips" class="entity-chips">
+            <span class="entity-chip">Нет данных</span>
+          </div>
+        </section>
         <section class="side-section">
           <p class="section-label">Параметры</p>
           <dl class="facts">
@@ -660,13 +698,6 @@
             <dt>★★</dt>
             <dd id="fact-two-stars">—</dd>
           </dl>
-        </section>
-
-        <section class="side-section">
-          <p class="section-label">Объекты и блоки</p>
-          <div id="entity-chips" class="entity-chips">
-            <span class="entity-chip">Нет данных</span>
-          </div>
         </section>
 
         <section class="side-section">
@@ -696,12 +727,16 @@
             Стрелки ← → переключают уровни.
           </p>
         </section>
+        </div>
       </aside>
     </div>
   </main>
 
   <div id="cell-tooltip" class="cell-tooltip" aria-hidden="true"></div>
 
+  <script src="phrase-picker.js"></script>
+  <script src="wall-memories.js"></script>
+  <script src="level-persistence.js"></script>
   <script>
     "use strict";
 
@@ -797,7 +832,8 @@
       factGrass: document.getElementById("fact-grass"),
       factThreeStars: document.getElementById("fact-three-stars"),
       factTwoStars: document.getElementById("fact-two-stars"),
-      entityChips: document.getElementById("entity-chips")
+      entityChips: document.getElementById("entity-chips"),
+      retrySave: document.getElementById("retry-save")
     };
 
     const state = {
@@ -812,12 +848,35 @@
       requestInProgress: false,
       inputTimer: 0,
       editRevision: 0,
-      pendingSaveCount: 0,
-      saveQueue: Promise.resolve(),
       undoStack: [],
       dragMode: null,
       dragVisited: new Set()
     };
+
+    const wallEditor = createWallMemoryEditor({ state, canvas: elements.canvas,
+      render: renderLevel, save: queueLevelSave, hideTooltip: hideCellTooltip });
+    const persistence = createLevelPersistence({ state, getPath: getLevelPath,
+      getSaveUrl: getLevelSaveUrl, statusUrl: "http://127.0.0.1:8000/api/status",
+      setStatus, onChange: updateSaveControls });
+
+    // Shows retry after a failed write, never during normal autosaving.
+    function updateSaveControls() {
+      elements.retrySave.hidden = !persistence.hasUnsaved() || persistence.isSaving();
+      elements.retrySave.disabled = persistence.isSaving();
+    }
+
+    // Uses one mode for sidebar visibility and all canvas editing gestures.
+    function setEditorMode(mode) {
+      finishCanvasDrag();
+      state.dragMode = null;
+      state.dragVisited.clear();
+      document.getElementById("wall-memory-panel").hidden = mode !== "inscriptions";
+      document.getElementById("map-editor-panel").hidden = mode !== "map";
+      for (const button of document.querySelectorAll("[data-editor-mode]")) {
+        button.setAttribute("aria-pressed", String(button.dataset.editorMode === mode));
+      }
+      wallEditor.setActive(mode === "inscriptions");
+    }
 
     // Clamps and converts the level selector value to an integer.
     function normalizeLevelNumber(value) {
@@ -882,59 +941,14 @@
       }
     }
 
-    // Serializes the edited level in a stable, readable JSON form.
-    function serializeLevel(level) {
-      return `${JSON.stringify(level, null, 2)}\n`;
-    }
-
-    // Writes one immutable level snapshot through the local editor server.
-    async function saveLevelSnapshot(levelNumber, text, revision) {
-      const path = getLevelPath(levelNumber);
-      const saveUrl = getLevelSaveUrl(levelNumber);
-
-      try {
-        const response = await fetch(saveUrl, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: text
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-        if (levelNumber === state.levelNumber && revision === state.editRevision) {
-          setStatus(
-            `Уровень ${String(levelNumber).padStart(2, "0")} · изменения сохранены`,
-            `${path} · ${new Date().toLocaleTimeString("ru-RU")}`
-          );
-        }
-      } catch (error) {
-        if (levelNumber === state.levelNumber) {
-          setStatus("Не удалось сохранить JSON", `${path} · ${error.message}`, true);
-        }
-      } finally {
-        state.pendingSaveCount -= 1;
-      }
-    }
-
-    // Queues saves so rapid edits cannot reach the file out of order.
+    // Sends map and inscription gestures through the same ordered save queue.
     function queueLevelSave() {
-      const levelNumber = state.levelNumber;
-      const revision = state.editRevision;
-      const text = serializeLevel(state.level);
-      const path = getLevelPath(levelNumber);
-
-      state.loadedPath = path;
-      state.loadedText = text;
-      state.pendingSaveCount += 1;
-      setStatus("Сохранение изменений…", path);
-      state.saveQueue = state.saveQueue.then(
-        () => saveLevelSnapshot(levelNumber, text, revision)
-      );
+      return persistence.save();
     }
 
     // Fetches the selected JSON and redraws only when its text has changed.
     async function pollSelectedLevel() {
-      if (state.requestInProgress || state.pendingSaveCount > 0) {
+      if (state.requestInProgress || persistence.hasUnsaved() || wallEditor.isDragging()) {
         return;
       }
 
@@ -952,7 +966,7 @@
         const text = await response.text();
         if (
           requestedLevelNumber !== state.levelNumber ||
-          requestedEditRevision !== state.editRevision
+          requestedEditRevision !== state.editRevision || persistence.hasUnsaved() || wallEditor.isDragging()
         ) {
           return;
         }
@@ -965,6 +979,7 @@
 
         state.undoStack = [];
         state.level = level;
+        wallEditor.refresh(true);
         state.loadedPath = path;
         state.loadedText = text;
         fitZoomToViewport(level);
@@ -974,7 +989,10 @@
           `Уровень ${String(requestedLevelNumber).padStart(2, "0")} · слежу за изменениями`,
           `${path} · обновлено ${new Date().toLocaleTimeString("ru-RU")}`
         );
+        persistence.reportStatus();
+        updateSaveControls();
       } catch (error) {
+        if (requestedLevelNumber !== state.levelNumber || requestedEditRevision !== state.editRevision || persistence.hasUnsaved()) return;
         const hint = location.protocol === "file:"
           ? "Откройте страницу через локальный HTTP-сервер"
           : `${path} · ${error.message}`;
@@ -986,6 +1004,7 @@
 
     // Switches polling to a new level and resets its cached source text.
     function selectLevel(value) {
+      finishCanvasDrag();
       state.levelNumber = normalizeLevelNumber(value);
       state.editRevision += 1;
       state.hoveredCell = null;
@@ -994,10 +1013,28 @@
       state.dragVisited.clear();
       state.loadedPath = "";
       state.loadedText = "";
+      const draft = persistence.getDraft(state.levelNumber);
+      state.level = draft?.level || null;
+      if (draft) {
+        state.undoStack = draft.undoStack;
+        state.loadedPath = getLevelPath(state.levelNumber);
+        state.loadedText = draft.savedText;
+      } else {
+        elements.canvas.getContext("2d").clearRect(0, 0, elements.canvas.width, elements.canvas.height);
+      }
+      wallEditor.refresh(true);
       elements.levelNumber.value = String(state.levelNumber);
       elements.tooltip.style.display = "none";
       setStatus("Загрузка уровня…", getLevelPath(state.levelNumber));
-      pollSelectedLevel();
+      updateSaveControls();
+      if (draft) {
+        fitZoomToViewport(state.level);
+        renderLevel();
+        updateLevelInformation(state.level);
+        persistence.reportStatus();
+      } else {
+        pollSelectedLevel();
+      }
     }
 
     // Debounces typing so partially entered level numbers do not flash errors.
@@ -1285,6 +1322,10 @@
           drawSymbol(context, level, level.map[y][x], x, y);
         }
       }
+      context.save();
+      context.scale(CELL_SIZE / 12, CELL_SIZE / 12);
+      wallEditor.draw(context);
+      context.restore();
     }
 
     // Counts symbols used by an entity or hazard group.
@@ -1405,6 +1446,7 @@
 
     // Shows the source symbol and zero-based coordinates under the pointer.
     function showCellTooltip(event) {
+      if (wallEditor.isActive()) { hideCellTooltip(); return; }
       const cell = getCellFromPointer(event);
       state.hoveredCell = cell;
       if (!cell) {
@@ -1450,6 +1492,7 @@
         return false;
       }
 
+      if (wallEditor.undo(edit)) return true;
       replaceCellSymbol(edit, edit.symbol, false);
       return true;
     }
@@ -1472,6 +1515,7 @@
 
     // Starts painting from an empty cell or erasing from an occupied cell.
     function startCanvasDrag(event) {
+      if (wallEditor.pointerDown(event)) return;
       if (event.button !== 0) {
         return;
       }
@@ -1492,6 +1536,7 @@
 
     // Extends the current paint or erase stroke across a new cell.
     function continueCanvasDrag(event) {
+      if (wallEditor.pointerMove(event)) return;
       if (!state.dragMode) {
         return;
       }
@@ -1504,6 +1549,7 @@
 
     // Finishes the current paint or erase stroke.
     function finishCanvasDrag() {
+      if (wallEditor.pointerUp()) return;
       state.dragMode = null;
       state.dragVisited.clear();
     }
@@ -1541,6 +1587,8 @@
 
     // Handles undo before VS Code Preview consumes its standard shortcut.
     function handleKeyboardNavigation(event) {
+      // Text fields own editing shortcuts and arrow keys.
+      if (document.activeElement?.matches("input, textarea, select")) return;
       if (isUndoShortcut(event)) {
         if (undoLastEdit()) {
           event.preventDefault();
@@ -1549,6 +1597,7 @@
         return;
       }
 
+      if (wallEditor.keyboard(event)) return;
       if (event.code === "KeyR" && rotateHoveredSymbol()) {
         event.preventDefault();
         return;
@@ -1569,6 +1618,10 @@
 
     // Wires controls and starts the live JSON polling loop.
     async function initialize() {
+      elements.retrySave.addEventListener("click", () => persistence.retry());
+      for (const button of document.querySelectorAll("[data-editor-mode]")) {
+        button.addEventListener("click", () => setEditorMode(button.dataset.editorMode));
+      }
       elements.levelNumber.addEventListener("input", handleLevelInput);
       elements.levelNumber.addEventListener("change", () => selectLevel(elements.levelNumber.value));
       elements.zoomOut.addEventListener("click", () => changeZoom(-1));
@@ -1593,6 +1646,7 @@
 
       window.setInterval(pollSelectedLevel, POLL_INTERVAL_MS);
       selectLevel(1);
+      persistence.checkConnection();
     }
 
     initialize();

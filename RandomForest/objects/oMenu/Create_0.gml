@@ -12,7 +12,7 @@ if (global.is_training_completed) {
 		funMenuOpenSettings,
 		funMenuExit,
 	]
-	self.immediate_actions = [true, false, true, false]
+	self.immediate_actions = [true, true, true, false]
 }
 else {
 	self.items_count = 4
@@ -28,7 +28,7 @@ else {
 		funMenuOpenSettings,
 		funMenuExit,
 	]
-	self.immediate_actions = [false, false, true, false]
+	self.immediate_actions = [false, true, true, false]
 }
 
 self.current_color = make_color_rgb(112, 211, 112) // light-green

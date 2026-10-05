@@ -6,6 +6,7 @@ function funLoadBlackRoomConfig() {
 	global.black_room_context = undefined
 	global.campaign_abilities_config = json_parse(funReadGeneratedLevelFile("narrative/abilities.json"))
 	global.campaign_levels_config = json_parse(funReadGeneratedLevelFile("narrative/levels.json"))
+	funLoadWallMemoryConfig()
 }
 
 /// Returns a scene setting or its shared default.
