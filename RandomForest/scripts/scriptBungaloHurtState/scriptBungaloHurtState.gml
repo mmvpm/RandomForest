@@ -12,11 +12,13 @@ function funBungaloHurtStart() {
 	self.health = max(0, self.health - applied_damage)
 	funShowDamageText(self, applied_damage, false)
 	self.future_damage = 0 // just in case
+	funEnemyStompKnockbackStart()
 }
 
 /// Finishes damage, death, or recovery after the hurt animation.
 function funBungaloHurtLogic() {
 	funDefaultStepMove()
+	funEnemyStompKnockbackUpdate()
 	
 	if (self.health == 0) {
 		funDefaultChangeState(bungalo_states.die)

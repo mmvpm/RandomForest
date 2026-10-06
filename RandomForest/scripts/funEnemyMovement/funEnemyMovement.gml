@@ -1,6 +1,8 @@
 /// Initializes the shared fields used by local enemy movement.
 function funEnemyInitializeMovement(collision_sprite) {
 	self.mask_index = collision_sprite
+	self.stomp_knockback_direction = 0
+	self.stomp_knockback_counter = 0
 	self.drop_through_counter = 0
 	self.vertical_decision_counter = 0
 	self.air_navigation_active = false

@@ -26,6 +26,7 @@ self.transform_complete = undefined
 self.transform_cancel = undefined
 self.transform_fx = noone
 self.stomp_cooldown_counter = 0
+self.stomp_recovery_counter = 0
 funPlayerRefreshAbilities()
 self.sprite_index = funPlayerSkinSprite(sPlayerIdle)
 // The story room continues a completed attempt rather than starting a new one.

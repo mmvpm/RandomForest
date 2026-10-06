@@ -1,3 +1,9 @@
+/// Protects the stomp from takeoff through recovery and briefly after control returns.
+function funPlayerStompInvulnerable() {
+    return (self.state == player_states.stomp and self.image_index >= 11)
+        or self.stomp_recovery_counter > 0
+}
+
 /// Starts a controller-requested, one-shot skin change from stable ground.
 function funPlayerBeginStoryTransform(target_dark, on_complete, on_cancel = undefined) {
     if (!self.is_on_ground or self.state == player_states.stomp
@@ -75,6 +81,7 @@ function funPlayerTransformBlocked(old_rect, new_rect) {
 /// Restores ordinary movement at the body position of the last safe frame.
 function funPlayerTransformAbort() {
     funPlayerStopTransformFx()
+    self.stomp_recovery_counter = 0
     var body_rect = funPlayerTransformBodyBounds(floor(self.image_index))
     var body_bottom = body_rect[3]
     var cancel = self.transform_cancel
@@ -108,7 +115,7 @@ function funPlayerTransformLogic() {
         return
     }
 
-    // Damage remains interruptible, but other combat inputs cannot replace this state.
+    // Crouching and story transformations remain interruptible by damage.
     var critical = funPlayerDetectCriticalState()
     if (critical == player_states.hurt) {
         funPlayerTransformAbort()
@@ -128,6 +135,10 @@ function funPlayerTransformLogic() {
     if (self.transform_progress >= 38) {
         funPlayerStopTransformFx()
         var complete = self.transform_complete
+        if (self.state == player_states.stomp) {
+            // Give the first voluntary escape movement time even beside a wall.
+            self.stomp_recovery_counter = ceil(0.2 * game_get_speed(gamespeed_fps))
+        }
         if (self.state == player_states.story_transform) self.is_dark = self.transform_target_dark
         self.mask_index = -1
         self.image_speed = 1

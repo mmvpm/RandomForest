@@ -284,6 +284,7 @@
     {"id":{"name":"scriptPlayerMoveState","path":"scripts/scriptPlayerMoveState/scriptPlayerMoveState.yy",},},
     {"id":{"name":"scriptPlayerPreJumpState","path":"scripts/scriptPlayerPreJumpState/scriptPlayerPreJumpState.yy",},},
     {"id":{"name":"scriptPlayerStompWave","path":"scripts/scriptPlayerStompWave/scriptPlayerStompWave.yy",},},
+    {"id":{"name":"scriptEnemyStompKnockback","path":"scripts/scriptEnemyStompKnockback/scriptEnemyStompKnockback.yy",},},
     {"id":{"name":"scriptPlayerTeleportState","path":"scripts/scriptPlayerTeleportState/scriptPlayerTeleportState.yy",},},
     {"id":{"name":"scriptPlayerTransform","path":"scripts/scriptPlayerTransform/scriptPlayerTransform.yy",},},
     {"id":{"name":"scriptPlayerTransformFx","path":"scripts/scriptPlayerTransformFx/scriptPlayerTransformFx.yy",},},

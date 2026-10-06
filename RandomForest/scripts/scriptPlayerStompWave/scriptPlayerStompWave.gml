@@ -11,6 +11,9 @@ function funPlayerStompWaveDamage() {
         var far_distance = sqrt(far_x * far_x + far_y * far_y)
         if (near_distance <= wave.radius and far_distance >= wave.previous_radius) {
             ds_list_add(wave.hit_enemies, self.id)
+            self.stomp_knockback_direction = sign(self.x - wave.x)
+            // Coincident centers still get a definite push away from the facing side.
+            if (self.stomp_knockback_direction == 0) self.stomp_knockback_direction = -sign(self.image_xscale)
             return wave
         }
     }

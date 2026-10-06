@@ -13,12 +13,14 @@ function funSlimeHurtStart() {
 	self.future_damage = 0 // just in case
 
 	self.current_xspeed = -sign(self.image_xscale) * self.hurt_ximpulse
+	funEnemyStompKnockbackStart()
 }
 
 
 /// Finishes damage, death, or recovery after the hurt animation.
 function funSlimeHurtLogic() {
 	funDefaultStepMove()
+	funEnemyStompKnockbackUpdate()
 
 	if (self.health == 0) {
 		funDefaultChangeState(slime_states.die)

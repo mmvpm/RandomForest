@@ -14,7 +14,7 @@ function funPlayerDetectCriticalState() {
 	}
 	ds_list_destroy(enemy_list)
 	var is_hit_by_enemy = placed_enemy != noone
-	var hurt_allowed = self.hurt_countdown_counter == 0
+	var hurt_allowed = self.hurt_countdown_counter == 0 and !funPlayerStompInvulnerable()
 
 	if (hurt_allowed) {
 
