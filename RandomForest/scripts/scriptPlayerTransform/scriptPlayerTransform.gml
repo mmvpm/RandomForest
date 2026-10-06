@@ -128,6 +128,7 @@ function funPlayerTransformLogic() {
         self.stomp_cooldown_counter = round(global.campaign_abilities_config.stomp_cooldown_seconds * game_get_speed(gamespeed_fps))
         var wave = instance_create_depth(self.x, self.transform_ground_y, self.depth - 1, oPlayerStompWave)
         wave.max_radius = self.stomp_radius
+        wave.damage = self.stomp_damage
         audio_play_sound(soundPlayerStompImpact, 1, false)
         funCameraShake(20, 2, 2)
     }

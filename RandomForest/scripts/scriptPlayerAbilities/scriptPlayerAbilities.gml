@@ -26,6 +26,7 @@ function funPlayerRefreshAbilities() {
     self.melee_bonus = abilities.melee_bonus
     self.stomp_unlocked = abilities.stomp
     self.stomp_radius = abilities.stomp_radius
+    self.stomp_damage = abilities.stomp_damage
 }
 
 /// Returns whether this request uses the one remaining airborne jump.

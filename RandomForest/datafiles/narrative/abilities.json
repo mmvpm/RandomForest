@@ -5,7 +5,8 @@
     "melee_bonus": 0,
     "dark_skin": false,
     "stomp": false,
-    "stomp_radius": 60
+    "stomp_radius": 84,
+    "stomp_damage": 1
   },
   "dark_levels": [
     31,

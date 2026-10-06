@@ -25,7 +25,7 @@ function funSlimeDetectCriticalState() {
         if (wave != noone) {
             var direction_to_wave = sign(wave.x - self.x)
             if (direction_to_wave != 0) self.image_xscale = abs(self.image_xscale) * direction_to_wave
-            self.future_damage = 1
+            self.future_damage = wave.damage
             return slime_states.hurt
         }
     }
