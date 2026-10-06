@@ -32,6 +32,7 @@ function funFindBlackRoomScene(level_index) {
 
 /// Clears story visits when the campaign, rather than its records, is reset.
 function funResetBlackRoomScenes() {
+	funResetWallMemories()
 	global.black_room_seen = {}
 	var scenes = global.black_room_config.scenes
 	for (var i = 0; i < array_length(scenes); ++i) {

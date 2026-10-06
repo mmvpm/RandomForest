@@ -63,31 +63,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 83,
+      "y": 365,
+      "width": 144,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 636,
-      "y": 326,
-      "align": "left",
+      "x": 691,
+      "y": 343,
       "width": 132,
       "role": "regular",
-      "text_id": ""
+      "text": "Отпусти меня.",
+      "min_collected": 0,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 18,
-      "y": 444,
-      "align": "left",
+      "x": 89,
+      "y": 461,
       "width": 156,
       "role": "regular",
-      "text_id": ""
-    },
-    {
-      "id": "previous_memory",
-      "x": 18,
-      "y": 110,
-      "align": "left",
-      "width": 216,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Пожалуйста, стой.",
+      "min_collected": 0,
+      "requires_all_previous": false
     }
   ]
 }

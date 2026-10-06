@@ -1,58 +1,46 @@
 "use strict";
 
-// Keeps inscription geometry and phrase filtering independent from the editor UI.
+// Keeps centred inscription geometry and progress conditions independent from the UI.
 const WallMemoryModel = {
-  // Returns the same world rectangle for drawing and pointer hit testing.
-  bounds(anchor, height = 60) {
-    return { left: anchor.align === "right" ? anchor.x - anchor.width : anchor.x,
-      top: anchor.y, width: anchor.width, height };
+  // Returns the fixed centred block used for rendering and hit testing.
+  bounds(anchor, height = 36) {
+    const width = Math.max(32, Math.ceil(anchor.width));
+    return { left: Math.round(anchor.x - width / 2), top: Math.round(anchor.y - height / 2), width, height };
   },
   // Converts CSS-scaled pointer coordinates into integer world pixels.
   point(event, bounds, width, height) {
     return { x: Math.round((event.clientX - bounds.left) / bounds.width * width),
       y: Math.round((event.clientY - bounds.top) / bounds.height * height) };
   },
-  // Filters ordinary phrases by the campaign number and collected memories.
-  eligible(config, level, collected) {
-    return (config.phrases || []).filter(phrase =>
-      level >= (phrase.from_level ?? 1) && level <= (phrase.to_level ?? 40) &&
-      collected >= (phrase.min_collected ?? 0) &&
-      (!phrase.requires_all_previous || collected >= level - 1));
+  // Matches the fixed place's room-entry progress conditions.
+  eligible(anchor, level, collected, missing) {
+    return collected >= (anchor.min_collected ?? 0) &&
+      (!anchor.requires_all_previous || (!missing && collected >= level - 1)) &&
+      (anchor.role !== "missing_previous" || missing);
   },
-  // Matches the game's local hash without changing its random-number stream.
-  hash(level, id, collected) {
+  // Matches GameMaker's palette hash without consuming gameplay randomness.
+  hash(level, id) {
     let hash = 0;
-    for (const character of `${level}:${id}:${collected}`) {
-      hash = (hash * 31 + character.codePointAt(0)) % 2147483647;
-    }
+    for (const character of `${level}:${id}`) hash = (hash * 31 + character.codePointAt(0)) % 2147483647;
     return hash;
-  },
-  // Assigns eligible phrases once in stable anchor-ID order without repeats.
-  assign(config, anchors, level, collected, missing) {
-    const pool = this.eligible(config, level, collected)
-      .filter(phrase => !phrase.requires_all_previous || !missing);
-    const used = new Set(), assigned = new Map();
-    for (const item of [...anchors].sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0)) {
-      if (item.role !== "regular") continue;
-      const available = pool.filter(value => !used.has(value.id));
-      const explicit = item.text_id && available.find(value => value.id === item.text_id);
-      const phrase = item.text_id ? explicit : available[this.hash(level, item.id, collected) % Math.max(1, available.length)];
-      if (phrase) { used.add(phrase.id); assigned.set(item.id, phrase); }
-    }
-    return assigned;
   },
   // Wraps handwritten text using measured words and explicit line breaks.
   wrap(context, text, width) {
     const lines = [];
     for (const paragraph of text.split("\n")) {
       let line = "";
-      for (const word of paragraph.split(/\s+/)) {
+      for (const word of paragraph.split(" ")) {
         const candidate = line ? `${line} ${word}` : word;
-        if (line && context.measureText(candidate).width > width) {
-          lines.push(line); line = word;
-        } else line = candidate;
+        if (line && context.measureText(candidate).width > width) { lines.push(line); line = word; }
+        else line = candidate;
+        while (context.measureText(line).width > width) {
+          const letters = Array.from(line);
+          let cut = 1;
+          while (cut < letters.length && context.measureText(letters.slice(0, cut + 1).join("")).width <= width) cut++;
+          lines.push(letters.slice(0, cut).join("")); line = letters.slice(cut).join("");
+        }
       }
-      lines.push(line);
+      if (line || !paragraph) lines.push(line);
     }
     return lines;
   }
@@ -66,14 +54,10 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
   let mode = false;
   let selected = -1;
   let drag = null;
-  let config = { phrases: [], special: {}, styles: {} };
-  let previewText = "";
+  let config = { special: {}, palette: [] };
+  let textEdit = null;
   let alphabet = null, atlas = null;
   const tinted = new Map();
-  const makePicker = typeof module !== "undefined" ? require("./phrase-picker.js").createPhrasePicker : createPhrasePicker;
-  const phrasePicker = makePicker({ input: controls.text_id, list: controls.text_ids,
-    getValue: () => anchor()?.text_id || "", onSelect: () => changeField("text_id"),
-    onInvalid: () => { controls.message.textContent = "Выберите фразу из списка. Произвольный текст доступен только в пробном превью."; } });
 
   // Returns the selected anchor without introducing arrays into legacy levels.
   function anchor() { return state.level?.wall_memories?.[selected]; }
@@ -93,24 +77,14 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
     return WallMemoryModel.point(event, canvas.getBoundingClientRect(),
       state.level.width * 12, state.level.height * 12);
   }
-  // Chooses a representative eligible phrase; explicit text IDs remain stable.
-  function textFor(item, index) {
-    if (index === selected && previewText) return previewText;
-    if (item.role === "missing_previous") {
-      return controls.missing.checked ? config.special.text || "Предыдущая память пропущена" : "";
-    }
-    const assigned = WallMemoryModel.assign(config, state.level.wall_memories,
-      state.levelNumber + 10, Number(controls.collected.value), controls.missing.checked);
-    return assigned.get(item.id)?.text || "";
-  }
-  // Resolves configurable handwritten style values without affecting saved geometry.
+  // Uses the textarea draft while keeping the saved anchor unchanged until commit.
+  function textFor(item, index) { return index === selected && textEdit ? controls.text.value : item.text || ""; }
+  // Chooses one stable colour for the place, independent of campaign phase.
   function styleFor(item) {
-    const level = state.levelNumber + 10;
-    const phase = level <= 20 ? "day" : level <= 30 ? "evening" : level <= 40 ? "night" : "morning";
     const defaults = config.defaults || {};
-    const rgb = config.styles?.[phase] || [206, 193, 170];
-    return { size: defaults.font_size ?? 18,
-      lineHeight: defaults.line_height ?? 20, alpha: defaults.opacity ?? 0.9,
+    const palette = config.palette?.length ? config.palette : [[206, 193, 170]];
+    const rgb = palette[WallMemoryModel.hash(state.levelNumber + 10, item.id) % palette.length];
+    return { lineHeight: defaults.line_height ?? 24, alpha: defaults.opacity ?? 1,
       color: `rgb(${rgb.join(",")})` };
   }
   // Measures words with the same proportional glyph advances as GameMaker.
@@ -122,13 +96,14 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
   // Uses the game's padding, whole-pixel alignment and line spacing.
   function layout(context, item, index) {
     const style = styleFor(item);
-    const lines = WallMemoryModel.wrap({ measureText: text => ({ width: measure(text) }) },
-      textFor(item, index), item.width - 6);
-    const width = Math.ceil(item.width);
-    return { style, lines, box: { left: Math.round(item.x) - (item.align === "right" ? width : 0),
-      top: Math.round(item.y), width, height: 32 + (lines.length - 1) * style.lineHeight } };
+    const width = Math.max(32, Math.ceil(item.width));
+    const lines = WallMemoryModel.wrap({ measureText: text => ({ width: measure(text) }) }, textFor(item, index), width - 6);
+    const height = (alphabet?.glyph_height ?? 30) + 6 + Math.max(0, lines.length - 1) * style.lineHeight;
+    return { style, lines, box: WallMemoryModel.bounds(item, height),
+      lineX: lines.map(line => Math.round((width - measure(line)) / 2)) };
   }
-  // Caches a colour variant without changing the glyph's four alpha steps.
+
+  // Caches a colour variant of the original glyph atlas.
   function colourAtlas(colour) {
     if (tinted.has(colour)) return tinted.get(colour);
     const image = document.createElement("canvas"); image.width = atlas.width; image.height = atlas.height;
@@ -159,17 +134,18 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
     if (!state.level) return;
     context.save(); context.imageSmoothingEnabled = false;
     (state.level.wall_memories || []).forEach((item, index) => {
-      const { style, lines, box } = layout(context, item, index);
-      if (controls.preview.checked && alphabet && atlas) {
+      const { style, lines, box, lineX } = layout(context, item, index);
+      if (controls.preview.checked && alphabet && atlas && WallMemoryModel.eligible(item,
+        state.levelNumber + 10, Number(controls.collected.value), controls.missing.checked)) {
         context.globalAlpha = style.alpha * 0.8;
         lines.forEach((line, row) => {
           for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) {
-            if (dx || dy) drawLine(context, line, box.left + 3 + dx,
+            if (dx || dy) drawLine(context, line, box.left + lineX[row] + dx,
               box.top + 3 + row * style.lineHeight + dy, "black");
           }
         });
         context.globalAlpha = style.alpha;
-        lines.forEach((line, row) => drawLine(context, line, box.left + 3,
+        lines.forEach((line, row) => drawLine(context, line, box.left + lineX[row],
           box.top + 3 + row * style.lineHeight, style.color,
           item.role === "missing_previous" ? config.special.highlight_word : ""));
       }
@@ -185,17 +161,21 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
   }
   // Synchronizes anchor controls after selections, undo and external JSON reloads.
   function refresh(reset = false) {
-    if (reset) { selected = -1; drag = null; previewText = ""; controls.sample.value = ""; phrasePicker.close(); }
+    if (reset) { selected = -1; drag = null; textEdit = null; }
     const item = anchor();
-    for (const name of ["align", "width", "role", "text_id", "delete"]) controls[name].disabled = !item;
-    for (const name of ["align", "width", "role", "text_id"]) controls[name].value = item?.[name] ?? (name === "width" ? 168 : "");
+    for (const name of ["width", "role", "text", "min_collected", "delete"]) controls[name].disabled = !item;
+    for (const name of ["width", "text", "min_collected"]) {
+      if (name === "text" && textEdit) continue;
+      controls[name].value = item?.[name] ?? (name === "width" ? 168 : name === "min_collected" ? 0 : "");
+    }
+    controls.role.value = item?.requires_all_previous ? "all_previous" : item?.role || "regular";
     controls.position.textContent = item ? `x: ${item.x} · y: ${item.y} · уровень игры: ${state.levelNumber + 10}` : "Нажмите на карту, чтобы добавить надпись";
   }
   // Starts moving a hit anchor, or creates a new optional anchor at the pointer.
   function pointerDown(event) {
     if (!mode) return false;
     if (event.button !== 0 || !state.level || !state.loadedPath) return true;
-    hideTooltip(); canvas.focus({ preventScroll: true });
+    finishTextEdit(); hideTooltip(); canvas.focus({ preventScroll: true });
     const position = point(event);
     const snapshot = remember();
     const context = canvas.getContext("2d");
@@ -209,7 +189,7 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
       const used = new Set(items.map(item => item.id));
       let number = 1;
       while (used.has(`memory_${number}`)) number += 1;
-      const item = { id: `memory_${number}`, ...position, align: "left", width: 168, role: "regular", text_id: "" };
+      const item = { id: `memory_${number}`, ...position, width: 168, role: "regular", text: "", min_collected: 0, requires_all_previous: false };
       if (!state.level.wall_memories) state.level.wall_memories = [];
       state.level.wall_memories.push(item);
       selected = state.level.wall_memories.length - 1;
@@ -233,12 +213,14 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
   }
   // Saves the whole creation or drag as one undoable edit.
   function pointerUp() {
+    finishTextEdit();
     if (!mode) return false;
     if (drag) { const gesture = drag; drag = null; if (gesture.changed) commit(gesture.snapshot); }
     return true;
   }
   // Deletes only the selected anchor and retains all other level settings.
   function remove() {
+    finishTextEdit();
     if (!anchor()) return;
     const snapshot = remember(); state.level.wall_memories.splice(selected, 1); selected = -1; commit(snapshot);
   }
@@ -247,7 +229,7 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
     if (edit.kind !== "wall_memories") return false;
     if (edit.value === undefined) delete state.level.wall_memories;
     else state.level.wall_memories = structuredClone(edit.value);
-    selected = -1; drag = null; commit(); return true;
+    selected = -1; drag = null; textEdit = null; commit(); return true;
   }
   // Prevents mode-specific keyboard actions from rotating map tiles.
   function keyboard(event) {
@@ -255,15 +237,36 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
     if (event.key === "Delete" || event.key === "Backspace") { remove(); event.preventDefault(); }
     return event.code === "KeyR" || event.key === "Delete" || event.key === "Backspace";
   }
-  // Changes only one explicitly edited anchor field.
+  // Keeps typing as one gesture and prevents live polling from replacing the draft.
+  function editText() {
+    if (!anchor()) return;
+    if (!textEdit) { textEdit = remember(); state.editRevision++; }
+    render();
+  }
+  // Commits the full textarea value once on blur or before changing selections.
+  function finishTextEdit() {
+    if (!textEdit) return;
+    const snapshot = textEdit, item = anchor(); textEdit = null;
+    if (item && item.text !== controls.text.value) { item.text = controls.text.value; commit(snapshot); }
+    else { refresh(); render(); }
+  }
+  // Changes a size or condition while keeping each gesture separately undoable.
   function changeField(name) {
+    finishTextEdit();
     const item = anchor(); if (!item) return;
     let value = controls[name].value;
-    if (name === "width") value = Math.max(16, Math.round(Number(value) || 168));
+    if (name === "width") value = Math.max(32, Math.round(Number(value) || 168));
+    if (name === "min_collected") value = Math.max(0, Math.floor(Number(value) || 0));
+    if (name === "role") {
+      const role = value === "all_previous" ? "regular" : value;
+      const all = value === "all_previous";
+      if (role === item.role && all === Boolean(item.requires_all_previous)) return;
+      const snapshot = remember(); item.role = role; item.requires_all_previous = all; commit(snapshot); return;
+    }
     if (value === item[name]) return;
     const snapshot = remember(); item[name] = value; commit(snapshot);
   }
-  // Loads preview phrases and waits for the bundled font before drawing.
+  // Loads shared visual settings and the exact bundled glyph atlas.
   async function load() {
     try {
       const response = await fetch("../RandomForest/datafiles/narrative/wall_memories.json", { cache: "no-store" });
@@ -276,22 +279,23 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
         const image = new Image(); image.onload = () => resolve(image); image.onerror = reject;
         image.src = "../RandomForest/datafiles/" + alphabet.atlas.file;
       });
-      phrasePicker.setOptions(config.phrases || []);
-      controls.message.textContent = "Фразы и шрифт из настроек игры";
-    } catch (error) { controls.message.textContent = `Превью фраз недоступно: ${error.message}`; }
+      controls.message.textContent = "Текст сохраняется в JSON уровня. Переносы строк поддерживаются.";
+    } catch (error) { controls.message.textContent = `Превью шрифта недоступно: ${error.message}`; }
     render();
   }
   // Finishes the current anchor gesture before changing the shared editor mode.
   function setActive(active) {
-    pointerUp(); mode = active; phrasePicker.close(); hideTooltip(); refresh(); render();
+    pointerUp(); mode = active; hideTooltip(); refresh(); render();
   }
   controls.delete.addEventListener("click", remove);
-  for (const name of ["align", "width", "role"]) controls[name].addEventListener("change", () => changeField(name));
+  for (const name of ["width", "role", "min_collected"]) controls[name].addEventListener("change", () => changeField(name));
   for (const name of ["preview", "boxes", "missing", "collected"]) controls[name].addEventListener("input", () => { controls.count.textContent = controls.collected.value; render(); });
-  controls.sample.addEventListener("input", () => { previewText = controls.sample.value; render(); });
+  controls.text.addEventListener("input", editText);
+  controls.text.addEventListener("change", finishTextEdit);
+  controls.text.addEventListener("blur", finishTextEdit);
   refresh(); load();
   return { draw, refresh, pointerDown, pointerMove, pointerUp, undo, keyboard, setActive,
-    isDragging: () => Boolean(drag), isActive: () => mode };
+    isEditing: () => Boolean(drag || textEdit), isDragging: () => Boolean(drag), isActive: () => mode };
 }
 
 if (typeof module !== "undefined") module.exports = { WallMemoryModel, createWallMemoryEditor };

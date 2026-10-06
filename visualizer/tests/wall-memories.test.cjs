@@ -1,14 +1,19 @@
 const assert=require('assert');
 const {WallMemoryModel:M,createWallMemoryEditor}=require('../wall-memories.js');
-const config={defaults:{font_size:18,line_height:20,opacity:.9},styles:{day:[1,2,3]},special:{text:'Там позади осталось'},phrases:[{id:'a',text:'один',from_level:11,to_level:12,min_collected:0},{id:'b',text:'два',from_level:11,to_level:12,min_collected:2},{id:'c',text:'все',from_level:11,to_level:12,min_collected:0,requires_all_previous:true}]};
-assert.deepEqual(M.bounds({x:100,y:20,width:168,align:'right'}),{left:-68,top:20,width:168,height:60});
+const config={defaults:{line_height:24,opacity:1},palette:[[1,2,3]],special:{highlight_word:'осталось',highlight_colour:[4,5,6]}};
+assert.deepEqual(M.bounds({x:100,y:20,width:168}),{left:16,top:2,width:168,height:36});
 assert.deepEqual(M.point({clientX:35,clientY:45},{left:10,top:20,width:100,height:100},200,200),{x:50,y:50});
-assert.equal(M.eligible(config,11,0).length,1);assert.equal(M.eligible(config,10,40).length,0);
-assert.equal(M.assign(config,[{id:'x',role:'regular',text_id:'b'}],11,0,false).get('x'),undefined);
-const anchors=[{id:'z',role:'regular',text_id:''},{id:'a',role:'regular',text_id:''}];
-const selected=M.assign(config,anchors,11,2,false);assert.equal(new Set([...selected.values()].map(v=>v.id)).size,2);assert.deepEqual([...selected], [...M.assign(config,[...anchors].reverse(),11,2,false)]);
+assert(M.eligible({min_collected:2},11,2,false));
+assert(!M.eligible({min_collected:2},11,1,false));
+assert(!M.eligible({requires_all_previous:true},11,10,true));
+assert(M.eligible({requires_all_previous:true},11,10,false));
+assert(!M.eligible({role:'missing_previous'},11,10,false));
+assert(M.eligible({role:'missing_previous'},11,9,true));
+assert.equal(M.hash(21,'memory_1'),M.hash(21,'memory_1'));
+assert.notEqual(M.hash(21,'memory_1'),M.hash(21,'memory_2'));
 assert.deepEqual(M.wrap({measureText:s=>({width:s.length*8})},'abc def\nxy',30),['abc','def','xy']);
-const controls={};for(const name of ['align','width','role','text_id','delete','position','preview','boxes','missing','collected','count','sample','message','text_ids'])controls[name]={dataset:{memory:name},value:'',checked:false,handlers:{},addEventListener(type,fn){this.handlers[type]=fn},setAttribute(){},removeAttribute(){},replaceChildren(){},appendChild(){}};
+assert.deepEqual(M.wrap({measureText:s=>({width:s.length*8})},'abcdef',24),['abc','def']);
+const controls={};for(const name of ['width','role','text','min_collected','delete','position','preview','boxes','missing','collected','count','message'])controls[name]={dataset:{memory:name},value:'',checked:false,handlers:{},addEventListener(type,fn){this.handlers[type]=fn},setAttribute(){},removeAttribute(){},replaceChildren(){},appendChild(){}};
 controls.preview.checked=controls.boxes.checked=true;controls.collected.value='0';
 const panel={querySelectorAll:()=>Object.values(controls),classList:{toggle(){}}};
 global.document={getElementById:()=>panel,fonts:{load:()=>Promise.resolve()},createElement:()=>({})};global.fetch=async()=>({ok:true,json:async()=>config});
@@ -24,7 +29,7 @@ assert.equal(editor.pointerDown(evt(32,48)),true);editor.pointerMove(evt(42,58))
 controls.width.value='200';controls.width.handlers.change();assert.equal(state.level.wall_memories[0].width,200);assert.equal(saves,3);
 const map=JSON.stringify(state.level.map);controls.delete.handlers.click();assert.equal(state.level.wall_memories.length,0);assert.equal(saves,4);editor.undo(state.undoStack.pop());assert.equal(state.level.wall_memories.length,1);assert.equal(JSON.stringify(state.level.map),map);
 while(state.undoStack.length)editor.undo(state.undoStack.pop());assert.equal('wall_memories' in state.level,false);assert.equal(JSON.stringify(state.level.map),map);
-console.log('Wall editor geometry, phrase assignment, mode gating, drag, save and exact legacy undo assertions passed.');
+console.log('Wall editor geometry, inline conditions, mode gating, drag, save and exact legacy undo assertions passed.');
 
 // Checks the loaded sprite atlas rather than browser font measurements.
 async function checkAtlasPreview() {
@@ -47,19 +52,20 @@ async function checkAtlasPreview() {
   ctx.drawImage = (...args) => drawn.push({ args, alpha: ctx.globalAlpha });
   ctx.strokeRect = (...args) => boxes.push(args);
   state.level.wall_memories = [{ id: 'test_right', x: 220, y: 100,
-    width: 168, align: 'right', role: 'regular', text_id: '' }];
+    width: 168, role: 'regular', text: 'Кто я?', min_collected: 0 }];
   const preview = createWallMemoryEditor({ state, canvas, render() {}, save() {}, hideTooltip() {} });
   await new Promise(resolve => setImmediate(resolve));
   preview.setActive(true);
-  preview.pointerDown(evt(60, 110)); preview.pointerUp();
-  controls.sample.value = 'Кто я?'; controls.sample.handlers.input();
+  preview.pointerDown(evt(220, 100)); preview.pointerUp();
   preview.draw(ctx);
-  assert.deepEqual(boxes.at(-1), [52.5, 100.5, 168, 32]);
-  const ink = drawn.filter(call => call.alpha === 0.9);
+  assert.deepEqual(boxes.at(-1), [136.5, 84.5, 168, 32]);
+  const ink = drawn.filter(call => call.alpha === .9);
   assert.equal(ink.length, 5); // The space advances without drawing its hidden marker.
-  assert.equal(ink[0].args[5], 55);
-  assert.equal(ink[1].args[5], 55 + metadata.advances[metadata.characters.indexOf('К')]);
+  const fullWidth=Array.from('Кто я?').reduce((n,c)=>n+metadata.advances[metadata.characters.indexOf(c)],0);
+  const start=136+Math.round((168-fullWidth)/2);
+  assert.equal(ink[0].args[5], start);
+  assert.equal(ink[1].args[5], start + metadata.advances[metadata.characters.indexOf('К')]);
   assert.equal(ctx.imageSmoothingEnabled, false);
-  console.log('Sprite-atlas loading, right alignment, baseline, spacing and hidden-space preview checks passed.');
+  console.log('Sprite-atlas loading, centred alignment, baseline, spacing and hidden-space preview checks passed.');
 }
 checkAtlasPreview().catch(error => { console.error(error); process.exitCode = 1; });

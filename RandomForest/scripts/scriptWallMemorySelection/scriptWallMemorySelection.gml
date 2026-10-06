@@ -1,4 +1,4 @@
-/// Hashes Unicode codepoints locally, without touching gameplay random state.
+/// Hashes a stable place key without consuming gameplay randomness.
 function funWallMemoryHash(value) {
     var result = 0
     for (var i = 1; i <= string_length(value); ++i) {
@@ -7,7 +7,7 @@ function funWallMemoryHash(value) {
     return result
 }
 
-/// Checks only records strictly before the current human-numbered level.
+/// Checks records strictly before the current human-numbered level.
 function funWallMemoryAllPrevious(level_number, records) {
     for (var i = 0; i < level_number - 1; ++i) {
         if (i >= array_length(records) or !records[i]) return false
@@ -15,66 +15,24 @@ function funWallMemoryAllPrevious(level_number, records) {
     return true
 }
 
-/// Tests the authored range, memory threshold, and optional final-level condition.
-function funWallMemoryPhraseEligible(phrase, level_number, collected, all_previous) {
-    return phrase.from_level <= level_number and phrase.to_level >= level_number
-        and phrase.min_collected <= collected
-        and (!variable_struct_exists(phrase, "requires_all_previous")
-            or !phrase.requires_all_previous or all_previous)
+/// Tests one fixed inscription against the room-entry progress snapshot.
+function funWallMemoryEligible(anchor, controller) {
+    if (string_length(string_trim(anchor.text)) == 0) return false
+    if (controller.collected < anchor.min_collected) return false
+    if (anchor.requires_all_previous and !controller.all_previous) return false
+    return anchor.role != "missing_previous" or !controller.all_previous
 }
 
-/// Selects one fixed or deterministic unused phrase in configuration order.
-function funWallMemorySelectPhrase(level_number, anchor_id, collected, all_previous, used_ids, text_id) {
-    var candidates = []
-    var phrases = global.wall_memory_config.phrases
-    for (var i = 0; i < array_length(phrases); ++i) {
-        var phrase = phrases[i]
-        if (!funWallMemoryPhraseEligible(phrase, level_number, collected, all_previous)) continue
-        if (array_contains(used_ids, phrase.id)) continue
-        if (text_id != "") {
-            if (phrase.id == text_id) return phrase
-        } else {
-            array_push(candidates, phrase)
-        }
-    }
-    // Fixed story text must disappear when its condition fails, rather than change meaning.
-    if (text_id != "" or array_length(candidates) == 0) return undefined
-    var seed = string(level_number) + ":" + anchor_id + ":" + string(collected)
-    return candidates[funWallMemoryHash(seed) mod array_length(candidates)]
-}
-
-/// Returns the lighting palette without depending on which levels already exist.
-function funWallMemoryTheme(level_number) {
-    if (level_number <= 20) return "day"
-    if (level_number <= 30) return "evening"
-    if (level_number <= 40) return "night"
-    return "morning"
-}
-
-/// Assigns stable, non-repeating phrases after every room anchor has run Create.
+/// Prepares fixed text and one independent palette colour for each place.
 function funWallMemoryAssignAnchors(controller) {
     var anchors = []
-    for (var i = 0; i < instance_number(oWallMemoryAnchor); ++i) array_push(anchors, instance_find(oWallMemoryAnchor, i))
-    array_sort(anchors, function(a, b) {
-        if (a.anchor_id == b.anchor_id) return 0
-        return a.anchor_id < b.anchor_id ? -1 : 1
-    })
-    var used_ids = []
-    for (var i = 0; i < array_length(anchors); ++i) {
-        var anchor = anchors[i]
-        var phrase = undefined
-        if (anchor.role == "missing_previous") {
-            if (!controller.all_previous) {
-                phrase = {id: "__missing_previous", text: global.wall_memory_config.special.text}
-            }
-        } else {
-            phrase = funWallMemorySelectPhrase(controller.level_number, anchor.anchor_id, controller.collected,
-                controller.all_previous, used_ids, anchor.text_id)
-            if (phrase != undefined) array_push(used_ids, phrase.id)
+    for (var i = 0; i < instance_number(oWallMemoryAnchor); ++i) {
+        var anchor = instance_find(oWallMemoryAnchor, i)
+        anchor.read_key = string(controller.level_number) + ":" + anchor.anchor_id
+        if (funWallMemoryEligible(anchor, controller) and !funWallMemoryWasRead(anchor.read_key)) {
+            funWallMemoryPrepareAnchor(anchor)
         }
-        if (phrase != undefined) {
-            funWallMemoryPrepareAnchor(anchor, phrase, controller)
-        }
+        array_push(anchors, anchor)
     }
     controller.anchors = anchors
     controller.ready = true

@@ -656,24 +656,17 @@
           <p class="memory-note">В режиме надписей: клик создаёт или выбирает, перетаскивание двигает, Delete удаляет.</p>
           <p data-memory="position" class="memory-note"></p>
           <div class="memory-fields">
-            <label>Выравнивание <select data-memory="align"><option value="left">Влево</option><option value="right">Вправо</option></select></label>
-            <label>Ширина, пиксели <input data-memory="width" type="number" min="16" step="1" value="168"></label>
-            <label>Роль <select data-memory="role"><option value="regular">Обычная</option><option value="missing_previous">Пропущена предыдущая память</option></select></label>
-            <div class="memory-phrase-picker">
-              <label>Фраза из библиотеки (пусто — из пула)
-                <input data-memory="text_id" type="text" placeholder="Поиск по фразе или ID" autocomplete="off"
-                  role="combobox" aria-autocomplete="list" aria-controls="wall-text-ids" aria-expanded="false">
-              </label>
-              <div id="wall-text-ids" data-memory="text_ids" class="memory-phrase-list" role="listbox" aria-label="Фразы из библиотеки" hidden></div>
-            </div>
+            <label>Ширина, пиксели <input data-memory="width" type="number" min="32" step="1" value="168"></label>
+            <label>Условие предыдущих ОС <select data-memory="role"><option value="regular">Обычная</option><option value="missing_previous">Пропущен предыдущий ОС</option><option value="all_previous">Все предыдущие ОС собраны</option></select></label>
+            <label>Минимум собранных ОС <input data-memory="min_collected" type="number" min="0" step="1" value="0"></label>
+            <label>Текст надписи <textarea data-memory="text" placeholder="Введите надпись. Новая строка — Enter."></textarea></label>
             <button data-memory="delete" class="entity-chip" type="button">Удалить выбранную</button>
             <label class="memory-check"><input data-memory="preview" type="checkbox" checked> Показывать текст</label>
             <label class="memory-check"><input data-memory="boxes" type="checkbox" checked> Показывать рамки якорей</label>
             <label class="memory-check"><input data-memory="missing" type="checkbox"> Предыдущая память пропущена (превью)</label>
             <label>Собрано ОС: <span data-memory="count">0</span><input data-memory="collected" type="range" min="0" max="40" value="0"></label>
-            <label>Пробный текст выбранного якоря (не сохраняется)<textarea data-memory="sample" placeholder="Пусто — фраза из настроек игры"></textarea></label>
           </div>
-          <p data-memory="message" class="memory-note">Загрузка фраз и шрифта…</p>
+          <p data-memory="message" class="memory-note">Загрузка шрифта…</p>
         </section>
         <div id="map-editor-panel">
         <section class="side-section">
@@ -734,7 +727,6 @@
 
   <div id="cell-tooltip" class="cell-tooltip" aria-hidden="true"></div>
 
-  <script src="phrase-picker.js"></script>
   <script src="wall-memories.js"></script>
   <script src="level-persistence.js"></script>
   <script>
@@ -948,7 +940,7 @@
 
     // Fetches the selected JSON and redraws only when its text has changed.
     async function pollSelectedLevel() {
-      if (state.requestInProgress || persistence.hasUnsaved() || wallEditor.isDragging()) {
+      if (state.requestInProgress || persistence.hasUnsaved() || wallEditor.isEditing()) {
         return;
       }
 
@@ -966,7 +958,7 @@
         const text = await response.text();
         if (
           requestedLevelNumber !== state.levelNumber ||
-          requestedEditRevision !== state.editRevision || persistence.hasUnsaved() || wallEditor.isDragging()
+          requestedEditRevision !== state.editRevision || persistence.hasUnsaved() || wallEditor.isEditing()
         ) {
           return;
         }

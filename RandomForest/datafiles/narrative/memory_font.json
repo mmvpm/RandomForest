@@ -1192,5 +1192,8 @@
     "cell_width": 22,
     "cell_height": 26,
     "file": "fonts/memory-alphabet.png"
-  }
+  },
+  "font_size": 18,
+  "weight": 400,
+  "glyph_height": 26
 }

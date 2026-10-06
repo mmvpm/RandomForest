@@ -62,31 +62,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 821,
+      "y": 351,
+      "width": 204,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 18,
-      "y": 528,
-      "align": "left",
+      "x": 51,
+      "y": 545,
       "width": 168,
       "role": "regular",
-      "text_id": "memory_21_05"
+      "text": "Хватит.",
+      "min_collected": 0,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 714,
-      "y": 84,
-      "align": "left",
+      "x": 765,
+      "y": 99,
       "width": 168,
       "role": "regular",
-      "text_id": "memory_21_01"
-    },
-    {
-      "id": "previous_memory",
-      "x": 744,
-      "y": 326,
-      "align": "left",
-      "width": 204,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Мне больно...",
+      "min_collected": 0,
+      "requires_all_previous": false
     }
   ]
 }

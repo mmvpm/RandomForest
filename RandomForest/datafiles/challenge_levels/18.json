@@ -64,31 +64,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 603,
+      "y": 570,
+      "width": 288,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 864,
-      "y": 552,
-      "align": "left",
+      "x": 930,
+      "y": 569,
       "width": 168,
       "role": "regular",
-      "text_id": ""
+      "text": "Я устала падать.",
+      "min_collected": 0,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 36,
-      "y": 446,
-      "align": "left",
+      "x": 100,
+      "y": 461,
       "width": 132,
       "role": "regular",
-      "text_id": ""
-    },
-    {
-      "id": "previous_memory",
-      "x": 492,
-      "y": 552,
-      "align": "left",
-      "width": 288,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Мне больно...",
+      "min_collected": 0,
+      "requires_all_previous": false
     }
   ]
 }

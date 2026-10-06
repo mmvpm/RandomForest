@@ -56,31 +56,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 357,
+      "y": 29,
+      "width": 288,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 18,
-      "y": 374,
-      "align": "left",
+      "x": 68,
+      "y": 379,
       "width": 132,
       "role": "regular",
-      "text_id": ""
+      "text": "Не туда...",
+      "min_collected": 0,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 528,
-      "y": 12,
-      "align": "left",
+      "x": 558,
+      "y": 36,
       "width": 168,
       "role": "regular",
-      "text_id": ""
-    },
-    {
-      "id": "previous_memory",
-      "x": 246,
-      "y": 12,
-      "align": "left",
-      "width": 288,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Весело?",
+      "min_collected": 0,
+      "requires_all_previous": false
     }
   ]
 }

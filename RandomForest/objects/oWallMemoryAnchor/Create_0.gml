@@ -1,16 +1,15 @@
-/// Initializes an editor-authored anchor without consuming randomness or player input.
+/// Initializes fixed, centred lettering without consuming player input or randomness.
 self.ready = false
 self.phase = "idle"
 self.phase_elapsed = 0
-self.seen = false
-self.first_reveal = false
 self.text_surface = -1
+self.cached_revealed = -1
+self.revealed = 0
+self.glyph_count = 0
 self.lines = []
+self.line_x = []
 self.surface_width = self.width
-self.surface_height = 32
-self.memory_left = self.align == "right" ? round(self.x) - self.surface_width : round(self.x)
-self.memory_top = round(self.y)
-self.theme = "day"
-self.size_uniform = shader_get_uniform(shWallMemoryReveal, "cache_size")
-self.reveal_uniform = shader_get_uniform(shWallMemoryReveal, "reveal_progress")
-self.seed_uniform = shader_get_uniform(shWallMemoryReveal, "reveal_seed")
+self.surface_height = 36
+self.memory_left = floor(self.x - self.width / 2 + 0.5)
+self.memory_top = floor(self.y - self.surface_height / 2 + 0.5)
+self.read_key = ""

@@ -67,31 +67,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 495,
+      "y": 606,
+      "width": 288,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 1020,
-      "y": 566,
-      "align": "left",
+      "x": 1073,
+      "y": 591,
       "width": 108,
       "role": "regular",
-      "text_id": ""
+      "text": "Я уже падала сюда?",
+      "min_collected": 10,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 18,
-      "y": 434,
-      "align": "left",
+      "x": 72,
+      "y": 465,
       "width": 108,
       "role": "regular",
-      "text_id": ""
-    },
-    {
-      "id": "previous_memory",
-      "x": 384,
-      "y": 588,
-      "align": "left",
-      "width": 288,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Знакомый холод.",
+      "min_collected": 0,
+      "requires_all_previous": false
     }
   ]
 }

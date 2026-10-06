@@ -49,7 +49,7 @@ for (const match of html.matchAll(/data-memory="([^"]+)"/g)) {
   const element = new Element(); element.dataset.memory = match[1]; controls[match[1]] = element;
 }
 controls.preview.checked = controls.boxes.checked = true; controls.collected.value = "0";
-controls.text_ids.id = "wall-text-ids";
+
 nodes.get("wall-memory-panel").hidden = true;
 nodes.get("wall-memory-panel").querySelectorAll = () => Object.values(controls);
 const buttons = ["inscriptions", "map"].map(mode => {
@@ -61,7 +61,7 @@ let online = false, levelReads = 0, heldRead = null;
 const disk = new Map(), writes = [];
 for (let number = 1; number <= 21; number++) disk.set(number, JSON.stringify({
   width: 10, height: 10, map: Array(10).fill("XXXXXXXXXX"),
-  wall_memories: [{ id: "existing_id", x: 32, y: 48, align: "left", width: 80, role: "regular", text_id: "" }]
+  wall_memories: [{ id: "existing_id", x: 32, y: 48, width: 80, role: "regular", text: "Хватит.", min_collected: 0, requires_all_previous: false }]
 }));
 
 // Uses real phrase/font metadata and simulates the HTTP save server independently.
@@ -94,7 +94,7 @@ const sandbox = vm.createContext({ console, document, fetch, TypeError, AbortCon
     // Completes the bundled atlas load without requiring image rendering.
     set src(value) { this.width = 352; this.height = 286; this.onload(); }
   } });
-for (const name of ["phrase-picker.js", "wall-memories.js", "level-persistence.js"]) {
+for (const name of ["wall-memories.js", "level-persistence.js"]) {
   vm.runInContext(fs.readFileSync(path.join(root, "visualizer", name), "utf8"), sandbox);
 }
 const inline = html.match(/<script>\s*([\s\S]*?)<\/script>/)[1].replace(/\s*initialize\(\);\s*$/, "");
@@ -120,29 +120,24 @@ async function main() {
   const pointer = { button: 0, pointerId: 1, clientX: 32, clientY: 48, preventDefault() {} };
   editor.wallEditor.pointerDown(pointer); editor.wallEditor.pointerUp();
   assert.equal(controls.width.value, 80);
-  controls.text_id.handlers.focus();
-  assert(!controls.text_ids.hidden);
-  controls.text_id.value = "Хватит"; controls.text_id.handlers.input();
-  const phrase = controls.text_ids.children.find(button => button.textContent.includes("memory_21_05"));
-  assert(phrase);
-  assert(phrase.textContent.includes("Хватит"));
-  phrase.handlers.click(); await settle();
-  assert.equal(editor.state.level.wall_memories[0].text_id, "memory_21_05");
-  assert(controls.text_ids.hidden);
-  controls.text_id.handlers.focus();
-  controls.text_id.handlers.keydown({ key: "ArrowDown", preventDefault() {} });
-  controls.text_id.handlers.keydown({ key: "ArrowDown", preventDefault() {} });
-  assert.equal(controls.text_id.attributes["aria-activedescendant"], "wall-text-ids-option-1");
-  controls.text_id.handlers.keydown({ key: "Enter", preventDefault() {} });
-  assert.equal(editor.state.level.wall_memories[0].text_id, "memory_21_05");
-  controls.text_id.value = "Поисковая строка"; controls.text_id.handlers.input();
-  controls.text_id.handlers.keydown({ key: "Escape", preventDefault() {} });
-  assert(controls.text_ids.hidden);
-  assert.equal(controls.text_id.value, "memory_21_05");
-  controls.text_id.value = "Произвольная новая фраза"; controls.text_id.handlers.change();
-  assert.equal(controls.text_id.value, "memory_21_05");
-  assert.equal(editor.state.level.wall_memories[0].text_id, "memory_21_05");
-  assert(controls.message.textContent.includes("пробном превью"));
+  let releaseTextRead;
+  heldRead = new Promise(resolve => { releaseTextRead = resolve; });
+  const staleTextRead = editor.pollSelectedLevel();
+  controls.text.value = "Произвольная фраза\nВторая строка";
+  controls.text.handlers.input();
+  assert(editor.wallEditor.isEditing());
+  releaseTextRead({ ok: true, text: async () => disk.get(11) });
+  await staleTextRead;
+  assert.equal(controls.text.value, "Произвольная фраза\nВторая строка");
+  assert(!controls.text.disabled);
+  const beforeTextPoll = levelReads;
+  await editor.pollSelectedLevel();
+  assert.equal(levelReads, beforeTextPoll);
+  assert.equal(controls.text.value, "Произвольная фраза\nВторая строка");
+  controls.text.handlers.blur(); await settle();
+  assert(!editor.wallEditor.isEditing());
+  assert.equal(editor.state.level.wall_memories[0].text, "Произвольная фраза\nВторая строка");
+  assert.equal(editor.state.level.wall_memories[0].id, "existing_id");
   // Reset this extra phrase edit before the existing failure/undo scenarios.
   assert(editor.undoLastEdit()); await settle();
   editor.state.undoStack = [];

@@ -111,6 +111,9 @@
   },
   "name":"RandomForest",
   "resources":[
+    {"id":{"name":"soundWallMemoryReveal","path":"sounds/soundWallMemoryReveal/soundWallMemoryReveal.yy",},},
+    {"id":{"name":"scriptWallMemoryProgress","path":"scripts/scriptWallMemoryProgress/scriptWallMemoryProgress.yy",},},
+    {"id":{"name":"scriptWallMemoryStorage","path":"scripts/scriptWallMemoryStorage/scriptWallMemoryStorage.yy",},},
     {"id":{"name":"soundPlayerStompImpact","path":"sounds/soundPlayerStompImpact/soundPlayerStompImpact.yy"}},
     {"id":{"name":"oAirBack","path":"objects/oAirBack/oAirBack.yy",},},
     {"id":{"name":"oAirBurst","path":"objects/oAirBurst/oAirBurst.yy",},},
@@ -303,7 +306,6 @@
     {"id":{"name":"scriptWallMemorySelection","path":"scripts/scriptWallMemorySelection/scriptWallMemorySelection.yy",},},
     {"id":{"name":"shBlur","path":"shaders/shBlur/shBlur.yy",},},
     {"id":{"name":"shStompWave","path":"shaders/shStompWave/shStompWave.yy",},},
-    {"id":{"name":"shWallMemoryReveal","path":"shaders/shWallMemoryReveal/shWallMemoryReveal.yy",},},
     {"id":{"name":"musicGame","path":"sounds/musicGame/musicGame.yy",},},
     {"id":{"name":"musicMenu","path":"sounds/musicMenu/musicMenu.yy",},},
     {"id":{"name":"musicVictory","path":"sounds/musicVictory/musicVictory.yy",},},

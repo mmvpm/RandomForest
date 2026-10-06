@@ -21,10 +21,12 @@ class LevelFormatTests(unittest.TestCase):
                     "id": "near_player",
                     "x": 12,
                     "y": 24,
-                    "align": "right",
+
                     "width": 90,
                     "role": "missing_previous",
-                    "text_id": "",
+                    "text": "Хватит.\nСтой.",
+                    "min_collected": 2,
+                    "requires_all_previous": False,
                 }
             ],
         }

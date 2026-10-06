@@ -54,31 +54,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 490,
+      "y": 29,
+      "width": 228,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 420,
-      "y": 432,
-      "align": "left",
+      "x": 477,
+      "y": 450,
       "width": 156,
       "role": "regular",
-      "text_id": "memory_10_06"
+      "text": "Опять сначала.",
+      "min_collected": 0,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 48,
-      "y": 228,
-      "align": "left",
-      "width": 168,
+      "x": 116,
+      "y": 243,
+      "width": 120,
       "role": "regular",
-      "text_id": "memory_10_07"
-    },
-    {
-      "id": "previous_memory",
-      "x": 396,
-      "y": 206,
-      "align": "left",
-      "width": 216,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Знакомый холод.",
+      "min_collected": 0,
+      "requires_all_previous": false
     }
   ]
 }

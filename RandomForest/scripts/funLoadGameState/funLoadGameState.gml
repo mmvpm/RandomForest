@@ -1,6 +1,7 @@
 /// Loads persistent progress and audio preferences for the current level catalog.
 function funLoadGameState() {
 	ini_open("save.ini")
+	global.wall_memory_read = funLoadWallMemoryReadState()
 
 	// debug mode
 	global.is_debug = ini_read_real("general", "is_debug", 0) // default: false

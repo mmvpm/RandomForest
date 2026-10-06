@@ -30,6 +30,7 @@ function funApplySfxSetting(fade_ms = 0) {
 		soundTapSwordReturn,
 		soundPlayerLanding,
 		soundPlayerStompImpact,
+		soundWallMemoryReveal,
 		soundMenuButton,
 		soundOrangeFirefly,
 		soundStarCollecting,

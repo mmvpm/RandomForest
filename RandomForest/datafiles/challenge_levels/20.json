@@ -71,31 +71,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 249,
+      "y": 30,
+      "width": 288,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 18,
-      "y": 134,
-      "align": "left",
+      "x": 69,
+      "y": 159,
       "width": 120,
       "role": "regular",
-      "text_id": ""
+      "text": "Пожалуйста, стой.",
+      "min_collected": 0,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 402,
-      "y": 314,
-      "align": "left",
+      "x": 453,
+      "y": 329,
       "width": 120,
       "role": "regular",
-      "text_id": ""
-    },
-    {
-      "id": "previous_memory",
-      "x": 138,
-      "y": 12,
-      "align": "left",
-      "width": 288,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Мне больно...",
+      "min_collected": 0,
+      "requires_all_previous": false
     }
   ]
 }

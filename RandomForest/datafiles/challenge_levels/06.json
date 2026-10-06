@@ -54,31 +54,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 513,
+      "y": 111,
+      "width": 144,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 702,
-      "y": 254,
-      "align": "left",
+      "x": 749,
+      "y": 280,
       "width": 108,
       "role": "regular",
-      "text_id": ""
+      "text": "Здесь уже была кровь.",
+      "min_collected": 10,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 36,
-      "y": 146,
-      "align": "left",
+      "x": 89,
+      "y": 171,
       "width": 168,
       "role": "regular",
-      "text_id": ""
-    },
-    {
-      "id": "previous_memory",
-      "x": 456,
-      "y": 86,
-      "align": "left",
-      "width": 120,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Это не первая попытка.",
+      "min_collected": 10,
+      "requires_all_previous": false
     }
   ]
 }

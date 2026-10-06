@@ -71,40 +71,44 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 249,
+      "y": 30,
+      "width": 288,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 528,
-      "y": 614,
-      "align": "left",
+      "x": 576,
+      "y": 630,
       "width": 132,
       "role": "regular",
-      "text_id": ""
+      "text": "Я не хотела.",
+      "min_collected": 0,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 780,
-      "y": 326,
-      "align": "left",
+      "x": 825,
+      "y": 341,
       "width": 144,
       "role": "regular",
-      "text_id": ""
+      "text": "Нас много...",
+      "min_collected": 10,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_3",
-      "x": 744,
-      "y": 374,
-      "align": "left",
+      "x": 806,
+      "y": 379,
       "width": 132,
       "role": "regular",
-      "text_id": ""
-    },
-    {
-      "id": "previous_memory",
-      "x": 138,
-      "y": 12,
-      "align": "left",
-      "width": 288,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Каждая смерть осталась во мне.",
+      "min_collected": 20,
+      "requires_all_previous": false
     }
   ]
 }

@@ -64,31 +64,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 448,
+      "y": 570,
+      "width": 288,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 14,
-      "y": 220,
-      "align": "left",
+      "x": 68,
+      "y": 244,
       "width": 70,
       "role": "regular",
-      "text_id": "memory_21_05"
+      "text": "Хватит.",
+      "min_collected": 0,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 1032,
-      "y": 530,
-      "align": "left",
+      "x": 1063,
+      "y": 544,
       "width": 120,
       "role": "regular",
-      "text_id": ""
-    },
-    {
-      "id": "previous_memory",
-      "x": 336,
-      "y": 552,
-      "align": "left",
-      "width": 288,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "За что?",
+      "min_collected": 0,
+      "requires_all_previous": false
     }
   ]
 }

@@ -17,8 +17,3 @@
 .memory-fields input:disabled, .memory-fields select:disabled { opacity: .45; }
 .memory-note { font-size: 11px; line-height: 1.5; color: #a6b8ab; margin: 8px 0; }
 .memory-fields textarea { font: inherit; font-size: 13px; min-height: 66px; resize: vertical; }
-/* Suggestions stay directly below their field in the sidebar's normal flow. */
-.memory-phrase-picker { min-width: 0; }
-.memory-phrase-list { margin-top: 4px; max-height: 180px; overflow-y: auto; border: 1px solid #526257; border-radius: 6px; background: #17221c; }
-.memory-phrase-option { display: block; width: 100%; padding: 8px; border: 0; background: transparent; color: #e9e9db; font: inherit; font-size: 12px; text-align: left; overflow-wrap: anywhere; cursor: pointer; }
-.memory-phrase-option:hover, .memory-phrase-option[aria-selected="true"], .memory-phrase-option:focus-visible { background: #29392e; color: #ffe1a7; }

@@ -69,31 +69,34 @@
   ],
   "wall_memories": [
     {
+      "id": "previous_memory",
+      "x": 531,
+      "y": 630,
+      "width": 288,
+      "role": "missing_previous",
+      "text": "Там, позади... что-то осталось.",
+      "min_collected": 0,
+      "requires_all_previous": false
+    },
+    {
       "id": "route_memory_1",
-      "x": 1044,
-      "y": 578,
-      "align": "left",
+      "x": 1095,
+      "y": 594,
       "width": 144,
       "role": "regular",
-      "text_id": ""
+      "text": "Опять сначала.",
+      "min_collected": 0,
+      "requires_all_previous": false
     },
     {
       "id": "route_memory_2",
-      "x": 252,
-      "y": 566,
-      "align": "left",
+      "x": 295,
+      "y": 547,
       "width": 132,
       "role": "regular",
-      "text_id": ""
-    },
-    {
-      "id": "previous_memory",
-      "x": 420,
-      "y": 612,
-      "align": "left",
-      "width": 288,
-      "role": "missing_previous",
-      "text_id": ""
+      "text": "Я помню это место...",
+      "min_collected": 10,
+      "requires_all_previous": false
     }
   ]
 }

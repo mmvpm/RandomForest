@@ -1,6 +1,7 @@
 /// Saves persistent progress and audio preferences.
 function funSaveGameState() {
 	ini_open("save.ini")
+	funSaveWallMemoryReadState()
 	ini_write_real("general", "campaign_intro_seen", global.campaign_intro_seen)
 	ini_write_real("general", "special_level_completed", global.special_level_completed)
 
