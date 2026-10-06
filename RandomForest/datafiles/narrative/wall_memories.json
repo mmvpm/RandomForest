@@ -32,6 +32,9 @@
       190
     ]
   ],
+  "palette_by_theme": {
+    "night": [[184, 196, 218], [187, 186, 218], [176, 199, 220], [196, 204, 228]]
+  },
   "special": {
     "highlight_word": "осталось",
     "highlight_colour": [

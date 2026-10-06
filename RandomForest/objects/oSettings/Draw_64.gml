@@ -1,3 +1,5 @@
+/// Shares the background's current palette and crossfade weights.
+funApplyUiPresentation(funUiScenePresentation())
 /// Draws one settings row and caches its mouse bounds.
 function __funDrawSettingRow(
 	item_index,
@@ -21,7 +23,7 @@ function __funDrawSettingRow(
 	var x_left = x_pos - draw_width / 2
 	var y_top = y_pos - draw_height / 2
 
-	draw_sprite_stretched_ext(
+	funDrawUiPanel(
 		self.border_sprite,
 		0,
 		x_left,
@@ -29,7 +31,7 @@ function __funDrawSettingRow(
 		draw_width,
 		draw_height,
 		button_color,
-		1
+		1, self.theme_presentation
 	)
 	self.x_left_cached[item_index] = x_left
 	self.y_top_cached[item_index] = y_top

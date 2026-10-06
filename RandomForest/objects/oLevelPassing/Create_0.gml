@@ -1,3 +1,5 @@
+/// Initializes the shared theme roles without changing the menu layout.
+funApplyUiPresentation(funThemePresentation(funLevelTheme(global.playing_level)))
 self.items_count = 3
 self.strings = [
 	"Перейти дальше",
@@ -5,11 +7,7 @@ self.strings = [
 	"Выйти в меню",
 ]
 
-self.current_color = make_color_rgb(112, 211, 112) // light-green
-self.default_color = c_ltgray
 
-self.current_button_color = make_color_rgb(58, 110, 58) // dark-green
-self.default_button_color = c_ltgray
 
 self.current_scale = 1.0
 self.default_scale = 0.9

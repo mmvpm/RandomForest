@@ -44,6 +44,17 @@ function funWallMemoryInkBounds(anchor) {
     return bounds
 }
 
+/// Selects optional lighting colours without changing deterministic inscription identity.
+function funWallMemoryPalette(theme) {
+    var config = global.wall_memory_config
+    if (variable_struct_exists(config, "palette_by_theme")) {
+        if (variable_struct_exists(config.palette_by_theme, theme)) {
+            return variable_struct_get(config.palette_by_theme, theme)
+        }
+    }
+    return config.palette
+}
+
 /// Freezes full layout and colour before the first character is revealed.
 function funWallMemoryPrepareAnchor(anchor) {
     var previous_font = draw_get_font()
@@ -62,7 +73,7 @@ function funWallMemoryPrepareAnchor(anchor) {
         + (array_length(anchor.lines) - 1) * global.wall_memory_config.defaults.line_height
     anchor.memory_left = floor(anchor.x - anchor.surface_width / 2 + 0.5)
     anchor.memory_top = floor(anchor.y - anchor.surface_height / 2 + 0.5)
-    var palette = global.wall_memory_config.palette
+    var palette = funWallMemoryPalette(funCurrentLevelTheme())
     var rgb = palette[funWallMemoryHash(anchor.read_key) mod array_length(palette)]
     anchor.text_colour = make_colour_rgb(rgb[0], rgb[1], rgb[2])
     anchor.ready = anchor.glyph_count > 0

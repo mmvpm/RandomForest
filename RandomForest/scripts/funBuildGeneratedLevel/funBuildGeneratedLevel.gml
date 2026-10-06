@@ -313,9 +313,11 @@ function funBuildGeneratedLevel(styled_level) {
 	room_width = level_data.width * 12
 	room_height = level_data.height * 12
 
-	__funBuildGeneratedTileMap("Platforms", tsPlatforms, styled_level.platform_tiles, level_data.width, level_data.height)
-	__funBuildGeneratedTileMap("Grass", tsPlatforms, styled_level.grass_tiles, level_data.width, level_data.height)
-	__funBuildGeneratedTileMap("Spikes", tsSpikesExt, styled_level.spike_tiles, level_data.width * 2, level_data.height * 2)
+	var theme = funLevelTheme(global.playing_level)
+	var platforms = funThemeTileset(tsPlatforms, theme)
+	__funBuildGeneratedTileMap("Platforms", platforms, styled_level.platform_tiles, level_data.width, level_data.height)
+	__funBuildGeneratedTileMap("Grass", platforms, styled_level.grass_tiles, level_data.width, level_data.height)
+	__funBuildGeneratedTileMap("Spikes", funThemeTileset(tsSpikesExt, theme), styled_level.spike_tiles, level_data.width * 2, level_data.height * 2)
 
 	__funBuildGeneratedSolids(level_data)
 	__funBuildGeneratedJumpThroughs(level_data)

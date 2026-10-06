@@ -10,7 +10,7 @@ const pressed = new Set();
 const context = vm.createContext({
   global: { wall_memory_config: settings, wall_memory_read: {}, key_move_left: "left",
     key_move_right: "right", key_jump: "jump", key_fall: "drop" },
-  max: Math.max, min: Math.min, soundWallMemoryReveal: 1,
+  max: Math.max, min: Math.min, soundWallMemoryReveal: 1, funCurrentLevelTheme: () => "day",
   audio_play_sound() { cues++; }, funSaveGameState() { saves++; },
   variable_struct_exists: (object, key) => Object.hasOwn(object, key),
   variable_struct_get: (object, key) => object[key],
@@ -83,6 +83,9 @@ assert.equal(JSON.stringify(context.funWallMemoryWrap("abcdefghijk",32)),
     {measureText: text=>({width:context.string_width(text)})},"abcdefghijk",32)));
 const prepared = {text:"Хватит.\nСтой.", width:120,x:200,y:130,read_key:"21:memory_2"};
 context.funWallMemoryPrepareAnchor(prepared);
+assert.deepEqual(Array.from(context.funWallMemoryPalette("evening")), settings.palette);
+assert.deepEqual(Array.from(context.funWallMemoryPalette("morning")), settings.palette);
+assert.deepEqual(Array.from(context.funWallMemoryPalette("night")), settings.palette_by_theme.night);
 assert.equal(prepared.memory_left,140); assert.equal(prepared.memory_top,102);
 assert.equal(prepared.line_x[0],Math.floor((120-context.string_width("Хватит."))/2+.5));
 const dying = { ...prepared, phase:"typing", revealed:prepared.glyph_count-1,phase_elapsed:0, ready:true };

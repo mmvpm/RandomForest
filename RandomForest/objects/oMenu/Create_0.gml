@@ -1,3 +1,5 @@
+/// Initializes the shared theme roles without changing the menu layout.
+funApplyUiPresentation(funThemePresentation("day"))
 if (global.is_training_completed) {
 	self.items_count = 4
 	self.strings = [
@@ -31,11 +33,7 @@ else {
 	self.immediate_actions = [false, true, true, false]
 }
 
-self.current_color = make_color_rgb(112, 211, 112) // light-green
-self.default_color = c_ltgray
 
-self.current_button_color = make_color_rgb(58, 110, 58) // dark-green
-self.default_button_color = c_ltgray
 
 self.current_scale = 1.0
 self.default_scale = 0.9
@@ -51,8 +49,8 @@ self.top_item = 88
 
 self.current_index = 0
 
-// background
-self.back_surf = noone
+// Match the page opened by Continue, including after replaying earlier levels.
+funMenuBackgroundCreate(clamp(floor(global.current_level), 0, funGetLevelsCount() - 1))
 
 // fade in
 self.alpha_animation_time = 60
@@ -61,19 +59,6 @@ if (variable_global_exists("skip_menu_fade_once") and global.skip_menu_fade_once
 	self.alpha_animation_counter = 0
 	global.skip_menu_fade_once = false
 }
-
-// background pos
-var cam = view_camera[0]
-var cam_w = camera_get_view_width(cam)
-var cam_h = camera_get_view_height(cam)
-
-self.back_scale = 1.3
-self.back_max_x = (self.back_scale - 1) * cam_w
-self.back_max_y = (self.back_scale - 1) * cam_h
-self.back_x = random_range(0, back_max_x)
-self.back_y = random_range(0, back_max_y)
-self.back_speed_x = 0.1 * (2 * irandom_range(0, 1) - 1)
-self.back_speed_y = self.back_speed_x * cam_h / cam_w * (2 * irandom_range(0, 1) - 1)
 
 // mouse handle
 self.mouse_allowed_counter = 10 // frames

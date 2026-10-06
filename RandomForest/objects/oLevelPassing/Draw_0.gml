@@ -7,7 +7,7 @@ if (!surface_exists(self.back_surf)) {
 	
 	var tmp_surf = surface_create(cam_w, cam_h)
 	surface_set_target(tmp_surf)
-	draw_sprite(sBackground, 0, 0, 0)
+	draw_sprite(funThemeBackground(funLevelTheme(global.playing_level), false), 0, 0, 0)
 	surface_reset_target()
 	
 	self.back_surf = funBlurSurface(

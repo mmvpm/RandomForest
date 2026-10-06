@@ -1,20 +1,21 @@
 /// Draws an animated original-color star over its black inactive state.
-function funDrawStar(x_start, y_start, scale_start, x_end, y_end, scale_end, rotation, t) {
-	draw_sprite_ext(sStar, 0, x_end, y_end, scale_end, scale_end, rotation, make_color_rgb(72, 72, 72), 0.9)
+function funDrawStar(x_start, y_start, scale_start, x_end, y_end, scale_end, rotation, t, presentation = undefined) {
+    if (presentation == undefined) presentation = funThemePresentation("day")
+	funDrawUiSprite(sStar, 0, x_end, y_end, scale_end, scale_end, rotation, presentation.palette.inactive, 0.9, presentation)
 
 	if (t > 0) {
 		var x_pos = lerp(x_start, x_end, t)
 		var y_pos = lerp(y_start, y_end, t)
 		var scale = lerp(scale_start, scale_end, t)
 
-		draw_sprite_ext(
-			sStar, 0, x_pos, y_pos, scale, scale, rotation, c_white, 1.0
+		funDrawUiSprite(
+			sStar, 0, x_pos, y_pos, scale, scale, rotation, c_white, 1.0, presentation
 		)
 	}
 }
 
 /// Draws three compact record stars along the bottom of one level tile.
-function funDrawLevelStars(center_x, center_y, tile_size, earned_stars) {
+function funDrawLevelStars(center_x, center_y, tile_size, earned_stars, presentation = undefined) {
 	var star_size = 9
 	var star_scale = star_size / sprite_get_width(sStar)
 	var center_star_y = center_y + tile_size / 2 - star_size / 2
@@ -37,7 +38,7 @@ function funDrawLevelStars(center_x, center_y, tile_size, earned_stars) {
 			star_y,
 			star_scale,
 			0,
-			is_earned
+			is_earned, presentation
 		)
 	}
 }

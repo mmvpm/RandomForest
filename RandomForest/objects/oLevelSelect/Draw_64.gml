@@ -1,3 +1,5 @@
+/// Shares the background's current palette and crossfade weights.
+funApplyUiPresentation(funUiScenePresentation())
 // Draws a menu firefly as integer-aligned game pixels behind tile content.
 function __funDrawLevelOrangeFirefly(
 	firefly,
@@ -107,11 +109,11 @@ function __funDrawLevelSelectButton(
 	var button_height = height * ui_scale
 	var x_left = x_pos - button_width / 2
 	var y_top = y_pos - button_height / 2
-	draw_sprite_stretched_ext(
+	funDrawUiPanel(
 		self.border_sprite, 0,
 		x_left, y_top,
 		button_width, button_height,
-		button_color, 1
+		button_color, 1, self.theme_presentation
 	)
 	if (has_orange_firefly) {
 		__funDrawLevelOrangeFirefly(
@@ -154,7 +156,7 @@ function __funDrawOrangeFireflyProgress(center_x, earned, maximum) {
 	var icon_x = content_left + icon_width / 2
 	var text_x = content_left + icon_width + content_gap
 
-	draw_sprite_ext(
+	funDrawUiSprite(
 		sAchievementMystery,
 		0,
 		icon_x,
@@ -163,15 +165,15 @@ function __funDrawOrangeFireflyProgress(center_x, earned, maximum) {
 		icon_scale,
 		0,
 		self.orange_firefly_menu_color,
-		1
+		1, self.theme_presentation
 	)
-	draw_set_color(c_ltgray)
+	draw_set_color(self.default_color)
 	draw_set_halign(fa_left)
 	draw_text(text_x, 68, progress_text)
 
 	var meter_width = 48
 	var meter_x = center_x - meter_width / 2
-	draw_set_color(make_color_rgb(72, 72, 72))
+	draw_set_color(self.theme_presentation.palette.inactive)
 	draw_rectangle(meter_x, 78, meter_x + meter_width, 79, false)
 	if (maximum > 0 and earned > 0) {
 		draw_set_color(self.orange_firefly_menu_color)
@@ -203,7 +205,7 @@ function __funDrawPageProgress(
 	var icon_x = content_left + icon_width / 2
 	var text_x = content_left + icon_width + content_gap
 	if (is_star) {
-		draw_sprite_ext(
+		funDrawUiSprite(
 			icon_sprite,
 			0,
 			icon_x,
@@ -212,8 +214,8 @@ function __funDrawPageProgress(
 			icon_scale,
 			0,
 			c_white,
-			1
-		)
+			1, self.theme_presentation
+	)
 	}
 	else {
 		funDrawAchievementIcon(
@@ -221,17 +223,17 @@ function __funDrawPageProgress(
 			icon_x,
 			68,
 			true,
-			icon_scale
-		)
+			icon_scale, 1, self.theme_presentation
+	)
 	}
 
-	draw_set_color(c_ltgray)
+	draw_set_color(self.default_color)
 	draw_set_halign(fa_left)
 	draw_text(text_x, 68, progress_text)
 
 	var meter_width = 48
 	var meter_x = center_x - meter_width / 2
-	draw_set_color(make_color_rgb(72, 72, 72))
+	draw_set_color(self.theme_presentation.palette.inactive)
 	draw_rectangle(meter_x, 78, meter_x + meter_width, 79, false)
 	if (maximum > 0 and earned > 0) {
 		draw_set_color(self.current_color)
@@ -337,14 +339,15 @@ for (var i = 0; i < visible_count; ++i) {
 			level_index,
 			self.level_star_times[level_index]
 		)
-		funDrawLevelStars(x_pos, y_pos, button_size, earned_stars)
+		funDrawLevelStars(x_pos, y_pos, button_size, earned_stars, self.theme_presentation
+	)
 		funDrawLevelAchievementIcons(
 			x_pos,
 			y_pos,
 			button_size,
 			global.enemy_clear_records[level_index],
-			global.flawless_records[level_index]
-		)
+			global.flawless_records[level_index], self.theme_presentation
+	)
 	}
 }
 

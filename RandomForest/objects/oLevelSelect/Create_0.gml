@@ -1,3 +1,5 @@
+/// Initializes the shared theme roles without changing the menu layout.
+funApplyUiPresentation(funThemePresentation("day"))
 // Load the complete level sequence and generated star metadata once.
 var catalog = funLoadChallengeCatalog()
 self.generated_paths = catalog.levels
@@ -32,12 +34,6 @@ self.next_index = self.page_size + 2
 self.buttons_count = self.page_size + 3
 
 // Button style shared with the main menu.
-self.current_color = make_color_rgb(112, 211, 112) // light-green
-self.default_color = c_ltgray
-self.locked_color = c_dkgray
-self.current_button_color = make_color_rgb(58, 110, 58) // dark-green
-self.default_button_color = c_ltgray
-self.locked_button_color = make_color_rgb(72, 72, 72)
 self.orange_firefly_menu_color = ORANGE_FIREFLY_MENU_COLOUR
 self.current_scale = 1.0
 self.default_scale = 0.9
@@ -107,18 +103,8 @@ for (var firefly_level = 0; firefly_level < self.levels_count; ++firefly_level) 
 	}
 }
 
-// Blurred moving background.
-self.back_surf = noone
-var cam = view_camera[0]
-var cam_w = camera_get_view_width(cam)
-var cam_h = camera_get_view_height(cam)
-self.back_scale = 1.3
-self.back_max_x = (self.back_scale - 1) * cam_w
-self.back_max_y = (self.back_scale - 1) * cam_h
-self.back_x = random_range(0, self.back_max_x)
-self.back_y = random_range(0, self.back_max_y)
-self.back_speed_x = 0.1 * (2 * irandom_range(0, 1) - 1)
-self.back_speed_y = self.back_speed_x * cam_h / cam_w * (2 * irandom_range(0, 1) - 1)
+// Restore the same moving view shown behind the main menu.
+funMenuBackgroundCreate(selected_level)
 
 // Mouse hit boxes are filled during Draw GUI.
 self.mouse_allowed_counter = 10

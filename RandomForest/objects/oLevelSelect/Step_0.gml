@@ -64,6 +64,7 @@ function __funOpenLevelPage(page_index) {
 		? 0
 		: self.previous_index
 	)
+	funMenuBackgroundSetTheme(funLevelTheme(first_level))
 	audio_play_sound(soundMenuButton, 0, false)
 }
 
@@ -81,6 +82,7 @@ function __funActivateLevelButton(button_index) {
 		return
 	}
 	if (button_index == self.exit_index) {
+		global.menu_background_handoff = true
 		global.skip_menu_fade_once = true
 		room_goto(rMenu)
 		return
@@ -378,15 +380,5 @@ else if (self.mouse_allowed_counter == 0) {
 	}
 }
 
-// Update the moving background.
-var next_x = self.back_x + self.back_speed_x
-self.back_x = clamp(next_x, 0, self.back_max_x)
-if (next_x != self.back_x) {
-	self.back_speed_x *= -1
-}
-
-var next_y = self.back_y + self.back_speed_y
-self.back_y = clamp(next_y, 0, self.back_max_y)
-if (next_y != self.back_y) {
-	self.back_speed_y *= -1
-}
+// Keep camera movement independent of the page's lighting transition.
+funMenuBackgroundStep()

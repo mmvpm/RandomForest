@@ -23,7 +23,7 @@ function __funDrawResultBadgeContent(
 	var content_left = x_pos + (width - content_width) / 2
 	var content_y = y_pos + height / 2
 
-	draw_sprite_ext(
+	funDrawUiSprite(
 		icon_sprite,
 		0,
 		content_left + icon_width / 2,
@@ -32,7 +32,7 @@ function __funDrawResultBadgeContent(
 		content_scale,
 		0,
 		icon_color,
-		alpha
+		alpha, self.theme_presentation
 	)
 	draw_set_halign(fa_left)
 	draw_set_valign(fa_middle)
@@ -61,15 +61,15 @@ function __funDrawResultBadge(
 	earned,
 	reveal_t
 ) {
-	draw_sprite_stretched_ext(
+	funDrawUiPanel(
 		sBorder4,
 		0,
 		x_pos,
 		y_pos,
 		width,
 		height,
-		make_color_rgb(72, 72, 72),
-		1
+		self.theme_presentation.palette.inactive,
+		1, self.theme_presentation
 	)
 	__funDrawResultBadgeContent(
 		x_pos,
@@ -99,11 +99,11 @@ function __funDrawResultBadge(
 		- 4 * (1 - reveal_t)
 	)
 	var border_color = merge_color(
-		c_ltgray,
-		make_color_rgb(58, 110, 58),
+		self.theme_presentation.palette.border,
+		self.theme_presentation.palette.selected_border,
 		1 - reveal_t
 	)
-	draw_sprite_stretched_ext(
+	funDrawUiPanel(
 		sBorder4,
 		0,
 		draw_x,
@@ -111,7 +111,7 @@ function __funDrawResultBadge(
 		draw_width,
 		draw_height,
 		border_color,
-		reveal_t
+		reveal_t, self.theme_presentation
 	)
 	__funDrawResultBadgeContent(
 		draw_x,
@@ -120,8 +120,8 @@ function __funDrawResultBadge(
 		draw_height,
 		icon_sprite,
 		label,
-		make_color_rgb(112, 211, 112),
-		c_ltgray,
+		self.theme_presentation.palette.accent,
+		self.default_color,
 		label_font,
 		badge_scale,
 		reveal_t
@@ -141,7 +141,7 @@ function __funDrawMissingStarTime(star_index, star_x, star_y) {
 	draw_set_font(global.default_font_12)
 	draw_set_halign(fa_center)
 	draw_set_valign(fa_middle)
-	draw_set_color(c_ltgray)
+	draw_set_color(self.default_color)
 	draw_text(
 		star_x + 10,
 		star_y - 11,
@@ -186,11 +186,11 @@ for (var i = 0; i < self.items_count; i++) {
 	var x_left = x_pos - x_width / 2
 	var y_up   = y_pos + 1.5 - y_height / 2
 
-	draw_sprite_stretched_ext(
+	funDrawUiPanel(
 		self.border_sprite, 0,
 		x_left, y_up,
 		x_width, y_height,
-		button_color, 1
+		button_color, 1, self.theme_presentation
 	)
 
 	// cache for mouse
@@ -244,12 +244,12 @@ draw_set_color(self.default_color)
 var time_font = global.default_font_24
 draw_set_font(time_font)
 
-draw_sprite_stretched_ext(
+funDrawUiPanel(
 	sBorder3, 0,
 	0, 0,
 	container_width, container_height,
-	c_white, 1
-)
+	c_white, 1, self.theme_presentation
+	)
 
 draw_set_halign(fa_left)
 draw_set_valign(fa_bottom)
@@ -323,7 +323,7 @@ for (var i = 0; i < star_count; i++) {
 		star_y,
 		result_star_scale,
 		0 * (1 - i),
-		t_star
+		t_star, self.theme_presentation
 	)
 	__funDrawMissingStarTime(i, star_x, star_y)
 }

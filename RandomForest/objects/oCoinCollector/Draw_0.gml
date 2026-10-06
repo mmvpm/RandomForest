@@ -15,4 +15,4 @@ var score_to_show = string(self.coins_collected) + "/" + string(self.coins_all)
 draw_text_ext(self.x + 12 + 6, self.y + 6, score_to_show, 0, 12)
 
 // draw myself
-draw_self()
+funDrawThemeEffectSelf()

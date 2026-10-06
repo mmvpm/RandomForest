@@ -1,12 +1,10 @@
+/// Initializes the shared theme roles without changing the menu layout.
+funApplyUiPresentation(funUiScenePresentation())
 /// @description Initializes the main-menu audio settings screen.
 
 self.items_count = 3
 self.current_index = 0
 
-self.current_color = make_color_rgb(112, 211, 112)
-self.default_color = c_ltgray
-self.current_button_color = make_color_rgb(58, 110, 58)
-self.default_button_color = c_ltgray
 self.border_sprite = sBorder4
 self.text_scale = 20 / 24
 

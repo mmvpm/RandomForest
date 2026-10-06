@@ -14,5 +14,5 @@ for (var heart_index = 0; heart_index < oPlayer.health; ++heart_index) {
 	current_bar_x += camera_get_view_x(view_camera[0])
 	current_bar_y += camera_get_view_y(view_camera[0])
 
-	draw_sprite(sHealthBar, 0, current_bar_x, current_bar_y)
+	draw_sprite(funThemeSprite(sHealthBar, funVisualEffectTheme()), 0, current_bar_x, current_bar_y)
 }

@@ -1,5 +1,6 @@
 // draw c key
-draw_sprite_ext(sKeyC, 0, self.c_key_start_x, self.c_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+funDrawUiSprite(sKeyC, 0, self.c_key_start_x, self.c_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha, funUiScenePresentation()
+	)
 
 // set up font for controls
 draw_set_halign(fa_left)

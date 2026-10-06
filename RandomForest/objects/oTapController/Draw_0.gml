@@ -13,10 +13,10 @@ var countdown_index = floor(inverse_counter / self.timeout_counter_max * frames_
 
 var is_diagonal = self.current_angle % 10 == 5
 if (is_diagonal) {
-	draw_sprite_ext(sTapArrowDiag, 0, self.x, self.y, 1, 1, self.current_angle - 45, c_white, 1)
-	draw_sprite_ext(sTapCountdownDiag, countdown_index, self.x, self.y, 1, 1, self.current_angle - 45, c_white, 1)
+	draw_sprite_ext(funThemeSprite(sTapArrowDiag, funVisualEffectTheme()), 0, self.x, self.y, 1, 1, self.current_angle - 45, c_white, 1)
+	draw_sprite_ext(funThemeSprite(sTapCountdownDiag, funVisualEffectTheme()), countdown_index, self.x, self.y, 1, 1, self.current_angle - 45, c_white, 1)
 }
 else {
-	draw_sprite_ext(sTapArrow, 0, self.x, self.y, 1, 1, self.current_angle, c_white, 1)
-	draw_sprite_ext(sTapCountdown, countdown_index, self.x, self.y, 1, 1, self.current_angle, c_white, 1)
+	draw_sprite_ext(funThemeSprite(sTapArrow, funVisualEffectTheme()), 0, self.x, self.y, 1, 1, self.current_angle, c_white, 1)
+	draw_sprite_ext(funThemeSprite(sTapCountdown, funVisualEffectTheme()), countdown_index, self.x, self.y, 1, 1, self.current_angle, c_white, 1)
 }

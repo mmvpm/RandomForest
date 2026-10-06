@@ -10,34 +10,41 @@ var arrow_keys_start_y = self.start_y
 
 var arrow_up_x = arrow_keys_start_x + self.key_width + self.key_shift
 var arrow_up_y = arrow_keys_start_y
-draw_sprite_ext(sKeyArrowUp, 0, arrow_up_x, arrow_up_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+funDrawUiSprite(sKeyArrowUp, 0, arrow_up_x, arrow_up_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha, self.theme_presentation
+	)
 
 var arrow_left_x = arrow_keys_start_x
 var arrow_left_y = arrow_keys_start_y + self.key_height + self.key_shift
-draw_sprite_ext(sKeyArrowLeft, 0, arrow_left_x, arrow_left_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+funDrawUiSprite(sKeyArrowLeft, 0, arrow_left_x, arrow_left_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha, self.theme_presentation
+	)
 
 var arrow_down_x = arrow_keys_start_x + self.key_width + self.key_shift
 var arrow_down_y = arrow_keys_start_y + self.key_height + self.key_shift
-draw_sprite_ext(sKeyArrowDown, 0, arrow_down_x, arrow_down_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+funDrawUiSprite(sKeyArrowDown, 0, arrow_down_x, arrow_down_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha, self.theme_presentation
+	)
 
 var arrow_right_x = arrow_keys_start_x + 2 * (self.key_width + self.key_shift)
 var arrow_right_y = arrow_keys_start_y + self.key_height + self.key_shift
-draw_sprite_ext(sKeyArrowRight, 0, arrow_right_x, arrow_right_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+funDrawUiSprite(sKeyArrowRight, 0, arrow_right_x, arrow_right_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha, self.theme_presentation
+	)
 
 // draw X key
 var x_key_start_x = arrow_keys_start_x + self.key_width + self.key_shift
 var x_key_start_y = arrow_keys_start_y + 2 * (self.key_height + self.key_shift) + self.line_interval
-draw_sprite_ext(sKeyX, 0, x_key_start_x, x_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+funDrawUiSprite(sKeyX, 0, x_key_start_x, x_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha, self.theme_presentation
+	)
 
 // draw C key
 var c_key_start_x = x_key_start_x
 var c_key_start_y = x_key_start_y + (self.key_height + self.key_shift) + self.line_interval
-draw_sprite_ext(sKeyC, 0, c_key_start_x, c_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+funDrawUiSprite(sKeyC, 0, c_key_start_x, c_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha, self.theme_presentation
+	)
 
 // draw F key (fullscreen)
 var f_key_start_x = c_key_start_x
 var f_key_start_y = c_key_start_y + (self.key_height + self.key_shift) + self.line_interval
-draw_sprite_ext(sKeyF, 0, f_key_start_x, f_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+funDrawUiSprite(sKeyF, 0, f_key_start_x, f_key_start_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha, self.theme_presentation
+	)
 
 
 // set up font for controls
@@ -72,7 +79,8 @@ draw_text_transformed_color(f_key_text_x, f_key_text_y, self.fullscreen_text, se
 if (self.show_stomp) {
     var stomp_y = f_key_start_y + self.key_height + self.key_shift + self.line_interval
     var space_x = x_key_start_x + (self.key_width - sprite_get_width(sKeySpace) * self.key_scale) / 2
-    draw_sprite_ext(sKeySpace, 0, space_x, stomp_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha)
+    funDrawUiSprite(sKeySpace, 0, space_x, stomp_y, self.key_scale, self.key_scale, 0, c_white, self.sprite_alpha, self.theme_presentation
+	)
     draw_text_transformed_color(x_key_text_x, stomp_y + self.magic_shift, self.stomp_key_text,
         self.text_scale_20, self.text_scale_20, 0, c_white, c_white, c_white, c_white, self.text_alpha)
 }

@@ -11,8 +11,9 @@ var text_y = self.panel_y + 34
 gpu_set_tex_filter(false)
 draw_set_alpha(1)
 draw_set_color(c_white)
-draw_sprite_stretched_ext(sBorder4, 0, self.panel_x, self.panel_y,
-	self.panel_width, panel_height, make_color_rgb(140, 140, 140), 1)
+var presentation = funUiScenePresentation()
+funDrawUiPanel(sBorder4, 0, self.panel_x, self.panel_y,
+	self.panel_width, panel_height, presentation.palette.panel_muted, 1, presentation)
 draw_set_font(global.dialogue_font_12)
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
@@ -27,7 +28,7 @@ for (var i = 0; i < floor(self.revealed); ++i) {
 }
 
 draw_set_halign(fa_right)
-draw_set_color(make_color_rgb(140, 140, 140))
+draw_set_color(presentation.palette.panel_muted)
 var hint = self.revealed < count ? "Enter: показать текст" : "Enter: дальше"
 draw_text(self.panel_x + self.panel_width - self.padding,
 	self.panel_y + panel_height - 24, hint)

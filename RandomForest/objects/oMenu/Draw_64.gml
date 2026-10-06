@@ -1,3 +1,5 @@
+/// Shares the background's current palette and crossfade weights.
+funApplyUiPresentation(funUiScenePresentation())
 gpu_set_tex_filter(false)
 
 // Settings replaces the menu controls while keeping its moving background.
@@ -42,11 +44,11 @@ for (var i = 0; i < self.items_count; i++) {
 	var x_left = x_pos - x_width / 2
 	var y_up   = y_pos + 1.5 - y_height / 2
 
-	draw_sprite_stretched_ext(
+	funDrawUiPanel(
 		self.border_sprite, 0,
 		x_left, y_up,
 		x_width, y_height,
-		button_color, cur_alpha
+		button_color, cur_alpha, self.theme_presentation
 	)
 
 	// cache for mouse

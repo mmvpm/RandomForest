@@ -1,4 +1,6 @@
 // upload font
+// Capture before the host is deactivated; the underlying scene is frozen too.
+self.theme_presentation = funUiScenePresentation()
 self.text_scale_20 = 20 / 24
 
 // texts

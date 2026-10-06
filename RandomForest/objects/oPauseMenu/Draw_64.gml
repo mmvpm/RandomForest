@@ -27,12 +27,12 @@ if (self.paused) {
 		var x_left = x_pos - x_width / 2
 		var y_up   = y_pos + 1.5 - y_height / 2
 
-		draw_sprite_stretched_ext(
+		funDrawUiPanel(
 			self.border_sprite, 0,
 			x_left, y_up,
 			x_width, y_height,
-			button_color, 1
-		)
+			button_color, 1, self.theme_presentation
+	)
 
 		// cache for mouse
 		self.x_left_cached[i] = x_left

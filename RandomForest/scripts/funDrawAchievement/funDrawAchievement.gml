@@ -5,13 +5,15 @@ function funDrawAchievementIcon(
 	y_pos,
 	earned,
 	scale = 1,
-	alpha = 1
+	alpha = 1,
+    presentation = undefined
 ) {
+    if (presentation == undefined) presentation = funThemePresentation("day")
 	var icon_color = earned
-		? make_color_rgb(112, 211, 112)
-		: make_color_rgb(72, 72, 72)
+		? presentation.palette.accent
+		: presentation.palette.inactive
 	var icon_alpha = earned ? alpha : 0.9 * alpha
-	draw_sprite_ext(
+	funDrawUiSprite(
 		sprite_asset,
 		0,
 		x_pos,
@@ -20,7 +22,7 @@ function funDrawAchievementIcon(
 		scale,
 		0,
 		icon_color,
-		icon_alpha
+		icon_alpha, presentation
 	)
 }
 
@@ -30,7 +32,8 @@ function funDrawLevelAchievementIcons(
 	center_y,
 	tile_size,
 	enemy_clear_earned,
-	flawless_earned
+	flawless_earned,
+    presentation = undefined
 ) {
 	var icon_scale = 0.625
 	var icon_y = center_y - tile_size / 2 + 7
@@ -40,13 +43,13 @@ function funDrawLevelAchievementIcons(
 		center_x - icon_offset_x,
 		icon_y,
 		enemy_clear_earned,
-		icon_scale
+		icon_scale, 1, presentation
 	)
 	funDrawAchievementIcon(
 		sAchievementFlawless,
 		center_x + icon_offset_x,
 		icon_y,
 		flawless_earned,
-		icon_scale
+		icon_scale, 1, presentation
 	)
 }

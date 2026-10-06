@@ -8,6 +8,7 @@ function funMenuShowControls() {
 
 // Opens the level selection screen and keeps the menu music playing.
 function funMenuOpenLevelSelect() {
+	global.menu_background_handoff = true
 	room_goto(rLevelSelect)
 }
 
