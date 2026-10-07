@@ -1,4 +1,4 @@
-/// Defines visual roles once; optional evening/morning roles inherit exact day values.
+/// Defines approved lighting roles; omitted future roles inherit exact day values.
 function __funInitThemePalettes() {
     var day = {
         accent: make_color_rgb(112, 211, 112), selected_border: make_color_rgb(58, 110, 58),
@@ -15,8 +15,22 @@ function __funInitThemePalettes() {
             locked_border: make_color_rgb(43, 47, 54), panel_muted: make_color_rgb(136, 143, 153),
             movement_fx: make_color_rgb(179, 184, 240)
         },
-        // Add only changed roles here when their artwork becomes available.
-        evening: {}, morning: {}
+        evening: {
+            // Blue Hour environment with EV2 light/shadow movement accents.
+            accent: make_color_rgb(185, 189, 202), selected_border: make_color_rgb(154, 157, 168),
+            text: make_color_rgb(181, 185, 187), border: make_color_rgb(113, 115, 123),
+            locked_text: make_color_rgb(110, 116, 120), inactive: make_color_rgb(48, 53, 59),
+            locked_border: make_color_rgb(48, 53, 59), panel_muted: make_color_rgb(147, 153, 153),
+            movement_fx: make_color_rgb(193, 181, 210)
+        },
+        morning: {
+            // Golden Mist environment with MO1 diffuse movement accents.
+            accent: make_color_rgb(218, 211, 177), selected_border: make_color_rgb(181, 175, 147),
+            text: make_color_rgb(181, 185, 187), border: make_color_rgb(133, 129, 108),
+            locked_text: make_color_rgb(110, 116, 120), inactive: make_color_rgb(48, 53, 59),
+            locked_border: make_color_rgb(48, 53, 59), panel_muted: make_color_rgb(147, 153, 153),
+            movement_fx: make_color_rgb(187, 211, 147)
+        }
     }
     global.theme_palettes = {day: day}
     var names = ["evening", "night", "morning"]

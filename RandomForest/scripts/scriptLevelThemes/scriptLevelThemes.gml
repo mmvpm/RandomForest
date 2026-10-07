@@ -66,9 +66,10 @@ function funApplyRoomTheme(theme) {
 }
 
 /// Draws themed frames while preserving original masks, frame events and blends.
-function funDrawThemedSelf(scale_x = 1, scale_y = 1) {
+function funDrawThemedSelf(scale_x = 1, scale_y = 1, theme = undefined) {
+    if (theme == undefined) theme = funCurrentLevelTheme()
     draw_sprite_ext(
-        funThemeSprite(self.sprite_index, funCurrentLevelTheme()), self.image_index,
+        funThemeSprite(self.sprite_index, theme), self.image_index,
         self.x, self.y, self.image_xscale * scale_x, self.image_yscale * scale_y,
         self.image_angle, self.image_blend, self.image_alpha
     )

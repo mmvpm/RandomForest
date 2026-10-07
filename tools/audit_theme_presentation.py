@@ -27,13 +27,17 @@ def main():
         "oCoinCollector/Draw_0.gml": "funDrawThemeEffectSelf",
         "oTapController/Draw_0.gml": "funThemeSprite(sTapArrow",
         "oTraining/Draw_64.gml": "funDrawUiSprite",
+        "oPlayer/Draw_0.gml": "funDrawThemedSelf(1, 1, funVisualEffectTheme())",
+        "oPlayerTapSword/Draw_0.gml": "funDrawThemedSelf(1, 1, funVisualEffectTheme())",
+        "oPlayerTransformFx/Draw_0.gml": "funThemeSprite(self.fx_sprite, funVisualEffectTheme())",
     }
     for path, expected in optional.items():
         assert expected in (PROJECT / "objects" / path).read_text(), path
-    # All original non-background PNG and metadata stay byte-for-byte untouched.
+    # Only approved placeholder backgrounds and the day-copy dark sword may change.
     originals = set(subprocess.check_output(["git", "ls-tree", "-r", "--name-only", "HEAD", "RandomForest/sprites"], cwd=ROOT, text=True).splitlines())
     changed = subprocess.check_output(["git", "diff", "HEAD", "--name-only", "--", "RandomForest/sprites"], cwd=ROOT, text=True)
-    assert all("/sBackground/" in path or "/sBackground_x13/" in path
+    replaceable = {"sBackgroundEvening", "sBackgroundEvening_x13", "sBackgroundMorning", "sBackgroundMorning_x13", "sPlayerDarkTapSword"}
+    assert all(path.split("/")[2] in replaceable and path.endswith(".png")
                for path in changed.splitlines() if path in originals), changed
     print("PASS: UI, rewards, magic, movement, pointer and optional neutral sprites; no green UI literals; original sprites and semantic colours preserved.")
 

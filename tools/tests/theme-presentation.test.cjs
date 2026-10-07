@@ -63,7 +63,15 @@ assert.equal(night.locked_border, rgb(43,47,54));
 assert.equal(night.inactive, rgb(44,49,58));
 assert.equal(night.panel_muted, rgb(136,143,153));
 assert.equal(night.movement_fx, rgb(179,184,240));
-for (const t of ["evening","morning"]) assert.deepEqual({...context.funThemePalette(t)}, {...day});
+const selected = {
+  evening: {accent:[185,189,202],selected_border:[154,157,168],text:[181,185,187],border:[113,115,123],
+    locked_text:[110,116,120],inactive:[48,53,59],locked_border:[48,53,59],panel_muted:[147,153,153],movement_fx:[193,181,210]},
+  morning: {accent:[218,211,177],selected_border:[181,175,147],text:[181,185,187],border:[133,129,108],
+    locked_text:[110,116,120],inactive:[48,53,59],locked_border:[48,53,59],panel_muted:[147,153,153],movement_fx:[187,211,147]}
+};
+for (const [theme, roles] of Object.entries(selected)) {
+  for (const [role, value] of Object.entries(roles)) assert.deepEqual(channels(context.funThemePalette(theme)[role]), value);
+}
 const halfway = context.funThemePresentation("night", [0.5,0,0.5,0]);
 assert.deepEqual(channels(halfway.palette.accent), [145,190,151]);
 
@@ -113,4 +121,10 @@ draws=[]; context.funDrawThemeEffectSelf();
 assert.equal(draws[0].sprite,"sTeleportStartNight");
 assert.equal(draws[0].frame,2.5); assert.equal(draws[0].sx,-1);
 assert.equal(context.self.sprite_index,"sTeleportStart"); assert.equal(context.self.mask_index,7);
-console.log("PASS: original day roles, approved Heather palette, exact alpha crossfades, GPU restoration, scene/skin context, future UI sprites/colours and effect masks");
+assets.add("sTeleportStartEvening");
+context.self.image_angle = 35;
+draws=[]; context.funDrawThemedSelf(1,1,"evening");
+assert.equal(draws[0].sprite,"sTeleportStartEvening");
+assert.equal(draws[0].angle,35); assert.equal(draws[0].alpha,0.8);
+assert.equal(context.self.sprite_index,"sTeleportStart"); assert.equal(context.self.mask_index,7);
+console.log("PASS: original day roles, approved Heather/E4/M4 and EV2/MO1 accents, exact alpha crossfades, GPU restoration, scene/skin context, optional variants and unchanged draw masks");

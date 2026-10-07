@@ -13,6 +13,7 @@ def main():
     """Copy the game, disable saving and add a self-terminating visual test controller."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--presentation", action="store_true", help="Test palette transitions, effects and isolated future variants")
+    parser.add_argument("--lighting", action="store_true", help="Test approved evening/morning art and the actual night sword")
     parser.add_argument("--work-dir", type=Path, default=ROOT / ".temp/theme_smoke",
                         help="Keep this run's fixture and screenshots in a separate directory")
     args = parser.parse_args()
@@ -28,9 +29,11 @@ def main():
         "isDnD": False, "parent": {"name": "Scripts", "path": "folders/Scripts.yy"},
         "resourceType": "GMScript", "resourceVersion": "2.0"})
     shutil.copyfile(ROOT / "tools/theme_smoke.gml", project / "scripts" / script / (script + ".gml"))
-    if args.presentation:
+    if args.presentation or args.lighting:
         script_path = project / "scripts" / script / (script + ".gml")
         script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/theme_presentation_smoke.gml").read_text())
+    if args.lighting:
+        script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/lighting_smoke.gml").read_text())
     name = "oThemeSmoke"
     obj = read_resource(project / "objects/oDebug/oDebug.yy")
     obj.update(name=name, persistent=True, visible=True, spriteId=None, spriteMaskId=None, parentObjectId=None)
@@ -40,7 +43,7 @@ def main():
                          "resourceType": "GMEvent", "resourceVersion": "2.0"}
                         for kind, number in [(0, 0), (3, 0), (8, 75)]]
     write_resource(project / "objects" / name / (name + ".yy"), obj)
-    step = "funThemePresentationSmokeStep" if args.presentation else "funThemeSmokeStep"
+    step = "funLightingSmokeStep" if args.lighting else "funThemePresentationSmokeStep" if args.presentation else "funThemeSmokeStep"
     for event, method in [("Create_0", "funThemeSmokeCreate"), ("Step_0", step), ("Draw_75", "funThemeSmokeDraw")]:
         setup = "self.output_directory = " + json.dumps(str(work) + "/") + "\n" if event == "Create_0" else ""
         (project / "objects" / name / (event + ".gml")).write_text("/// Executes the isolated theme check.\n" + setup + method + "()\n")
@@ -56,8 +59,12 @@ def main():
         for base in ("sStar", "sAirBurst", "sPointer"):
             for suffix in ("Evening", "Morning"):
                 target = base + suffix
+                if (project / f"sprites/{target}/{target}.yy").exists():
+                    continue  # Never replace approved production art with a future-asset fixture.
                 theme_assets.clone_sprite(base, target, theme_assets.sprite_frames(base + "Night"))
                 resources.append(("sprites", target))
+    if args.presentation or args.lighting:
+        # Reveal the not-yet-authored final menu page in this isolated copy only.
         catalog_path = project / "datafiles/challenge_levels/catalog.json"
         catalog = read_resource(catalog_path)
         catalog["levels"] += [catalog["levels"][-1]] * (31 - len(catalog["levels"]))

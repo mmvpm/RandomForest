@@ -50,8 +50,6 @@ def main():
         for name in names:
             assert name + "Night" in entries
             count += audit_sprite(name, name + "Night")
-            assert not (PROJECT / "sprites" / (name + "Evening")).exists()
-            assert not (PROJECT / "sprites" / (name + "Morning")).exists()
     for name in ("tsPlatforms", "tsSpikes", "tsSpikesExt"):
         old = read_resource(PROJECT / "tilesets" / name / (name + ".yy"))
         target = name + "Night"
@@ -72,9 +70,9 @@ def main():
             assert name in entries
             assert sprite_frames(name)[0].size == size
             audit_sprite("sBackground" + postfix, name)
-    for postfix in ("", "_x13"):
-        assert equal_pixels(sprite_frames("sBackground" + postfix)[0],
-                            sprite_frames("sBackgroundMorning" + postfix)[0]), "morning day-copy"
+    for suffix in ("Evening", "Morning"):
+        assert not equal_pixels(sprite_frames("sBackground")[0],
+                                sprite_frames("sBackground" + suffix)[0]), "day-copy placeholder"
     for name in ("oSkeleton", "oBungalo", "oSlimeBloom", "oSkeletonBloom", "oBungaloBloom"):
         obj = read_resource(PROJECT / "objects" / name / (name + ".yy"))
         assert any(e["eventType"] == 8 and e["eventNum"] == 0 for e in obj["eventList"])

@@ -1,0 +1,77 @@
+{
+  "$GMTileSet": "v1",
+  "%Name": "tsPlatformsMorning",
+  "autoTileSets": [
+    {
+      "$GMAutoTileSet": "",
+      "%Name": "autotile16_1",
+      "closed_edge": false,
+      "name": "autotile16_1",
+      "resourceType": "GMAutoTileSet",
+      "resourceVersion": "2.0",
+      "tiles": [
+        10,
+        39,
+        38,
+        1,
+        29,
+        31,
+        0,
+        19,
+        28,
+        0,
+        21,
+        18,
+        11,
+        9,
+        8,
+        0
+      ]
+    }
+  ],
+  "macroPageTiles": {
+    "SerialiseHeight": 31,
+    "SerialiseWidth": 12,
+    "TileCompressedData": [
+      -358,
+      0,
+      2,
+      60,
+      61,
+      -10,
+      0,
+      2,
+      70,
+      71
+    ],
+    "TileDataFormat": 1
+  },
+  "name": "tsPlatformsMorning",
+  "out_columns": 9,
+  "out_tilehborder": 2,
+  "out_tilevborder": 2,
+  "parent": {
+    "name": "Tile Sets",
+    "path": "folders/Tile Sets.yy"
+  },
+  "resourceType": "GMTileSet",
+  "resourceVersion": "2.0",
+  "spriteId": {
+    "name": "sPlatformsMorning",
+    "path": "sprites/sPlatformsMorning/sPlatformsMorning.yy"
+  },
+  "spriteNoExport": true,
+  "textureGroupId": {
+    "name": "Default",
+    "path": "texturegroups/Default"
+  },
+  "tileAnimationFrames": [],
+  "tileAnimationSpeed": 15.0,
+  "tileHeight": 12,
+  "tilehsep": 1,
+  "tilevsep": 1,
+  "tileWidth": 12,
+  "tilexoff": 0,
+  "tileyoff": 0,
+  "tile_count": 80
+}
