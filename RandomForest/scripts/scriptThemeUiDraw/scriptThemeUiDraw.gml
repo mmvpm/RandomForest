@@ -14,7 +14,7 @@ function __funDrawUiLayers(sprite, frame, x_pos, y_pos, sx, sy, angle, blend, al
     var assets = [], weights = []
     for (var i = 0; i < 4; ++i) {
         if (presentation.weights[i] <= 0) continue
-        var asset = funThemeSprite(sprite, names[i])
+        var asset = funMenuUiSprite(sprite, names[i], presentation.menu_ui)
         var existing = -1
         for (var a = 0; a < array_length(assets); ++a) {
             if (assets[a] == asset) existing = a

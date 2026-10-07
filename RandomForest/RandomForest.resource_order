@@ -408,5 +408,9 @@
     {"name":"tsSpikesMorning","order":404,"path":"tilesets/tsSpikesMorning/tsSpikesMorning.yy"},
     {"name":"tsSpikesExtMorning","order":405,"path":"tilesets/tsSpikesExtMorning/tsSpikesExtMorning.yy"},
     {"name":"sSwordBloomNight","order":406,"path":"sprites/sSwordBloomNight/sSwordBloomNight.yy"},
+    {"name":"scriptMenuUiTheme","order":407,"path":"scripts/scriptMenuUiTheme/scriptMenuUiTheme.yy"},
+    {"name":"sStarMenuEvening","order":408,"path":"sprites/sStarMenuEvening/sStarMenuEvening.yy"},
+    {"name":"sBorder3MenuEvening","order":409,"path":"sprites/sBorder3MenuEvening/sBorder3MenuEvening.yy"},
+    {"name":"sBorder4MenuEvening","order":410,"path":"sprites/sBorder4MenuEvening/sBorder4MenuEvening.yy"},
   ],
 }

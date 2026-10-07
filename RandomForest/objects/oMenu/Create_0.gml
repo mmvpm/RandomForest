@@ -1,5 +1,5 @@
 /// Initializes the shared theme roles without changing the menu layout.
-funApplyUiPresentation(funThemePresentation("day"))
+funApplyUiPresentation(funThemePresentation("day", undefined, true))
 if (global.is_training_completed) {
 	self.items_count = 4
 	self.strings = [

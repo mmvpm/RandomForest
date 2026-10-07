@@ -20,7 +20,8 @@ const context = vm.createContext({
   ds_list_find_index: (list, value) => list.indexOf(value),
   oTrap: "trap", oEnemy: "enemy", oSolid: "solid", oJumpThru: "jump_thru",
   oPlayerSword: "player_sword", oPlayerStompWave: "wave",
-  musicGame: "game_music", oLevelPassing: "results",
+  musicGame: "game_music", oLevelPassing: "results", oFadeIn: "fade",
+  funBlackRoomSetting: (scene, key) => scene[key] ?? blackRoom.defaults[key],
   oPlayer: {x: 100},
   player_states: {idle: 0, fall: 1, hurt: 2, stomp: 3, story_transform: 4,
     attack: 5, teleport: 6, die: 7},
@@ -41,7 +42,8 @@ const context = vm.createContext({
     list.push(...enemies); return list.length;
   },
   instance_number: () => waves.length, instance_find: (object, i) => waves[i],
-  instance_create_depth: (x, y) => {
+  instance_create_depth: (x, y, depth, object) => {
+    if (object === "fade") return {};
     impacts++;
     const wave = {x, y, radius: 0, previous_radius: 0, hit_enemies: []};
     const owner = context.self;
@@ -86,7 +88,7 @@ let savedVisits;
 context.funSaveGameState = () => { savedVisits = JSON.stringify(context.global.black_room_seen); };
 context.funStopBlackRoomMusic = () => {};
 context.audio_is_playing = () => true;
-context.instance_create_layer = () => {};
+context.instance_create_layer = () => ({});
 
 // Saved scene IDs also grant the replacement reward in existing saves.
 const upgrade = blackRoom.scenes.find(scene => scene.id === "ck_after_36");

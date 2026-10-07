@@ -73,6 +73,9 @@ function __funFinishResultAnimation() {
 }
 
 
+// Story results wait for their black-to-results fade before input or rewards.
+if (instance_exists(oFadeIn)) exit
+
 // mouse counter
 if (self.mouse_allowed_counter != 0) {
 	self.last_mouse_x = mouse_x - camera_get_view_x(view_camera[0])

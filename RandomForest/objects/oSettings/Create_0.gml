@@ -1,5 +1,5 @@
 /// Initializes the shared theme roles without changing the menu layout.
-funApplyUiPresentation(funUiScenePresentation())
+funApplyUiPresentation(funUiScenePresentation(true))
 /// @description Initializes the main-menu audio settings screen.
 
 self.items_count = 3

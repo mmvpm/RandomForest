@@ -1,5 +1,5 @@
 /// Initializes the shared theme roles without changing the menu layout.
-funApplyUiPresentation(funThemePresentation("day"))
+funApplyUiPresentation(funThemePresentation("day", undefined, true))
 // Load the complete level sequence and generated star metadata once.
 var catalog = funLoadChallengeCatalog()
 self.generated_paths = catalog.levels

@@ -4,7 +4,7 @@ function funLoadGameState() {
 	global.wall_memory_read = funLoadWallMemoryReadState()
 
 	// debug mode
-	global.is_debug = ini_read_real("general", "is_debug", 0) // default: false
+	global.is_debug = ini_read_real("general", "is_debug", 0) != 0 // default: false
 
 	// fullscreen mode
 	global.is_fullscreen = ini_read_real("general", "is_fullscreen", 0) // default: false

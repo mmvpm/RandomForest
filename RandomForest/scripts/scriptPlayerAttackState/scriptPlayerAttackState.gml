@@ -93,19 +93,19 @@ function funPlayerCreateAttackSword() {
 		case 1:
 			created_sword.xscale_factor = 1
 			created_sword.yscale_factor = 1
-			created_sword.damage = 2 + self.melee_bonus
+			created_sword.damage = global.is_debug ? 7 : 2 + self.melee_bonus
 			audio_play_sound(soundPlayerAttack1, 2, false)
 			break
 		case 2:
 			created_sword.xscale_factor = 0.9
 			created_sword.yscale_factor = 1.7
-			created_sword.damage = 2 + self.melee_bonus
+			created_sword.damage = global.is_debug ? 7 : 2 + self.melee_bonus
 			audio_play_sound(soundPlayerAttack2, 2, false)
 			break
 		case 3:
 			created_sword.xscale_factor = 0.8
 			created_sword.yscale_factor = 2.1
-			created_sword.damage = 3 + self.melee_bonus
+			created_sword.damage = global.is_debug ? 7 : 3 + self.melee_bonus
 			audio_play_sound(soundPlayerAttack3, 2, false)
 			break
 	}

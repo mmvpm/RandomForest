@@ -110,5 +110,10 @@ if (place_meeting(self.x, self.y, oPlayer) and self.is_opened and !self.goto_nex
 	oTimeCounter.may_count = false // stops timer
 	var fade_out_effect = instance_create_depth(0, 0, -10, oFadeOut)
 	__funCompleteLevel()
+	var scene = funFindBlackRoomScene(global.playing_level)
+	if (scene != undefined) {
+		fade_out_effect.alpha_step = 1 / (60 * funBlackRoomSetting(scene, "fade_seconds"))
+		fade_out_effect.hold_black_frame = true
+	}
 	fade_out_effect.end_function = funShowCompletedLevel
 }

@@ -1,5 +1,5 @@
 /// Shares the background's current palette and crossfade weights.
-funApplyUiPresentation(funUiScenePresentation())
+funApplyUiPresentation(funUiScenePresentation(true))
 /// Draws one settings row and caches its mouse bounds.
 function __funDrawSettingRow(
 	item_index,

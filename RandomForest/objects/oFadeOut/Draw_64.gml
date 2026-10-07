@@ -10,3 +10,6 @@ draw_rectangle(0, 0, width, height, 0)
 // reset
 draw_set_alpha(1.0)
 draw_set_color(c_white)
+
+// Step may release the next scene only after this fully opaque GUI draw.
+if (self.global_alpha >= 1) self.black_frame_drawn = true

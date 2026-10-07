@@ -7,6 +7,10 @@ if ( keyboard_check_pressed(string_ord_at(self.debug_password, self.debug_curren
 }
 if (self.debug_current_index > string_length(self.debug_password)) {
 	global.is_debug = !global.is_debug
+	with (oPlayer) {
+		funPlayerRefreshAbilities()
+		if (global.is_debug) self.health = self.max_health
+	}
 	self.debug_current_index = 1
 	audio_play_sound(soundCoinCollecting, 0, false) // just because
 	funSaveGameState()

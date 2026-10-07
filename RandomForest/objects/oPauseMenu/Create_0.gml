@@ -1,5 +1,5 @@
 /// Initializes the shared theme roles without changing the menu layout.
-funApplyUiPresentation(funUiScenePresentation())
+funApplyUiPresentation(funUiScenePresentation(true))
 self.paused = false
 self.screenshot = noone
 

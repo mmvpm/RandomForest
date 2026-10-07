@@ -46,46 +46,47 @@ function __funInitThemePalettes() {
 }
 
 /// Returns cached theme colours, leaving day untouched when no override exists.
-function funThemePalette(theme) {
+function funThemePalette(theme, menu_ui = false) {
     if (!variable_global_exists("theme_palettes")) __funInitThemePalettes()
+    if (menu_ui and theme == "evening") return funCopperMenuPalette()
     return variable_struct_get(global.theme_palettes, theme)
 }
 
 /// Blends role colours with the same normalized weights as the moving background.
-function funThemePresentation(theme, weights = undefined) {
+function funThemePresentation(theme, weights = undefined, menu_ui = false) {
     var names = ["day", "evening", "night", "morning"]
     if (weights == undefined) {
         weights = array_create(4, 0)
         weights[__funMenuThemeIndex(theme)] = 1
     }
-    var palette = variable_clone(funThemePalette(theme))
+    var palette = variable_clone(funThemePalette(theme, menu_ui))
     var roles = variable_struct_get_names(palette)
     for (var r = 0; r < array_length(roles); ++r) {
         var red = 0, green = 0, blue = 0
         for (var i = 0; i < 4; ++i) {
             if (weights[i] <= 0) continue
-            var color = variable_struct_get(funThemePalette(names[i]), roles[r])
+            var color = variable_struct_get(funThemePalette(names[i], menu_ui), roles[r])
             red += color_get_red(color) * weights[i]
             green += color_get_green(color) * weights[i]
             blue += color_get_blue(color) * weights[i]
         }
         variable_struct_set(palette, roles[r], make_color_rgb(round(red), round(green), round(blue)))
     }
-    return {theme: theme, weights: variable_clone(weights), palette: palette}
+    return {theme: theme, menu_ui: menu_ui, weights: variable_clone(weights), palette: palette}
 }
 
 /// Resolves overlays from their host scene, not from the furthest unlocked level.
-function funUiScenePresentation() {
+function funUiScenePresentation(menu_ui = false) {
     var menu = noone
     if (room == rMenu and instance_exists(oMenu)) menu = instance_find(oMenu, 0)
     if (room == rLevelSelect and instance_exists(oLevelSelect)) menu = instance_find(oLevelSelect, 0)
     if (menu != noone) {
         var state = menu.menu_background
         var names = ["day", "evening", "night", "morning"]
-        return funThemePresentation(names[state.target], state.weights)
+        return funThemePresentation(names[state.target], state.weights, menu_ui)
     }
     var theme = room == rBlackRoom ? funLevelTheme(global.playing_level) : funCurrentLevelTheme()
-    return funThemePresentation(theme)
+    return funThemePresentation(theme, undefined, menu_ui)
 }
 
 /// Applies shared menu roles without changing geometry, focus or input handling.

@@ -30,11 +30,6 @@ self.finish_transform = method(self, function() {
 	oPlayer.story_pending = false
 })
 
-/// An interrupted transformation keeps the portal closed and permits a retry.
-self.cancel_transform = method(self, function() {
-	self.transform_running = false
-})
-
 oPlayer.health = self.context.health
 oPlayer.max_health = self.context.max_health
 

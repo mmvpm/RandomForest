@@ -20,7 +20,7 @@ function funShowCompletedLevel() {
 	room_goto(rBlackRoom)
 }
 
-/// Saves a visit only once the player has actually left through the portal.
+/// Commits the story visit, then reveals its preserved results from black.
 function funFinishBlackRoomScene() {
 	var scene = global.black_room_context.scene
 	variable_struct_set(global.black_room_seen, scene.id, true)
@@ -29,7 +29,12 @@ function funFinishBlackRoomScene() {
 	if (!audio_is_playing(musicGame)) {
 		audio_play_sound(musicGame, 0, true)
 	}
-	instance_create_layer(0, 0, "UI", oLevelPassing)
+	var results = instance_create_layer(0, 0, "UI", oLevelPassing)
+	// The entry fade reveals the full layout; rewards animate after it finishes.
+	results.alpha_animation_counter = 0
+	results.border_animation_counter = 0
+	var fade = instance_create_depth(0, 0, -10, oFadeIn)
+	fade.alpha_step = 1 / (60 * funBlackRoomSetting(scene, "fade_seconds"))
 }
 
 /// Replays the completed gameplay level even when its results are in the story room.

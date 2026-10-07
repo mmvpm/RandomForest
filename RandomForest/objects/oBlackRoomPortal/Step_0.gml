@@ -23,4 +23,5 @@ oBlackRoomController.exiting = true
 oPlayer.image_alpha = 0
 var fade = instance_create_depth(0, 0, -10, oFadeOut)
 fade.alpha_step = 1 / (60 * funBlackRoomSetting(oBlackRoomController.scene, "fade_seconds"))
+fade.hold_black_frame = true
 fade.end_function = funFinishBlackRoomScene

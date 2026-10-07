@@ -5,15 +5,33 @@ function funPlayerStompInvulnerable() {
 }
 
 /// Starts a controller-requested, one-shot skin change from stable ground.
-function funPlayerBeginStoryTransform(target_dark, on_complete, on_cancel = undefined) {
-    if (!self.is_on_ground or self.state == player_states.stomp
+function funPlayerBeginStoryTransform(target_dark, on_complete) {
+    if (self.story_transform_used or !self.is_on_ground or self.state == player_states.stomp
         or self.state == player_states.story_transform or self.state == player_states.teleport
         or self.state == player_states.hurt or self.state == player_states.die
         or self.state == player_states.attack) return false
+    if (!funPlayerStoryTransformFits()) return false
+    self.story_transform_used = true
     self.transform_target_dark = target_dark
     self.transform_complete = on_complete
-    self.transform_cancel = on_cancel
     funPlayerChangeState(player_states.story_transform)
+    return true
+}
+
+/// Keeps the authored body bounds shared by preflight and animation.
+function funPlayerTransformRectangles() {
+    return [[10, 50, 18, 64], [11, 52, 17, 64], [11, 55, 17, 64], [10, 57, 18, 64], [9, 57, 18, 64], [9, 57, 17, 64], [9, 57, 17, 64], [10, 57, 17, 64], [10, 57, 17, 64], [10, 57, 17, 64], [10, 56, 18, 64], [11, 41, 16, 64], [7, 22, 16, 34], [6, 15, 12, 28], [6, 11, 13, 24], [6, 10, 14, 22], [6, 10, 15, 21], [6, 10, 15, 20], [6, 10, 15, 20], [6, 10, 15, 20], [6, 11, 15, 20], [6, 13, 16, 20], [7, 15, 17, 26], [9, 17, 16, 36], [10, 45, 16, 64], [10, 58, 17, 64], [9, 59, 18, 64], [9, 58, 17, 64], [9, 57, 17, 64], [10, 57, 17, 64], [10, 57, 17, 64], [10, 56, 17, 64], [10, 54, 18, 64], [10, 52, 18, 64], [10, 50, 18, 64], [10, 49, 18, 64], [10, 49, 18, 64], [10, 49, 18, 64]]
+}
+
+/// Accepts a story action only when its entire jump fits the static room geometry.
+function funPlayerStoryTransformFits() {
+    self.transform_rectangles = funPlayerTransformRectangles()
+    var previous = funPlayerTransformBodyBounds(0)
+    for (var frame = 0; frame < array_length(self.transform_rectangles); ++frame) {
+        var current = funPlayerTransformBodyBounds(frame)
+        if (funPlayerTransformBlocked(previous, current)) return false
+        previous = current
+    }
     return true
 }
 
@@ -26,14 +44,13 @@ function funPlayerTransformStart() {
     self.transform_progress = 0
     self.transform_impact_created = false
     self.transform_ground_y = self.y
-    self.transform_rectangles = [[10, 50, 18, 64], [11, 52, 17, 64], [11, 55, 17, 64], [10, 57, 18, 64], [9, 57, 18, 64], [9, 57, 17, 64], [9, 57, 17, 64], [10, 57, 17, 64], [10, 57, 17, 64], [10, 57, 17, 64], [10, 56, 18, 64], [11, 41, 16, 64], [7, 22, 16, 34], [6, 15, 12, 28], [6, 11, 13, 24], [6, 10, 14, 22], [6, 10, 15, 21], [6, 10, 15, 20], [6, 10, 15, 20], [6, 10, 15, 20], [6, 11, 15, 20], [6, 13, 16, 20], [7, 15, 17, 26], [9, 17, 16, 36], [10, 45, 16, 64], [10, 58, 17, 64], [9, 59, 18, 64], [9, 58, 17, 64], [9, 57, 17, 64], [10, 57, 17, 64], [10, 57, 17, 64], [10, 56, 17, 64], [10, 54, 18, 64], [10, 52, 18, 64], [10, 50, 18, 64], [10, 49, 18, 64], [10, 49, 18, 64], [10, 49, 18, 64]]
+    self.transform_rectangles = funPlayerTransformRectangles()
     self.image_speed = 0
     self.image_index = 0
     self.mask_index = sPlayerTransformMask
     if (self.state == player_states.stomp) {
         self.sprite_index = self.is_dark ? sPlayerDarkStomp : sPlayerLightStomp
         self.transform_complete = undefined
-        self.transform_cancel = undefined
     } else {
         self.sprite_index = self.transform_target_dark ? sPlayerLightTransform : sPlayerDarkTransform
     }
@@ -80,11 +97,12 @@ function funPlayerTransformBlocked(old_rect, new_rect) {
 
 /// Restores ordinary movement at the body position of the last safe frame.
 function funPlayerTransformAbort() {
+    // Story changes are one-shot actions; only ordinary stomps can be cancelled.
+    if (self.state == player_states.story_transform) return
     funPlayerStopTransformFx()
     self.stomp_recovery_counter = 0
     var body_rect = funPlayerTransformBodyBounds(floor(self.image_index))
     var body_bottom = body_rect[3]
-    var cancel = self.transform_cancel
     self.y = body_bottom + 1
     self.mask_index = -1
     self.image_speed = 1
@@ -98,9 +116,7 @@ function funPlayerTransformAbort() {
     self.current_yspeed = 0
     self.jump_buffer_counter = 0
     self.transform_complete = undefined
-    self.transform_cancel = undefined
     funPlayerChangeState(player_states.fall)
-    if (cancel != undefined) cancel()
 }
 
 /// Advances checked body frames, emits one impact, then releases player control.
@@ -109,26 +125,29 @@ function funPlayerTransformLogic() {
     var old_rect = funPlayerTransformBodyBounds(previous_frame)
     self.transform_progress += sprite_get_speed(self.sprite_index) / game_get_speed(gamespeed_fps)
     self.image_index = min(37, floor(self.transform_progress))
-    if (funPlayerTransformBlocked(old_rect, funPlayerTransformBodyBounds(floor(self.image_index)))) {
+    if (self.state == player_states.stomp
+        and funPlayerTransformBlocked(old_rect, funPlayerTransformBodyBounds(floor(self.image_index)))) {
         self.image_index = previous_frame
         funPlayerTransformAbort()
         return
     }
 
-    // Crouching and story transformations remain interruptible by damage.
-    var critical = funPlayerDetectCriticalState()
+    // Story jumps were checked before starting and cannot be interrupted.
+    var critical = self.state == player_states.stomp ? funPlayerDetectCriticalState() : undefined
     if (critical == player_states.hurt) {
         funPlayerTransformAbort()
         funPlayerChangeState(player_states.hurt)
         return
     }
 
-    if (self.state == player_states.stomp and self.image_index >= 24 and !self.transform_impact_created) {
+    if (self.image_index >= 24 and !self.transform_impact_created) {
         self.transform_impact_created = true
-        self.stomp_cooldown_counter = round(global.campaign_abilities_config.stomp_cooldown_seconds * game_get_speed(gamespeed_fps))
-        var wave = instance_create_depth(self.x, self.transform_ground_y, self.depth - 1, oPlayerStompWave)
-        wave.max_radius = self.stomp_radius
-        wave.damage = self.stomp_damage
+        if (self.state == player_states.stomp) {
+            self.stomp_cooldown_counter = round(global.campaign_abilities_config.stomp_cooldown_seconds * game_get_speed(gamespeed_fps))
+            var wave = instance_create_depth(self.x, self.transform_ground_y, self.depth - 1, oPlayerStompWave)
+            wave.max_radius = self.stomp_radius
+            wave.damage = self.stomp_damage
+        }
         audio_play_sound(soundPlayerStompImpact, 1, false)
         funCameraShake(20, 2, 2)
     }
@@ -147,7 +166,6 @@ function funPlayerTransformLogic() {
         self.current_yspeed = 0
         self.sprite_index = funPlayerSkinSprite(sPlayerIdle)
         self.transform_complete = undefined
-        self.transform_cancel = undefined
         funPlayerChangeState(player_states.idle)
         if (complete != undefined) complete()
     }

@@ -1,5 +1,5 @@
 /// Shares the background's current palette and crossfade weights.
-funApplyUiPresentation(funUiScenePresentation())
+funApplyUiPresentation(funUiScenePresentation(true))
 gpu_set_tex_filter(false)
 
 // Settings replaces the menu controls while keeping its moving background.

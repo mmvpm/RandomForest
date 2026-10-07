@@ -6,10 +6,12 @@ const vm = require("node:vm");
 const root = path.resolve(__dirname, "../../RandomForest");
 const config = JSON.parse(read("datafiles/narrative/black_room.json"));
 let pressed = new Set(), pauseExists = true, destroyed = false, saved;
+let soundCount = 0, shakeCount = 0, waveCount = 0;
 const context = vm.createContext({
   self: {}, other: {}, noone: -1, vk_space: "space", vk_enter: "enter",
   oPlayer: {}, oPauseMenu: {paused: false}, oFadeIn: "fade", oDialogue: "dialogue",
-  oLevelPassing: "results", musicGame: "music", gamespeed_fps: 0,
+  oLevelPassing: "results", oPlayerStompWave: "wave", musicGame: "music", gamespeed_fps: 0,
+  soundPlayerStompImpact: "impact", funCameraShake: () => { shakeCount++; },
   player_states: {idle: 0, move: 1, fall: 2, stomp: 3, story_transform: 4,
     attack: 5, teleport: 6, hurt: 7, die: 8},
   global: {key_pause: "escape", playing_level: 30, music_enabled: false,
@@ -23,8 +25,8 @@ const context = vm.createContext({
   keyboard_check_pressed: key => pressed.has(key),
   instance_exists: object => object === context.oPauseMenu && pauseExists,
   instance_destroy: () => { destroyed = true; },
-  instance_create_depth: () => ({}), instance_create_layer: () => ({}),
-  audio_stop_sound() {}, audio_play_sound() {}, audio_is_playing: () => true,
+  instance_create_depth: (x, y, depth, object) => { if (object === "wave") waveCount++; return {}; }, instance_create_layer: () => ({}),
+  audio_stop_sound() {}, audio_play_sound: sound => { if (sound === "impact") soundCount++; }, audio_is_playing: () => true,
   game_get_speed: () => 60, sprite_get_speed: () => 100 / 7,
   funLoadBlackRoomLines: () => [{text: "Test"}],
   funBlackRoomSetting: (scene, key) => scene[key] ?? config.defaults[key] ?? undefined,
@@ -57,7 +59,7 @@ function translate(source) {
     .replace(/\bexit\b/g, "return")
     .replace("with (oPlayer) funPlayerRefreshAbilities()",
       "scoped(oPlayer, () => funPlayerRefreshAbilities())")
-    .replace(/with \(oPlayer\) started = ([\s\S]*?other\.cancel_transform\))/,
+    .replace(/with \(oPlayer\) started = ([\s\S]*?other\.finish_transform\))/,
       "started = scoped(oPlayer, () => $1)")
     .replace(/with \(dialogue\) \{([\s\S]*?)\}/, "scoped(dialogue, () => {$1})");
 }
@@ -90,7 +92,7 @@ function scene(afterLevel) {
   context.oPlayer = {state: context.player_states.idle, is_on_ground: true,
     is_dark: afterLevel === 40, x: 108, y: 264, depth: 100,
     image_xscale: 1, image_yscale: 1, stomp_recovery_counter: 0,
-    story_pending: false, transform_complete: undefined, transform_cancel: undefined};
+    story_pending: false, story_transform_used: false, transform_complete: undefined};
   pressed = new Set();
   pauseExists = true;
   context.oPauseMenu.paused = false;
@@ -126,12 +128,16 @@ for (const afterLevel of [30, 40]) {
   assert.equal(controller.transform_running, true, "closed pause object must not block Space");
   assert.equal(player.state, context.player_states.story_transform);
   const completion = player.transform_complete;
+  soundCount = 0; shakeCount = 0; waveCount = 0;
   event("oBlackRoomController", "Step", controller);
   assert.equal(player.transform_complete, completion, "repeat presses cannot restart transformation");
   scoped(player, () => context.funPlayerTransformStart());
   for (let tick = 0; tick < 200 && !controller.portal_ready; tick++) {
     scoped(player, () => context.funPlayerTransformLogic());
   }
+  assert.equal(soundCount, 1, "one landing sound per story transformation");
+  assert.equal(shakeCount, 1, "one landing shake per story transformation");
+  assert.equal(waveCount, 0, "story transformation causes no combat wave");
   assert.equal(controller.portal_ready, true);
   assert.equal(controller.transform_running, false);
   assert.equal(player.is_dark, afterLevel === 30);
@@ -174,12 +180,31 @@ pressed = new Set(["space"]);
 event("oBlackRoomController", "Step", controller);
 assert.equal(controller.transform_running, true, "missing pause object is safe");
 scoped(context.oPlayer, () => context.funPlayerTransformStart());
-scoped(context.oPlayer, () => context.funPlayerTransformAbort());
-assert.equal(controller.transform_running, false);
-assert.equal(controller.portal_ready, false);
-assert.equal(context.oPlayer.story_pending, true);
-assert.equal(context.oPlayer.is_dark, false);
-context.oPlayer.state = context.player_states.idle;
+const player = context.oPlayer;
+const progress = player.transform_progress;
+scoped(player, () => context.funPlayerTransformAbort());
+assert.equal(controller.transform_running, true, "story action cannot be cancelled");
+assert.equal(player.state, context.player_states.story_transform);
+assert.equal(player.transform_progress, progress);
+context.funPlayerDetectCriticalState = () => context.player_states.hurt;
+context.funPlayerTransformBlocked = () => true;
+for (let tick = 0; tick < 200 && !controller.portal_ready; tick++) {
+  scoped(player, () => context.funPlayerTransformLogic());
+}
+assert.equal(controller.portal_ready, true, "an accepted story action always completes");
+pressed = new Set(["space"]);
 event("oBlackRoomController", "Step", controller);
-assert.equal(controller.transform_running, true, "aborted transformation can be retried");
-console.log("Black room: Enter/Space, both skin transitions, pause input ordering, grounded guards, repeat input, cancellation/retry and saved skin passed.");
+assert.equal(controller.transform_running, false, "completed story action never restarts");
+assert.equal(scoped(player, () => context.funPlayerBeginStoryTransform(false, () => {})), false);
+
+// A blocked trajectory is rejected before the one-shot action is consumed.
+const blockedController = scene(30);
+finishDialogue(blockedController);
+pressed = new Set(["space"]);
+event("oBlackRoomController", "Step", blockedController);
+assert.equal(blockedController.transform_running, false);
+assert.equal(context.oPlayer.story_transform_used, false);
+context.funPlayerTransformBlocked = () => false;
+event("oBlackRoomController", "Step", blockedController);
+assert.equal(blockedController.transform_running, true);
+console.log("Black room: both one-shot transformations, landing sound/shake, no damage wave, pause guards, trajectory preflight, non-interruption and saved skin passed.");

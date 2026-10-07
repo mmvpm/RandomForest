@@ -42,8 +42,9 @@ const context = vm.createContext({
   draw_sprite_ext: draw,
   draw_sprite_stretched_ext: (s,f,x,y,w,h,t,a) => draw(s,f,x,y,w,h,0,t,a)
 });
-for (const name of ["scriptLevelThemes", "scriptThemePresentation", "scriptThemeUiDraw"]) {
+for (const name of ["scriptLevelThemes", "scriptThemePresentation", "scriptMenuUiTheme", "scriptThemeUiDraw"]) {
   let code = fs.readFileSync(path.join(root,"scripts",name,name+".gml"),"utf8");
+  for (const sprite of code.match(/\bs[A-Z]\w*/g) || []) context[sprite] = sprite;
   code = code.replace(/\band\b/g,"&&").replace(/\bor\b/g,"||");
   vm.runInContext(code, context);
 }
@@ -128,3 +129,31 @@ assert.equal(draws[0].sprite,"sTeleportStartEvening");
 assert.equal(draws[0].angle,35); assert.equal(draws[0].alpha,0.8);
 assert.equal(context.self.sprite_index,"sTeleportStart"); assert.equal(context.self.mask_index,7);
 console.log("PASS: original day roles, approved Heather/E4/M4 and EV2/MO1 accents, exact alpha crossfades, GPU restoration, scene/skin context, optional variants and unchanged draw masks");
+
+// Copper is an explicit menu presentation and never replaces the game palette.
+const gameEvening = context.funThemePresentation("evening");
+const copper = context.funThemePresentation("evening", undefined, true);
+assert.deepEqual(channels(copper.palette.accent), [211,176,153]);
+assert.deepEqual(channels(copper.palette.selected_border), [175,146,127]);
+assert.deepEqual(channels(copper.palette.border), [129,107,93]);
+assert.equal(gameEvening.palette.accent, rgb(185,189,202));
+assert.equal(copper.palette.movement_fx, gameEvening.palette.movement_fx);
+for (const sprite of ["sStar", "sBorder3", "sBorder4"]) {
+  assert.equal(context.funMenuUiSprite(sprite, "evening", true), sprite + "MenuEvening");
+  assert.equal(context.funMenuUiSprite(sprite, "evening", false), context.funThemeSprite(sprite, "evening"));
+}
+draws = [];
+context.funDrawUiSprite("sStar",0,0,0,1,1,0,context.c_white,1,copper);
+assert.equal(draws[0].sprite,"sStarMenuEvening");
+const copperMix = context.funThemePresentation("evening", [0.5,0.5,0,0], true);
+assert.deepEqual(channels(copperMix.palette.accent), [162,194,133]);
+draws = [];
+context.funDrawUiSprite("sStar",0,0,0,1,1,0,context.c_white,1,copperMix);
+assert.equal(draws.length, 3);
+assert.equal(draws[1].sprite, "sStar");
+assert.equal(draws[2].sprite, "sStarMenuEvening");
+context.room = "menu";
+active.set(context.oMenu,{menu_background:{target:1,weights:[0,1,0,0]}});
+assert.equal(context.funUiScenePresentation(true).palette.accent, rgb(211,176,153));
+assert.equal(context.funUiScenePresentation().palette.accent, rgb(185,189,202), "controls keep the host's original theme");
+console.log("PASS: Copper menu roles/art, blended transition and unchanged game/controls presentation");

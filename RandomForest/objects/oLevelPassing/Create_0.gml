@@ -1,5 +1,5 @@
 /// Initializes the shared theme roles without changing the menu layout.
-funApplyUiPresentation(funThemePresentation(funLevelTheme(global.playing_level)))
+funApplyUiPresentation(funThemePresentation(funLevelTheme(global.playing_level), undefined, true))
 self.items_count = 3
 self.strings = [
 	"Перейти дальше",

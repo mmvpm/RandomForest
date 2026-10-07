@@ -1,5 +1,5 @@
 /// Shares the background's current palette and crossfade weights.
-funApplyUiPresentation(funUiScenePresentation())
+funApplyUiPresentation(funUiScenePresentation(true))
 // Draws a menu firefly as integer-aligned game pixels behind tile content.
 function __funDrawLevelOrangeFirefly(
 	firefly,

@@ -17,6 +17,11 @@ function funCampaignAbilities() {
 			variable_struct_set(result, name, max(variable_struct_get(result, name), value))
 		}
 	}
+	// Debug overrides numeric combat perks after all saved or staged rewards.
+	if (global.is_debug) {
+		result.max_health = 10
+		result.stomp_damage = 7
+	}
 	return result
 }
 

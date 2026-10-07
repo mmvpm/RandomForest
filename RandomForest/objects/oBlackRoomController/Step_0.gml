@@ -7,7 +7,7 @@ if (self.dialogue_finished and !self.portal_ready and !self.transform_running
 	var target_dark = self.scene.transform == "dark"
 	var started = false
 	with (oPlayer) started = funPlayerBeginStoryTransform(target_dark,
-		other.finish_transform, other.cancel_transform)
+		other.finish_transform)
 	self.transform_running = started
 }
 if (self.dialogue_started or self.exiting or instance_exists(oFadeIn)
