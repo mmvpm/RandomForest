@@ -10,7 +10,7 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":0.32,
+  "duration":0.72,
   "exportDir":"",
   "name":"soundOrangeFirefly",
   "parent":{
@@ -20,7 +20,7 @@
   "preload":false,
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
-  "sampleRate":44100,
+  "sampleRate":48000,
   "soundFile":"soundOrangeFirefly.wav",
   "volume":1.0,
 }
