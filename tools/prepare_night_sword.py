@@ -34,7 +34,7 @@ def main():
     subprocess.run([sys.executable, str(ROOT / "tools/prepare_theme_smoke.py"), "--work-dir", str(WORK)], check=True)
     project = WORK / "project"
     jobs = [job("sPlayerTapSword", "night-sword.png", COLORS.__getitem__),
-            job("sSwordBloom", "night-sword-bloom.png", lambda color: (90, 0, 255))]
+            job("sSwordBloom", "night-sword-bloom.png", lambda color: color)]
     meta = read_resource(project / "RandomForest.yyp")
     meta["IncludedFiles"].append({"$GMIncludedFile": "", "%Name": "night-sword.json", "CopyToMask": -1,
         "filePath": "datafiles", "name": "night-sword.json", "resourceType": "GMIncludedFile", "resourceVersion": "2.0"})
@@ -59,7 +59,7 @@ def main():
     (obj_path.parent / "Draw_75.gml").write_text("/// Bakes exact sword RGB and exits.\nfunNightSwordBake()\n")
     theme_assets.PROJECT = project
     theme_assets.register_resources([("shaders", "shSwordColorBake")])
-    print("Prepared exact 18x5 sword mask and independent violet bloom; no image rotation/resampling")
+    print("Prepared exact 18x5 sword mask and unchanged day bloom; no image rotation/resampling")
 
 
 if __name__ == "__main__":

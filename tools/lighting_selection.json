@@ -126,8 +126,8 @@
     "sTapArrowDiagMorning": "25b2da31883388b0764f9c3174f060dd09f80349b953f6e254c87264391e7093",
     "sTapCountdownMorning": "a031fe40491ae940ab811f2311af3ad1fb072dc7663016711f0525d16b9daa9d",
     "sTapCountdownDiagMorning": "f2964777ad3c82ce78b8011fc7a21726318e370a2b36b2b50b86e7125ae20ee8",
-    "sPlayerDarkTapSword": "1aae7dd49ba1aca1c2f47745eee492488b31f8cb45752f0b4cb26850099c36b4",
-    "sSwordBloomNight": "96fb10efd053dd95247b81f7cfc287497b9e992a81de76830d9729725a72592f"
+    "sPlayerDarkTapSword": "cf89a06722f57c027b9ad3bce395a68ac1178a91a7ed2d873845a87e1294d6aa",
+    "sSwordBloomNight": "8c1e79749273308c57cd29c09c81cda0f22591566b110abb41b19603ee750a75"
   },
   "tilesets": {
     "tsPlatformsEvening": "2a2d2cacfbca4c0ba779feda14f79a6955ff4a1226bb447c06fa1d346dc12970",
@@ -138,20 +138,20 @@
     "tsSpikesExtMorning": "02472485e77744c0a070f9620de74044c8ddf88bce9de17a01670b074135a80a"
   },
   "night_sword_rgb": {
-    "227,225,205": [
-      6,
-      0,
-      17
-    ],
     "255,215,144": [
-      9,
-      0,
-      26
+      204,
+      171,
+      114
     ],
     "147,145,126": [
       147,
       145,
       126
+    ],
+    "227,225,205": [
+      0,
+      0,
+      0
     ],
     "0,0,0": [
       0,
@@ -159,9 +159,5 @@
       0
     ]
   },
-  "night_bloom_rgb": [
-    90,
-    0,
-    255
-  ]
+  "night_bloom_source": "sSwordBloom"
 }

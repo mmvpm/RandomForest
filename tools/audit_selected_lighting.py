@@ -50,7 +50,8 @@ def main():
         if a[3]:
             assert list(b[:3]) == approved["night_sword_rgb"][",".join(map(str, a[:3]))]
     bloom = sprite_frames("sSwordBloomNight")[0]
-    assert all(list(p[:3]) == approved["night_bloom_rgb"] for p in bloom.get_flattened_data() if p[3])
+    assert approved["night_bloom_source"] == "sSwordBloom"
+    assert equal_pixels(bloom, sprite_frames("sSwordBloom")[0]), "Night sword bloom must be an exact day copy"
     print(f"PASS: {frames} approved evening/morning frames, complete masks/alpha/origins/timings, six packed tilesets and exact horizontal night sword.")
 
 

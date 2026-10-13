@@ -1,4 +1,4 @@
-"""Install only the approved E4/EV2 and M4/MO1 banks plus the native night sword."""
+"""Install approved E4/EV2 and M4/MO1 banks, preserving the editor-selected night sword."""
 
 import copy
 import shutil
@@ -11,7 +11,6 @@ from theme_assets import ROOT, read_resource, write_resource, register_resources
 
 ACTOR_BANK = ROOT / ".temp/actor_lighting_study/project"
 ENVIRONMENT_BANK = ROOT / ".temp/daylight_palette_study/project"
-SWORD_BANK = ROOT / ".temp/night_sword"
 
 
 def verify_sources():
@@ -24,8 +23,6 @@ def verify_sources():
         for a, b in zip(old, current, strict=True):
             with Image.open(a) as x, Image.open(b) as y:
                 assert x.size == y.size and x.convert("RGBA").tobytes() == y.convert("RGBA").tobytes(), (name, "Source art changed")
-    for file in ("night-sword.png", "night-sword-bloom.png"):
-        assert (SWORD_BANK / file).is_file(), file
 
 
 def import_selection(suffix, environment, actors):
@@ -56,10 +53,10 @@ def main():
     resources = []
     for choice in SELECTIONS:
         resources += import_selection(*choice)
-    copy_frames("sPlayerTapSword", "sPlayerDarkTapSword", [SWORD_BANK / "night-sword.png"])
-    copy_frames("sSwordBloom", "sSwordBloomNight", [SWORD_BANK / "night-sword-bloom.png"])
+    # The selected night sword is authored in GameMaker, outside these lighting banks.
+    copy_frames("sSwordBloom", "sSwordBloomNight", bank_frames(PROJECT, "sSwordBloom"))
     register_resources(resources + [("sprites", "sSwordBloomNight")])
-    print("Installed E4/EV2, M4/MO1, exact-mask dark flying sword and its separate violet bloom")
+    print("Installed E4/EV2, M4/MO1, exact-mask dark flying sword and unchanged day bloom")
 
 
 def record_selection():
@@ -72,14 +69,14 @@ def record_selection():
             sprites[themed_name(base, suffix)] = pixel_digest(bank_frames(bank, themed_name(base, code)))
         for base in TILESETS:
             tilesets[base + suffix] = pixel_digest([ENVIRONMENT_BANK / f"tilesets/{base + environment}/output_tileset.png"])
-    for name, file in [("sPlayerDarkTapSword", "night-sword.png"), ("sSwordBloomNight", "night-sword-bloom.png")]:
-        sprites[name] = pixel_digest([SWORD_BANK / file])
+    for name in ("sPlayerDarkTapSword", "sSwordBloomNight"):
+        paths = bank_frames(PROJECT, "sSwordBloom" if name == "sSwordBloomNight" else name)
+        sprites[name] = pixel_digest(paths)
     write_resource(ROOT / "tools/lighting_selection.json", {
         "selection": {"Evening": "E4 Blue Hour + EV2 Light and Shadows", "Morning": "M4 Golden Mist + MO1 Diffuse Light"},
         "sprites": sprites, "tilesets": tilesets,
-        "night_sword_rgb": {"227,225,205": [6, 0, 17], "255,215,144": [9, 0, 26],
-                            "147,145,126": [147, 145, 126], "0,0,0": [0, 0, 0]},
-        "night_bloom_rgb": [90, 0, 255]})
+        "night_sword_rgb": read_resource(ROOT / "tools/lighting_selection.json")["night_sword_rgb"],
+        "night_bloom_source": "sSwordBloom"})
 
 
 if __name__ == "__main__":
