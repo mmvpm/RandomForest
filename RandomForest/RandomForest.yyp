@@ -96,7 +96,6 @@
     {"$GMIncludedFile":"","%Name":"memory-alphabet.png","CopyToMask":-1,"filePath":"datafiles/fonts","name":"memory-alphabet.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"OFL.txt","CopyToMask":-1,"filePath":"datafiles/fonts","name":"OFL.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"glasstown.ttf","CopyToMask":-1,"filePath":"datafiles","name":"glasstown.ttf","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"forest-enemy-audio.txt","CopyToMask":-1,"filePath":"datafiles/licenses","name":"forest-enemy-audio.txt","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"abilities.json","CopyToMask":-1,"filePath":"datafiles/narrative","name":"abilities.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"black_room.json","CopyToMask":-1,"filePath":"datafiles/narrative","name":"black_room.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"ck_after_01.json","CopyToMask":-1,"filePath":"datafiles/narrative/dialogues","name":"ck_after_01.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},

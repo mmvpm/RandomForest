@@ -7,7 +7,7 @@ import wave
 import numpy as np
 
 from forest_enemy_audio_pcm import encode_pcm, read_pcm
-from theme_assets import ROOT, PROJECT, append_entries, read_resource, register_resources, write_resource
+from theme_assets import ROOT, PROJECT, read_resource, register_resources, write_resource
 
 SOUNDS = {
     'slime-land': 'soundResinSlimeLand',
@@ -47,7 +47,7 @@ def install_sound(choice, gain):
 
 
 def main():
-    """Install exactly the final ten choices and ship their CC0 provenance with the game."""
+    """Install exactly the final ten CC0 cues without adding attribution files to the game."""
     selection = read_resource(ROOT / 'randomforest-enemy-sound-selection-final.json')
     assert {c['action'] for c in selection['selections']} == set(SOUNDS)
     # The browser audition used +18 dB preview copies with its page slider at 25%.
@@ -55,26 +55,11 @@ def main():
     manifest = read_resource(ROOT / '.temp/enemy_integration/audio/manifest.json')
     candidates = {c['code']: c for r in manifest['roles'] for c in r['candidates']}
     installed = []
-    credits = ['Forest enemy sounds — CC0 1.0',
-               'https://creativecommons.org/publicdomain/zero/1.0/',
-               'Final selection: randomforest-enemy-sound-selection-final.json',
-               'Whole selected recordings; uniform audition gain +5.9588 dB. No new cuts.', '']
     for choice in selection['selections']:
         cue = candidates[choice['code']]
         assert cue['license'] == 'CC0 1.0'
         installed.append(install_sound(choice, gain))
-        credits.extend([f"{SOUNDS[choice['action']]} — {choice['code']}",
-                        f"{cue['title']} — {cue['author']}", choice['source'], ''])
     register_resources([('sounds', name) for name in SOUNDS.values()])
-    license_path = PROJECT / 'datafiles/licenses/forest-enemy-audio.txt'
-    license_path.parent.mkdir(parents=True, exist_ok=True)
-    license_path.write_text('\n'.join(credits))
-    project_path = PROJECT / 'RandomForest.yyp'
-    if not any(f['name'] == license_path.name for f in read_resource(project_path)['IncludedFiles']):
-        append_entries(project_path, 'IncludedFiles', [{
-            '$GMIncludedFile': '', '%Name': license_path.name, 'CopyToMask': -1,
-            'filePath': 'datafiles/licenses', 'name': license_path.name,
-            'resourceType': 'GMIncludedFile', 'resourceVersion': '2.0'}])
     write_resource(ROOT / '.temp/enemy_integration/audio/installed.json',
                    {'gain': gain, 'page_volume': selection['page_volume'], 'sounds': installed})
     print(f'Installed {len(installed)} complete cues at common gain {gain:.8f}.')
