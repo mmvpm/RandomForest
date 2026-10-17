@@ -242,7 +242,7 @@ def _validate_entities(terrain: list[str], hazards: list[str], entities: list[st
             upper = symbol.upper()
             if symbol == ".":
                 continue
-            if upper in ("@", "S", "K", "B"):
+            if upper in ("@", "S", "K", "B", "F", "J", "C", "G", "W", "1", "2", "3", "4", "5", "6", "7"):
                 if terrain[y][x] != "#":
                     raise ValueError(f"Ground entity lacks a floor anchor at ({x}, {y})")
                 left, right = ground_support_bounds(x, upper)
@@ -259,6 +259,9 @@ def _validate_entities(terrain: list[str], hazards: list[str], entities: list[st
                 )
                 if hazard_nearby:
                     raise ValueError(f"Ground entity is too close to spikes at ({x}, {y})")
+            elif upper == "T":
+                if not _footprint_clear(terrain, x, y, upper):
+                    raise ValueError(f"Flying enemy pixel footprint is blocked at ({x}, {y})")
             elif upper == "O":
                 floor_y = y + 2
                 if floor_y >= len(terrain) or terrain[floor_y][x] != "#":

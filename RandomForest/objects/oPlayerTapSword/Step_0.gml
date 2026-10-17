@@ -61,6 +61,8 @@ if (!success_move) {
 
 // collide with enemy
 var nearest_enemy = instance_place(self.x, self.y, oEnemy)
+// The plant's broad rectangle contains empty space; only its jaw/stalk can consume sword contacts.
+nearest_enemy = funForestMawFilterSwordContact(nearest_enemy)
 if (nearest_enemy != noone) {
 	if (self.collide_with_enemy_counter == 0) {
 		funPlayerTapSwordDestroy()

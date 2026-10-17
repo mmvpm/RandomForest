@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"soundForestBatAttack",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":1,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.4769375,
+  "exportDir":"",
+  "name":"soundForestBatAttack",
+  "parent":{
+    "name":"Enemies",
+    "path":"folders/Sounds/Enemies.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":48000,
+  "soundFile":"soundForestBatAttack.wav",
+  "volume":1.0,
+}

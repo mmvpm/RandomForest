@@ -93,6 +93,7 @@ self.hurt_countdown = 0.6 * 60 // temporary invulnerability (including hurt anim
 self.hurt_countdown_counter = 0
 
 self.future_damage = 0
+self.forest_damage_projectile = noone
 self.direction_to_enemy = undefined
 self.hurt_animation_ended = false
 

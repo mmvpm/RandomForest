@@ -10,7 +10,7 @@ def equal_pixels(left, right):
     return left.size == right.size and left.tobytes() == right.tobytes()
 
 
-def audit_sprite(source, target):
+def audit_sprite(source, target, check_source_alpha=True):
     """Check full collision metadata, frame order, sequence settings and source alpha."""
     old, new = sprite_resource(source), sprite_resource(target)
     ignored = {"name", "%Name", "frames", "layers", "sequence"}
@@ -33,7 +33,8 @@ def audit_sprite(source, target):
     originals, variants = sprite_frames(source), sprite_frames(target)
     for frame, original, variant in zip(new["frames"], originals, variants, strict=True):
         assert original.size == variant.size, (target, "dimensions")
-        assert equal_pixels(original.getchannel("A"), variant.getchannel("A")), (target, "alpha/mask geometry")
+        if check_source_alpha:
+            assert equal_pixels(original.getchannel("A"), variant.getchannel("A")), (target, "alpha/mask geometry")
         for layer in new["layers"]:
             image = Image.open(PROJECT / "sprites" / target / "layers" / frame["name"] / (layer["name"] + ".png")).convert("RGBA")
             assert equal_pixels(image, variant), (target, "editable layer")

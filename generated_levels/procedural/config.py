@@ -119,3 +119,11 @@ ENTITY_FOOTPRINTS = {
 }
 ENTITY_PATROL_MARGIN = {"@": 24, "S": 24, "K": 36, "B": 48}
 ENEMY_WEIGHTS = (("S", 0.60), ("K", 0.25), ("B", 0.15))
+
+# Body footprints at runtime scale; the generator still uses its original type weights.
+ENTITY_FOOTPRINTS.update({
+    "F":(-14,-40,50,0), "J":(-14,-40,18,0), "C":(-10,-20,10,0),
+    "T":(-16,-15,16,15), "G":(-18,-38,18,0), "W":(-18,-48,18,0),
+    "1":(-18,-38,18,0), "2":(-18,-38,18,0), "3":(-18,-38,18,0), "4":(-18,-38,18,0),
+    "5":(-14,-40,18,0), "6":(-14,-40,18,0), "7":(-14,-40,18,0)
+})

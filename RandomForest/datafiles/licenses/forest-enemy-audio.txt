@@ -1,0 +1,44 @@
+Forest enemy sounds — CC0 1.0
+https://creativecommons.org/publicdomain/zero/1.0/
+Final selection: randomforest-enemy-sound-selection-final.json
+Whole selected recordings; uniform audition gain +5.9588 dB. No new cuts.
+
+soundResinSlimeLand — ПР10Р
+ApplesDroppingThudinaForest.wav — kvgarlic
+https://freesound.org/people/kvgarlic/sounds/149418/
+
+soundResinSlimeAttack — ПШ01Р
+Air Burst — JustInvoke
+https://freesound.org/people/JustInvoke/sounds/138477/
+
+soundBarkBomberBurst — ВЗ04Р
+Banging on desk / small explosion — Robo9418
+https://freesound.org/people/Robo9418/sounds/840327/
+
+soundForestBatAttack — МН15
+Whoosh - Long Bamboo stick - OS ST 13 — Sadiquecat
+https://freesound.org/people/Sadiquecat/sounds/855844/
+
+soundBarkGuardShot — СС07Р2
+SFX_WHOOSHYKORN_rising_17.wav — MrFossy
+https://freesound.org/people/MrFossy/sounds/590617/
+
+soundBarkGuardImpact — СЗ03Р3
+branch breaking forest twig snap crunch.wav — kyles
+https://freesound.org/people/kyles/sounds/452570/
+
+soundRootReaperSweep — ЖВ08
+Whoosh - Wood baton - OS ST 3 — Sadiquecat
+https://freesound.org/people/Sadiquecat/sounds/855768/
+
+soundRootReaperSlam — ЖУ24Р
+Whoosh — qubodup
+https://freesound.org/people/qubodup/sounds/60013/
+
+soundRootMawBite — ПУ01
+Twig Snap — alegemaate
+https://freesound.org/people/alegemaate/sounds/364699/
+
+soundForestBatWake — МП01Р2
+Cloth Messing_2 — Kamberonthe
+https://freesound.org/people/Kamberonthe/sounds/867653/

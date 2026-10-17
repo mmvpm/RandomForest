@@ -14,12 +14,24 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--presentation", action="store_true", help="Test palette transitions, effects and isolated future variants")
     parser.add_argument("--lighting", action="store_true", help="Test approved evening/morning art and the actual night sword")
+    parser.add_argument("--forest-enemies", action="store_true", help="Test new enemy battles, navigation and projectile interception")
+    parser.add_argument("--forest-revision", action="store_true", help="Test physical hops, simple masks, ceiling wake and anticipatory combat")
+    parser.add_argument("--forest-feedback", action="store_true", help="Run only the focused hurt, knockback, impact and bat-retreat checks")
+    parser.add_argument("--forest-maw", action="store_true", help="Test flying sword contacts and the rooted plant's recovery/death sequences")
+    parser.add_argument("--forest-baseline", action="store_true", help="Benchmark the saved pre-revision project with the same fixture")
     parser.add_argument("--work-dir", type=Path, default=ROOT / ".temp/theme_smoke",
                         help="Keep this run's fixture and screenshots in a separate directory")
     args = parser.parse_args()
+    if args.forest_feedback or args.forest_maw:
+        args.forest_revision = True
+    if args.forest_revision or args.forest_baseline:
+        args.forest_enemies = True
+    if args.forest_enemies:
+        args.forest_revision = True
     work = args.work_dir.resolve()
     project = work / "project"
-    shutil.copytree(ROOT / "RandomForest", project, dirs_exist_ok=True)
+    source = ROOT / ".temp/enemy_revision/before" if args.forest_baseline else ROOT / "RandomForest"
+    shutil.copytree(source, project, dirs_exist_ok=True)
     # No game-state writes are permitted from this test copy.
     (project / "scripts/funSaveGameState/funSaveGameState.gml").write_text(
         "/// Disables real save writes in this isolated visual check.\nfunction funSaveGameState() {}\n")
@@ -28,7 +40,32 @@ def main():
         "$GMScript": "v1", "%Name": script, "name": script, "isCompatibility": False,
         "isDnD": False, "parent": {"name": "Scripts", "path": "folders/Scripts.yy"},
         "resourceType": "GMScript", "resourceVersion": "2.0"})
-    shutil.copyfile(ROOT / "tools/theme_smoke.gml", project / "scripts" / script / (script + ".gml"))
+    smoke_source = "forest_enemy_smoke.gml" if args.forest_enemies else "theme_smoke.gml"
+    if args.forest_revision or args.forest_baseline:
+        smoke_source = "forest_enemy_revision_smoke.gml"
+    shutil.copyfile(ROOT / "tools" / smoke_source, project / "scripts" / script / (script + ".gml"))
+    if args.forest_enemies:
+        script_path = project / "scripts" / script / (script + ".gml")
+        script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/forest_enemy_audio_smoke.gml").read_text())
+        script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/forest_enemy_feedback_smoke.gml").read_text())
+        if args.forest_maw:
+            script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/forest_enemy_maw_smoke.gml").read_text())
+        audio_path = project / "scripts/scriptForestEnemyAudio/scriptForestEnemyAudio.gml"
+        # Observe native playback in the fixture without production test hooks or fake audio.
+        audio_path.write_text(audio_path.read_text().replace("audio_play_sound(", "funForestSmokePlaySound("))
+        if args.forest_revision or args.forest_baseline:
+            core = project / "scripts/scriptForestEnemyCore/scriptForestEnemyCore.gml"
+            core.write_text(core.read_text().replace("function funForestEnemyStep()", "function funForestEnemyMeasuredStep()") +
+                "\n/// Measures the isolated actors without production profiling hooks.\n"
+                "function funForestEnemyStep() { var started=get_timer();funForestEnemyMeasuredStep();"
+                "global.forest_cpu_us+=get_timer()-started }\n")
+        # Deterministic battle input and pause handling belong only to the save-free fixture.
+        (project / "scripts/funReadInputs/funReadInputs.gml").write_text(
+            "/// Disables external input in the battle fixture.\nfunction funReadInputs() {\n"
+            "self.key_move_left_pressed=false;self.key_move_right_pressed=false;"
+            "self.key_stomp_pressed=false;self.key_attack_pressed=false;self.key_tap_attack_pressed=false\n}\n")
+        (project / "objects/oPauseMenu/Step_0.gml").write_text(
+            "/// Disables pause overlays in the battle fixture.\nself.paused=false\n")
     if args.presentation or args.lighting:
         script_path = project / "scripts" / script / (script + ".gml")
         script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/theme_presentation_smoke.gml").read_text())
@@ -43,9 +80,12 @@ def main():
                          "resourceType": "GMEvent", "resourceVersion": "2.0"}
                         for kind, number in [(0, 0), (3, 0), (8, 75)]]
     write_resource(project / "objects" / name / (name + ".yy"), obj)
-    step = "funLightingSmokeStep" if args.lighting else "funThemePresentationSmokeStep" if args.presentation else "funThemeSmokeStep"
+    step = "funMawSmokeStep" if args.forest_maw else "funLightingSmokeStep" if args.lighting else "funThemePresentationSmokeStep" if args.presentation else "funThemeSmokeStep"
     for event, method in [("Create_0", "funThemeSmokeCreate"), ("Step_0", step), ("Draw_75", "funThemeSmokeDraw")]:
         setup = "self.output_directory = " + json.dumps(str(work) + "/") + "\n" if event == "Create_0" else ""
+        if event == "Create_0":
+            setup += "global.forest_benchmark_only=" + ("true" if args.forest_baseline else "false") + "\n"
+            setup += "global.forest_feedback_only=" + ("true" if args.forest_feedback else "false") + "\n"
         (project / "objects" / name / (event + ".gml")).write_text("/// Executes the isolated theme check.\n" + setup + method + "()\n")
     loading = project / "objects/oLoading/Create_0.gml"
     loading.write_text(loading.read_text() + "\ninstance_create_depth(0, 0, -10000, oThemeSmoke)\n")

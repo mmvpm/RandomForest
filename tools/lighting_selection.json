@@ -32,12 +32,12 @@
     "sSlimeHurtEvening": "6f94c0c87eb971f69e6508fa0e828bbde7364ba4959212a1036e6cabb714640d",
     "sSlimeDieEvening": "1c7b66bda412ebbecd1964408ddc6c5576c5e129d748d3bdd56db38db2961ca1",
     "sSlimeBloomEvening": "93f2473099ff91c0295779ecb5445af385813240a4bc90949a051b3fcbcf9912",
-    "sSkeletonIdleEvening": "ed4f80ca651c0b2236f2f154cf7b5528a8f396a08c2d5c539a58672af0f0aaa3",
-    "sSkeletonMoveEvening": "3609f29ccfe6b0acafb82884815c7dc5420128d24099b1961326acf5f002521a",
-    "sSkeletonReactEvening": "efed66d49a51134bc02ef1972a36731365fa9b64449adace6c091d57dd1e85e8",
-    "sSkeletonAttackEvening": "fce79de116ab9756b7f1414bc1266b90d18c18bbea8f69e255a06e8a4213293f",
-    "sSkeletonHurtEvening": "9ab97b3e87c39c609539eb6831b976f21c057c1789e3b8b02196b778b15d6647",
-    "sSkeletonDieEvening": "aec07dfcb68e3751484190be3bda95ecef8f3d0f3bcf30e49026021ca2b67ad1",
+    "sSkeletonIdleEvening": "33cdad52faa91891d1a7385ce5337d2ba78c8c0946f24fc785a99b316d352ddd",
+    "sSkeletonMoveEvening": "d2ccf684a4eb3c0f00a9330ce7c713b139cfcf6adde6e42d7b4d56f623a6acb5",
+    "sSkeletonReactEvening": "4738e5b02d579125f3c5a3ad1285ebb10e054d4016c4c47345e3bc0e1e5a587f",
+    "sSkeletonAttackEvening": "dfc9ef69f32b34f39110500bcd00001a54be68692a78ccfc4466dd6425167559",
+    "sSkeletonHurtEvening": "850d8c9182638e8837db2c85f20d490375d26f106ed55450192af577181b2607",
+    "sSkeletonDieEvening": "2dc79f5429144ad72bba0a5e5999e7ce78873537f12797122a55bc3c23fdc485",
     "sSkeletonBloomEvening": "420b41678ba6544dc33b9e3de8934f130762b5ee38142b95f57582ebbbe0e2b7",
     "sBungaloIdleEvening": "b723f17242a231bd5abc4b9a0de98c8cbc32b5512796f34c153cfcd2b48c3b17",
     "sBungaloMoveEvening": "d4888908a785b5e3fc11faf70c07cad16c655b15926234957923308574af32db",
@@ -159,5 +159,13 @@
       0
     ]
   },
-  "night_bloom_source": "sSwordBloom"
+  "night_bloom_source": "sSwordBloom",
+  "art_overrides": {
+    "sSkeletonIdleEvening": "suchnik",
+    "sSkeletonReactEvening": "suchnik",
+    "sSkeletonMoveEvening": "suchnik",
+    "sSkeletonAttackEvening": "suchnik",
+    "sSkeletonHurtEvening": "suchnik",
+    "sSkeletonDieEvening": "suchnik"
+  }
 }

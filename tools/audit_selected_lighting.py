@@ -36,7 +36,7 @@ def main():
         for base in [*ENVIRONMENT, *ACTORS]:
             name = themed_name(base, suffix)
             assert name in entries, name
-            frames += audit_sprite(base, name)
+            frames += audit_sprite(base, name, check_source_alpha=name not in approved.get("art_overrides", {}))
             assert pixel_digest(bank_frames(PROJECT, name)) == approved["sprites"][name], (name, "approved pixels")
         for base in TILESETS:
             assert base + suffix in entries

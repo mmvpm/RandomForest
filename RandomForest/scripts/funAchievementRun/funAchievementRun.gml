@@ -13,6 +13,7 @@ function funAreAllCombatEnemiesDefeated() {
 	var enemy_count = instance_number(oEnemy)
 	for (var enemy_index = 0; enemy_index < enemy_count; ++enemy_index) {
 		var enemy = instance_find(oEnemy, enemy_index)
+		if (variable_instance_exists(enemy, "counts_as_enemy") and !enemy.counts_as_enemy) continue
 		if (!enemy.is_dead) {
 			return false
 		}

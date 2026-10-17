@@ -727,6 +727,7 @@
 
   <div id="cell-tooltip" class="cell-tooltip" aria-hidden="true"></div>
 
+  <script src="forest-enemies.js"></script>
   <script src="wall-memories.js"></script>
   <script src="level-persistence.js"></script>
   <script>
@@ -805,6 +806,10 @@
       P: "p",
       p: "P"
     };
+
+    Object.assign(SYMBOL_NAMES, ForestEnemies.names);
+    Object.assign(ROTATED_SYMBOLS, ForestEnemies.rotated);
+    PALETTE_ITEMS.push(...ForestEnemies.items);
 
     const elements = {
       levelNumber: document.getElementById("level-number"),
@@ -1287,6 +1292,8 @@
         drawBungalo(context, x, y, symbol === "b");
       } else if ("Pp".includes(symbol)) {
         drawPointer(context, x, y, symbol === "p");
+      } else {
+        ForestEnemies.draw(context, symbol, x, y);
       }
     }
 

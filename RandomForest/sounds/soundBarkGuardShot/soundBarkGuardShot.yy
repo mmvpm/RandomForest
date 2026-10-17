@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"soundBarkGuardShot",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":1,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.239625,
+  "exportDir":"",
+  "name":"soundBarkGuardShot",
+  "parent":{
+    "name":"Enemies",
+    "path":"folders/Sounds/Enemies.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":48000,
+  "soundFile":"soundBarkGuardShot.wav",
+  "volume":1.0,
+}

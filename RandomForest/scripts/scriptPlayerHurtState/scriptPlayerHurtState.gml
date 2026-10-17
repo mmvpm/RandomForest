@@ -9,7 +9,10 @@ function funPlayerHurtStart() {
 	self.health = max(0, self.health - applied_damage)
 	if (applied_damage > 0) {
 		funMarkAchievementDamage()
+		// Consume a thorn only when this accepted hit actually reduced health.
+		if (instance_exists(self.forest_damage_projectile)) instance_destroy(self.forest_damage_projectile)
 	}
+	self.forest_damage_projectile = noone
 	funShowDamageText(self, applied_damage, true)
 	self.future_damage = 0 // just in case
 

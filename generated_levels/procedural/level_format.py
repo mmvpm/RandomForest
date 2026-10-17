@@ -5,8 +5,8 @@ from __future__ import annotations
 
 TERRAIN_SYMBOLS = frozenset(".#X=")
 HAZARD_SYMBOLS = frozenset(".^v<>UDLR")
-ENTITY_SYMBOLS = frozenset(".@Oo*SsKkBbPp")
-GROUND_ENTITY_SYMBOLS = frozenset("@SsKkBbPp")
+ENTITY_SYMBOLS = frozenset(".@Oo*SsKkBbPpFfJjCcTtGgWw1234567")
+GROUND_ENTITY_SYMBOLS = frozenset("@SsKkBbPpFfJjCcGgWw1234567")
 MAP_SYMBOLS = TERRAIN_SYMBOLS | HAZARD_SYMBOLS | ENTITY_SYMBOLS
 
 

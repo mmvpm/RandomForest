@@ -30,6 +30,8 @@ def import_selection(suffix, environment, actors):
     resources = []
     for base in [*ENVIRONMENT, *ACTORS]:
         bank = ENVIRONMENT_BANK if base in ENVIRONMENT else ACTOR_BANK
+        if themed_name(base, suffix) in read_resource(ROOT / "tools/lighting_selection.json").get("art_overrides", {}):
+            continue  # Approved replacement skins are not part of the old lighting bank.
         code = environment if base in ENVIRONMENT else actors
         copy_frames(base, themed_name(base, suffix), bank_frames(bank, themed_name(base, code)))
         resources.append(("sprites", themed_name(base, suffix)))
@@ -61,12 +63,17 @@ def main():
 
 def record_selection():
     """Persist approval fingerprints so audits never depend on disposable study folders."""
+    previous = read_resource(ROOT / "tools/lighting_selection.json")
     sprites, tilesets = {}, {}
     for suffix, environment, actors in SELECTIONS:
         for base in [*ENVIRONMENT, *ACTORS]:
             bank = ENVIRONMENT_BANK if base in ENVIRONMENT else ACTOR_BANK
             code = environment if base in ENVIRONMENT else actors
-            sprites[themed_name(base, suffix)] = pixel_digest(bank_frames(bank, themed_name(base, code)))
+            name = themed_name(base, suffix)
+            if name in previous.get("art_overrides", {}):
+                sprites[name] = pixel_digest(bank_frames(PROJECT, name))
+            else:
+                sprites[name] = pixel_digest(bank_frames(bank, themed_name(base, code)))
         for base in TILESETS:
             tilesets[base + suffix] = pixel_digest([ENVIRONMENT_BANK / f"tilesets/{base + environment}/output_tileset.png"])
     for name in ("sPlayerDarkTapSword", "sSwordBloomNight"):
@@ -74,7 +81,7 @@ def record_selection():
         sprites[name] = pixel_digest(paths)
     write_resource(ROOT / "tools/lighting_selection.json", {
         "selection": {"Evening": "E4 Blue Hour + EV2 Light and Shadows", "Morning": "M4 Golden Mist + MO1 Diffuse Light"},
-        "sprites": sprites, "tilesets": tilesets,
+        "sprites": sprites, "tilesets": tilesets, "art_overrides": previous.get("art_overrides", {}),
         "night_sword_rgb": read_resource(ROOT / "tools/lighting_selection.json")["night_sword_rgb"],
         "night_bloom_source": "sSwordBloom"})
 

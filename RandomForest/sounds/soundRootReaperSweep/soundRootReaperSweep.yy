@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"soundRootReaperSweep",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":1,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.55422914,
+  "exportDir":"",
+  "name":"soundRootReaperSweep",
+  "parent":{
+    "name":"Enemies",
+    "path":"folders/Sounds/Enemies.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":48000,
+  "soundFile":"soundRootReaperSweep.wav",
+  "volume":1.0,
+}

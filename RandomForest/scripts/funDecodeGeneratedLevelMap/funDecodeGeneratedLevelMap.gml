@@ -47,11 +47,11 @@ function funDecodeGeneratedLevelMap(level_data) {
 				__funSetGeneratedDecodedSymbol(hazards, column, row, symbol)
 				continue
 			}
-			if (string_pos(symbol, "@SsKkBbPp") > 0) {
+			if (string_pos(symbol, "@SsKkBbPpFfJjCcGgWw1234567") > 0) {
 				__funSetGeneratedDecodedEntity(entities, column, row + 1, symbol)
 				continue
 			}
-			if (string_pos(symbol, "Oo*") > 0) {
+			if (string_pos(symbol, "Oo*Tt") > 0) {
 				__funSetGeneratedDecodedEntity(entities, column, row, symbol)
 				continue
 			}

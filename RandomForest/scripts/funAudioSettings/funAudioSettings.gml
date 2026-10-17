@@ -47,6 +47,16 @@ function funApplySfxSetting(fade_ms = 0) {
 		soundPlayerTapAttack,
 		soundPlayerAttack3,
 		soundPlayerStep,
+		soundResinSlimeLand,
+		soundResinSlimeAttack,
+		soundBarkBomberBurst,
+		soundForestBatAttack,
+		soundForestBatWake,
+		soundBarkGuardShot,
+		soundBarkGuardImpact,
+		soundRootReaperSweep,
+		soundRootReaperSlam,
+		soundRootMawBite,
 	]
 	for (var i = 0; i < array_length(sfx_assets); ++i) {
 		audio_sound_gain(sfx_assets[i], gain, fade_ms)
