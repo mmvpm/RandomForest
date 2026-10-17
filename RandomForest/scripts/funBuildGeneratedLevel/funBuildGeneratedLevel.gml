@@ -92,6 +92,7 @@ function __funGeneratedSolidGrid(level_data) {
 			}
 		}
 	}
+	funMarkWorldPropSolids(level_data, solid_cells)
 	return solid_cells
 }
 
@@ -333,7 +334,9 @@ function funBuildGeneratedLevel(styled_level) {
 
 	__funBuildGeneratedSolids(level_data)
 	__funBuildGeneratedJumpThroughs(level_data)
+	funBuildWorldPropJumpThroughs(level_data)
 	__funBuildGeneratedTraps(level_data)
+	funBuildWorldProps(level_data)
 	__funBuildGeneratedEntities(level_data)
 	funBuildGeneratedWallMemoryAnchors(level_data)
 	funBeginWallMemories()

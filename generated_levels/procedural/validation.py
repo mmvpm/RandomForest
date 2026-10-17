@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 
 from . import config
+from .world_props import has_support, prop_collision_cells
 from .affordance import platform_runs_are_supported
 from .features import spike_has_deep_backing, spike_run_has_side_backing
 from .level_format import (
@@ -223,15 +224,40 @@ def _validate_jump_throughs(terrain: list[str]) -> None:
         raise ValueError("Jump-through construction is disconnected from rock")
 
 
-def _footprint_clear(terrain: list[str], x: int, y: int, symbol: str) -> bool:
+def _footprint_clear(
+    terrain: list[str], x: int, y: int, symbol: str,
+    prop_solids: set[tuple[int, int]] | None = None,
+) -> bool:
     """Check one cell-anchored runtime footprint against terrain."""
     return pixel_footprint_clear(
-        terrain, x * config.CELL_SIZE, y * config.CELL_SIZE, symbol
+        terrain, x * config.CELL_SIZE, y * config.CELL_SIZE, symbol, prop_solids
     )
 
 
-def _validate_entities(terrain: list[str], hazards: list[str], entities: list[str]) -> None:
+def _has_floor_anchor(terrain: list[str], prop_solids: set[tuple[int, int]] | None,
+                      x: int, y: int) -> bool:
+    """Accept the original terrain anchor or an authored prop's fine-grid surface."""
+    return 0 <= y < len(terrain) and (terrain[y][x] == "#" or bool(
+        prop_solids and has_support(terrain, prop_solids, x * 12, x * 12 + 1, y * 12)))
+
+
+def _ground_supported(terrain: list[str], prop_solids: set[tuple[int, int]] | None,
+                      x: int, y: int, symbol: str, left: int, right: int) -> bool:
+    """Keep legacy support rules; authored props use their actual six-pixel geometry."""
+    if not prop_solids:
+        return all(terrain[y][floor_x] == "#" for floor_x in range(left, right))
+    footprint = config.ENTITY_FOOTPRINTS[symbol]
+    return has_support(terrain, prop_solids, x * 12 + footprint[0], x * 12 + footprint[2], y * 12)
+
+
+def _validate_entities(
+    terrain: list[str], hazards: list[str], entities: list[str],
+    prop_solids: set[tuple[int, int]] | None = None,
+    prop_jump_thrus: set[tuple[int, int]] | None = None,
+) -> None:
     """Validate singleton entities and conservative placement footprints."""
+    # One-way tops support standing entities without becoming full-body obstacles.
+    prop_supports = (prop_solids or set()) | (prop_jump_thrus or set())
     text = "".join(entities)
     if text.count("@") != 1:
         raise ValueError("The generated map must contain exactly one player")
@@ -243,14 +269,14 @@ def _validate_entities(terrain: list[str], hazards: list[str], entities: list[st
             if symbol == ".":
                 continue
             if upper in ("@", "S", "K", "B", "F", "J", "C", "G", "W", "1", "2", "3", "4", "5", "6", "7"):
-                if terrain[y][x] != "#":
+                if not _has_floor_anchor(terrain, prop_supports, x, y):
                     raise ValueError(f"Ground entity lacks a floor anchor at ({x}, {y})")
                 left, right = ground_support_bounds(x, upper)
                 if left < 0 or right > len(row):
                     raise ValueError(f"Ground entity footprint leaves the map at ({x}, {y})")
-                if any(terrain[y][floor_x] != "#" for floor_x in range(left, right)):
+                if not _ground_supported(terrain, prop_supports, x, y, upper, left, right):
                     raise ValueError(f"Ground entity footprint lacks support at ({x}, {y})")
-                if not _footprint_clear(terrain, x, y, upper):
+                if not _footprint_clear(terrain, x, y, upper, prop_solids):
                     raise ValueError(f"Ground entity pixel footprint is blocked at ({x}, {y})")
                 hazard_nearby = any(
                     hazards[check_y][check_x] != "."
@@ -260,11 +286,11 @@ def _validate_entities(terrain: list[str], hazards: list[str], entities: list[st
                 if hazard_nearby:
                     raise ValueError(f"Ground entity is too close to spikes at ({x}, {y})")
             elif upper == "T":
-                if not _footprint_clear(terrain, x, y, upper):
+                if not _footprint_clear(terrain, x, y, upper, prop_solids):
                     raise ValueError(f"Flying enemy pixel footprint is blocked at ({x}, {y})")
             elif upper == "O":
                 floor_y = y + 2
-                if floor_y >= len(terrain) or terrain[floor_y][x] != "#":
+                if not _has_floor_anchor(terrain, prop_supports, x, floor_y):
                     raise ValueError(f"Door lacks its expected floor at ({x}, {y})")
                 if any(
                     terrain[check_y][check_x] != "."
@@ -272,12 +298,12 @@ def _validate_entities(terrain: list[str], hazards: list[str], entities: list[st
                     for check_x in range(max(0, x - 1), min(len(row), x + 2))
                 ):
                     raise ValueError(f"Door visual footprint is obstructed at ({x}, {y})")
-                if not _footprint_clear(terrain, x, y, "O"):
+                if not _footprint_clear(terrain, x, y, "O", prop_solids):
                     raise ValueError(f"Door pixel footprint is blocked at ({x}, {y})")
             elif symbol == "*":
-                if not _footprint_clear(terrain, x, y, "*"):
+                if not _footprint_clear(terrain, x, y, "*", prop_solids):
                     raise ValueError(f"Berry pixel footprint is blocked at ({x}, {y})")
-                if not berry_has_safe_landing(terrain, hazards, (x, y)):
+                if not berry_has_safe_landing(terrain, hazards, (x, y), prop_solids):
                     raise ValueError(f"Berry has no safe collection landing at ({x}, {y})")
 
 
@@ -325,4 +351,5 @@ def validate_level(level: dict[str, object]) -> None:
     _validate_rock_shell(terrain)
     _validate_hazards(terrain, hazards)
     _validate_jump_throughs(terrain)
-    _validate_entities(terrain, hazards, entities)
+    prop_solids, prop_jump_thrus = prop_collision_cells(semantic)
+    _validate_entities(terrain, hazards, entities, prop_solids, prop_jump_thrus)

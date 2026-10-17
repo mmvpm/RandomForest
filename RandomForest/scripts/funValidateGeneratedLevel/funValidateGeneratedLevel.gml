@@ -40,5 +40,7 @@ function funValidateGeneratedLevel(level_data) {
 		}
 	}
 
+	var prop_error = funValidateWorldProps(level_data)
+	if (prop_error != "") return { is_valid: false, error: prop_error }
 	return { is_valid: true, error: "" }
 }

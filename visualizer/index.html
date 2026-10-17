@@ -589,6 +589,7 @@
     }
   </style>
   <link rel="stylesheet" href="wall-memories.css">
+  <link rel="stylesheet" href="world-props.css">
 </head>
 <body>
   <main class="page">
@@ -651,7 +652,33 @@
         <div class="editor-mode-switch" role="group" aria-label="Режим редактора">
           <button type="button" data-editor-mode="inscriptions" aria-pressed="false" aria-controls="wall-memory-panel">Надписи</button>
           <button type="button" data-editor-mode="map" aria-pressed="true" aria-controls="map-editor-panel">Карта</button>
+          <button type="button" data-editor-mode="props" aria-pressed="false" aria-controls="world-prop-panel">Предметы</button>
         </div>
+        <section id="world-prop-panel" class="side-section" hidden>
+          <p class="section-label">Крупные предметы</p>
+          <div class="prop-palette" data-prop="palette"></div>
+          <p class="memory-note" data-prop="position"></p>
+          <div class="memory-fields">
+            <label>Прозрачность, % <input type="number" data-prop="opacity" min="0" max="100" step="1" value="100"></label>
+            <label>Отображение <select data-prop="platform_layer"><option value="above">Над платформами</option><option value="below">Под платформами</option></select></label>
+          </div>
+          <p class="memory-note">100% — полностью видимый, 0% — невидимый.</p>
+          <div class="prop-actions">
+            <button class="entity-chip" type="button" data-prop="move">Выбрать / переместить</button>
+            <button class="entity-chip" type="button" data-prop="solids">Коллизии предмета</button>
+            <button class="entity-chip" type="button" data-prop="duplicate">Дублировать</button>
+            <button class="entity-chip" type="button" data-prop="mirror">Отразить · R</button>
+            <button class="entity-chip" type="button" data-prop="delete">Удалить · Delete</button>
+          </div>
+          <div class="memory-fields">
+            <label>Тип подложки <select data-prop="collision_type"><option value="solids">Solid</option><option value="jump_thrus">Jump-through</option></select></label>
+          </div>
+          <p class="memory-note">Перенос и коллизии: шаг 6 px. ЛКМ рисует выбранный тип, ПКМ стирает его. Solid — квадрат, Jump-through — верхняя линия. Жёлтые клетки принадлежат выбранному предмету, голубые — остальным.</p>
+          <label class="memory-check"><input type="checkbox" data-prop="visible" checked> Показывать рисунки</label>
+          <label class="memory-check"><input type="checkbox" data-prop="collisions" checked> Показывать коллизии предметов</label>
+          <div class="prop-instances" data-prop="instances" aria-label="Предметы на уровне"></div>
+          <p class="memory-note" data-prop="message"></p>
+        </section>
         <section id="wall-memory-panel" class="side-section" hidden>
           <p class="memory-note">В режиме надписей: клик создаёт или выбирает, перетаскивание двигает, Delete удаляет.</p>
           <p data-memory="position" class="memory-note"></p>
@@ -727,6 +754,7 @@
 
   <div id="cell-tooltip" class="cell-tooltip" aria-hidden="true"></div>
 
+  <script src="world-props.js"></script>
   <script src="forest-enemies.js"></script>
   <script src="wall-memories.js"></script>
   <script src="level-persistence.js"></script>
@@ -852,6 +880,8 @@
 
     const wallEditor = createWallMemoryEditor({ state, canvas: elements.canvas,
       render: renderLevel, save: queueLevelSave, hideTooltip: hideCellTooltip });
+    const propEditor = createWorldPropEditor({ state, canvas: elements.canvas,
+      render: renderLevel, save: queueLevelSave, hideTooltip: hideCellTooltip });
     const persistence = createLevelPersistence({ state, getPath: getLevelPath,
       getSaveUrl: getLevelSaveUrl, statusUrl: "http://127.0.0.1:8000/api/status",
       setStatus, onChange: updateSaveControls });
@@ -869,10 +899,12 @@
       state.dragVisited.clear();
       document.getElementById("wall-memory-panel").hidden = mode !== "inscriptions";
       document.getElementById("map-editor-panel").hidden = mode !== "map";
+      document.getElementById("world-prop-panel").hidden = mode !== "props";
       for (const button of document.querySelectorAll("[data-editor-mode]")) {
         button.setAttribute("aria-pressed", String(button.dataset.editorMode === mode));
       }
       wallEditor.setActive(mode === "inscriptions");
+      propEditor.setActive(mode === "props");
     }
 
     // Clamps and converts the level selector value to an integer.
@@ -945,7 +977,7 @@
 
     // Fetches the selected JSON and redraws only when its text has changed.
     async function pollSelectedLevel() {
-      if (state.requestInProgress || persistence.hasUnsaved() || wallEditor.isEditing()) {
+      if (state.requestInProgress || persistence.hasUnsaved() || wallEditor.isEditing() || propEditor.isEditing()) {
         return;
       }
 
@@ -963,7 +995,7 @@
         const text = await response.text();
         if (
           requestedLevelNumber !== state.levelNumber ||
-          requestedEditRevision !== state.editRevision || persistence.hasUnsaved() || wallEditor.isEditing()
+          requestedEditRevision !== state.editRevision || persistence.hasUnsaved() || wallEditor.isEditing() || propEditor.isEditing()
         ) {
           return;
         }
@@ -977,6 +1009,7 @@
         state.undoStack = [];
         state.level = level;
         wallEditor.refresh(true);
+        propEditor.refresh(true);
         state.loadedPath = path;
         state.loadedText = text;
         fitZoomToViewport(level);
@@ -1020,6 +1053,7 @@
         elements.canvas.getContext("2d").clearRect(0, 0, elements.canvas.width, elements.canvas.height);
       }
       wallEditor.refresh(true);
+      propEditor.refresh(true);
       elements.levelNumber.value = String(state.levelNumber);
       elements.tooltip.style.display = "none";
       setStatus("Загрузка уровня…", getLevelPath(state.levelNumber));
@@ -1316,14 +1350,25 @@
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       drawBackground(context, level);
 
+      context.save(); context.scale(CELL_SIZE / 12, CELL_SIZE / 12);
+      propEditor.drawArt(context, "below"); context.restore();
+
       for (let y = 0; y < level.height; y += 1) {
         for (let x = 0; x < level.width; x += 1) {
-          drawSymbol(context, level, level.map[y][x], x, y);
+          if ("#X=".includes(level.map[y][x])) drawSymbol(context, level, level.map[y][x], x, y);
+        }
+      }
+      context.save(); context.scale(CELL_SIZE / 12, CELL_SIZE / 12);
+      propEditor.drawArt(context, "above"); context.restore();
+      for (let y = 0; y < level.height; y += 1) {
+        for (let x = 0; x < level.width; x += 1) {
+          if (!"#X=".includes(level.map[y][x])) drawSymbol(context, level, level.map[y][x], x, y);
         }
       }
       context.save();
       context.scale(CELL_SIZE / 12, CELL_SIZE / 12);
       wallEditor.draw(context);
+      propEditor.drawOverlay(context);
       context.restore();
     }
 
@@ -1445,7 +1490,7 @@
 
     // Shows the source symbol and zero-based coordinates under the pointer.
     function showCellTooltip(event) {
-      if (wallEditor.isActive()) { hideCellTooltip(); return; }
+      if (wallEditor.isActive() || propEditor.isActive()) { hideCellTooltip(); return; }
       const cell = getCellFromPointer(event);
       state.hoveredCell = cell;
       if (!cell) {
@@ -1486,12 +1531,14 @@
 
     // Restores the symbol changed by the most recent local edit.
     function undoLastEdit() {
+      finishCanvasDrag();
       const edit = state.undoStack.pop();
       if (!edit || !state.level) {
         return false;
       }
 
       if (wallEditor.undo(edit)) return true;
+      if (propEditor.undo(edit)) return true;
       replaceCellSymbol(edit, edit.symbol, false);
       return true;
     }
@@ -1515,6 +1562,7 @@
     // Starts painting from an empty cell or erasing from an occupied cell.
     function startCanvasDrag(event) {
       if (wallEditor.pointerDown(event)) return;
+      if (propEditor.pointerDown(event)) return;
       if (event.button !== 0) {
         return;
       }
@@ -1536,6 +1584,7 @@
     // Extends the current paint or erase stroke across a new cell.
     function continueCanvasDrag(event) {
       if (wallEditor.pointerMove(event)) return;
+      if (propEditor.pointerMove(event)) return;
       if (!state.dragMode) {
         return;
       }
@@ -1549,6 +1598,7 @@
     // Finishes the current paint or erase stroke.
     function finishCanvasDrag() {
       if (wallEditor.pointerUp()) return;
+      if (propEditor.pointerUp()) return;
       state.dragMode = null;
       state.dragVisited.clear();
     }
@@ -1597,6 +1647,7 @@
       }
 
       if (wallEditor.keyboard(event)) return;
+      if (propEditor.keyboard(event)) return;
       if (event.code === "KeyR" && rotateHoveredSymbol()) {
         event.preventDefault();
         return;

@@ -35,6 +35,7 @@ def pixel_footprint_clear(
     anchor_x: float,
     anchor_y: float,
     symbol: str,
+    prop_solids: set[tuple[int, int]] | None = None,
 ) -> bool:
     """Check one runtime footprint at an arbitrary pixel anchor."""
     first_x, first_y, last_x, last_y = footprint_cells(anchor_x, anchor_y, symbol)
@@ -45,6 +46,12 @@ def pixel_footprint_clear(
         or last_y >= len(terrain)
     ):
         return False
+    if prop_solids:
+        left, top, right, bottom = config.ENTITY_FOOTPRINTS[symbol]
+        if any((x, y) in prop_solids
+               for y in range(math.floor((anchor_y + top) / 6), math.ceil((anchor_y + bottom) / 6))
+               for x in range(math.floor((anchor_x + left) / 6), math.ceil((anchor_x + right) / 6))):
+            return False
     return all(
         terrain[y][x] == "."
         for y in range(first_y, last_y + 1)
@@ -56,6 +63,7 @@ def berry_has_safe_landing(
     terrain: list[list[str]] | list[str],
     hazards: list[list[str]] | list[str],
     point: tuple[int, int],
+    prop_solids: set[tuple[int, int]] | None = None,
 ) -> bool:
     """Match the game's teleport search and require player-berry overlap."""
     berry_x = point[0] * config.CELL_SIZE
@@ -75,7 +83,7 @@ def berry_has_safe_landing(
                     continue
                 anchor_x = berry_x + distance * direction_x
                 anchor_y = target_y + distance * direction_y
-                if not pixel_footprint_clear(terrain, anchor_x, anchor_y, "@"):
+                if not pixel_footprint_clear(terrain, anchor_x, anchor_y, "@", prop_solids):
                     continue
                 first_x, first_y, last_x, last_y = footprint_cells(
                     anchor_x, anchor_y, "@"
