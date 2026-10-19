@@ -42,4 +42,8 @@
 
 Изолированный игровой прогон: `python3 -B tools/prepare_theme_smoke.py --forest-revision --work-dir .temp/enemy_revision/smoke`. Сборка и запуск: `/bin/zsh tools/run_gamemaker.sh compile <compile.bff>` и `/bin/zsh tools/run_gamemaker.sh run <game.zip> <runtime.log>`. Запись реального прогресса в этой копии отключена.
 
-Уровень 22 сохраняет вечерние, дневные и утренние встречи; уровень 32 содержит ночные встречи и настоящий потолок над мышью. [Сверка исходных замечаний](forest-enemy-revision.md), [последующие исправления hurt/death, отбрасывания и атак мыши](forest-enemy-feedback.md).
+Уровни 22–41 теперь входят в [игровую серию](../generated_levels/curated_22_41/README.md).
+Смешанная и ночная тестовые арены хранятся в `tools/fixtures/forest_enemy_*.json`;
+`prepare_theme_smoke.py --forest-revision` подставляет их только в тестовую копию.
+`tools/forest_enemy_levels.py` пересоздаёт эти fixtures, сохраняя игровую кампанию.
+[Сверка исходных замечаний](forest-enemy-revision.md), [последующие исправления hurt/death, отбрасывания и атак мыши](forest-enemy-feedback.md).

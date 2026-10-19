@@ -1,6 +1,5 @@
-"""Author spaced encounter lanes for the requested evening and new night test levels."""
-import json,shutil
-from theme_assets import ROOT,PROJECT,read_resource,write_resource,append_entries
+"""Rebuild isolated enemy test arenas without overwriting the playable campaign."""
+from theme_assets import ROOT,write_resource
 
 
 def lane(width,height,floor):
@@ -23,14 +22,15 @@ def entity(grid,x,y,symbol):
 
 
 def save(number,grid,title,stars):
-    """Write one editable semantic level while preserving the previous evening level as an archive."""
-    path=PROJECT/f'datafiles/challenge_levels/{number:02d}.json';backup=ROOT/'.temp/enemy_integration/previous-level-22.json'
-    if number==12 and not backup.exists():shutil.copyfile(path,backup)
+    """Write a regression fixture outside GameMaker Included Files."""
+    fixture="forest_enemy_evening" if number==12 else "forest_enemy_night"
+    path=ROOT/"tools/fixtures"/(fixture+".json")
+    path.parent.mkdir(parents=True,exist_ok=True)
     write_resource(path,{'width':len(grid[0]),'height':len(grid),'style':{'profile':'forest','seed':20261014+number,'grass_chance':.35},'star_times':{'three_stars':stars,'two_stars':stars*2},'map':[''.join(row) for row in grid],'test_encounters':title})
 
 
 def main():
-    """Install level 22 for all evening/day/morning skins and append level 32 for the six night behaviours."""
+    """Prepare mixed-skin and night fixtures for the isolated enemy smoke project."""
     g=lane(187,32,27);entity(g,7,26,'@');entity(g,179,25,'O')
     for x,symbol in [(24,'K'),(50,'5'),(77,'1'),(104,'2'),(132,'4'),(159,'7')]:entity(g,x,26,symbol)
     for x in [15,38,65,92,120,146,172]:entity(g,x,24,'*')
@@ -45,13 +45,7 @@ def main():
     for x in range(55,60):g[24][x]='='
     for x in [17,46,71,82,105,136,169,200]:entity(g,x,23,'*')
     save(22,g,'32: resin jump, root maw bypass, bomber ridge, bat dive, guardian, reaper counterattack',100)
-    catalog=read_resource(PROJECT/'datafiles/challenge_levels/catalog.json');path='challenge_levels/22.json'
-    if path not in catalog['levels']:catalog['levels'].append(path)
-    write_resource(PROJECT/'datafiles/challenge_levels/catalog.json',catalog)
-    project=read_resource(PROJECT/'RandomForest.yyp')
-    if not any(f['name']=='22.json' and f['filePath']=='datafiles/challenge_levels' for f in project['IncludedFiles']):
-        append_entries(PROJECT/'RandomForest.yyp','IncludedFiles',[{'$GMIncludedFile':'','%Name':'22.json','CopyToMask':-1,'filePath':'datafiles/challenge_levels','name':'22.json','resourceType':'GMIncludedFile','resourceVersion':'2.0'}])
-    print('Prepared campaign levels 22 and 32; encounters separated by at least 26 cells')
+    print('Prepared isolated enemy fixtures; playable campaign files were not changed')
 
 
 if __name__=='__main__':main()

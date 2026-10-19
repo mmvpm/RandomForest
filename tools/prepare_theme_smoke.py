@@ -33,6 +33,11 @@ def main():
     project = work / "project"
     source = ROOT / ".temp/enemy_revision/before" if args.forest_baseline else ROOT / "RandomForest"
     shutil.copytree(source, project, dirs_exist_ok=True)
+    if args.forest_enemies:
+        # Regression arenas belong only to this copy; campaign levels 22/32 are playable maps.
+        for fixture, number in (("forest_enemy_evening", "12"), ("forest_enemy_night", "22")):
+            shutil.copyfile(ROOT / "tools/fixtures" / (fixture + ".json"),
+                            project / "datafiles/challenge_levels" / (number + ".json"))
     # No game-state writes are permitted from this test copy.
     (project / "scripts/funSaveGameState/funSaveGameState.gml").write_text(
         "/// Disables real save writes in this isolated visual check.\nfunction funSaveGameState() {}\n")

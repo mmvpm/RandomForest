@@ -108,6 +108,35 @@ function createWorldPropEditor({ state, canvas, render, save, hideTooltip }) {
     }
     return images.get(path);
   }
+  // Previews the same fixed lantern source and fading beam as the runtime.
+  function drawLight(context, entry) {
+    if (!entry.light) return;
+    const light = entry.light, theme = WorldPropModel.theme(state.levelNumber);
+    const strength = theme === "night" ? 1 : theme === "evening" ? 0.65 : 0.25;
+    const beam = context.createLinearGradient(light.x, light.y, light.x + light.dx, light.y + light.dy);
+    beam.addColorStop(0, `rgba(224,210,247,${0.17 * strength})`);
+    beam.addColorStop(1, "rgba(224,210,247,0)");
+    context.fillStyle = beam; context.beginPath();
+    context.moveTo(light.x, light.y - 3); context.lineTo(light.x, light.y + 3);
+    context.lineTo(light.x + light.dx, light.y + light.dy + light.half_width);
+    context.lineTo(light.x + light.dx, light.y + light.dy - light.half_width);
+    context.closePath(); context.fill();
+    const halo = context.createRadialGradient(light.x, light.y, 0, light.x, light.y, 40);
+    halo.addColorStop(0, `rgba(224,210,247,${0.3 * strength})`);
+    halo.addColorStop(1, "rgba(224,210,247,0)");
+    context.fillStyle = halo; context.fillRect(light.x - 40, light.y - 40, 80, 80);
+  }
+  // Places the small glass glow above the opaque lantern art.
+  function drawLightSource(context, entry) {
+    if (!entry.light) return;
+    const light = entry.light, x = light.x - 7, y = light.y;
+    const theme = WorldPropModel.theme(state.levelNumber);
+    const strength = theme === "night" ? 1 : theme === "evening" ? 0.65 : 0.25;
+    const halo = context.createRadialGradient(x, y, 0, x, y, 14);
+    halo.addColorStop(0, `rgba(238,222,255,${0.58 * strength})`);
+    halo.addColorStop(1, "rgba(238,222,255,0)");
+    context.fillStyle = halo; context.fillRect(x - 14, y - 14, 28, 28);
+  }
   // Draws native pixels using exactly the same origin and reflection as GameMaker.
   function drawSprite(context, prop, alpha = 1) {
     const entry = definition(prop); if (!entry) return;
@@ -115,7 +144,9 @@ function createWorldPropEditor({ state, canvas, render, save, hideTooltip }) {
     if (!image.complete || !image.naturalWidth) return;
     context.save(); context.globalAlpha = alpha * WorldPropModel.opacity(prop) / 100; context.imageSmoothingEnabled = false;
     context.translate(prop.x, prop.y); context.scale(prop.mirrored ? -1 : 1, 1);
-    context.drawImage(image, -entry.origin[0], -entry.origin[1]); context.restore();
+    drawLight(context, entry);
+    context.drawImage(image, -entry.origin[0], -entry.origin[1]);
+    drawLightSource(context, entry); context.restore();
   }
   // Draws one side of the platform layer, keeping hazards and characters in front.
   function drawArt(context, platformLayer = "above") {

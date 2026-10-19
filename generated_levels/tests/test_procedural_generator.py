@@ -368,7 +368,7 @@ class ProceduralGeneratorTests(unittest.TestCase):
             expected_berries + config.BERRY_COUNT_VARIATION,
         )
         expected_enemies = enemy_target(inner_area)
-        actual_enemies = sum(entities[symbol] for symbol in "SsKkBb")
+        actual_enemies = sum(entities[symbol] for symbol in config.ENEMY_SYMBOLS)
         self.assertGreaterEqual(actual_enemies, expected_enemies)
         self.assertLessEqual(
             actual_enemies,
@@ -391,7 +391,7 @@ class ProceduralGeneratorTests(unittest.TestCase):
             (x, y)
             for y, row in enumerate(level["entities"])
             for x, symbol in enumerate(row)
-            if symbol in "*SsKkBb"
+            if symbol == "*" or symbol in config.ENEMY_SYMBOLS
         ]
         horizontal_span = max(x for x, _ in content_positions) - min(
             x for x, _ in content_positions

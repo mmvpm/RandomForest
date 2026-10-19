@@ -222,6 +222,13 @@
           "sprite": "sWorldPropLightLoomMorning",
           "image": "sprites/sWorldPropLightLoomMorning/ad0b3f90-bdb7-563d-b1dd-1937a7ddb9db.png"
         }
+      },
+      "light": {
+        "x": -22,
+        "y": -149,
+        "dx": 138,
+        "dy": 53,
+        "half_width": 28
       }
     },
     {

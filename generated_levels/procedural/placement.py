@@ -23,6 +23,7 @@ def footprint_cells(
 def ground_support_bounds(anchor_x: int, symbol: str) -> tuple[int, int]:
     """Return the half-open floor span required by the real entity footprint."""
     left, _, right, _ = config.ENTITY_FOOTPRINTS[symbol]
+    left, right = config.ENTITY_GROUND_SUPPORT.get(symbol, (left, right))
     first = math.floor((anchor_x * config.CELL_SIZE + left) / config.CELL_SIZE)
     last = math.floor(
         (anchor_x * config.CELL_SIZE + right - 1e-6) / config.CELL_SIZE

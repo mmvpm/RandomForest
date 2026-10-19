@@ -100,12 +100,12 @@ def _full_level_score(
     area = int(level["width"]) * int(level["height"])
     air_ratio = terrain["."] / area
     hazard_count = sum(hazards[symbol] for symbol in "^v<>UDLR")
-    enemy_count = sum(entities[symbol] for symbol in "SsKkBb")
+    enemy_count = sum(entities[symbol] for symbol in config.ENEMY_SYMBOLS)
     straight_edge_penalty = _straight_edge_penalty(terrain_rows)
     occupied_bands = {
         min(3, y * 4 // len(entity_rows))
         for y, row in enumerate(entity_rows)
-        if any(symbol in "*SsKkBb" for symbol in row)
+        if any(symbol == "*" or symbol in config.ENEMY_SYMBOLS for symbol in row)
     }
     target_hazards = max(1, round(terrain["."] * config.HAZARD_AIR_RATIO))
     target_enemies = enemy_target(area)
@@ -143,6 +143,7 @@ def _content_layout(
     actual_seed: int,
     content_seed: int,
     topology_settings: config.TopologySettings,
+    game_level: int,
 ) -> tuple[float, dict[str, object]]:
     """Build, validate, and score one content layout over an accepted cave."""
     terrain = [row[:] for row in cave.terrain]
@@ -159,6 +160,7 @@ def _content_layout(
         cave.route,
         content_seed,
         topology_settings,
+        game_level,
     )
     if not collision_depth_is_qualified(terrain):
         raise ValueError("Collision rock extends deeper than two cells")
@@ -192,12 +194,15 @@ def generate_level(
     seed: int | None = None,
     topology: config.TopologySettings | None = None,
     progress: ProgressCallback | None = None,
+    *,
+    game_level: int = 11,
 ) -> dict[str, object]:
     """Generate and select the best requested number of valid candidates."""
     if width_cells < config.MIN_WIDTH or height_cells < config.MIN_HEIGHT:
         raise ValueError(
             f"Level must be at least {config.MIN_WIDTH}x{config.MIN_HEIGHT} cells"
         )
+    config.level_theme(game_level)
     actual_seed = secrets.randbits(31) if seed is None else seed & 0x7FFFFFFF
     inner_width = width_cells - config.OUTER_X_PADDING * 2
     inner_height = height_cells - config.OUTER_X_PADDING * 2
@@ -252,6 +257,7 @@ def generate_level(
                         actual_seed,
                         content_seed,
                         topology_settings,
+                        game_level,
                     )
                 )
             except ValueError as error:

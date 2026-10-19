@@ -7,6 +7,7 @@ import random
 
 from . import config
 from .berry_distribution import BerryCandidate, select_berry_candidates
+from .enemy_placement import bat_candidates, ground_encounter_fits
 from .encounters import (
     EncounterZone,
     build_encounter_zones,
@@ -217,15 +218,16 @@ def enemy_target(level_area: int) -> int:
     )
 
 
-def _weighted_enemy(rng: random.Random) -> str:
+def _weighted_enemy(rng: random.Random, game_level: int = 11) -> str:
     """Choose a preferred enemy type from the configured weights."""
-    value = rng.random()
+    weights = config.enemy_weights(game_level)
+    value = rng.random() * sum(weight for _, weight in weights)
     total = 0.0
-    for symbol, weight in config.ENEMY_WEIGHTS:
+    for symbol, weight in weights:
         total += weight
         if value <= total:
             return symbol
-    return config.ENEMY_WEIGHTS[-1][0]
+    return weights[-1][0]
 
 
 def _choose_enemy_candidate(
@@ -246,7 +248,8 @@ def _choose_enemy_candidate(
             else config.ENEMY_ALTERNATIVE_TYPE_COST
         )
         for candidate in candidates:
-            if _reserved(candidate, occupied):
+            if any(_distance(candidate, point) < max(radius, config.ENEMY_ENCOUNTER_RADIUS[symbol])
+                   for point, radius in occupied):
                 continue
             suitability = candidate_suitability(
                 terrain,
@@ -356,6 +359,7 @@ def place_entities(
     route: tuple[Point, ...],
     seed: int,
     topology: config.TopologySettings = config.DEFAULT_TOPOLOGY,
+    game_level: int = 11,
 ) -> list[list[str]]:
     """Place all entities while respecting type-specific physical space."""
     height = len(terrain)
@@ -390,26 +394,35 @@ def place_entities(
     zones = build_encounter_zones(terrain, route_metrics, seed)
     target = encounter_enemy_target(enemy_target(level_area), zones)
     encounter_schedule = ordered_encounter_zones(zones, target)
-    enemy_candidates = {
-        symbol: _ground_candidates(terrain, hazards, symbol)
-        for symbol in ("S", "K", "B")
-    }
+    enemy_candidates = {}
+    for symbol, _ in config.enemy_weights(game_level):
+        enemy_candidates[symbol] = (
+            bat_candidates(terrain, hazards) if symbol == "T" else
+            [point for point in _ground_candidates(terrain, hazards, symbol)
+             if ground_encounter_fits(terrain, *point, symbol)]
+        )
     for candidates in enemy_candidates.values():
         rng.shuffle(candidates)
+    preferences = [_weighted_enemy(rng, game_level) for _ in range(target)]
+    # Reserve scarce ceiling/large-body niches before common enemies occupy them.
+    preferences.sort(key=lambda symbol: len(enemy_candidates[symbol]))
     placed_enemies = 0
     enemy_points: list[Point] = []
-    for enemy_index in range(target):
-        preferred_type = _weighted_enemy(rng)
+    for enemy_index, preferred_type in enumerate(preferences):
         zone = encounter_schedule[enemy_index]
         choice = _choose_enemy_candidate(
             terrain,
-            enemy_candidates,
+            {preferred_type: enemy_candidates[preferred_type]},
             occupied,
             route_metrics,
             zone,
             preferred_type,
             rng,
         )
+        if choice is None:
+            choice = _choose_enemy_candidate(
+                terrain, enemy_candidates, occupied, route_metrics, zone, preferred_type, rng
+            )
         if choice is None:
             continue
         symbol, point = choice
@@ -422,7 +435,7 @@ def place_entities(
         facing_x = route_metrics[facing_index][0][0]
         facing_symbol = symbol.lower() if facing_x < point[0] else symbol
         entities[point[1]][point[0]] = facing_symbol
-        occupied.append((point, config.ENEMY_MIN_DISTANCE))
+        occupied.append((point, config.ENEMY_ENCOUNTER_RADIUS[symbol]))
         enemy_points.append(point)
         placed_enemies += 1
     if placed_enemies != target:

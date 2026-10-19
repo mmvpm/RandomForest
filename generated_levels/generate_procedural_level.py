@@ -77,6 +77,7 @@ def generate_batch() -> int:
             seed,
             LEVEL_TOPOLOGY,
             show_progress,
+            game_level=level_number + 10,
         )
         output_path = OUTPUT_DIRECTORY / level_file_name(level_number)
         write_new_level(level, output_path)

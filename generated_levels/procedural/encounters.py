@@ -123,7 +123,7 @@ def candidate_suitability(
 ) -> float:
     """Score an enemy anchor by scene fit, route stage, and patrol comfort."""
     distance = math.dist(point, zone.center)
-    width = _floor_run_width(terrain, point)
+    width = _floor_run_width(terrain, point) if symbol != "T" else 7
     preferred_width = math.ceil(
         (
             config.ENTITY_FOOTPRINTS[symbol][2]
@@ -137,8 +137,9 @@ def candidate_suitability(
     type_bonus = 0.0
     if symbol == "K":
         type_bonus = 0.8 if width <= preferred_width else 0.2
-    elif symbol == "B":
-        type_bonus = zone.openness * 1.1 + comfort * 0.5
+    elif symbol in "BCGW":
+        # A roomy scene must not override the weighted roster in every encounter.
+        type_bonus = comfort * 0.7 + zone.openness * 0.15
     else:
         type_bonus = comfort * 0.7
     return (

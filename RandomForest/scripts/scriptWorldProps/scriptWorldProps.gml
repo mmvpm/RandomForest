@@ -148,7 +148,41 @@ function funBuildWorldProps(level_data) {
             sprite_index: asset_get_index(definition.variants.day.sprite),
             image_xscale: prop.mirrored ? -1 : 1,
             image_speed: 0,
-            image_alpha: funWorldPropOpacity(prop) / 100
+            image_alpha: funWorldPropOpacity(prop) / 100,
+            world_prop_light: variable_struct_exists(definition, "light") ? definition.light : undefined
         })
     }
+}
+
+/// Draws a quiet lantern beam behind the prop and lets the platform layer occlude it.
+function funDrawWorldPropLight() {
+    if (!variable_instance_exists(self, "world_prop_light") || is_undefined(self.world_prop_light)) return
+    var light = self.world_prop_light
+    var theme = funCurrentLevelTheme()
+    var strength = theme == "night" ? 1 : (theme == "evening" ? 0.65 : 0.25)
+    var facing = sign(self.image_xscale)
+    var source_x = self.x + facing * light.x
+    var source_y = self.y + light.y
+    var end_x = source_x + facing * light.dx
+    var end_y = source_y + light.dy
+    var colour = make_color_rgb(224, 210, 247)
+    var alpha = strength * self.image_alpha
+    draw_primitive_begin(pr_trianglestrip)
+    draw_vertex_color(source_x, source_y - 3, colour, alpha * 0.17)
+    draw_vertex_color(source_x, source_y + 3, colour, alpha * 0.17)
+    draw_vertex_color(end_x, end_y - light.half_width, colour, 0)
+    draw_vertex_color(end_x, end_y + light.half_width, colour, 0)
+    draw_primitive_end()
+    draw_sprite_ext(sPlayerBloom2, 0, source_x, source_y, 1.8, 1.8, 0, colour, alpha * 0.65)
+}
+
+/// Keeps the lantern glass luminous instead of hiding the source behind opaque artwork.
+function funDrawWorldPropLightSource() {
+    if (!variable_instance_exists(self, "world_prop_light") || is_undefined(self.world_prop_light)) return
+    var light = self.world_prop_light
+    var theme = funCurrentLevelTheme()
+    var strength = theme == "night" ? 1 : (theme == "evening" ? 0.65 : 0.25)
+    var source_x = self.x + sign(self.image_xscale) * (light.x - 7)
+    draw_sprite_ext(sPlayerBloom2, 0, source_x, self.y + light.y, 0.55, 0.55, 0,
+                    make_color_rgb(238, 222, 255), strength * self.image_alpha * 0.85)
 }

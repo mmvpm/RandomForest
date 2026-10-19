@@ -105,7 +105,7 @@ def analyze_composition(
         ((x, y), symbol.upper())
         for y, row in enumerate(entity_grid)
         for x, symbol in enumerate(row)
-        if symbol in "SsKkBb"
+        if symbol in config.ENEMY_SYMBOLS
     ]
     berries = [
         (x, y)

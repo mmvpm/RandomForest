@@ -60,7 +60,7 @@ JUMP_THRU_AIR_PER_RUN = 290
 JUMP_THRU_MIN_LENGTH = 2
 JUMP_THRU_MAX_LENGTH = 5
 JUMP_THRU_MIN_VERTICAL_STEP = 2
-JUMP_THRU_MAX_UPWARD_STEP = 3
+JUMP_THRU_MAX_UPWARD_STEP = 2
 PLATFORM_CHAIN_MAX_RUNS = 3
 PLATFORM_CHAIN_AIR_PER_CHAIN = 1700
 HAZARD_AIR_RATIO = 0.045
@@ -111,16 +111,55 @@ TWO_STAR_TIME_FACTOR = 2
 # Collision/visual footprints relative to each runtime anchor, in pixels.
 ENTITY_FOOTPRINTS = {
     "@": (-PLAYER_WIDTH // 2, -PLAYER_HEIGHT, PLAYER_WIDTH // 2, 0),
-    "S": (-11, -10, 11, 0),
+    "S": (-13, -12, 13, 0),
     "K": (-6, -24, 6, 0),
     "B": (-12, -35, 12, 0),
     "O": (-10, -18, 10, 19),
     "*": (-7, -8, 7, 8),
 }
-ENTITY_PATROL_MARGIN = {"@": 24, "S": 24, "K": 36, "B": 48}
-ENEMY_WEIGHTS = (("S", 0.60), ("K", 0.25), ("B", 0.15))
+# Full-size jelly can overhang a safe ledge by two pixels; keep the old support comfort.
+ENTITY_GROUND_SUPPORT = {"S": (-11, 11)}
+ENTITY_PATROL_MARGIN = {
+    "@": 24, "S": 24, "K": 36, "B": 48,
+    "J": 48, "C": 48, "G": 72, "W": 72, "F": 0, "T": 48,
+}
 
-# Body footprints at runtime scale; the generator still uses its original type weights.
+# Absolute, one-based game numbers; challenge file 01.json is game level 11.
+CAMPAIGN_THEME_ENDS = ((20, "day"), (30, "evening"), (40, "night"))
+ENEMY_SKINS = {
+    "S": ("day", "evening", "night", "morning"),
+    "K": ("day", "evening", "night", "morning"),
+    "B": ("day", "evening", "night", "morning"),
+    "G": ("day", "evening", "night", "morning"),
+    "J": ("evening", "night", "morning"),
+    "C": ("night",), "T": ("night",), "W": ("night",), "F": ("night",),
+}
+ENEMY_WEIGHTS_BY_THEME = {
+    "day": (("S", .45), ("K", .25), ("B", .15), ("G", .15)),
+    "evening": (("S", .20), ("K", .24), ("B", .12), ("J", .28), ("G", .16)),
+    "night": (("S", .12), ("K", .10), ("B", .07), ("J", .14), ("C", .12),
+              ("T", .14), ("G", .12), ("W", .10), ("F", .09)),
+    "morning": (("S", .20), ("K", .22), ("B", .15), ("J", .25), ("G", .18)),
+}
+ENEMY_SYMBOLS = frozenset(symbol for upper in ENEMY_SKINS for symbol in (upper, upper.lower()))
+ENEMY_ENCOUNTER_RADIUS = {"S": 4, "K": 5, "B": 6, "J": 6, "C": 8,
+                          "T": 9, "G": 9, "W": 9, "F": 8}
+
+
+def level_theme(game_level: int) -> str:
+    """Resolve the campaign's absolute number using the runtime day boundaries."""
+    if game_level < 1:
+        raise ValueError("game_level must be a positive one-based game number")
+    return next((theme for end, theme in CAMPAIGN_THEME_ENDS if game_level <= end), "morning")
+
+
+def enemy_weights(game_level: int) -> tuple[tuple[str, float], ...]:
+    """Select only families that have real artwork for this time of day."""
+    theme = level_theme(game_level)
+    return tuple((symbol, weight) for symbol, weight in ENEMY_WEIGHTS_BY_THEME[theme]
+                 if theme in ENEMY_SKINS[symbol])
+
+# Conservative body/art clearance at runtime scale, independent of animated masks.
 ENTITY_FOOTPRINTS.update({
     "F":(-14,-40,50,0), "J":(-14,-40,18,0), "C":(-10,-20,10,0),
     "T":(-16,-15,16,15), "G":(-18,-38,18,0), "W":(-18,-48,18,0),

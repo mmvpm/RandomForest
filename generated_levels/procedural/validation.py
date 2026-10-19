@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 
 from . import config
+from .enemy_placement import ground_encounter_fits
 from .world_props import has_support, prop_collision_cells
 from .affordance import platform_runs_are_supported
 from .features import spike_has_deep_backing, spike_run_has_side_backing
@@ -247,7 +248,8 @@ def _ground_supported(terrain: list[str], prop_solids: set[tuple[int, int]] | No
     if not prop_solids:
         return all(terrain[y][floor_x] == "#" for floor_x in range(left, right))
     footprint = config.ENTITY_FOOTPRINTS[symbol]
-    return has_support(terrain, prop_solids, x * 12 + footprint[0], x * 12 + footprint[2], y * 12)
+    support_left, support_right = config.ENTITY_GROUND_SUPPORT.get(symbol, (footprint[0], footprint[2]))
+    return has_support(terrain, prop_solids, x * 12 + support_left, x * 12 + support_right, y * 12)
 
 
 def _validate_entities(
@@ -278,6 +280,8 @@ def _validate_entities(
                     raise ValueError(f"Ground entity footprint lacks support at ({x}, {y})")
                 if not _footprint_clear(terrain, x, y, upper, prop_solids):
                     raise ValueError(f"Ground entity pixel footprint is blocked at ({x}, {y})")
+                if upper == "F" and not ground_encounter_fits(terrain, x, y, "F"):
+                    raise ValueError(f"Maw jaw needs clearance in both directions at ({x}, {y})")
                 hazard_nearby = any(
                     hazards[check_y][check_x] != "."
                     for check_y in range(max(0, y - 2), y + 1)
