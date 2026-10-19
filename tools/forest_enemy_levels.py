@@ -30,12 +30,12 @@ def save(number,grid,title,stars):
 
 
 def main():
-    """Prepare mixed-skin and night fixtures for the isolated enemy smoke project."""
+    """Prepare evening and night fixtures using only enemy family symbols."""
     g=lane(187,32,27);entity(g,7,26,'@');entity(g,179,25,'O')
-    for x,symbol in [(24,'K'),(50,'5'),(77,'1'),(104,'2'),(132,'4'),(159,'7')]:entity(g,x,26,symbol)
+    for x,symbol in [(24,'K'),(50,'J'),(77,'G'),(104,'G'),(132,'G'),(159,'J')]:entity(g,x,26,symbol)
     for x in [15,38,65,92,120,146,172]:entity(g,x,24,'*')
     for x in [34,61,88,116,144,171]:rock(g,x,x+2,25,27)
-    save(12,g,'22: Suchnik, resin evening, guard day, guard evening, guard morning, resin morning',90)
+    save(12,g,'22: Suchnik, resin hoppers and bark guards with level-selected skins',90)
     g=lane(214,34,28);entity(g,7,27,'@');entity(g,205,26,'O')
     for x,y,symbol in [(29,27,'J'),(63,27,'F'),(95,24,'C'),(126,21,'T'),(158,27,'G'),(191,27,'W')]:entity(g,x,y,symbol)
     rock(g,121,132,16,17)  # A real underside for the bat's first wake/drop.

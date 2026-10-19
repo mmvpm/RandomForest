@@ -26,7 +26,7 @@
     "XXXX#..*.###XXX#......##...L#XXXXX####XXX##.....................##XXXXXXXXXXXXXXXX",
     "XXXX#......##XX#.....##....L#XXXXX########.......................#XXXXXXXXXXXXXXXX",
     "XXXX#.......####.....##....L#XXXX########.......................*#XXXXXXXXXXXXXXXX",
-    "XXXX#................#.....L#XXX##...............................#XXXXXXXXXXXXXXXX",
+    "XXXX#................#...*.L#XXX##...............................#XXXXXXXXXXXXXXXX",
     "XXXX#................#.....L#XXX#..*............K##..............#XXXXXXXXXXXXXXXX",
     "XXXX##..K..................##XX##..............#####.............#XXXXXXXXXXXXXXXX",
     "XXXXX####.................##XXX#...............#XXX##UU#..s......##XXXXXXXXXXXXXXX",
@@ -90,5 +90,6 @@
       "min_collected": 0,
       "requires_all_previous": false
     }
-  ]
+  ],
+  "props": []
 }

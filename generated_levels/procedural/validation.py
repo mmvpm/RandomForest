@@ -270,7 +270,7 @@ def _validate_entities(
             upper = symbol.upper()
             if symbol == ".":
                 continue
-            if upper in ("@", "S", "K", "B", "F", "J", "C", "G", "W", "1", "2", "3", "4", "5", "6", "7"):
+            if upper in ("@", "S", "K", "B", "F", "J", "C", "G", "W"):
                 if not _has_floor_anchor(terrain, prop_supports, x, y):
                     raise ValueError(f"Ground entity lacks a floor anchor at ({x}, {y})")
                 left, right = ground_support_bounds(x, upper)

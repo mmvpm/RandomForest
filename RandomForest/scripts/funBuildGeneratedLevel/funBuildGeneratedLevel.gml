@@ -261,10 +261,10 @@ function __funGeneratedEntityObject(symbol) {
 		case "B": return oBungalo
 		case "b": return oBungalo
         case "F": case "f": return oRootMaw
-        case "J": case "j": case "5": case "6": case "7": return oResinSlime
+        case "J": case "j": return oResinSlime
         case "C": case "c": return oBarkBomber
         case "T": case "t": return oForestBat
-        case "G": case "g": case "1": case "2": case "3": case "4": return oBarkGuard
+        case "G": case "g": return oBarkGuard
         case "W": case "w": return oRootReaper
 		case "P": return oPointer
 		case "p": return oPointer
@@ -276,15 +276,8 @@ function __funGeneratedEntityObject(symbol) {
 function __funCreateGeneratedEntity(symbol, x, y, scale_x, scale_y) {
 	var object_asset = __funGeneratedEntityObject(symbol)
 	if (object_asset != noone) {
-        var visual_theme = funCurrentLevelTheme()
-        switch (symbol) {
-            case "1": visual_theme="day"; break
-            case "2": case "5": visual_theme="evening"; break
-            case "3": case "6": visual_theme="night"; break
-            case "4": case "7": visual_theme="morning"; break
-        }
         instance_create_layer(x, y, "Instances", object_asset, {
-            image_xscale: scale_x, image_yscale: scale_y, visual_theme: visual_theme
+            image_xscale: scale_x, image_yscale: scale_y
         })
 	}
 }

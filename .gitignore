@@ -3,3 +3,4 @@ tmp/
 __pycache__/
 *.py[cod]
 .temp
+curated_22_41*

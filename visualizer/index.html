@@ -1327,7 +1327,7 @@
       } else if ("Pp".includes(symbol)) {
         drawPointer(context, x, y, symbol === "p");
       } else {
-        ForestEnemies.draw(context, symbol, x, y);
+        ForestEnemies.draw(context, symbol, x, y, CELL_SIZE);
       }
     }
 

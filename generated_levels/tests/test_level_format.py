@@ -10,6 +10,27 @@ from generated_levels.procedural.level_format import decode_level, encode_level
 class LevelFormatTests(unittest.TestCase):
     """Verify lossless conversion at the authoring/runtime boundary."""
 
+    def test_enemy_families_preserve_facing_and_anchors(self) -> None:
+        """Only ground families move down one row; bats keep their air anchor."""
+        authored = {"width": 12, "height": 3,
+                    "map": ["Tt..........", "GgJjCcWwFf..", "############"]}
+        decoded = decode_level(authored)
+        self.assertEqual(decoded["entities"],
+                         ["Tt..........", "............", "GgJjCcWwFf.."])
+        self.assertEqual(encode_level(decoded)["map"], authored["map"])
+
+    def test_skin_presets_are_not_level_entities(self) -> None:
+        """Reject removed lighting symbols in both map and semantic input."""
+        for symbol in "1234567":
+            with self.subTest(symbol=symbol):
+                authored = {"width": 1, "height": 2, "map": [symbol, "#"]}
+                with self.assertRaisesRegex(ValueError, "unsupported symbols"):
+                    decode_level(authored)
+                semantic = {"width": 1, "height": 2, "terrain": [".", "#"],
+                            "hazards": [".", "."], "entities": [".", symbol]}
+                with self.assertRaisesRegex(ValueError, "unsupported symbols"):
+                    encode_level(semantic)
+
     def test_wall_memories_survive_map_round_trip(self) -> None:
         """World-space text anchors must not consume or move gameplay map cells."""
         authored = {

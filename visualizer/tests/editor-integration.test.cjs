@@ -122,7 +122,25 @@ for (const name of ["forest-enemies.js", "wall-memories.js", "world-props.js", "
 vm.runInContext("globalThis.ForestEnemies = window.ForestEnemies", sandbox);
 const inline = html.match(/<script>\s*([\s\S]*?)<\/script>/)[1].replace(/\s*initialize\(\);\s*$/, "");
 vm.runInContext(inline, sandbox);
-const editor = vm.runInContext("({ state, wallEditor, propEditor, persistence, initialize, selectLevel, pollSelectedLevel, undoLastEdit, setEditorMode, renderLevel })", sandbox);
+const editor = vm.runInContext("({ state, wallEditor, propEditor, persistence, initialize, selectLevel, pollSelectedLevel, undoLastEdit, setEditorMode, renderLevel, drawSymbol })", sandbox);
+
+// Checks that the real page dispatches every forest family to its own distant map cell.
+function checkForestEnemyDrawing() {
+  for (const symbol of "FfJjCcTtGgWw") {
+    const transforms = [];
+    const drawing = new Proxy({
+      translate(x, y) { transforms.push(["translate", x, y]); },
+      scale(x, y) { transforms.push(["scale", x, y]); },
+      fillText() { assert.fail("The page must draw enemy icons instead of letters"); }
+    }, { get: (target, key) => target[key] ?? (() => {}) });
+    editor.drawSymbol(drawing, editor.state.level, symbol, 91, 38);
+    const mirrored = symbol === symbol.toLowerCase();
+    assert.deepEqual(transforms, [
+      ["translate", (91 + (mirrored ? 1 : 0)) * 16, 38 * 16],
+      ["scale", mirrored ? -1 : 1, 1]
+    ], symbol);
+  }
+}
 
 // Waits for queued fetch continuations from initialization, loading or UI events.
 async function settle() { await new Promise(resolve => setImmediate(resolve)); }
@@ -130,6 +148,7 @@ async function settle() { await new Promise(resolve => setImmediate(resolve)); }
 // Reproduces the user's editing failure through the actual page event path.
 async function main() {
   await editor.initialize(); await settle();
+  checkForestEnemyDrawing();
   editor.selectLevel(11); await settle();
   assert.equal(editor.state.levelNumber, 11);
   assert(!editor.wallEditor.isActive());
