@@ -49,11 +49,10 @@ function funForestEnemyTakeDamage() {
     return true
 }
 
-/// Cancels attached attacks and thorns; a released bomb finishes independently of its thrower.
+/// Cancels attached strikes; released thorns and bombs finish independently of their owner.
 function funForestEnemyCancelAttacks() {
     var owner=self.id
     with (oForestStrike) if (self.owner_id==owner) instance_destroy()
-    with (oForestProjectile) if (self.owner_id==owner and !self.seed_blast) instance_destroy()
 }
 
 /// Returns the authored first damage/release frame, excluding anticipation poses.

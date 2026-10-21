@@ -161,10 +161,25 @@ function funFeedbackBombOwnerCases() {
     guard.attack_target_x=450;guard.attack_target_y=326
     with (guard) funForestEnemyFireSeed()
     var thorn=instance_find(oForestProjectile,0)
+    for (var tick=0;tick<20;++tick) with (thorn) funForestProjectileStep()
+    previous_x=thorn.x;previous_y=thorn.y;vx=thorn.current_xspeed;vy=thorn.current_yspeed
+    var remaining=thorn.life
+    strike=instance_create_depth(guard.x,guard.y,0,oForestStrike,{owner_id:guard})
     funRevisionHit(guard,1)
-    funForestSmokeAssert(!instance_exists(thorn),"thorn interruption retains its existing behavior")
+    funForestSmokeAssert(instance_exists(thorn) and thorn.x==previous_x and thorn.y==previous_y
+        and thorn.current_xspeed==vx and thorn.current_yspeed==vy and thorn.life==remaining,
+        "hurt leaves the released thorn's position, velocity and lifetime intact")
+    funForestSmokeAssert(!instance_exists(strike),"hurt still cancels attached melee damage")
+    funRevisionHit(guard,9)
+    funForestSmokeAssert(guard.is_dead and instance_exists(thorn),"thorn survives lethal owner damage")
+    instance_destroy(guard)
+    funForestSmokeAssert(instance_exists(thorn),"thorn survives owner cleanup")
+    funRevisionPlayer(thorn.x,thorn.y+10)
+    oPlayer.hurt_countdown_counter=0
+    funFeedbackAcceptHit()
+    funForestSmokeAssert(oPlayer.health==99 and !instance_exists(thorn),"orphaned thorn still damages the player and is consumed")
     funRevisionClear()
-    show_debug_message("FOREST_FEEDBACK_PASS released bombs survive hurt/death/cleanup, retain player damage and finish active explosions")
+    show_debug_message("FOREST_FEEDBACK_PASS bombs and thorns survive hurt/death/cleanup and retain player damage; attached strikes cancel")
 }
 
 /// Checks native reaction clocks, an anchored death and repeated dives beside the screenshot's block.

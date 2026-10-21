@@ -11,11 +11,13 @@ function funForestEnemyFireSeed() {
     var bomb=self.forest_kind=="barrel"
     var projectile_gravity=bomb ? .10 : 0
     var vx=move_direction*(bomb ? 2.1 : 2.7)
-    var flight=clamp(abs(self.attack_target_x-px)/abs(vx),16,72)
+    var flight=abs(self.attack_target_x-px)/abs(vx)
+    flight=bomb ? clamp(flight,16,72) : max(16,flight)
     var vy=clamp((self.attack_target_y-py-.5*projectile_gravity*sqr(flight))/flight,-4.6,2.6)
     var seed=instance_create_depth(px,py,self.depth-1,oForestProjectile,{owner_id:self.id,
         current_xspeed:vx,current_yspeed:vy,seed_gravity:projectile_gravity,seed_blast:bomb,image_xscale:move_direction})
     if (!bomb) {
+        seed.life=180
         seed.sprite_index=sBarkGuardThorn
         seed.mask_index=sBarkGuardThorn
         seed.image_xscale=1

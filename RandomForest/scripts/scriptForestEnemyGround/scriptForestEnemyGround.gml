@@ -14,7 +14,7 @@ function funForestEnemyWantsGroundAttack() {
     switch (self.forest_kind) {
         case "maw": return abs(dx)<45+max(0,-sign(dx)*oPlayer.current_xspeed)*25 and height<28
         case "barrel": return abs(dx)<174 and height<64
-        case "guard": return abs(dx)<190 and height<32
+        case "guard": return abs(dx)<self.vision_radius and height<32
         case "sweeper":
             var closing=max(0,-sign(dx)*oPlayer.current_xspeed)
             return abs(dx)<68+closing*12 and height<48

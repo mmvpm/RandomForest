@@ -18,12 +18,15 @@ def main():
     parser.add_argument("--forest-enemies", action="store_true", help="Test new enemy battles, navigation and projectile interception")
     parser.add_argument("--forest-revision", action="store_true", help="Test physical hops, simple masks, ceiling wake and anticipatory combat")
     parser.add_argument("--forest-feedback", action="store_true", help="Run only the focused hurt, knockback, impact and bat-retreat checks")
+    parser.add_argument("--forest-patrol-projectiles", action="store_true", help="Test hopper patrol/fallback, released projectiles and long-range guards")
+    parser.add_argument("--forest-hop-lifecycle", action="store_true", help="Test edge landings, blocked takeoffs and repeated hopper attacks")
+    parser.add_argument("--forest-hop-planner", action="store_true", help="Test real hopper trajectories, short hops and authored level 18 stairs")
     parser.add_argument("--forest-maw", action="store_true", help="Test flying sword contacts and the rooted plant's recovery/death sequences")
     parser.add_argument("--forest-baseline", action="store_true", help="Benchmark the saved pre-revision project with the same fixture")
     parser.add_argument("--work-dir", type=Path, default=ROOT / ".temp/theme_smoke",
                         help="Keep this run's fixture and screenshots in a separate directory")
     args = parser.parse_args()
-    if args.forest_feedback or args.forest_maw:
+    if args.forest_feedback or args.forest_maw or args.forest_patrol_projectiles or args.forest_hop_lifecycle or args.forest_hop_planner:
         args.forest_revision = True
     if args.forest_revision or args.forest_baseline:
         args.forest_enemies = True
@@ -36,6 +39,8 @@ def main():
     if args.forest_enemies:
         # Regression arenas belong only to this copy; campaign levels 22/32 are playable maps.
         for fixture, number in (("forest_enemy_evening", "12"), ("forest_enemy_night", "22")):
+            if (args.forest_patrol_projectiles or args.forest_hop_planner) and number == "12":
+                continue  # Reproduce the reported stairs in the user's current level copy.
             shutil.copyfile(ROOT / "tools/fixtures" / (fixture + ".json"),
                             project / "datafiles/challenge_levels" / (number + ".json"))
     # No game-state writes are permitted from this test copy.
@@ -56,6 +61,12 @@ def main():
         script_path = project / "scripts" / script / (script + ".gml")
         script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/forest_enemy_audio_smoke.gml").read_text())
         script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/forest_enemy_feedback_smoke.gml").read_text())
+        if args.forest_patrol_projectiles or args.forest_hop_lifecycle or args.forest_hop_planner:
+            script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/forest_enemy_patrol_smoke.gml").read_text())
+        if args.forest_hop_lifecycle or args.forest_hop_planner:
+            script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/forest_enemy_hop_lifecycle_smoke.gml").read_text())
+        if args.forest_hop_planner:
+            script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/forest_enemy_hop_planner_smoke.gml").read_text())
         if args.forest_maw:
             script_path.write_text(script_path.read_text() + "\n" + (ROOT / "tools/forest_enemy_maw_smoke.gml").read_text())
         audio_path = project / "scripts/scriptForestEnemyAudio/scriptForestEnemyAudio.gml"
@@ -89,6 +100,12 @@ def main():
                         for kind, number in [(0, 0), (3, 0), (8, 75)]]
     write_resource(project / "objects" / name / (name + ".yy"), obj)
     step = "funMawSmokeStep" if args.forest_maw else "funLightingSmokeStep" if args.lighting else "funThemePresentationSmokeStep" if args.presentation else "funThemeSmokeStep"
+    if args.forest_patrol_projectiles:
+        step = "funForestPatrolSmokeStep"
+    if args.forest_hop_lifecycle:
+        step = "funHopLifecycleSmokeStep"
+    if args.forest_hop_planner:
+        step = "funHopPlannerSmokeStep"
     for event, method in [("Create_0", "funThemeSmokeCreate"), ("Step_0", step), ("Draw_75", "funThemeSmokeDraw")]:
         setup = "self.output_directory = " + json.dumps(str(work) + "/") + "\n" if event == "Create_0" else ""
         if event == "Create_0":

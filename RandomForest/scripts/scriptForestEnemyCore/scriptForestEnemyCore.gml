@@ -53,7 +53,7 @@ function funForestEnemyInitialize(kind) {
     switch (kind) {
         case "slime": self.art_prefix="sResinSlime";self.step_xspeed=.75;self.vision_radius=360;self.rear_vision_radius=200;break
         case "barrel": self.art_prefix="sBarkBomber";self.health=5;self.step_xspeed=.55;self.vision_radius=220;self.visual_theme="night";break
-        case "guard": self.art_prefix="sBarkGuard";self.health=7;self.step_xspeed=.6;self.vision_radius=220;break
+        case "guard": self.art_prefix="sBarkGuard";self.health=7;self.step_xspeed=.6;self.vision_radius=430;break
         case "sweeper": self.art_prefix="sRootReaper";self.health=6;self.step_xspeed=.75;self.visual_theme="night";break
         case "bat": self.art_prefix="sForestBat";self.health=3;self.vertical_vision_radius=160;self.vision_radius=210;self.rear_vision_radius=210;self.visual_theme="night";break
         case "maw": self.art_prefix="sRootMaw";self.health=5;self.step_xspeed=0;self.vision_radius=96;self.vertical_vision_radius=48;self.visual_theme="night";break

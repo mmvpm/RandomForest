@@ -1,9 +1,5 @@
-/// Moves the fixed collider in short steps, keeping old enemy physics untouched.
-function funForestEnemyMoveGround() {
-    self.landed=false
-    var supported=funEnemyCollidesWithSolid(self.x,self.y+1,self.y,1,self.drop_through_counter>0)
-    if (!supported or self.current_yspeed<0) self.was_airborne=true
-    if (self.air_navigation_active) funEnemyApplyAirMovement()
+/// Integrates only body position and velocity; prediction can reject hazards at each substep.
+function funForestEnemyMoveBody(supported,check_danger=false) {
     // Do not oscillate between a fractional fall and floor snapping while already supported.
     if (supported and self.current_yspeed>=0) self.current_yspeed=0
     else self.current_yspeed=min(6,self.current_yspeed+self.gravitation)
@@ -21,6 +17,7 @@ function funForestEnemyMoveGround() {
             break
         }
         self.y+=dy
+        if (check_danger and funEnemyPositionIsDangerous(self.x,self.y)) return false
     }
     count=max(1,ceil(abs(self.current_xspeed)))
     var dx=self.current_xspeed/count
@@ -30,13 +27,26 @@ function funForestEnemyMoveGround() {
             break
         }
         self.x+=dx
+        if (check_danger and funEnemyPositionIsDangerous(self.x,self.y)) return false
     }
+    return !check_danger or !funEnemyPositionIsDangerous(self.x,self.y)
+}
+
+/// Moves the fixed collider in short steps, keeping old enemy physics untouched.
+function funForestEnemyMoveGround() {
+    self.landed=false
+    var supported=funEnemyCollidesWithSolid(self.x,self.y+1,self.y,1,self.drop_through_counter>0)
+    if (!supported or self.current_yspeed<0) self.was_airborne=true
+    if (self.air_navigation_active) funEnemyApplyAirMovement()
+    funForestEnemyMoveBody(supported)
     var grounded=self.current_yspeed==0 and funEnemyOnGroundAt(self.x,self.y)
-    funEnemyFinishAirMovement()
-    if (grounded and self.was_airborne) {
-        self.was_airborne=false
-        self.landed=true
-        if (self.forest_kind=="slime") funForestEnemyPlayLandingSound()
+    if (self.forest_kind=="slime") funForestSlimeResolveGroundContact(grounded)
+    else {
+        funEnemyFinishAirMovement()
+        if (grounded and self.was_airborne and !self.air_navigation_active) {
+            self.was_airborne=false
+            self.landed=true
+        }
     }
     funEnemyStompKnockbackUpdate()
 }
