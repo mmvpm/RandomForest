@@ -63,13 +63,7 @@ controls.preview.checked = controls.boxes.checked = true; controls.collected.val
 
 nodes.get("wall-memory-panel").hidden = true;
 nodes.get("wall-memory-panel").querySelectorAll = () => Object.values(controls);
-const propControls = {};
-for (const match of html.matchAll(/data-prop="([^"]+)"/g)) {
-  const element = new Element(); element.dataset.prop = match[1]; propControls[match[1]] = element;
-}
-propControls.visible.checked = propControls.collisions.checked = true;
-nodes.get("world-prop-panel").querySelectorAll = () => Object.values(propControls);
-const buttons = ["inscriptions", "map", "props"].map(mode => {
+const buttons = ["inscriptions", "map", "moths"].map(mode => {
   const button = new Element(); button.dataset.editorMode = mode; return button;
 });
 const document = { getElementById: id => nodes.get(id),
@@ -89,9 +83,6 @@ async function fetch(url, options = {}) {
     const number = Number(/\/(\d+)\.json/.exec(url)[1]);
     disk.set(number, options.body); writes.push({ number, text: options.body });
     return { ok: true };
-  }
-  if (url.includes("world_props/catalog.json")) {
-    return { ok: true, json: async () => JSON.parse(fs.readFileSync(path.join(root, "RandomForest/datafiles/world_props/catalog.json"), "utf8")) };
   }
   if (url.includes("catalog.json")) {
     return { ok: true, json: async () => ({ levels: Array.from({ length: 21 }, (_, i) => i + 1) }) };
@@ -116,13 +107,13 @@ const sandbox = vm.createContext({ console, document, fetch, TypeError, AbortCon
     // Exposes the loaded resource path for rendering-order assertions.
     get src() { return this._src; }
   } });
-for (const name of ["forest-enemies.js", "wall-memories.js", "world-props.js", "level-persistence.js"]) {
+for (const name of ["forest-enemies.js", "wall-memories.js", "level-persistence.js", "moth-nests.js"]) {
   vm.runInContext(fs.readFileSync(path.join(root, "visualizer", name), "utf8"), sandbox);
 }
 vm.runInContext("globalThis.ForestEnemies = window.ForestEnemies", sandbox);
 const inline = html.match(/<script>\s*([\s\S]*?)<\/script>/)[1].replace(/\s*initialize\(\);\s*$/, "");
 vm.runInContext(inline, sandbox);
-const editor = vm.runInContext("({ state, wallEditor, propEditor, persistence, initialize, selectLevel, pollSelectedLevel, undoLastEdit, setEditorMode, renderLevel, drawSymbol })", sandbox);
+const editor = vm.runInContext("({ state, wallEditor, mothEditor, persistence, initialize, selectLevel, pollSelectedLevel, undoLastEdit, setEditorMode, renderLevel, drawSymbol })", sandbox);
 
 // Checks that the real page dispatches every forest family to its own distant map cell.
 function checkForestEnemyDrawing() {
@@ -247,139 +238,32 @@ async function main() {
   await editor.persistence.retry();
   assert.equal(JSON.parse(writes.at(-1).text).map[0], ".XXXXXXXXX");
   assert(!html.includes('data-memory="id"'));
-  // Prop placement and local collision strokes share the real page's save/undo route.
-  editor.setEditorMode("props");
-  assert(editor.propEditor.isActive());
-  assert(nodes.get("map-editor-panel").hidden);
-  assert.equal(propControls.palette.children.length, 19);
-  const mapBefore = [...editor.state.level.map];
-  const memoriesBefore = JSON.stringify(editor.state.level.wall_memories);
-  const canvas = nodes.get("map-canvas");
-  propControls.palette.children[18].handlers.click();
-  canvas.handlers.pointerdown({ ...pointer, clientX: 60, clientY: 60 });
-  const readsDuringPlacement = levelReads;
-  await editor.pollSelectedLevel();
-  assert.equal(levelReads, readsDuringPlacement);
-  canvas.handlers.pointerup(); await settle();
-  assert.equal(editor.state.level.props.length, 1);
-  assert.equal(editor.state.level.props[0].type, "morning_table");
-  assert.equal(editor.state.level.props[0].x, 60);
-  assert.equal(propControls.opacity.value, "100");
-  assert.equal(propControls.platform_layer.value, "above");
-  assert(editor.undoLastEdit()); await settle();
-  assert(!Object.hasOwn(editor.state.level, "props"));
-  propControls.palette.children[18].handlers.click();
-  canvas.handlers.pointerdown({ ...pointer, clientX: 60, clientY: 60 });
-  canvas.handlers.pointerup(); await settle();
-  // Per-instance appearance changes share undo and preserve the physical cells.
-  propControls.opacity.value = "35"; propControls.opacity.handlers.change(); await settle();
-  assert.equal(editor.state.level.props[0].opacity, 35);
-  assert(editor.undoLastEdit()); await settle();
-  assert.equal(propControls.opacity.value, "100");
-  propControls.opacity.value = "0"; propControls.opacity.handlers.change(); await settle();
-  assert.equal(editor.state.level.props[0].opacity, 0);
-  assert(editor.undoLastEdit()); await settle();
-  propControls.opacity.value = "35"; propControls.opacity.handlers.change(); await settle();
-  propControls.platform_layer.value = "below"; propControls.platform_layer.handlers.change(); await settle();
-  assert.equal(editor.state.level.props[0].platform_layer, "below");
-  assert(editor.undoLastEdit()); await settle();
-  assert.equal(propControls.platform_layer.value, "above");
-  propControls.platform_layer.value = "below"; propControls.platform_layer.handlers.change(); await settle();
-  propControls.solids.handlers.click();
-  const historyBeforeStroke = editor.state.undoStack.length;
-  canvas.handlers.pointerdown({ ...pointer, clientX: 61, clientY: 61 });
-  canvas.handlers.pointermove({ ...pointer, clientX: 67, clientY: 61 });
-  canvas.handlers.pointerup(); await settle();
-  assert.equal(editor.state.undoStack.length, historyBeforeStroke + 1);
-  assert.equal(editor.state.level.props[0].solids.length, 2);
-  canvas.handlers.pointerdown({ ...pointer, button: 2, clientX: 61, clientY: 61 });
-  canvas.handlers.pointerup(); await settle();
-  assert.equal(editor.state.level.props[0].solids.length, 1);
-  assert(editor.undoLastEdit()); await settle();
-  assert.equal(editor.state.level.props[0].solids.length, 2);
-  // Painting one-way support replaces solid cells atomically, within this group only.
-  propControls.collision_type.value = "jump_thrus"; propControls.collision_type.handlers.change();
-  canvas.handlers.pointerdown({ ...pointer, clientX: 61, clientY: 61 });
-  canvas.handlers.pointerup(); await settle();
-  assert.equal(editor.state.level.props[0].solids.length, 1);
-  assert.equal(editor.state.level.props[0].jump_thrus.length, 1);
-  assert(editor.undoLastEdit()); await settle();
-  assert.equal(editor.state.level.props[0].solids.length, 2);
-  assert(!Object.hasOwn(editor.state.level.props[0], "jump_thrus"));
-  canvas.handlers.pointerdown({ ...pointer, clientX: 61, clientY: 67 });
-  canvas.handlers.pointermove({ ...pointer, clientX: 67, clientY: 67 });
-  canvas.handlers.pointerup(); await settle();
-  assert.equal(editor.state.level.props[0].jump_thrus.length, 2);
-  assert.equal(editor.state.level.props[0].solids.length, 2);
-  canvas.handlers.pointerdown({ ...pointer, button: 2, clientX: 61, clientY: 67 });
-  canvas.handlers.pointerup(); await settle();
-  assert.equal(editor.state.level.props[0].jump_thrus.length, 1);
-  assert.equal(editor.state.level.props[0].solids.length, 2);
-  assert(editor.undoLastEdit()); await settle();
-  const localJumpCells = JSON.stringify(editor.state.level.props[0].jump_thrus);
-  propControls.collision_type.value = "solids"; propControls.collision_type.handlers.change();
-  const localCells = JSON.stringify(editor.state.level.props[0].solids);
-  propControls.move.handlers.click();
-  canvas.handlers.pointerdown({ ...pointer, clientX: 60, clientY: 60 });
-  canvas.handlers.pointermove({ ...pointer, clientX: 72, clientY: 66 });
-  canvas.handlers.pointerup(); await settle();
-  assert.equal(editor.state.level.props[0].x, 72);
-  assert.equal(editor.state.level.props[0].y, 66);
-  assert.equal(JSON.stringify(editor.state.level.props[0].solids), localCells);
-  assert.equal(JSON.stringify(editor.state.level.props[0].jump_thrus), localJumpCells);
-  assert(editor.undoLastEdit()); await settle();
-  assert.equal(editor.state.level.props[0].x, 60);
-  propControls.mirror.handlers.click(); await settle();
-  assert(editor.state.level.props[0].mirrored);
-  assert.equal(JSON.stringify(editor.state.level.props[0].solids), localCells);
-  assert.equal(JSON.stringify(editor.state.level.props[0].jump_thrus), localJumpCells);
-  propControls.duplicate.handlers.click(); await settle();
-  assert.equal(editor.state.level.props.length, 2);
-  assert.notEqual(editor.state.level.props[0].id, editor.state.level.props[1].id);
-  assert.equal(editor.state.level.props[1].opacity, 35);
-  assert.equal(editor.state.level.props[1].platform_layer, "below");
-  assert.equal(JSON.stringify(editor.state.level.props[1].solids), localCells);
-  assert.equal(JSON.stringify(editor.state.level.props[1].jump_thrus), localJumpCells);
-  propControls.opacity.value = "80"; propControls.opacity.handlers.change(); await settle();
-  propControls.platform_layer.value = "above"; propControls.platform_layer.handlers.change(); await settle();
-  assert.equal(editor.state.level.props[0].opacity, 35);
-  assert.equal(editor.state.level.props[0].platform_layer, "below");
-  renderTrace = [];
-  editor.renderLevel();
-  const belowDraw = renderTrace.findIndex(call => call.image?.includes("sWorldPropMorningTable") && call.alpha === 0.35);
-  const terrainDraw = renderTrace.findIndex(call => call.terrain);
-  const aboveDraw = renderTrace.findIndex(call => call.image?.includes("sWorldPropMorningTable") && call.alpha === 0.8);
-  assert(belowDraw >= 0 && belowDraw < terrainDraw && terrainDraw < aboveDraw);
-  renderTrace = null;
-  propControls.delete.handlers.click(); await settle();
-  assert.equal(editor.state.level.props.length, 1);
-  assert(editor.undoLastEdit()); await settle();
-  assert.equal(editor.state.level.props.length, 2);
-  assert.deepEqual([...editor.state.level.map], mapBefore);
-  assert.equal(JSON.stringify(editor.state.level.wall_memories), memoriesBefore);
-  // A failed prop write retains the entire group across navigation and retry.
-  online = false;
-  propControls.mirror.handlers.click(); await settle();
-  const propDraft = JSON.stringify(editor.state.level.props);
-  editor.selectLevel(12); await settle(); editor.selectLevel(11); await settle();
-  assert.equal(JSON.stringify(editor.state.level.props), propDraft);
-  propControls.instances.children[0].handlers.click();
-  assert.equal(propControls.opacity.value, "35");
-  assert.equal(propControls.platform_layer.value, "below");
-  online = true; await editor.persistence.retry();
-  assert.equal(JSON.stringify(JSON.parse(writes.at(-1).text).props), propDraft);
-  // Switching modes finishes a live prop drag once before map painting takes over.
-  propControls.instances.children[1].handlers.click();
-  canvas.handlers.pointerdown({ ...pointer, clientX: 60, clientY: 60 });
-  canvas.handlers.pointermove({ ...pointer, clientX: 66, clientY: 66 });
-  assert(editor.propEditor.isEditing());
-  editor.setEditorMode("map");
-  await settle();
-  assert(!editor.propEditor.isEditing());
-  assert(!editor.propEditor.isActive());
   const mapPanel = html.slice(html.indexOf('<div id="map-editor-panel">'), html.indexOf("</aside>"));
   assert(mapPanel.indexOf("Объекты и блоки") < mapPanel.indexOf("Параметры"));
   assert(mapPanel.indexOf("Параметры") < mapPanel.indexOf("Обозначения"));
+  // Exercises the new editor through the same UI, undo and disk-save path.
+  editor.state.level.map=Array(10).fill("..........");
+  const terrainBefore=JSON.stringify(editor.state.level.map);
+  editor.setEditorMode("moths");
+  assert(!nodes.get("moth-nest-panel").hidden);
+  nodes.get("moth-add").handlers.click();
+  editor.mothEditor.pointerDown({button:0,pointerId:4,clientX:50,clientY:50,preventDefault(){}});
+  assert.equal(editor.state.level.moth_nests.length,1);
+  assert.equal(editor.state.level.moth_nests[0].x,50);
+  assert.equal(JSON.stringify(editor.state.level.map),terrainBefore);
+  editor.undoLastEdit();
+  assert.equal(editor.state.level.moth_nests,undefined);
+  nodes.get("moth-add").handlers.click();
+  editor.mothEditor.pointerDown({button:0,pointerId:4,clientX:50,clientY:50,preventDefault(){}});
+  editor.mothEditor.pointerDown({button:0,pointerId:4,clientX:50,clientY:50,preventDefault(){}});
+  editor.mothEditor.pointerMove({clientX:60,clientY:60});
+  editor.setEditorMode("map");
+  await settle();
+  assert.equal(editor.state.level.moth_nests[0].x,60);
+  editor.undoLastEdit();
+  assert.equal(editor.state.level.moth_nests[0].x,50);
+  await settle();
+  assert.equal(JSON.parse(writes.at(-1).text).moth_nests[0].x,50);
   console.log("Actual page: failure/poll selection, draft navigation, retry, undo, exclusive panels, gesture completion and stale-read protection passed.");
 }
 

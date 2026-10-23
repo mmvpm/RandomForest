@@ -15,3 +15,12 @@ var background_height = sprite_get_height(background_sprite)
 // Independent ratios keep every background edge covered for arbitrary room aspect ratios.
 self.background_to_view_ratio_x = max(0, (room_width - background_width) / max(1, room_width - view_width))
 self.background_to_view_ratio_y = max(0, (room_height - background_height) / max(1, room_height - view_height))
+
+// A dedicated adjacent layer guarantees the rainy palette sits above the dry background.
+self.rain_background_id = -1
+self.rain_layer_id = -1
+if (theme == "evening") {
+    self.rain_layer_id = layer_create(layer_get_depth(self.layer_id)-1,"RainBackground")
+    self.rain_background_id = layer_background_create(self.rain_layer_id,sBackgroundEveningRain_x13)
+    layer_background_alpha(self.rain_background_id,0)
+}

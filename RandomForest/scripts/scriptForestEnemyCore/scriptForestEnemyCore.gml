@@ -58,6 +58,7 @@ function funForestEnemyInitialize(kind) {
         case "bat": self.art_prefix="sForestBat";self.health=3;self.vertical_vision_radius=160;self.vision_radius=210;self.rear_vision_radius=210;self.visual_theme="night";break
         case "maw": self.art_prefix="sRootMaw";self.health=5;self.step_xspeed=0;self.vision_radius=96;self.vertical_vision_radius=48;self.visual_theme="night";break
     }
+    if (kind=="maw") self.maw_skin=funRootMawStartLevel(global.playing_level)
     self.max_health=self.health
     funEnemyInitializeMovement(asset_get_index(self.art_prefix+"Collision"))
     funForestEnemyState("idle")
@@ -187,7 +188,7 @@ function funForestEnemyDraw() {
     var pose=funForestEnemyPose()
     var art=funThemeSprite(self.sprite_index,self.visual_theme)
     if (self.forest_kind=="barrel" and self.sprite_index==sBarkBomberAttack) art=sBarkBomberAttackCast
-    if (self.forest_kind=="maw") art=asset_get_index(sprite_get_name(self.sprite_index)+"Bare")
+    if (self.forest_kind=="maw") art=funRootMawSkinSprite(asset_get_index(sprite_get_name(self.sprite_index)+"Bare"),self.maw_skin)
     draw_sprite_ext(art,self.image_index,self.x+pose.x*self.image_xscale,self.y+pose.y*self.image_yscale,
         self.image_xscale,self.image_yscale,0,c_white,self.image_alpha)
     // The rosette and stalk share one death lifetime, so neither part disappears early.
@@ -195,5 +196,5 @@ function funForestEnemyDraw() {
     var durations=[360,240,360,420,360,240,360,420]
     var phase=self.ambient_clock mod 2760,leaf_frame=0
     while (phase>=durations[leaf_frame] and leaf_frame<7) { phase-=durations[leaf_frame];leaf_frame+=1 }
-    draw_sprite_ext(sRootMawRosette,leaf_frame,self.x,self.y,1,1,0,c_white,self.image_alpha)
+    draw_sprite_ext(funRootMawSkinSprite(sRootMawRosette,self.maw_skin),leaf_frame,self.x,self.y,1,1,0,c_white,self.image_alpha)
 }

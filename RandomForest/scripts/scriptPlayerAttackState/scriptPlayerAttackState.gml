@@ -56,6 +56,7 @@ function funPlayerAttackLogic() {
 	if (self.image_index >= 1 and self.attack_need_shake) {
 		self.attack_need_shake = false
 		funCameraShake(20)
+		funAmbientImpact(self.x, self.y, 2)
 	}
 
 	// attack interruption because of some event

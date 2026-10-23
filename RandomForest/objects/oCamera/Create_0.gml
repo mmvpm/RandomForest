@@ -25,4 +25,5 @@ self.camera_shake_power = 0
 // Ambient fireflies sit directly above the background and below every other layer.
 if (room != rBlackRoom) {
 	instance_create_depth(self.x, self.y, 550, oFireflyManager)
+	instance_create_depth(0, 0, 545, oAmbientSystem)
 }

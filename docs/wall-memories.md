@@ -121,7 +121,7 @@ node visualizer/tests/level-persistence.test.cjs
 node tools/tests/wall-memory-runtime.test.cjs
 node tools/tests/wall-memory-storage.test.cjs
 python3 tools/audit_wall_memories.py
-python3 -m unittest generated_levels.tests.test_level_format
+PYTHONPATH=.temp python3 -m unittest generated_levels.tests.test_level_format
 python3 -m unittest discover -s visualizer/tests -p 'test_*.py'
 ```
 

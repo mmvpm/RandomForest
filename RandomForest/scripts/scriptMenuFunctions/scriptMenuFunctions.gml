@@ -34,6 +34,7 @@ function funOpenLevel(level_index = global.current_level) {
 	}
 
 	global.playing_level = level_index
+	funRootMawStartLevel(level_index)
 	global.playing_level_star_times = undefined
 	global.last_completion_result = undefined
 	audio_stop_sound(musicMenu)

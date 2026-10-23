@@ -62,6 +62,11 @@ for (var i = array_length(self.fireflies) - 1; i >= 0; i--) {
 	}
 
 	funFireflyUpdate(firefly)
+	if (funWeatherFireflyHitWall(firefly)) {
+		if (firefly.is_orange) self.orange_firefly_active = false
+		array_delete(self.fireflies, i, 1)
+		continue
+	}
 
 	if (firefly.x < cam_x or firefly.x > cam_x + cam_w or
 		firefly.y < cam_y or firefly.y > cam_y + cam_h) {
@@ -72,6 +77,7 @@ for (var i = array_length(self.fireflies) - 1; i >= 0; i--) {
 	}
 }
 
+if (!funWeatherFireflySpawnAllowed()) return;
 var current_count = array_length(self.fireflies)
 if (current_count < self.target_count) {
 	self.spawn_timer--
@@ -103,5 +109,6 @@ if (current_count < self.target_count) {
 		// Larger deficits shorten the random wait without spawning a batch at once.
 		var deficit = max(1, self.target_count - array_length(self.fireflies))
 		self.spawn_timer = max(8, round(random_range(20, 90) / deficit))
+		if (funWeatherFirefliesReturning()) self.spawn_timer = max(24, self.spawn_timer)
 	}
 }

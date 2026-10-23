@@ -41,6 +41,7 @@ function funPlayerFallLogic() {
 
 /// Plays the landing feedback after a normal fall.
 function funPlayerFallEnd() {
+	funAmbientImpact(self.x, self.y, 0)
 	instance_create_depth(self.x, self.y, self.depth - 1, oPlayerLandingEffect) // under player by Z
 	audio_play_sound(soundPlayerLanding, 1, false)
 }

@@ -13,6 +13,7 @@ if (place_meeting(self.x, self.y, oBungaloSword)) {
 
 // on landing
 if (self.current_speed == 0 and !self.was_shake_effect) {
+	funAmbientImpact(self.x, self.y, 1)
 	funCameraShake(1)
 	audio_play_sound(soundTapSwordLanding, 1, false)
 	self.was_shake_effect = true

@@ -91,5 +91,13 @@
       "requires_all_previous": false
     }
   ],
-  "props": []
+  "moth_nests": [
+    {
+      "id": "moths_1",
+      "x": 390,
+      "y": 294,
+      "count": 30,
+      "radius": 65
+    }
+  ]
 }

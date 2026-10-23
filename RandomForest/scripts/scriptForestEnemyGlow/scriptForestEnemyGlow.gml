@@ -19,7 +19,7 @@ function funForestEnemyGlowStep() {
     if (owner.forest_kind=="maw") {
         self.x=owner.x
         self.y=owner.y
-        self.sprite_index=asset_get_index(sprite_get_name(owner.sprite_index)+"Bloom")
+        self.sprite_index=funRootMawSkinSprite(asset_get_index(sprite_get_name(owner.sprite_index)+"Bloom"),owner.maw_skin)
         self.image_index=owner.image_index
         self.image_speed=0
         self.image_xscale=owner.image_xscale

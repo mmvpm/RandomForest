@@ -27,5 +27,6 @@ for (var row = -half_rows; row <= half_rows; ++row) {
 	}
 }
 instance_deactivate_all(true)
+instance_activate_object(oWeatherAudio)
 instance_activate_object(oFullscreen)
 instance_activate_object(oDebug)

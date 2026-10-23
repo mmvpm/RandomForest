@@ -10,6 +10,7 @@ if (!self.initialised) {
 	var can_spawn_orange = (
 		funLevelTracksProgress(global.playing_level)
 		and !global.orange_firefly_records[global.playing_level]
+		and funWeatherFireflySpawnAllowed()
 		and random(1) < ORANGE_FIREFLY_SPAWN_CHANCE
 	)
 	if (can_spawn_orange) {
@@ -18,7 +19,13 @@ if (!self.initialised) {
 		self.orange_firefly_active = true
 	}
 
-	for (var initial_index = 0; initial_index < self.initial_count; initial_index++) {
+	// Preserve the approved initial population in established dry weather only.
+	var initial_total = self.initial_count
+	if (!funWeatherFireflySpawnAllowed() or funWeatherFirefliesReturning()) initial_total = 0
+	if (initial_total == 0 and initial_orange_index >= 0) {
+		array_push(self.fireflies, funFireflyCreate(cam_x, cam_y, cam_w, cam_h, false, true))
+	}
+	for (var initial_index = 0; initial_index < initial_total; initial_index++) {
 		array_push(
 			self.fireflies,
 			funFireflyCreate(

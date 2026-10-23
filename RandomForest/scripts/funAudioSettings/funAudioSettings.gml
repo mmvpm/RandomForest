@@ -26,6 +26,7 @@ function funApplyMusicSetting(fade_ms = 0) {
 /// Applies the saved effects setting to every non-music sound resource.
 function funApplySfxSetting(fade_ms = 0) {
 	var gain = global.sfx_enabled ? 1 : 0
+	if (!global.sfx_enabled) with (oWeatherAudio) funWeatherAudioStop()
 	var sfx_assets = [
 		soundTapSwordReturn,
 		soundPlayerLanding,

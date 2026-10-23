@@ -1,5 +1,6 @@
 /// Initializes an expanding, one-hit shock front and its refraction surface.
 self.radius = 0
+funAmbientImpact(self.x, self.y, 3)
 self.previous_radius = 0
 self.max_radius = 84
 self.damage = 1

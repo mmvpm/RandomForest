@@ -14,7 +14,6 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--presentation", action="store_true", help="Test palette transitions, effects and isolated future variants")
     parser.add_argument("--lighting", action="store_true", help="Test approved evening/morning art and the actual night sword")
-    parser.add_argument("--world-props", action="store_true", help="Test authored prop art, collision unions and all four palettes")
     parser.add_argument("--forest-enemies", action="store_true", help="Test new enemy battles, navigation and projectile interception")
     parser.add_argument("--forest-revision", action="store_true", help="Test physical hops, simple masks, ceiling wake and anticipatory combat")
     parser.add_argument("--forest-feedback", action="store_true", help="Run only the focused hurt, knockback, impact and bat-retreat checks")
@@ -52,8 +51,6 @@ def main():
         "isDnD": False, "parent": {"name": "Scripts", "path": "folders/Scripts.yy"},
         "resourceType": "GMScript", "resourceVersion": "2.0"})
     smoke_source = "forest_enemy_smoke.gml" if args.forest_enemies else "theme_smoke.gml"
-    if args.world_props:
-        smoke_source = "world_prop_smoke.gml"
     if args.forest_revision or args.forest_baseline:
         smoke_source = "forest_enemy_revision_smoke.gml"
     shutil.copyfile(ROOT / "tools" / smoke_source, project / "scripts" / script / (script + ".gml"))
