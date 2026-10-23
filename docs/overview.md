@@ -442,12 +442,16 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 В режиме debug:
 
+- внизу активного уровня показаны текущая погода и время до смены (`Ясно - 03:22`); индикатор читает живую модель, на паузе и вне уровня скрыт;
 - R — общий сброс;
-- T — сброс рекордов;
+- T — сократить остаток текущей погоды до 5 секунд (если осталось меньше, не увеличивать);
 - N/P — следующая/предыдущая комната;
-- Q — добавить все оставшиеся ягоды в счётчик и уничтожить oCoin.
+- Q — собрать оставшиеся ягоды;
+- F — собрать оставшиеся ягоды и телепортировать игрока в свободное место в 2–3 клетках от двери; сначала выбирается место с опорой, стены, чёрная масса, шипы и враги исключаются. Если подходящего места нет, позиция сохраняется.
 
-Команды намеренно не защищены от неподходящей комнаты: например, Q в меню может обратиться к отсутствующему oCoinCollector.
+В debug клавиши T/F не скрывают игровой таймер и не переключают полноэкранный режим; вне debug их обычные действия сохранены.
+
+Погодная команда и сбор/телепорт проверяют наличие нужных объектов; в меню и при деактивированном уровне ничего не делают.
 
 Путь до локальных debug-сохранений: ~/Library/Application Support/com.yoyogames.macyoyorunner/save.ini
 
@@ -462,7 +466,6 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 | Средний | [oCoinCollector](../RandomForest/objects/oCoinCollector/oCoinCollector.yy) вычисляет coins_all в [Create](../RandomForest/objects/oCoinCollector/Create_0.gml), а в порядке создания [rTutorial01](../RandomForest/rooms/rTutorial01/rTutorial01.yy) сам счётчик идёт раньше ягод. | В зависимости от порядка Create-событий HUD может зафиксировать 0. Также его координаты для полёта ягоды обновляются в Draw, а не Step/Create. Для надёжности считать ягоды после создания комнаты или по запросу. |
 | Средний | Локальная навигация врагов намеренно не строит маршрут по комнате. | Слизень и скелет проходят только один заранее симулированный прыжок/спуск к видимому игроку. Недостижимая соседняя платформа приводит к безопасному ожиданию и повторной локальной оценке, а не к обходу всей карты. |
 | Средний | Тайминги урона, звуков и bloom привязаны к image_index. | Менять спрайты/скорость без прохода по [scriptPlayerAttackState](../RandomForest/scripts/scriptPlayerAttackState/scriptPlayerAttackState.gml), [scriptSkeletonAttackState](../RandomForest/scripts/scriptSkeletonAttackState/scriptSkeletonAttackState.gml), [scriptBungaloAttackState](../RandomForest/scripts/scriptBungaloAttackState/scriptBungaloAttackState.gml) и bloom-Step опасно. |
-| Низкий | Клавиша T одновременно скрывает таймер в [Step таймера](../RandomForest/objects/oTimeCounter/Step_0.gml) и, когда debug включён, сбрасывает рекорды в [Step debug](../RandomForest/objects/oDebug/Step_0.gml). | Переназначить одну из debug-команд, если debug будет использоваться регулярно. |
 | Низкий | [oTraining](../RandomForest/objects/oTraining/oTraining.yy) вызывает end_function в [Destroy](../RandomForest/objects/oTraining/Destroy_0.gml) без проверки undefined. | Любое новое создание этого объекта обязано сразу задать callback или оставить штатный из Create. |
 
 ## Чек-лист безопасных изменений
@@ -512,7 +515,7 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 - [oFadeIn](../RandomForest/objects/oFadeIn/oFadeIn.yy): [Create](../RandomForest/objects/oFadeIn/Create_0.gml), [Step](../RandomForest/objects/oFadeIn/Step_0.gml), [Draw](../RandomForest/objects/oFadeIn/Draw_0.gml), [Draw GUI](../RandomForest/objects/oFadeIn/Draw_64.gml).
 - [oFadeOut](../RandomForest/objects/oFadeOut/oFadeOut.yy): [Create](../RandomForest/objects/oFadeOut/Create_0.gml), [Step](../RandomForest/objects/oFadeOut/Step_0.gml), [Draw](../RandomForest/objects/oFadeOut/Draw_0.gml), [Draw GUI](../RandomForest/objects/oFadeOut/Draw_64.gml).
 - [oFullscreen](../RandomForest/objects/oFullscreen/oFullscreen.yy): [Create](../RandomForest/objects/oFullscreen/Create_0.gml), [Step](../RandomForest/objects/oFullscreen/Step_0.gml).
-- [oDebug](../RandomForest/objects/oDebug/oDebug.yy): [Create](../RandomForest/objects/oDebug/Create_0.gml), [Step](../RandomForest/objects/oDebug/Step_0.gml).
+- [oDebug](../RandomForest/objects/oDebug/oDebug.yy): [Create](../RandomForest/objects/oDebug/Create_0.gml), [Step](../RandomForest/objects/oDebug/Step_0.gml), [Draw GUI](../RandomForest/objects/oDebug/Draw_64.gml).
 - [oCurrentLevel](../RandomForest/objects/oCurrentLevel/oCurrentLevel.yy): [Create](../RandomForest/objects/oCurrentLevel/Create_0.gml).
 - [oGeneratedLevelController](../RandomForest/objects/oGeneratedLevelController/oGeneratedLevelController.yy): [Create](../RandomForest/objects/oGeneratedLevelController/Create_0.gml).
 - [oHealthBar](../RandomForest/objects/oHealthBar/oHealthBar.yy): [Draw](../RandomForest/objects/oHealthBar/Draw_0.gml).

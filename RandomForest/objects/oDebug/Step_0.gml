@@ -26,8 +26,8 @@ if (!global.is_debug) {
 if (keyboard_check_pressed(ord("R"))) { // reset saved level number
 	funResetGeneral()
 }
-if (keyboard_check_pressed(ord("T"))) { // reset saved time records
-	funResetRecords()
+if (keyboard_check_pressed(ord("T"))) { // advance weather soon
+	funDebugSkipWeather()
 }
 if (keyboard_check_pressed(ord("N"))) { // to next level
 	room_goto_next()
@@ -36,8 +36,10 @@ if (keyboard_check_pressed(ord("P"))) { // to previous level
 	room_goto_previous()
 }
 if (keyboard_check_pressed(ord("Q"))) { // auto collect all coins
-	oCoinCollector.coins_collected += instance_number(oCoin)
-	instance_destroy(oCoin)
+	funDebugCollectBerries()
+}
+if (keyboard_check_pressed(ord("F"))) { // collect berries and move near the exit
+	funDebugFinishLevel()
 }
 
 // messages

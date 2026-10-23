@@ -1,5 +1,6 @@
 // switch mode
-if (keyboard_check_pressed(global.key_fullscreen)) {
+if (keyboard_check_pressed(global.key_fullscreen) and
+    (!global.is_debug or global.key_fullscreen != ord("F"))) {
 	global.is_fullscreen = !global.is_fullscreen
 	funSaveGameState()
 }
