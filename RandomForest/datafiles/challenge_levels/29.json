@@ -71,17 +71,17 @@
   "moth_nests": [
     {
       "id": "moths_1",
-      "x": 138,
+      "x": 186,
       "y": 294,
-      "count": 30,
-      "radius": 65
+      "count": 22,
+      "radius": 48
     },
     {
       "id": "moths_2",
-      "x": 450,
-      "y": 366,
-      "count": 30,
-      "radius": 65
+      "x": 672,
+      "y": 492,
+      "count": 28,
+      "radius": 60
     }
   ]
 }

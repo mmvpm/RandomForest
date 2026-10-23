@@ -100,5 +100,14 @@
       "min_collected": 10,
       "requires_all_previous": false
     }
+  ],
+  "moth_nests": [
+    {
+      "id": "moths_1",
+      "x": 768,
+      "y": 414,
+      "count": 22,
+      "radius": 48
+    }
   ]
 }

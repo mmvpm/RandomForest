@@ -105,8 +105,22 @@
   "moth_nests": [
     {
       "id": "moths_1",
-      "x": 894,
-      "y": 138,
+      "x": 390,
+      "y": 270,
+      "count": 30,
+      "radius": 65
+    },
+    {
+      "id": "moths_2",
+      "x": 240,
+      "y": 522,
+      "count": 22,
+      "radius": 48
+    },
+    {
+      "id": "moths_3",
+      "x": 1068,
+      "y": 564,
       "count": 30,
       "radius": 65
     }

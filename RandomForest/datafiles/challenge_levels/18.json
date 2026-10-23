@@ -95,5 +95,21 @@
     "XXXXXXXXXXXXXXXXXXXXXXX#############XXXXXXXXXXXXXXXXXXX##############XXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  ],
+  "moth_nests": [
+    {
+      "id": "moths_1",
+      "x": 702,
+      "y": 438,
+      "count": 22,
+      "radius": 48
+    },
+    {
+      "id": "moths_2",
+      "x": 252,
+      "y": 534,
+      "count": 22,
+      "radius": 48
+    }
   ]
 }

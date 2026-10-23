@@ -98,5 +98,21 @@
       "min_collected": 10,
       "requires_all_previous": false
     }
+  ],
+  "moth_nests": [
+    {
+      "id": "moths_1",
+      "x": 990,
+      "y": 348,
+      "count": 30,
+      "radius": 65
+    },
+    {
+      "id": "moths_2",
+      "x": 186,
+      "y": 204,
+      "count": 30,
+      "radius": 65
+    }
   ]
 }
