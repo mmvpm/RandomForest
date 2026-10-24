@@ -1,0 +1,227 @@
+{
+  "morning": [
+    {
+      "id": "M1",
+      "label": "Рассвет: лес просыпается",
+      "file": "m1.ogg",
+      "gain": 0.09,
+      "role": "accent",
+      "weight": 2,
+      "min_seconds": 8,
+      "max_seconds": 16,
+      "source_id": 607192
+    },
+    {
+      "id": "M2",
+      "label": "Утренние птицы вдали",
+      "file": "m2.ogg",
+      "gain": 0.09,
+      "role": "calm",
+      "weight": 5,
+      "min_seconds": 90,
+      "max_seconds": 180,
+      "source_id": 488328
+    },
+    {
+      "id": "M3",
+      "label": "Светлое лесное утро",
+      "file": "m3.ogg",
+      "gain": 0.09,
+      "role": "calm",
+      "weight": 5,
+      "min_seconds": 90,
+      "max_seconds": 180,
+      "source_id": 546521
+    }
+  ],
+  "day": [
+    {
+      "id": "D1",
+      "label": "Спокойный лесной полдень",
+      "file": "d1.ogg",
+      "gain": 0.09,
+      "role": "calm",
+      "weight": 5,
+      "min_seconds": 90,
+      "max_seconds": 180,
+      "source_id": 370809
+    },
+    {
+      "id": "D3",
+      "label": "Дневной лес и мягкий воздух",
+      "file": "d3.ogg",
+      "gain": 0.09,
+      "role": "calm",
+      "weight": 5,
+      "min_seconds": 90,
+      "max_seconds": 180,
+      "source_id": 639670
+    },
+    {
+      "id": "DS3",
+      "label": "Птицы за шелестом листьев",
+      "file": "ds3.ogg",
+      "gain": 0.09,
+      "role": "calm",
+      "weight": 2,
+      "min_seconds": 90,
+      "max_seconds": 180,
+      "source_id": 639670
+    }
+  ],
+  "evening": [
+    {
+      "id": "E1",
+      "label": "Вечерние птицы Швеции",
+      "file": "e1.ogg",
+      "gain": 0.09,
+      "role": "calm",
+      "weight": 6,
+      "min_seconds": 90,
+      "max_seconds": 180,
+      "source_id": 835724
+    },
+    {
+      "id": "E2",
+      "label": "Сумеречные птицы и сверчки",
+      "file": "e2.ogg",
+      "gain": 0.045,
+      "role": "accent",
+      "weight": 1,
+      "min_seconds": 8,
+      "max_seconds": 16,
+      "source_id": 482118
+    },
+    {
+      "id": "ES3",
+      "label": "Сверчки за мягкой листвой",
+      "file": "es3.ogg",
+      "gain": 0.04,
+      "role": "accent",
+      "weight": 1,
+      "min_seconds": 8,
+      "max_seconds": 16,
+      "source_id": 645329
+    }
+  ],
+  "night": [
+    {
+      "id": "N1",
+      "label": "Сверчки в полуночном поле",
+      "file": "n1.ogg",
+      "gain": 0.045,
+      "role": "accent",
+      "weight": 1,
+      "min_seconds": 8,
+      "max_seconds": 16,
+      "source_id": 175020
+    },
+    {
+      "id": "N2",
+      "label": "Спокойная летняя ночь",
+      "file": "n2.ogg",
+      "gain": 0.09,
+      "role": "calm",
+      "weight": 6,
+      "min_seconds": 90,
+      "max_seconds": 180,
+      "source_id": 436528
+    },
+    {
+      "id": "NS3",
+      "label": "Ночные птицы и сверчки (тот же E2)",
+      "file": "e2.ogg",
+      "gain": 0.04,
+      "role": "accent",
+      "weight": 1,
+      "min_seconds": 8,
+      "max_seconds": 16,
+      "source_id": 482118
+    },
+    {
+      "id": "N4",
+      "label": "Новые тихие ночные сверчки",
+      "file": "n4.ogg",
+      "gain": 0.035,
+      "role": "accent",
+      "weight": 1,
+      "min_seconds": 8,
+      "max_seconds": 16,
+      "source_id": 637083
+    },
+    {
+      "id": "N5",
+      "label": "Далёкая ночная сова",
+      "file": "n5.ogg",
+      "gain": 0.05,
+      "role": "accent",
+      "weight": 1,
+      "min_seconds": 8,
+      "max_seconds": 16,
+      "source_id": 745208
+    }
+  ],
+  "fog": [
+    {
+      "id": "F6",
+      "label": "Далёкая сова в ночном лесу",
+      "file": "f6.ogg",
+      "gain": 0.055,
+      "role": "calm",
+      "weight": 5,
+      "min_seconds": 90,
+      "max_seconds": 180,
+      "source_id": 825822
+    },
+    {
+      "id": "F7",
+      "label": "Ночной лес с далёкой совой",
+      "file": "f7.ogg",
+      "gain": 0.055,
+      "role": "calm",
+      "weight": 5,
+      "min_seconds": 90,
+      "max_seconds": 180,
+      "source_id": 475376
+    }
+  ],
+  "rain": [
+    {
+      "id": "RAIN",
+      "label": "Ровный плотный ливень",
+      "file": "rain.ogg",
+      "gain": 0.09,
+      "role": "reference",
+      "weight": 0,
+      "min_seconds": 0,
+      "max_seconds": 0,
+      "source_id": 624645
+    }
+  ],
+  "storm": [
+    {
+      "id": "STORM",
+      "label": "Ровный плотный ливень",
+      "file": "rain.ogg",
+      "gain": 0.12,
+      "role": "reference",
+      "weight": 0,
+      "min_seconds": 0,
+      "max_seconds": 0,
+      "source_id": 624645
+    }
+  ],
+  "drips": [
+    {
+      "id": "DRIPS",
+      "label": "Редкие капли под навесом",
+      "file": "drips.ogg",
+      "gain": 0.09,
+      "role": "reference",
+      "weight": 0,
+      "min_seconds": 0,
+      "max_seconds": 0,
+      "source_id": 348830
+    }
+  ]
+}

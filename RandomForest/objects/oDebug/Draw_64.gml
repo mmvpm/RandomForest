@@ -15,6 +15,9 @@ var remainder = seconds mod 60
 var minutes = floor(seconds / 60)
 var label = name + " - " + (minutes < 10 ? "0" : "") + string(minutes)
     + ":" + (remainder < 10 ? "0" : "") + string(remainder)
+if (instance_exists(oWeatherAudio)) {
+    with (oWeatherAudio) label += "\n" + funAtmosphereMixLabel()
+}
 
 var previous_font = draw_get_font(), previous_colour = draw_get_colour()
 var previous_alpha = draw_get_alpha()
