@@ -785,6 +785,7 @@
     {"id":{"name":"tsSpikesMorning","path":"tilesets/tsSpikesMorning/tsSpikesMorning.yy",},},
     {"id":{"name":"tsSpikesNight","path":"tilesets/tsSpikesNight/tsSpikesNight.yy",},},
     {"id":{"name":"scriptDebugShortcuts","path":"scripts/scriptDebugShortcuts/scriptDebugShortcuts.yy"}},
+    {"id":{"name":"scriptAimFreeze","path":"scripts/scriptAimFreeze/scriptAimFreeze.yy"}},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",

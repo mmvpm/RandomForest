@@ -24,20 +24,23 @@ function funAmbientDrawFog() {
     gpu_set_tex_filter(previous_filter)
 }
 
-/// Restores the original five-pixel dandelion head and rising motion at a lower steady density.
+/// Keeps the accepted seed art and motion, fading separate seeds in and out over four seconds.
 function funAmbientDrawSeeds(cx, cy) {
     var weather = self.weather
-    if (weather.rain > 0.005 or weather.fog > 0.1) return;
-    if (weather.phase != "seeds") return;
+    var exposure = clamp(1 - weather.rain * 2 - weather.fog, 0, 1)
+    if (weather.seed_amount <= 0 or exposure <= 0) return;
     for (var i = 0; i < 28; ++i) {
+        // Spatially scattered, staggered fades avoid a single visible batch appearing at once.
+        var alpha = clamp((weather.seed_amount - i / 28 * 0.6) / 0.4, 0, 1) * exposure
+        if (alpha <= 0) continue
         var p = weather.seed_points[(10 + i * 13) mod 100]
         var xx = round(cx - 80 + ((p.x + weather.seed_x + sin(weather.time * 1.5 + i) * 8 - cx) mod 640 + 640) mod 640)
         var yy = round(cy - 45 + ((p.y + weather.seed_y - cy) mod 360 + 360) mod 360)
         draw_set_colour(make_colour_rgb(174, 193, 173))
-        draw_set_alpha(0.7)
+        draw_set_alpha(0.7 * alpha)
         draw_line(xx - 2, yy - 2, xx + 2, yy - 2)
         draw_point(xx, yy - 3)
-        draw_set_alpha(0.4)
+        draw_set_alpha(0.4 * alpha)
         draw_line(xx, yy - 1, xx, yy + 2)
     }
 }

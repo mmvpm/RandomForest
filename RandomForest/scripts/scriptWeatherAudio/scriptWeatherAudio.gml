@@ -52,7 +52,7 @@ function funWeatherAudioChannel(channel, gain, dt) {
 /// Follows session weather and retains the same recording through levels, pause and aiming.
 function funWeatherAudioStep() {
     if (!global.sfx_enabled) { funWeatherAudioStop(); return; }
-    if (!instance_exists(oAmbientSystem) or !instance_exists(oPlayer)) {
+    if (!instance_exists(oAmbientSystem) or (!instance_exists(oPlayer) and !instance_exists(oTapController))) {
         for (var i = 0; i < array_length(self.channels); ++i) {
             var voice = self.channels[i].voice
             if (voice != -1 and audio_is_playing(voice)) audio_pause_sound(voice)

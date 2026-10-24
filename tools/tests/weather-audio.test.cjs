@@ -2,10 +2,10 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.resolve(__dirname,'../../RandomForest');
-let serial=0,peak=0,active=true;
+let serial=0,peak=0,active=true,ambient=true,aiming=false;
 const assets=new Set(),voices=new Map();
-const context=vm.createContext({self:{},global:{sfx_enabled:true},oPlayer:'player',oAmbientSystem:'ambient',gamespeed_fps:60,
-  game_get_speed:()=>60,instance_exists:()=>active,
+const context=vm.createContext({self:{},global:{sfx_enabled:true},oPlayer:'player',oAmbientSystem:'ambient',oTapController:'aim',gamespeed_fps:60,
+  game_get_speed:()=>60,instance_exists:object=>object==='player'?active:object==='ambient'?ambient:object==='aim'?aiming:false,
   array_length:a=>a.length,array_push:(a,v)=>a.push(v),floor:Math.floor,min:Math.min,max:Math.max,
   clamp:(v,a,b)=>Math.max(a,Math.min(b,v)),lerp:(a,b,t)=>a+(b-a)*t,
   audio_create_stream(file){assert(fs.existsSync(path.join(root,'datafiles',file)));const id=++serial;assets.add(id);peak=Math.max(peak,assets.size);return id;},
@@ -40,8 +40,15 @@ for(const strength of ['rain','storm']){
     if(crossfade>=0&&frame===crossfade+90)assert(!voices.has(rain),'outgoing stream is released after fade');
   }
   assert(crossfade>=0&&crossfade<500);
-  const drip=context.self.channels[1].voice;active=false;context.funWeatherAudioStep();assert(voices.get(drip).paused);
-  active=true;context.funWeatherAudioStep();assert.equal(context.self.channels[1].voice,drip);assert(!voices.get(drip).paused);
+  const drip=context.self.channels[1].voice;
+  active=false;aiming=true;
+  const time=weather.time,resources=serial;
+  for(let frame=0;frame<30;frame++)step();
+  assert(weather.time>time,'weather keeps advancing during aim');
+  assert.equal(context.self.channels[1].voice,drip,'aim preserves the same weather channel');
+  assert(!voices.get(drip).paused,'aim does not pause weather audio');assert.equal(serial,resources);
+  ambient=false;context.funWeatherAudioStep();assert(voices.get(drip).paused,'a real menu pause still suspends weather');
+  active=true;ambient=true;aiming=false;context.funWeatherAudioStep();assert.equal(context.self.channels[1].voice,drip);assert(!voices.get(drip).paused);
   context.global.sfx_enabled=false;context.funWeatherAudioStep();assert.equal(voices.size,0);assert.equal(assets.size,0);
   context.global.sfx_enabled=true;context.funWeatherAudioStep();assert(context.self.channels[1].voice!==-1);
   context.funWeatherSetPhase(weather,'dry');weather.rain=0;
@@ -49,4 +56,4 @@ for(const strength of ['rain','storm']){
   assert.equal(assets.size,0);context.funWeatherAudioStop();assert.equal(voices.size,0);
 }
 assert.equal(peak,2);
-console.log('PASS: selected weather streams, continuous rain strength, 1.2s overlap, pause/resume, mute and asset cleanup');
+console.log('PASS: weather streams, continuous aim/time-stop, rain strength, 1.2s overlap, menu pause/resume, mute and cleanup');

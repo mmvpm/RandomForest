@@ -557,5 +557,6 @@
     {"name":"tsSpikesMorning","order":404,"path":"tilesets/tsSpikesMorning/tsSpikesMorning.yy",},
     {"name":"tsSpikesNight","order":267,"path":"tilesets/tsSpikesNight/tsSpikesNight.yy",},
     {"name":"scriptDebugShortcuts","order":555,"path":"scripts/scriptDebugShortcuts/scriptDebugShortcuts.yy"},
+    {"name":"scriptAimFreeze","order":556,"path":"scripts/scriptAimFreeze/scriptAimFreeze.yy"},
   ],
 }

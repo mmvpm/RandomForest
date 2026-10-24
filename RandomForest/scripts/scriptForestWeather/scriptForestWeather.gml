@@ -96,7 +96,7 @@ function funWeatherCreate(seed, theme = "evening") {
     var weather = {seed:max(1,floor(seed) mod 2147483647),phase:"dry",phase_age:0,theme:theme,
         remaining:0,duration:0,rain:0,fog:0,target_rain:0,target_fog:0,wetness:0,
         wind:0.18,time:0,rain_kind:"rain",
-        ecology_wet:false,ecology_time:1000000,seed_x:0,seed_y:0,seed_points:[]}
+        ecology_wet:false,ecology_time:1000000,seed_amount:0,seed_x:0,seed_y:0,seed_points:[]}
     for (var i = 0; i < 100; ++i) array_push(weather.seed_points,
         {x:funWeatherRandom(weather)*640,y:funWeatherRandom(weather)*360})
     var initial = [{phase:"dry",weight:50},{phase:"seeds",weight:25},{phase:"fog",weight:15},
@@ -127,6 +127,8 @@ function funWeatherUpdate(weather, dt) {
     weather.wetness = clamp(weather.wetness+dt*(weather.rain*0.08-0.006),0,1)
     if (weather.phase == "drips") weather.wetness = max(0.2,weather.wetness)
     funWeatherSyncWildlife(weather,dt)
+    // One four-second envelope drives staggered seeds without creating particle instances.
+    weather.seed_amount = clamp(weather.seed_amount + dt * (weather.phase == "seeds" ? 0.25 : -0.25), 0, 1)
     weather.seed_x = (weather.seed_x+dt*(3+weather.wind*10)) mod 640
     weather.seed_y = (weather.seed_y-dt*18) mod 360
 }

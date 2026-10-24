@@ -164,9 +164,9 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 Центральный контроллер механики — [funPlayerHandleTapSword](../RandomForest/scripts/funPlayerHandleTapSword/funPlayerHandleTapSword.gml), вызываемый после обычной state machine из [Step игрока](../RandomForest/objects/oPlayer/Step_0.gml).
 
 1. Если меч у игрока и бросок разрешён, создаётся [oTapController](../RandomForest/objects/oTapController/oTapController.yy).
-2. В [Create контроллера](../RandomForest/objects/oTapController/Create_0.gml) делается снимок application_surface, деактивируются все остальные экземпляры, а текущий контроллер остаётся активным благодаря instance_deactivate_all(true). Объекты-потомки [oAlwaysDraw](../RandomForest/objects/oAlwaysDraw/oAlwaysDraw.yy) снова активируются для подсказок.
+2. [Create контроллера](../RandomForest/objects/oTapController/Create_0.gml) через [scriptAimFreeze](../RandomForest/scripts/scriptAimFreeze/scriptAimFreeze.gml) запоминает активные экземпляры и скорости их анимаций, затем приостанавливает игровую логику. Погода, её звук, фон и потомки [oAlwaysDraw](../RandomForest/objects/oAlwaysDraw/oAlwaysDraw.yy) остаются активны. Перед отрисовкой замороженные экземпляры включаются только для Draw; в конце Draw GUI снова выключаются до следующего игрового тика. Поэтому сохраняются исходные слои и перекрытие погоды платформами, а враги, игрок, коллизии, алармы и позы не движутся. Снимок целого кадра больше не используется.
 3. [Step контроллера](../RandomForest/objects/oTapController/Step_0.gml) ждёт отпускания C или 120 кадров. Стрелки выбирают одно из восьми направлений; диагональ удерживается пять кадров, чтобы случайное отпускание одной стрелки не ломало выбор.
-4. Создаётся [oPlayerTapSword](../RandomForest/objects/oPlayerTapSword/oPlayerTapSword.yy), затем всё снова активируется.
+4. Восстанавливаются исходные скорости анимаций и активность мира, затем создаётся [oPlayerTapSword](../RandomForest/objects/oPlayerTapSword/oPlayerTapSword.yy). Cleanup также восстанавливает мир при отмене или смене комнаты. Музыка и погодные звуки во время прицеливания не прерываются; поведение обычных игровых звуков не меняется.
 5. [Step брошенного меча](../RandomForest/objects/oPlayerTapSword/Step_0.gml) перемещает его со скоростью 6, останавливает об oSolid, допускает несколько кадров пересечения с врагом и уничтожает меч при тайм-ауте, защите бунгало или отзыве.
 6. Пока меч снаружи, C запускает [funPlayerTapToEmptyPlace](../RandomForest/scripts/funPlayerTapToEmptyPlace/funPlayerTapToEmptyPlace.gml): он ищет свободную позицию около меча в радиусе 12, создаёт стартовый эффект и меняет состояние на teleport.
 7. [scriptPlayerTeleportState](../RandomForest/scripts/scriptPlayerTeleportState/scriptPlayerTeleportState.gml) по жёсткому порогу image_index > 3 создаёт конечный эффект и возвращает сохранённые скорости.
@@ -427,7 +427,7 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 `save.ini`. Просмотр сохраняется при выходе через портал, а не после разговора.
 Сброс кампании очищает эти флаги; отдельный сброс рекордов их сохраняет.
 
-Функции обслуживания сохранений находятся в [scriptResetStorage](../RandomForest/scripts/scriptResetStorage/scriptResetStorage.gml): «начать заново» сбрасывает прогресс, но не рекорды и не флаг показанной подсказки; полный сброс и сброс рекордов доступны только debug-командами.
+Функции обслуживания сохранений находятся в [scriptResetStorage](../RandomForest/scripts/scriptResetStorage/scriptResetStorage.gml): «начать заново» сбрасывает прогресс, но не рекорды и не флаг показанной подсказки.
 
 ## Окно и debug
 
@@ -443,9 +443,7 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 В режиме debug:
 
 - внизу активного уровня показаны текущая погода и время до смены (`Ясно - 03:22`); индикатор читает живую модель, на паузе и вне уровня скрыт;
-- R — общий сброс;
 - T — сократить остаток текущей погоды до 5 секунд (если осталось меньше, не увеличивать);
-- N/P — следующая/предыдущая комната;
 - Q — собрать оставшиеся ягоды;
 - F — собрать оставшиеся ягоды и телепортировать игрока в свободное место в 2–3 клетках от двери; сначала выбирается место с опорой, стены, чёрная масса, шипы и враги исключаются. Если подходящего места нет, позиция сохраняется.
 
