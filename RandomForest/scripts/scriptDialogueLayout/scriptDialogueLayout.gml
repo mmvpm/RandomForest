@@ -1,4 +1,4 @@
-/// Lays out the complete line before typing, with word wrap and four-row pages.
+/// Lays out complete words before typing and respects the dialogue's page capacity.
 function funLayoutDialogue(letters, width, line_height, rows_per_page) {
 	var pages = []
 	var glyphs = []

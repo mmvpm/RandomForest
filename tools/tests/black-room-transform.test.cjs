@@ -10,7 +10,8 @@ let soundCount = 0, shakeCount = 0, waveCount = 0;
 const context = vm.createContext({
   self: {}, other: {}, noone: -1, vk_space: "space", vk_enter: "enter",
   oPlayer: {}, oPauseMenu: {paused: false}, oFadeIn: "fade", oDialogue: "dialogue",
-  oLevelPassing: "results", oPlayerStompWave: "wave", musicGame: "music", gamespeed_fps: 0,
+  oLevelPassing: "results", oPlayerStompWave: "wave", musicGame: "music", musicMenu: "menu", gamespeed_fps: 0,
+  room: "black", rBlackRoom: "black",
   soundPlayerStompImpact: "impact", funCameraShake: () => { shakeCount++; },
   player_states: {idle: 0, move: 1, fall: 2, stomp: 3, story_transform: 4,
     attack: 5, teleport: 6, hurt: 7, die: 8},
@@ -20,10 +21,12 @@ const context = vm.createContext({
   min: Math.min, max: Math.max, round: Math.round, floor: Math.floor,
   ceil: Math.ceil, clamp: (v, lo, hi) => Math.max(lo, Math.min(hi, v)),
   variable_clone: structuredClone, array_length: a => a.length,
+  array_push: (a, value) => a.push(value),
+  variable_struct_exists: (s, key) => Object.hasOwn(s, key),
   variable_struct_get: (s, key) => s[key], variable_struct_get_names: Object.keys,
   variable_struct_set: (s, key, value) => { s[key] = value; },
   keyboard_check_pressed: key => pressed.has(key),
-  instance_exists: object => object === context.oPauseMenu && pauseExists,
+  instance_exists: object => object === context.oPlayer || object === context.oPauseMenu && pauseExists,
   instance_destroy: () => { destroyed = true; },
   instance_create_depth: (x, y, depth, object) => { if (object === "wave") waveCount++; return {}; }, instance_create_layer: () => ({}),
   audio_stop_sound() {}, audio_play_sound: sound => { if (sound === "impact") soundCount++; }, audio_is_playing: () => true,
@@ -49,7 +52,7 @@ function scoped(owner, action) {
   try { return action(); }
   finally { context.self = previous; context.other = previousOther; }
 }
-context.method = (owner, action) => () => scoped(owner, action);
+context.method = (owner, action) => (...args) => scoped(owner, () => action(...args));
 context.scoped = scoped;
 
 // Translate the limited GML syntax used by these production events to JavaScript.
@@ -61,7 +64,7 @@ function translate(source) {
       "scoped(oPlayer, () => funPlayerRefreshAbilities())")
     .replace(/with \(oPlayer\) started = ([\s\S]*?other\.finish_transform\))/,
       "started = scoped(oPlayer, () => $1)")
-    .replace(/with \(dialogue\) \{([\s\S]*?)\}/, "scoped(dialogue, () => {$1})");
+    .replace(/with \(dialogue\) funBeginDialogue\(([\s\S]*?)other\.finish_dialogue\)/, "scoped(dialogue, () => funBeginDialogue($1other.finish_dialogue))");
 }
 
 // Load real scripts and register their sprite names as opaque test resources.
@@ -92,26 +95,38 @@ function scene(afterLevel) {
   context.oPlayer = {state: context.player_states.idle, is_on_ground: true,
     is_dark: afterLevel === 40, x: 108, y: 264, depth: 100,
     image_xscale: 1, image_yscale: 1, stomp_recovery_counter: 0,
-    story_pending: false, story_transform_used: false, transform_complete: undefined};
+    story_pending: true, story_transform_used: false, transform_complete: undefined};
   pressed = new Set();
   pauseExists = true;
   context.oPauseMenu.paused = false;
   const controller = {};
+  context.oBlackRoomController = controller;
   event("oBlackRoomController", "Create", controller);
   controller.dialogue_started = true;
+  controller.dialogue_offset = 0;
+  context.oPlayer.story_pending = true;
   return controller;
 }
 
-// Finish the final dialogue page using the real Enter handler and completion callback.
+// Dismiss the activation line on Space and verify the complete 36-frame input guard.
 function finishDialogue(controller) {
   const dialogue = {ready: true, pages: [{glyphs: ["T"]}], page_index: 0,
-    revealed: 1, typing_speed: 30, lines: [{text: "Test"}], line_index: 0,
+    revealed: 1, typing_speed: 30, lines: [{text: "Test", action: "transform"}], line_index: 0,
     end_function: controller.finish_dialogue};
   destroyed = false;
   pressed = new Set(["enter"]);
   event("oDialogue", "Step", dialogue);
+  assert.equal(destroyed, false, "Enter no longer advances dialogue");
+  pressed = new Set(["space"]);
+  event("oDialogue", "Step", dialogue);
   assert.equal(destroyed, true);
-  assert.equal(controller.dialogue_finished, true);
+  assert.equal(controller.dialogue_finished, false);
+  assert.equal(controller.awaiting_transform, true);
+  assert.equal(controller.space_guard, 36);
+  for (let i = 0; i < 35; i++) event("oBlackRoomController", "Step", controller);
+  assert.equal(controller.transform_running, false, "closing Space cannot trigger transformation");
+  pressed.clear();
+  event("oBlackRoomController", "Step", controller);
   assert.equal(controller.portal_ready, false);
   assert.equal(context.oPlayer.story_pending, true);
   pressed.clear();

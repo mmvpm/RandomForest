@@ -3,6 +3,7 @@ function funAmbientCreate() {
     self.weather = funWeatherSession()
     funWeatherApplyTheme(self.weather,funCurrentLevelTheme())
     if (!instance_exists(oWeatherAudio)) instance_create_depth(0, 0, 0, oWeatherAudio)
+    with (oWeatherAudio) funWeatherAudioEnterLevel()
     self.local_random = {seed: max(1, (floor(self.weather.seed) + room_width * 71 + room_height * 17) mod 2147483647)}
     self.particles = []
     funAmbientResetRain()

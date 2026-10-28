@@ -12,32 +12,12 @@
   },
   "wall_memories": [
     {
-      "id": "previous_memory",
-      "x": 378,
-      "y": 28,
-      "width": 288,
-      "role": "missing_previous",
-      "text": "Там, позади... что-то осталось.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_1",
-      "x": 450,
-      "y": 256,
-      "width": 168,
+      "id": "voice_24",
+      "x": 365,
+      "y": 449,
+      "width": 150,
       "role": "regular",
-      "text": "Мне больно...",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_2",
-      "x": 798,
-      "y": 160,
-      "width": 120,
-      "role": "regular",
-      "text": "Не туда...",
+      "text": "Ниточки натянуты",
       "min_collected": 0,
       "requires_all_previous": false
     }

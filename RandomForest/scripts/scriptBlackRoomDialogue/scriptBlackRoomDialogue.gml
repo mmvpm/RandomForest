@@ -5,6 +5,7 @@ function funBlackRoomProgress(after_level) {
 	return {
 		after_level: after_level,
 		collected: funGetOrangeFireflyCount(),
+		deaths: global.lost_clones,
 		records: records,
 	}
 }
@@ -36,35 +37,14 @@ function funBlackRoomConditionMatches(condition, progress) {
 	return true
 }
 
-/// Combines opening, the first matching variant, and closing into one monologue.
+/// Filters ordered authored lines against the immutable entry snapshot.
 function funLoadBlackRoomLines(scene, progress) {
 	var dialogue = json_parse(funReadGeneratedLevelFile(scene.dialogue))
 	var lines = []
-	for (var i = 0; i < array_length(dialogue.opening); ++i) {
-		array_push(lines, dialogue.opening[i])
-	}
-	for (var v = 0; v < array_length(dialogue.variants); ++v) {
-		var variant = dialogue.variants[v]
-		if (!funBlackRoomConditionMatches(variant.when, progress)) {
-			continue
-		}
-		for (var j = 0; j < array_length(variant.lines); ++j) {
-			array_push(lines, variant.lines[j])
-		}
-		break
-	}
-	// Recurring comments supplement the main branch instead of hiding it.
-	if (variable_struct_exists(dialogue, "comments")) {
-		for (var c = 0; c < array_length(dialogue.comments); ++c) {
-			var comment = dialogue.comments[c]
-			if (!funBlackRoomConditionMatches(comment.when, progress)) continue
-			for (var l = 0; l < array_length(comment.lines); ++l) {
-				array_push(lines, comment.lines[l])
-			}
-		}
-	}
-	for (var k = 0; k < array_length(dialogue.closing); ++k) {
-		array_push(lines, dialogue.closing[k])
+	for (var i = 0; i < array_length(dialogue.lines); ++i) {
+		var line = dialogue.lines[i]
+		if (!variable_struct_exists(line, "when")
+			or funBlackRoomConditionMatches(line.when, progress)) array_push(lines, line)
 	}
 	return lines
 }

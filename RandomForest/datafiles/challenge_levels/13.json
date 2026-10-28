@@ -10,38 +10,7 @@
     "three_stars": 70,
     "two_stars": 140
   },
-  "wall_memories": [
-    {
-      "id": "previous_memory",
-      "x": 264,
-      "y": 28,
-      "width": 288,
-      "role": "missing_previous",
-      "text": "Там, позади... что-то осталось.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_1",
-      "x": 606,
-      "y": 358,
-      "width": 168,
-      "role": "regular",
-      "text": "Весело?",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_2",
-      "x": 750,
-      "y": 376,
-      "width": 120,
-      "role": "regular",
-      "text": "Я устала падать.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    }
-  ],
+  "wall_memories": [],
   "map": [
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",

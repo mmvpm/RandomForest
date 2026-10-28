@@ -8,11 +8,12 @@ if (!self.initialised) {
 	var cam_h = camera_get_view_height(cam)
 	var initial_orange_index = -1
 	var can_spawn_orange = (
-		funLevelTracksProgress(global.playing_level)
+		global.ending_stage < 2 and funLevelTracksProgress(global.playing_level)
 		and !global.orange_firefly_records[global.playing_level]
 		and funWeatherFireflySpawnAllowed()
 		and random(1) < ORANGE_FIREFLY_SPAWN_CHANCE
 	)
+	if (self.story_demo) can_spawn_orange = true
 	if (can_spawn_orange) {
 		// The initial batch gets one roll, not seven independent rolls.
 		initial_orange_index = irandom(self.initial_count - 1)
@@ -21,7 +22,7 @@ if (!self.initialised) {
 
 	// Preserve the approved initial population in established dry weather only.
 	var initial_total = self.initial_count
-	if (!funWeatherFireflySpawnAllowed() or funWeatherFirefliesReturning()) initial_total = 0
+	if (!self.story_demo and (!funWeatherFireflySpawnAllowed() or funWeatherFirefliesReturning())) initial_total = 0
 	if (initial_total == 0 and initial_orange_index >= 0) {
 		array_push(self.fireflies, funFireflyCreate(cam_x, cam_y, cam_w, cam_h, false, true))
 	}

@@ -1,52 +1,121 @@
 {
-  "opening": [
+  "lines": [
     {
       "speaker": "Голос",
-      "text": "Тестовая ЧК после уровня 09."
-    }
-  ],
-  "variants": [
-    {
-      "when": {
-        "all_in_range": [
-          1,
-          8
-        ]
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: всё в диапазоне 01-08]\nЭтот фрагмент памяти собран целиком."
-        }
-      ]
+      "text": "Снова ты?"
     },
     {
-      "when": {},
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: обычный прогресс]\nСобрано: [orange]{collected}[/orange]. Этап: {after_level}."
-        }
-      ]
-    }
-  ],
-  "closing": [
+      "speaker": "Голос",
+      "text": "..."
+    },
     {
       "speaker": "Голос",
-      "text": "Тест завершён. Портал открывается."
-    }
-  ],
-  "comments": [
+      "text": "Продвигаешься?"
+    },
     {
+      "speaker": "Голос",
+      "text": "Похоже, ни капли!",
       "when": {
-        "collected_below_level_ratio": 0.5
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: меньше половины] Собрано {collected}, этап {after_level}."
-        }
-      ]
+        "min_collected": 0,
+        "max_collected": 2
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Повторяю ещё раз: тебе нужны [orange]ОНИ[/orange]",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 2
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Все до единого",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 2
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Так, некоторый прогресс есть...",
+      "when": {
+        "min_collected": 3,
+        "max_collected": 7
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Это вселяет надежду",
+      "when": {
+        "min_collected": 3,
+        "max_collected": 7
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Вижу, что да",
+      "when": {
+        "min_collected": 8,
+        "max_collected": 9
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "И весьма неплохо",
+      "when": {
+        "min_collected": 8,
+        "max_collected": 9
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Что ж, продолжай в том же духе и однажды...",
+      "when": {
+        "min_collected": 3,
+        "max_collected": 9
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "...",
+      "when": {
+        "min_collected": 3,
+        "max_collected": 9
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Однажды...",
+      "when": {
+        "min_collected": 3,
+        "max_collected": 9
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "А впрочем... Неважно",
+      "when": {
+        "min_collected": 3,
+        "max_collected": 9
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "И да, чуть не забыл"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Чем дальше, тем сложнее"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Возможно это тебе чуть поможет"
+    },
+    {
+      "speaker": "Система",
+      "text": "Получено: +1 к количеству жизней",
+      "reward": true
     }
   ]
 }

@@ -104,6 +104,7 @@ function __funCompleteLevel() {
 // on collision with player	
 if (place_meeting(self.x, self.y, oPlayer) and self.is_opened and !self.goto_next_level) {
 	self.goto_next_level = true
+	with (oWeatherAudio) funWeatherAudioBeginPortalFade()
 
 	// fade out effect
 	oPlayer.image_alpha = 0 // for visual correct fade out

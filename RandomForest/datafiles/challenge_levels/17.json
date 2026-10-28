@@ -12,32 +12,12 @@
   },
   "wall_memories": [
     {
-      "id": "previous_memory",
-      "x": 726,
-      "y": 472,
-      "width": 288,
-      "role": "missing_previous",
-      "text": "Там, позади... что-то осталось.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_1",
-      "x": 486,
-      "y": 274,
-      "width": 132,
+      "id": "voice_27",
+      "x": 646,
+      "y": 421,
+      "width": 160,
       "role": "regular",
-      "text": "Не туда...",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_2",
-      "x": 690,
-      "y": 262,
-      "width": 168,
-      "role": "regular",
-      "text": "Весело?",
+      "text": "Попытка не пытка... или?",
       "min_collected": 0,
       "requires_all_previous": false
     }

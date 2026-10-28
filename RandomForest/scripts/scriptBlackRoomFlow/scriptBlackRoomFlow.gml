@@ -1,7 +1,8 @@
 /// Opens either the pending story room or the normal completion overlay.
 function funShowCompletedLevel() {
 	if (!funLevelTracksProgress(global.playing_level)) {
-		room_goto(rVictory)
+		if (global.ending_stage == 2) room_goto(rMenu)
+		else funOpenStoryEnding()
 		return
 	}
 	var scene = funFindBlackRoomScene(global.playing_level)
@@ -39,15 +40,16 @@ function funFinishBlackRoomScene() {
 
 /// Replays the completed gameplay level even when its results are in the story room.
 function funRestartPlayingLevel() {
-	funOpenLevel(global.playing_level)
+	funRestartCurrentRun()
 }
 
 /// Stops an optional story track without changing saved volume preferences.
-function funStopBlackRoomMusic() {
-	if (global.black_room_context == undefined) {
-		return
+function funStopBlackRoomMusic(scene = undefined) {
+	if (scene == undefined) {
+		if (global.black_room_context == undefined) return;
+		scene = global.black_room_context.scene
 	}
-	var track = funBlackRoomSetting(global.black_room_context.scene, "music")
+	var track = funBlackRoomSetting(scene, "music")
 	if (track != undefined) {
 		var sound = asset_get_index(track)
 		if (sound != -1) {

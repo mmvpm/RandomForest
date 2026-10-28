@@ -20,7 +20,6 @@ draw_set_valign(fa_top)
 draw_set_color(c_white)
 draw_text(text_x, self.panel_y + 12, self.speaker)
 
-var count = array_length(page.glyphs)
 for (var i = 0; i < floor(self.revealed); ++i) {
 	var glyph = page.glyphs[i]
 	draw_set_color(glyph.colour)
@@ -29,7 +28,7 @@ for (var i = 0; i < floor(self.revealed); ++i) {
 
 draw_set_halign(fa_right)
 draw_set_color(presentation.palette.panel_muted)
-var hint = self.revealed < count ? "Enter: показать текст" : "Enter: дальше"
+var hint = "Пробел: дальше"
 draw_text(self.panel_x + self.panel_width - self.padding,
 	self.panel_y + panel_height - 24, hint)
 

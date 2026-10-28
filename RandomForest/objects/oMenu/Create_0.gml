@@ -32,9 +32,12 @@ else {
 	]
 	self.immediate_actions = [false, true, true, false]
 }
-
-
-
+if (global.ending_stage == 1) {
+	self.items_count = 3
+	self.strings = ["Справка", "Настройки", "Выйти"]
+	self.functions = [funMenuShowControls, funMenuOpenSettings, funMenuExit]
+	self.immediate_actions = [true, true, false]
+}
 self.current_scale = 1.0
 self.default_scale = 0.9
 

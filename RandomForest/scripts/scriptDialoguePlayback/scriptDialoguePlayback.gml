@@ -18,6 +18,10 @@ function funBeginDialogue(lines, progress, typing_speed, end_function) {
 /// Measures each page once so partial text never changes line breaks.
 function funPrepareDialogueLine() {
 	var line = self.lines[self.line_index]
+	if (variable_struct_exists(line, "reward") and line.reward) {
+		global.black_room_context.reward_staged = true
+		with (oPlayer) funPlayerRefreshAbilities()
+	}
 	self.speaker = variable_struct_exists(line, "speaker") ? line.speaker : "Голос"
 	draw_set_font(global.dialogue_font_12)
 	var text = funExpandDialogueText(line.text, self.progress)
@@ -27,7 +31,7 @@ function funPrepareDialogueLine() {
 	self.revealed = 0
 }
 
-/// Reveals a page, advances it, or finishes the conversation on a fresh Return press.
+/// Reveals a page or dismisses a line; authored actions temporarily hide the panel.
 function funAdvanceDialogue() {
 	var count = array_length(self.pages[self.page_index].glyphs)
 	if (self.revealed < count) {
@@ -37,6 +41,12 @@ function funAdvanceDialogue() {
 	if (self.page_index + 1 < array_length(self.pages)) {
 		++self.page_index
 		self.revealed = 0
+		return
+	}
+	var line = self.lines[self.line_index]
+	if (variable_struct_exists(line, "action")) {
+		oBlackRoomController.pause_dialogue(self.line_index + 1, line.action)
+		instance_destroy()
 		return
 	}
 	if (self.line_index + 1 < array_length(self.lines)) {

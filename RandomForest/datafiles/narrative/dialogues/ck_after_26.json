@@ -1,38 +1,45 @@
 {
-  "opening": [
+  "lines": [
     {
       "speaker": "Голос",
-      "text": "Тестовая ЧК после уровня 26."
-    }
-  ],
-  "variants": [
-    {
-      "when": {},
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: обычный прогресс]\nСобрано: [orange]{collected}[/orange]. Этап: {after_level}."
-        }
-      ]
-    }
-  ],
-  "closing": [
+      "text": "Опять молчишь?"
+    },
     {
       "speaker": "Голос",
-      "text": "Тест завершён. Портал открывается."
-    }
-  ],
-  "comments": [
+      "text": "..."
+    },
     {
-      "when": {
-        "collected_below_level_ratio": 0.5
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: меньше половины] Собрано {collected}, этап {after_level}."
-        }
-      ]
+      "speaker": "Голос",
+      "text": "Ну да, какой у тебя [orange]выбор[/orange]..."
+    },
+    {
+      "speaker": "Голос",
+      "text": "Разве он есть?"
+    },
+    {
+      "speaker": "Голос",
+      "text": "..."
+    },
+    {
+      "speaker": "Голос",
+      "text": "Существует ли [orange]свобода[/orange]?"
+    },
+    {
+      "speaker": "Голос",
+      "text": "..."
+    },
+    {
+      "speaker": "Голос",
+      "text": "А впрочем... Неважно"
+    },
+    {
+      "speaker": "Система",
+      "text": "Получено: Топот",
+      "reward": true
+    },
+    {
+      "speaker": "Система",
+      "text": "Для активации нажмите Пробел"
     }
   ]
 }

@@ -14,12 +14,7 @@ function __funHandleButtonAction(button_index) {
 			self.paused = false
 			break
 		case 1:
-			if (room == rBlackRoom) {
-				funRestartPlayingLevel()
-			}
-			else {
-				room_restart()
-			}
+			funRestartCurrentRun()
 			break
 		case 2:
 			var inst = instance_create_layer(0, 0, "UI", oTraining)
@@ -32,6 +27,9 @@ function __funHandleButtonAction(button_index) {
 	}
 }
 
+
+// Directed endings own all character controls and cannot be restarted from pause.
+if (funStoryEndingActive()) exit
 
 // mouse counter
 if (self.paused) {

@@ -44,7 +44,7 @@ for (var i = array_length(self.fireflies) - 1; i >= 0; i--) {
 		true,
 		true
 	) != noone
-	if (hit_by_sword) {
+	if (hit_by_sword or funFireflyHitByStomp(firefly, sword_hit_radius)) {
 		firefly.is_dying = true
 		firefly.alpha = 1
 		firefly.glow_scale_multiplier = firefly.is_orange
@@ -54,15 +54,17 @@ for (var i = array_length(self.fireflies) - 1; i >= 0; i--) {
 		firefly.vy = 0
 		if (firefly.is_orange) {
 			// Orange-firefly progress is committed before the death flash ends.
-			global.orange_firefly_records[global.playing_level] = true
 			audio_play_sound(soundOrangeFirefly, 0, false)
-			funSaveGameState()
+			if (!self.story_demo) {
+				global.orange_firefly_records[global.playing_level] = true
+				funSaveGameState()
+			}
 		}
 		continue
 	}
 
 	funFireflyUpdate(firefly)
-	if (funWeatherFireflyHitWall(firefly)) {
+	if (!self.story_demo and funWeatherFireflyHitWall(firefly)) {
 		if (firefly.is_orange) self.orange_firefly_active = false
 		array_delete(self.fireflies, i, 1)
 		continue
@@ -77,16 +79,17 @@ for (var i = array_length(self.fireflies) - 1; i >= 0; i--) {
 	}
 }
 
-if (!funWeatherFireflySpawnAllowed()) return;
+if (!self.story_demo and !funWeatherFireflySpawnAllowed()) return;
 var current_count = array_length(self.fireflies)
 if (current_count < self.target_count) {
 	self.spawn_timer--
 	if (self.spawn_timer <= 0) {
 		var can_spawn_orange = (
-			funLevelTracksProgress(global.playing_level)
+			global.ending_stage < 2 and funLevelTracksProgress(global.playing_level)
 			and !global.orange_firefly_records[global.playing_level]
 			and !self.orange_firefly_active
 		)
+		if (self.story_demo) can_spawn_orange = !self.orange_firefly_active
 		var spawn_orange = (
 			can_spawn_orange
 			and random(1) < ORANGE_FIREFLY_SPAWN_CHANCE
@@ -109,6 +112,6 @@ if (current_count < self.target_count) {
 		// Larger deficits shorten the random wait without spawning a batch at once.
 		var deficit = max(1, self.target_count - array_length(self.fireflies))
 		self.spawn_timer = max(8, round(random_range(20, 90) / deficit))
-		if (funWeatherFirefliesReturning()) self.spawn_timer = max(24, self.spawn_timer)
+		if (!self.story_demo and funWeatherFirefliesReturning()) self.spawn_timer = max(24, self.spawn_timer)
 	}
 }

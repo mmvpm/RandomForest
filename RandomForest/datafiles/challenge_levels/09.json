@@ -71,33 +71,13 @@
   ],
   "wall_memories": [
     {
-      "id": "previous_memory",
-      "x": 429,
-      "y": 30,
-      "width": 288,
-      "role": "missing_previous",
-      "text": "Там, позади... что-то осталось.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_1",
-      "x": 88,
-      "y": 257,
-      "width": 168,
+      "id": "voice_19",
+      "x": 162,
+      "y": 654,
+      "width": 216,
       "role": "regular",
-      "text": "Знакомый холод.",
+      "text": "Думаешь, все против тебя?",
       "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_2",
-      "x": 1001,
-      "y": 222,
-      "width": 120,
-      "role": "regular",
-      "text": "Сколько раз я была здесь?",
-      "min_collected": 10,
       "requires_all_previous": false
     }
   ],

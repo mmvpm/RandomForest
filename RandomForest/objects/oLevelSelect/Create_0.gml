@@ -120,3 +120,4 @@ self.y_bottom_cached = array_create(self.buttons_count, -1000)
 // A newly perfected page uses one short, skippable border sweep.
 self.completion_animation_counter = -1
 self.completion_animation_duration = 42
+self.memory_gate_frames = 0

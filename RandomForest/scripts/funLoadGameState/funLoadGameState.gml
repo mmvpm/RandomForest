@@ -74,6 +74,8 @@ function funLoadGameState() {
 	// A saved victory becomes stale when new levels are appended.
 	global.campaign_intro_seen = ini_read_real("general", "campaign_intro_seen", 0) != 0
 	global.special_level_completed = ini_read_real("general", "special_level_completed", 0) != 0
+	global.ending_stage = ini_read_real("general", "ending_stage", 0)
+	global.lost_clones = ini_read_real("general", "lost_clones", 0)
 	global.is_game_finished = (
 		ini_read_real("general", "is_game_finished", 0)
 		and (funLevelTracksProgress(levels_count - 1)

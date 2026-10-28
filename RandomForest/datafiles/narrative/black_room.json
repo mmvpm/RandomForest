@@ -16,6 +16,14 @@
       "transform": null
     },
     {
+      "id": "ck_after_03",
+      "enabled": true,
+      "after_level": 3,
+      "dialogue": "narrative/dialogues/ck_after_03.json",
+      "reward": {},
+      "transform": null
+    },
+    {
       "id": "ck_after_09",
       "enabled": true,
       "after_level": 9,
@@ -107,11 +115,13 @@
     },
     {
       "id": "ck_after_41",
-      "enabled": false,
+      "enabled": true,
       "after_level": 41,
       "dialogue": "narrative/dialogues/ck_after_41.json",
       "reward": {},
-      "transform": null
+      "transform": null,
+      "kind": "finale",
+      "exploration_seconds": 0
     }
   ]
 }

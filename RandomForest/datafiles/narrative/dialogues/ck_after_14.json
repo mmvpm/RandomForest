@@ -1,38 +1,101 @@
 {
-  "opening": [
+  "lines": [
     {
       "speaker": "Голос",
-      "text": "Тестовая ЧК после уровня 14."
-    }
-  ],
-  "variants": [
-    {
-      "when": {},
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: обычный прогресс]\nСобрано: [orange]{collected}[/orange]. Этап: {after_level}."
-        }
-      ]
-    }
-  ],
-  "closing": [
+      "text": "Как глупо... как же глупо..."
+    },
     {
       "speaker": "Голос",
-      "text": "Тест завершён. Портал открывается."
-    }
-  ],
-  "comments": [
+      "text": "..."
+    },
     {
+      "speaker": "Голос",
+      "text": "Она не помнит, она не просто [orange]не помнит[/orange]"
+    },
+    {
+      "speaker": "Голос",
+      "text": "..."
+    },
+    {
+      "speaker": "Голос",
+      "text": "А, ты здесь"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Забудь"
+    },
+    {
+      "speaker": "Голос",
+      "text": "..."
+    },
+    {
+      "speaker": "Голос",
+      "text": "У каждого приключения есть финал"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Дойдешь ли ты до него?"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Или застрянешь перед самой дверью?"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Зависит только от тебя"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Ты же знаешь, что делать, верно?"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Кажется, что нет",
       "when": {
-        "collected_below_level_ratio": 0.5
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: меньше половины] Собрано {collected}, этап {after_level}."
-        }
-      ]
+        "min_collected": 0,
+        "max_collected": 4
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "По идее, должен бы...",
+      "when": {
+        "min_collected": 5,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Определенно, да",
+      "when": {
+        "min_collected": 11,
+        "max_collected": 14
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Как я это понял?"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Очень просто, магия чисел..."
+    },
+    {
+      "speaker": "Голос",
+      "text": "Точнее одного числа"
+    },
+    {
+      "speaker": "Голос",
+      "text": "[orange]{collected}[/orange]"
+    },
+    {
+      "speaker": "Голос",
+      "text": "..."
+    },
+    {
+      "speaker": "Система",
+      "text": "Получено: +1 к количеству жизней",
+      "reward": true
     }
   ]
 }

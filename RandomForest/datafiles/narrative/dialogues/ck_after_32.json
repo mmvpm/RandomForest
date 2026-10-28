@@ -1,38 +1,153 @@
 {
-  "opening": [
+  "lines": [
     {
       "speaker": "Голос",
-      "text": "Тестовая ЧК после уровня 32."
-    }
-  ],
-  "variants": [
-    {
-      "when": {},
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: обычный прогресс]\nСобрано: [orange]{collected}[/orange]. Этап: {after_level}."
-        }
-      ]
-    }
-  ],
-  "closing": [
+      "text": "[orange]Воспоминания[/orange] даются нелегко"
+    },
     {
       "speaker": "Голос",
-      "text": "Тест завершён. Портал открывается."
-    }
-  ],
-  "comments": [
+      "text": "Но их отсутствие парализует волю..."
+    },
     {
+      "speaker": "Голос",
+      "text": "Неужели ты не хочешь понять?",
       "when": {
-        "collected_below_level_ratio": 0.5
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: меньше половины] Собрано {collected}, этап {after_level}."
-        }
-      ]
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Неужели тебя не подмывает разобраться?",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "...",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Бежать вперед сломя голову не самое лучшее решение",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Скупой платит дважды",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "...",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Ладно",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Повторяю последний раз",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Единственный выход отсюда - собрать [orange]ИХ[/orange] всех!",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Да-да, по одному с каждого уровня",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Летают там такие [orange]особенные[/orange]....",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 10
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Вижу, ты на правильном пути",
+      "when": {
+        "min_collected": 11,
+        "max_collected": 32
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Но этого недостаточно",
+      "when": {
+        "min_collected": 11,
+        "max_collected": 31
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "[orange]{collected}[/orange] это не [orange]32[/orange]!",
+      "when": {
+        "min_collected": 11,
+        "max_collected": 31
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Скупой платит дважды",
+      "when": {
+        "min_collected": 11,
+        "max_collected": 31
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Что бы это не значило...",
+      "when": {
+        "min_collected": 11,
+        "max_collected": 31
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Так держать!",
+      "when": {
+        "min_collected": 32,
+        "max_collected": 32
+      }
+    },
+    {
+      "speaker": "Система",
+      "text": "Получено: +1 к количеству жизней",
+      "reward": true
     }
   ]
 }

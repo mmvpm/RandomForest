@@ -1,6 +1,7 @@
 /// Expands the two supported progress placeholders before measuring text.
 function funExpandDialogueText(text, progress) {
 	text = string_replace_all(text, "{collected}", string(progress.collected))
+	text = string_replace_all(text, "{deaths}", string(progress.deaths))
 	return string_replace_all(text, "{after_level}", string(progress.after_level))
 }
 

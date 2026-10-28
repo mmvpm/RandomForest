@@ -19,3 +19,14 @@ function funPlayerStompWaveDamage() {
     }
     return noone
 }
+
+/// Tests the expanding ring against a firefly body without enemy damage bookkeeping.
+function funFireflyHitByStomp(firefly, body_radius) {
+    for (var i = 0; i < instance_number(oPlayerStompWave); ++i) {
+        var wave = instance_find(oPlayerStompWave, i)
+        var distance = point_distance(wave.x, wave.y, firefly.x, firefly.y)
+        if (distance - body_radius <= wave.radius
+            and distance + body_radius >= wave.previous_radius) return true
+    }
+    return false
+}

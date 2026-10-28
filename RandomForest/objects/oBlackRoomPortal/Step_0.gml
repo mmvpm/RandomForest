@@ -1,4 +1,19 @@
 /// Requires a fresh approach after opening, even if the player waited in the portal.
+if (oBlackRoomController.is_ending) {
+	if (oBlackRoomController.portal_closing) {
+		self.scale = max(0, self.scale - self.scale_open_speed)
+		self.image_xscale = self.x_factor * self.scale
+		self.image_yscale = self.y_factor * self.scale
+		oBlackRoomController.portal_closed = self.scale == 0
+	}
+	else if (oBlackRoomController.portal_ready) funUpdatePortalVisual(true)
+	else {
+		self.scale = 0
+		self.image_xscale = 0
+		self.image_yscale = 0
+	}
+	exit
+}
 var opened = oBlackRoomController.portal_ready
 if (opened and !self.is_opened) {
 	self.departed = false

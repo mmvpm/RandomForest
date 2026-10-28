@@ -74,5 +74,17 @@
       "count": 30,
       "radius": 65
     }
+  ],
+  "wall_memories": [
+    {
+      "id": "voice_34",
+      "x": 426,
+      "y": 432,
+      "width": 150,
+      "role": "regular",
+      "text": "Люблю варенье",
+      "min_collected": 0,
+      "requires_all_previous": false
+    }
   ]
 }

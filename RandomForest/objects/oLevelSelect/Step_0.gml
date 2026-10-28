@@ -1,3 +1,5 @@
+self.memory_gate_frames = max(0, self.memory_gate_frames - 1)
+
 // Returns the number of level buttons visible on the current page.
 function __funVisibleLevelCount() {
 	var first_level = self.page_index * self.page_size
@@ -33,7 +35,7 @@ function __funUpdateLevelFirefly(firefly, extent) {
 function __funLevelButtonIsEnabled(button_index) {
 	if (button_index >= 0 and button_index < __funVisibleLevelCount()) {
 		var level_index = self.page_index * self.page_size + button_index
-		return level_index <= global.current_level
+		return funStoryLevelUnlocked(level_index)
 	}
 	if (button_index == self.previous_index) {
 		return self.page_index > 0
@@ -89,6 +91,10 @@ function __funActivateLevelButton(button_index) {
 	}
 
 	var level_index = self.page_index * self.page_size + button_index
+	if (!funStoryLevelCanEnter(level_index)) {
+		self.memory_gate_frames = 180
+		return
+	}
 	funOpenLevel(level_index)
 }
 

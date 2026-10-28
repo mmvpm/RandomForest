@@ -315,7 +315,7 @@ for (var i = 0; i < visible_count; ++i) {
 			pulse = sin(pi * pulse_frame / 12)
 		}
 	}
-	var level_enabled = level_index <= global.current_level
+	var level_enabled = funStoryLevelUnlocked(level_index)
 	var orange_firefly = undefined
 	if (level_enabled and funLevelTracksProgress(level_index) and global.orange_firefly_records[level_index]) {
 		orange_firefly = self.level_orange_fireflies[level_index]
@@ -385,3 +385,15 @@ __funDrawLevelSelectButton(
 
 draw_set_color(c_white)
 draw_set_alpha(1)
+if (self.memory_gate_frames > 0) {
+	draw_set_font(global.dialogue_font_12)
+	draw_set_valign(fa_middle)
+	var prefix = "Ты ещё не готов: "
+	var count = string(funGetOrangeFireflyCount()) + " / 40"
+	var left = 240 - string_width(prefix + count) / 2
+	draw_set_halign(fa_left)
+	draw_text(left, 257, prefix)
+	draw_set_color(ORANGE_FIREFLY_COLOUR)
+	draw_text(left + string_width(prefix), 257, count)
+	draw_set_color(c_white)
+}

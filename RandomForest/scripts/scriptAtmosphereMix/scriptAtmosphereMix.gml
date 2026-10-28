@@ -43,7 +43,7 @@ function funAtmosphereMixBegin(item,seconds) {
     var voice=audio_play_sound(asset,-5,true,0)
     if (voice<0) {audio_destroy_stream(asset);self.audio_error="Нет аудиоканала";return;}
     self.active={asset:asset,voice:voice,file:file,track:item.id,title:item.id+" · "+item.label,
-        duration:audio_sound_length(asset),paused:false,base_gain:item.gain,start_gain:0,gain:0,scale:1}
+        duration:audio_sound_length(asset),paused:false,base_gain:item.gain,start_gain:0,gain:0,applied_gain:0,scale:1}
     self.live_streams++
     self.peak_streams=max(self.peak_streams,self.live_streams)
     self.audio_error=""
@@ -62,14 +62,16 @@ function funAtmosphereMixSelect(item,seconds=12) {
 }
 
 /// Applies only meaningful changes, leaving music and gameplay voices independent.
-function funAtmosphereMixGain(stream,gain) {
-    if (stream.gain==gain) return;
+function funAtmosphereMixGain(stream,gain,output_gain=1) {
     stream.gain=gain
-    audio_sound_gain(stream.voice,gain,0)
+    var applied_gain=gain*output_gain
+    if (stream.applied_gain==applied_gain) return;
+    stream.applied_gain=applied_gain
+    audio_sound_gain(stream.voice,applied_gain,0)
 }
 
 /// Uses zero-slope envelope edges instead of an abrupt linear gain handoff.
-function funAtmosphereMixStep(dt) {
+function funAtmosphereMixStep(dt,output_gain=1) {
     if (!is_undefined(self.active) and self.active.paused) {
         audio_resume_sound(self.active.voice);self.active.paused=false
     }
@@ -84,10 +86,10 @@ function funAtmosphereMixStep(dt) {
     var blend=t*t*(3-2*t)
     var master=self.muted ? 0 : self.volume
     if (!is_undefined(self.active)) {
-        funAtmosphereMixGain(self.active,self.muted ? 0 : lerp(self.active.start_gain,self.active.base_gain*master*self.active.scale,blend))
+        funAtmosphereMixGain(self.active,self.muted ? 0 : lerp(self.active.start_gain,self.active.base_gain*master*self.active.scale,blend),output_gain)
     }
     if (!is_undefined(self.outgoing)) {
-        funAtmosphereMixGain(self.outgoing,self.muted ? 0 : self.outgoing.start_gain*(1-blend))
+        funAtmosphereMixGain(self.outgoing,self.muted ? 0 : self.outgoing.start_gain*(1-blend),output_gain)
     }
     self.out_time=max(0,self.mix_duration-self.mix_elapsed)
     if (t<1) return;

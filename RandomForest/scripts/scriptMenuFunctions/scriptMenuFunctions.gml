@@ -8,6 +8,9 @@ function funMenuShowControls() {
 
 // Opens the level selection screen and keeps the menu music playing.
 function funMenuOpenLevelSelect() {
+	// Results can now lead here when level 00 is still missing memories.
+	audio_stop_sound(musicGame)
+	if (!audio_is_playing(musicMenu)) audio_play_sound(musicMenu, 0, true)
 	global.menu_background_handoff = true
 	room_goto(rLevelSelect)
 }
@@ -25,6 +28,7 @@ function funOpenLevel(level_index = global.current_level) {
 	if (level_index < 0 or level_index >= levels_count) {
 		return false
 	}
+	if (!funStoryLevelCanEnter(level_index)) return false
 	// A story room may still own an optional track while its results are visible.
 	funStopBlackRoomMusic()
 	global.black_room_context = undefined
@@ -79,5 +83,6 @@ function funOpenLevel(level_index = global.current_level) {
 
 // Closes the game from the main menu.
 function funMenuExit() {
-	game_end()
+	if (global.ending_stage == 1) funOpenStoryEnding(true)
+	else game_end()
 }

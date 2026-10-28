@@ -10,38 +10,7 @@
     "three_stars": 49,
     "two_stars": 98
   },
-  "wall_memories": [
-    {
-      "id": "previous_memory",
-      "x": 624,
-      "y": 28,
-      "width": 240,
-      "role": "missing_previous",
-      "text": "Там, позади... что-то осталось.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_1",
-      "x": 510,
-      "y": 244,
-      "width": 168,
-      "role": "regular",
-      "text": "За что?",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_2",
-      "x": 930,
-      "y": 370,
-      "width": 120,
-      "role": "regular",
-      "text": "Не туда...",
-      "min_collected": 0,
-      "requires_all_previous": false
-    }
-  ],
+  "wall_memories": [],
   "map": [
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",

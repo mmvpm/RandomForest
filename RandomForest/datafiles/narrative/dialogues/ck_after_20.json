@@ -1,38 +1,57 @@
 {
-  "opening": [
+  "lines": [
     {
       "speaker": "Голос",
-      "text": "Тестовая ЧК после уровня 20."
-    }
-  ],
-  "variants": [
-    {
-      "when": {},
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: обычный прогресс]\nСобрано: [orange]{collected}[/orange]. Этап: {after_level}."
-        }
-      ]
-    }
-  ],
-  "closing": [
+      "text": "Я тут главный"
+    },
     {
       "speaker": "Голос",
-      "text": "Тест завершён. Портал открывается."
-    }
-  ],
-  "comments": [
+      "text": "Я самый важный"
+    },
     {
+      "speaker": "Голос",
+      "text": "Я определяю правила"
+    },
+    {
+      "speaker": "Голос",
+      "text": "..."
+    },
+    {
+      "speaker": "Голос",
+      "text": "И я определил выдать тебе двойной прыжок"
+    },
+    {
+      "speaker": "Система",
+      "text": "Получено: двойной прыжок",
+      "reward": true
+    },
+    {
+      "speaker": "Голос",
+      "text": "Кстати говоря"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Продвижение твоё, конечно, так себе",
       "when": {
-        "collected_below_level_ratio": 0.5
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: меньше половины] Собрано {collected}, этап {after_level}."
-        }
-      ]
+        "min_collected": 0,
+        "max_collected": 7
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Если ты вообще понимаешь, о [orange]чём[/orange] я",
+      "when": {
+        "min_collected": 0,
+        "max_collected": 7
+      }
+    },
+    {
+      "speaker": "Голос",
+      "text": "Неплохо продвигаешься",
+      "when": {
+        "min_collected": 8,
+        "max_collected": 20
+      }
     }
   ]
 }

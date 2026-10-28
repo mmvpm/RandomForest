@@ -57,38 +57,7 @@
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   ],
-  "wall_memories": [
-    {
-      "id": "previous_memory",
-      "x": 604,
-      "y": 510,
-      "width": 264,
-      "role": "missing_previous",
-      "text": "Там, позади... что-то осталось.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_1",
-      "x": 64,
-      "y": 128,
-      "width": 132,
-      "role": "regular",
-      "text": "Я — это они.",
-      "min_collected": 30,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_2",
-      "x": 866,
-      "y": 484,
-      "width": 108,
-      "role": "regular",
-      "text": "Знакомый холод.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    }
-  ],
+  "wall_memories": [],
   "moth_nests": [
     {
       "id": "moths_1",

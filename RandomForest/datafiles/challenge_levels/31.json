@@ -65,5 +65,17 @@
       "count": 22,
       "radius": 48
     }
+  ],
+  "wall_memories": [
+    {
+      "id": "voice_41",
+      "x": 642,
+      "y": 144,
+      "width": 150,
+      "role": "regular",
+      "text": "Проснуться — значит потерять того, кто видел сон",
+      "min_collected": 0,
+      "requires_all_previous": false
+    }
   ]
 }

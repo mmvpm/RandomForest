@@ -12,43 +12,13 @@
   },
   "wall_memories": [
     {
-      "id": "previous_memory",
-      "x": 786,
-      "y": 520,
-      "width": 288,
-      "role": "missing_previous",
-      "text": "Там, позади... что-то осталось.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_1",
-      "x": 438,
-      "y": 112,
-      "width": 132,
-      "role": "regular",
-      "text": "Я не хотела.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_2",
-      "x": 618,
-      "y": 298,
+      "id": "voice_31",
+      "x": 179,
+      "y": 149,
       "width": 144,
       "role": "regular",
-      "text": "Нас много...",
-      "min_collected": 10,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_3",
-      "x": 846,
-      "y": 268,
-      "width": 132,
-      "role": "regular",
-      "text": "Каждая смерть осталась во мне.",
-      "min_collected": 20,
+      "text": "Кшву ещ руддююю",
+      "min_collected": 0,
       "requires_all_previous": false
     }
   ],

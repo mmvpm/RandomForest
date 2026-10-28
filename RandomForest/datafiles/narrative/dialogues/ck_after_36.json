@@ -1,61 +1,29 @@
 {
-  "opening": [
+  "lines": [
     {
       "speaker": "Голос",
-      "text": "Тестовая ЧК после уровня 36."
-    }
-  ],
-  "variants": [
-    {
-      "when": {
-        "max_collected": 19
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: меньше 20]\nНужна более настойчивая реплика."
-        }
-      ]
+      "text": "Ну что ещё?"
     },
-    {
-      "when": {
-        "min_collected": 36,
-        "max_collected": 36
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: ровно 36]\nВся доступная память собрана."
-        }
-      ]
-    },
-    {
-      "when": {},
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: обычный прогресс]\nСобрано: [orange]{collected}[/orange]. Этап: {after_level}."
-        }
-      ]
-    }
-  ],
-  "closing": [
     {
       "speaker": "Голос",
-      "text": "Тест завершён. Портал открывается."
-    }
-  ],
-  "comments": [
+      "text": "А, это ты"
+    },
     {
-      "when": {
-        "collected_below_level_ratio": 0.5
-      },
-      "lines": [
-        {
-          "speaker": "Голос",
-          "text": "[Тест: меньше половины] Собрано {collected}, этап {after_level}."
-        }
-      ]
+      "speaker": "Голос",
+      "text": "..."
+    },
+    {
+      "speaker": "Голос",
+      "text": "Конец уже близко"
+    },
+    {
+      "speaker": "Голос",
+      "text": "Момент [orange]осознания[/orange] почти неизбежен"
+    },
+    {
+      "speaker": "Система",
+      "text": "Получено: +1 к урону от топота",
+      "reward": true
     }
   ]
 }

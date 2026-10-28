@@ -3,7 +3,8 @@ function __funContinueLevel() {
 	var next_index = global.playing_level + 1
 	var levels_count = funGetLevelsCount()
 	if (next_index < levels_count) {
-		funOpenLevel(next_index)
+		if (funStoryLevelCanEnter(next_index)) funOpenLevel(next_index)
+		else funMenuOpenLevelSelect()
 	}
 	else {
 		room_goto(rVictory)
@@ -18,7 +19,7 @@ function __funHandleButtonAction2(button_index) { // `2` because of gms2 (you ne
 			chosen_function = __funContinueLevel
 			break
 		case 1:
-			chosen_function = room == rBlackRoom ? funRestartPlayingLevel : room_restart
+			chosen_function = funRestartCurrentRun
 			break
 		case 2:
 			function __temp() {

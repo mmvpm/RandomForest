@@ -22,3 +22,4 @@ self.orange_firefly_active = false
 self.spawn_timer = irandom_range(20, 90)
 self.initial_count = 7
 self.initialised = false
+self.story_demo = room == rBlackRoom

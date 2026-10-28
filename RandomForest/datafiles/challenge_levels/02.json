@@ -64,33 +64,13 @@
   ],
   "wall_memories": [
     {
-      "id": "previous_memory",
-      "x": 637,
-      "y": 51,
-      "width": 132,
-      "role": "missing_previous",
-      "text": "Там, позади... что-то осталось.",
-      "min_collected": 0,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_1",
-      "x": 795,
+      "id": "voice_12",
+      "x": 801,
       "y": 483,
-      "width": 132,
+      "width": 120,
       "role": "regular",
-      "text": "Почему я это помню?",
-      "min_collected": 10,
-      "requires_all_previous": false
-    },
-    {
-      "id": "route_memory_2",
-      "x": 84,
-      "y": 329,
-      "width": 108,
-      "role": "regular",
-      "text": "Это уже случалось.",
-      "min_collected": 10,
+      "text": "Не замечаешь очевидного?",
+      "min_collected": 0,
       "requires_all_previous": false
     }
   ]

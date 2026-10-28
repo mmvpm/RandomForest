@@ -19,6 +19,7 @@ function funBlackRoomSetting(scene, setting_name) {
 
 /// Finds an enabled, unseen scene after the completed absolute level index.
 function funFindBlackRoomScene(level_index) {
+	if (global.ending_stage == 2) return undefined
 	var scenes = global.black_room_config.scenes
 	for (var i = 0; i < array_length(scenes); ++i) {
 		var scene = scenes[i]
@@ -41,4 +42,6 @@ function funResetBlackRoomScenes() {
 	global.black_room_context = undefined
 	global.campaign_intro_seen = false
 	global.special_level_completed = false
+	global.ending_stage = 0
+	global.lost_clones = 0
 }
