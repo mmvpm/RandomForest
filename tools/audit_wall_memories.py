@@ -9,6 +9,7 @@ from PIL import Image
 from wall_memory_geometry import PROJECT, ROOMS, read_yy, room_geometry, reading_position
 from wall_memory_layout import layout, round_pixel
 from build_wall_memory_font import SIZE, WEIGHT, CELL_WIDTH, CELL_HEIGHT
+from wall_pixel_glyphs import glyphs
 
 
 def places():
@@ -40,11 +41,12 @@ def check_font(metadata, atlas):
     assert metadata['glyph_height'] == CELL_HEIGHT
     assert (resource['width'], resource['height']) == (CELL_WIDTH, CELL_HEIGHT)
     layer = resource['layers'][0]['name']
+    original_characters = set(glyphs())
     for index, character in enumerate(metadata['characters']):
         frame = Image.open(sprite / (resource['frames'][index]['name'] + '.png')).convert('RGBA')
         assert frame.size == (CELL_WIDTH, CELL_HEIGHT)
         alpha = frame.getchannel('A')
-        assert set(np.unique(np.array(alpha))) <= {0, 85, 170, 255}
+        assert set(np.unique(np.array(alpha))) <= ({0, 255} if character in original_characters and character != " " else {0, 85, 170, 255})
         assert list(alpha.getbbox()) == metadata['glyph_bounds'][index]
         assert alpha.getbbox()[2] - alpha.getbbox()[0] + 1 == metadata['advances'][index]
         source = Image.open(sprite / 'layers' / resource['frames'][index]['name'] / f'{layer}.png')

@@ -22,9 +22,30 @@ function funParseDialogueText(text) {
 		}
 		else {
 			var letter = string_char_at(text, position)
-			array_push(letters, {letter: letter, colour: colour, width: string_width(letter)})
+			array_push(letters, {letter: letter, colour: colour, width: funDialogueCharacterWidth(letter)})
 			++position
 		}
 	}
 	return letters
+}
+
+/// Keeps the approved letter spacing; only dialogue word spaces gain two game pixels.
+function funDialogueCharacterWidth(letter) {
+    return string_width(letter) + (letter == " " ? 2 : 0)
+}
+
+/// Applies the same word spacing to the speaker and continuation hint.
+function funDrawDialogueLabel(text, x_pos, y_pos, align_right = false) {
+    var width = 0
+    for (var i = 1; i <= string_length(text); ++i)
+        width += funDialogueCharacterWidth(string_char_at(text, i))
+    if (align_right) x_pos -= width
+    var previous_align = draw_get_halign()
+    draw_set_halign(fa_left)
+    for (var i = 1; i <= string_length(text); ++i) {
+        var letter = string_char_at(text, i)
+        draw_text(x_pos, y_pos, letter)
+        x_pos += funDialogueCharacterWidth(letter)
+    }
+    draw_set_halign(previous_align)
 }

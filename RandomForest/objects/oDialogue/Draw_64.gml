@@ -18,7 +18,7 @@ draw_set_font(global.dialogue_font_12)
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
 draw_set_color(c_white)
-draw_text(text_x, self.panel_y + 12, self.speaker)
+funDrawDialogueLabel(self.speaker, text_x, self.panel_y + 12)
 
 for (var i = 0; i < floor(self.revealed); ++i) {
 	var glyph = page.glyphs[i]
@@ -29,8 +29,8 @@ for (var i = 0; i < floor(self.revealed); ++i) {
 draw_set_halign(fa_right)
 draw_set_color(presentation.palette.panel_muted)
 var hint = "Пробел: дальше"
-draw_text(self.panel_x + self.panel_width - self.padding,
-	self.panel_y + panel_height - 24, hint)
+funDrawDialogueLabel(hint, self.panel_x + self.panel_width - self.padding,
+	self.panel_y + panel_height - 24, true)
 
 draw_set_color(c_white)
 draw_set_alpha(1)
