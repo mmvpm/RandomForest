@@ -7,6 +7,7 @@ function funWeatherAudioCreate() {
     self.scene_gain=0
     self.portal_fading=false
     self.level_entry_pending=true
+    self.continue_after_death=false
 }
 
 /// Frees atmosphere alone, preserving music and ordinary gameplay sound behavior.
@@ -18,6 +19,11 @@ function funWeatherAudioStop() {
 
 /// Starts each gameplay room from silence while retaining an existing recording's position.
 function funWeatherAudioEnterLevel() {
+    // Death restarts the same continuous attempt without touching voices or envelopes.
+    if (self.continue_after_death) {
+        self.continue_after_death=false
+        return;
+    }
     self.portal_fading=false
     self.scene_gain=0
     self.level_entry_pending=true

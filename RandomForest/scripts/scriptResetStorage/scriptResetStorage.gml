@@ -3,7 +3,7 @@
 /// Restores general progress and audio preferences to defaults.
 function funResetGeneral() {
 	funResetBlackRoomScenes()
-	global.is_fullscreen = false
+	global.is_fullscreen = true
 	global.current_level = 0
 	global.playing_level = 0
 	global.playing_level_star_times = undefined

@@ -58,7 +58,18 @@
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   ],
-  "wall_memories": [],
+  "wall_memories": [
+    {
+      "id": "voice_14",
+      "x": 378,
+      "y": 282,
+      "width": 168,
+      "role": "regular",
+      "text": "Там позади... что-то осталось",
+      "min_collected": 0,
+      "requires_all_previous": false
+    }
+  ],
   "moth_nests": [
     {
       "id": "moths_1",

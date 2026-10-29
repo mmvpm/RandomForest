@@ -438,7 +438,7 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 ## Окно и debug
 
-[funResizeWindow](../RandomForest/scripts/funResizeWindow/funResizeWindow.gml) берёт камеру [rLevel01](../RandomForest/rooms/rLevel01/rLevel01.yy) как эталон, назначает её всем комнатам, выставляет application_surface в размер 480 × 270 и окно в масштабе 3. [funUpdateFullscreen](../RandomForest/scripts/funUpdateFullscreen/funUpdateFullscreen.gml) применяет сохранённый флаг полноэкранного режима. [oFullscreen](../RandomForest/objects/oFullscreen/oFullscreen.yy) ловит F, сохраняет выбор и несколько кадров просит ОС центрировать окно.
+[funResizeWindow](../RandomForest/scripts/funResizeWindow/funResizeWindow.gml) берёт камеру [rLevel01](../RandomForest/rooms/rLevel01/rLevel01.yy) как эталон, назначает её всем комнатам, выставляет application_surface в размер 480 × 270 и окно в масштабе 3. [funUpdateFullscreen](../RandomForest/scripts/funUpdateFullscreen/funUpdateFullscreen.gml) применяет сохранённый флаг полноэкранного режима. При отсутствии сохранённого значения полный экран включён; переключатель «Полный экран» доступен в настройках рядом с музыкой и звуками. [oFullscreen](../RandomForest/objects/oFullscreen/oFullscreen.yy) ловит F, сохраняет выбор и несколько кадров просит ОС центрировать окно.
 
 [oDebug](../RandomForest/objects/oDebug/oDebug.yy) включается последовательностью D → E → B → U → G в [Step](../RandomForest/objects/oDebug/Step_0.gml). Флаг `[general] is_debug` в `save.ini` также включает этот режим; по умолчанию он
 выключен. Debug задаёт максимум 10 HP, урон ближнего комбо 7–7–7 и урон топота 7

@@ -24,12 +24,18 @@ function __funActivateSetting(item_index) {
 			}
 			break
 		case 2:
+			global.is_fullscreen = !global.is_fullscreen
+			funUpdateFullscreen()
+			funSaveGameState()
+			audio_play_sound(soundMenuButton, 0, false)
+			break
+		case 3:
 			__funCloseSettings()
 			break
 	}
 }
 
-/// Moves selection within the three settings rows.
+/// Moves selection within the settings rows.
 function __funMoveSetting(direction) {
 	self.current_index += direction
 	self.current_index = (
@@ -47,7 +53,7 @@ else if (keyboard_check_pressed(vk_enter)) {
 	__funActivateSetting(self.current_index)
 }
 else if (
-	(self.current_index < 2)
+	(self.current_index < 3)
 	and (
 		keyboard_check_pressed(vk_left)
 		or keyboard_check_pressed(vk_right)

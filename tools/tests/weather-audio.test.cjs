@@ -105,6 +105,11 @@ context.funWeatherAudioEnterLevel();advance(3);context.funWeatherAudioBeginPorta
 assert.equal(assets.size,0);
 const afterEarlyPortal=serial;advance(30);assert.equal(serial,afterEarlyPortal);
 context.funWeatherAudioEnterLevel();advance(750);
+// A death restart must retain the native voice, playback and current envelope.
+const deathVoice=context.self.active.voice,deathGain=voices.get(deathVoice).gain;
+context.self.continue_after_death=true;context.funWeatherAudioEnterLevel();
+assert.equal(context.self.active.voice,deathVoice);assert.equal(voices.get(deathVoice).gain,deathGain);
+assert.equal(context.self.scene_gain,1);assert.equal(context.self.continue_after_death,false);
 // Pause is silent immediately; resuming gameplay retains its envelope and voice.
 const pauseVoice=context.self.active.voice;
 context.oPauseMenu.paused=true;context.funWeatherAudioStep();

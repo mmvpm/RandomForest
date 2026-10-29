@@ -1,8 +1,8 @@
 /// Initializes the shared theme roles without changing the menu layout.
 funApplyUiPresentation(funUiScenePresentation(true))
-/// @description Initializes the main-menu audio settings screen.
+/// @description Initializes the main-menu audio and display settings screen.
 
-self.items_count = 3
+self.items_count = 4
 self.current_index = 0
 
 self.border_sprite = sBorder4
@@ -12,7 +12,7 @@ self.toggle_width = 220
 self.toggle_height = 35
 self.back_width = 160
 self.back_height = 35
-self.row_y = [115, 160, 215]
+self.row_y = [95, 135, 175, 225]
 
 self.mouse_allowed_counter = 10
 self.last_mouse_x = 0

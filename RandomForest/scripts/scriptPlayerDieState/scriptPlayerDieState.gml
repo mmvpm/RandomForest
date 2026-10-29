@@ -12,6 +12,9 @@ function funPlayerDieLogic() {
 	funPlayerStepMove()
 	
 	if (self.die_animation_ended) {
+		if (room != rBlackRoom) {
+			with (oWeatherAudio) continue_after_death = true
+		}
 		room_restart()
 		return
 	}

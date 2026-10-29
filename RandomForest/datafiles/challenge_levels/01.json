@@ -57,7 +57,18 @@
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   ],
-  "wall_memories": [],
+  "wall_memories": [
+    {
+      "id": "voice_11",
+      "x": 480,
+      "y": 264,
+      "width": 168,
+      "role": "regular",
+      "text": "Я всё вижу",
+      "min_collected": 0,
+      "requires_all_previous": false
+    }
+  ],
   "moth_nests": [
     {
       "id": "moths_1",

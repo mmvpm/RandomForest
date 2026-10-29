@@ -67,18 +67,7 @@
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   ],
-  "wall_memories": [
-    {
-      "id": "memory_1",
-      "x": 108,
-      "y": 423,
-      "width": 130,
-      "role": "regular",
-      "text": "Каждая ошибка оставляет след...",
-      "min_collected": 0,
-      "requires_all_previous": false
-    }
-  ],
+  "wall_memories": [],
   "moth_nests": [
     {
       "id": "moths_1",

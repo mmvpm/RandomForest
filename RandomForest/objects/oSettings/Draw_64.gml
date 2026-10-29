@@ -99,6 +99,14 @@ __funDrawSettingRow(
 __funDrawSettingRow(
 	2,
 	self.row_y[2],
+	self.toggle_width,
+	self.toggle_height,
+	"Полный экран",
+	global.is_fullscreen ? "Вкл" : "Выкл"
+)
+__funDrawSettingRow(
+	3,
+	self.row_y[3],
 	self.back_width,
 	self.back_height,
 	"Назад"

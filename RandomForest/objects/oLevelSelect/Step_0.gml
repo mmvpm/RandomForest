@@ -92,7 +92,7 @@ function __funActivateLevelButton(button_index) {
 
 	var level_index = self.page_index * self.page_size + button_index
 	if (!funStoryLevelCanEnter(level_index)) {
-		self.memory_gate_frames = 180
+		self.memory_gate_frames = 300
 		return
 	}
 	funOpenLevel(level_index)

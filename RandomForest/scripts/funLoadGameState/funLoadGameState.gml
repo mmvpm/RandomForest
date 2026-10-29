@@ -7,7 +7,7 @@ function funLoadGameState() {
 	global.is_debug = ini_read_real("general", "is_debug", 0) != 0 // default: false
 
 	// fullscreen mode
-	global.is_fullscreen = ini_read_real("general", "is_fullscreen", 0) // default: false
+	global.is_fullscreen = ini_read_real("general", "is_fullscreen", 1) // default: true
 
 	// Load one record array for the full ordered level sequence.
 	var levels_count = funGetLevelsCount()

@@ -15,7 +15,7 @@ function funMenuOpenLevelSelect() {
 	room_goto(rLevelSelect)
 }
 
-// Opens the audio settings overlay over the existing menu background.
+// Opens the audio and display settings overlay over the existing menu background.
 function funMenuOpenSettings() {
 	if (!instance_exists(oSettings)) {
 		instance_create_depth(0, 0, -1, oSettings)
