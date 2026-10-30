@@ -1,5 +1,10 @@
 // Opens the next absolute level or the victory screen after the final level.
 function __funContinueLevel() {
+	// A replay of 00 returns to selection instead of the obsolete victory room.
+	if (!funLevelTracksProgress(global.playing_level)) {
+		funMenuOpenLevelSelect()
+		return;
+	}
 	var next_index = global.playing_level + 1
 	var levels_count = funGetLevelsCount()
 	if (next_index < levels_count) {
@@ -35,44 +40,36 @@ function __funHandleButtonAction2(button_index) { // `2` because of gms2 (you ne
 	}
 }
 
-/// Starts the next new achievement badge animation.
-function __funStartNextBadgeAnimation() {
-	if (self.badge_queue_position >= array_length(self.badge_queue)) {
-		self.badge_animation_index = -1
-		self.badge_animation_counter = 0
-		return
+/// Starts one ordered reward; every item shares the same delay and duration.
+function __funStartNextRewardAnimation() {
+	if (self.reward_queue_position >= array_length(self.reward_queue)) {
+		self.current_reward = -1
+		self.reward_animation_counter = 0
+		return;
 	}
-	self.badge_animation_index = self.badge_queue[self.badge_queue_position]
-	++self.badge_queue_position
-	self.badge_animation_counter = (
-		self.badge_animation_time + self.badge_animation_delay
-	)
+	self.current_reward = self.reward_queue[self.reward_queue_position]
+	++self.reward_queue_position
+	self.reward_animation_counter = self.reward_interval
 }
 
 /// Returns whether result rewards are still being revealed.
 function __funResultAnimationActive() {
-	return (
-		self.stats_animation_counter > 0
-		or !self.reward_animation_started
-		or self.star_animation_counter > 0
-		or self.badge_animation_counter > 0
-		or self.badge_queue_position < array_length(self.badge_queue)
-	)
+	return self.stats_animation_counter > 0 or !self.reward_animation_started
+		or self.reward_animation_counter > 0
+		or self.reward_queue_position < array_length(self.reward_queue)
 }
 
-/// Immediately reveals every result reward.
+/// Immediately reveals every reward without playing a burst of collection sounds.
 function __funFinishResultAnimation() {
 	self.stats_animation_counter = 0
 	self.reward_animation_started = true
 	self.shown_stars = self.max_stars
-	self.star_animation_counter = 0
 	self.enemy_badge_t = self.enemy_clear_earned ? 1 : 0
 	self.flawless_badge_t = self.flawless_earned ? 1 : 0
-	self.badge_queue_position = array_length(self.badge_queue)
-	self.badge_animation_index = -1
-	self.badge_animation_counter = 0
+	self.reward_queue_position = array_length(self.reward_queue)
+	self.current_reward = -1
+	self.reward_animation_counter = 0
 }
-
 
 // Story results wait for their black-to-results fade before input or rewards.
 if (instance_exists(oFadeIn)) exit
@@ -146,59 +143,21 @@ if (self.stats_animation_counter > 0) {
 	--self.stats_animation_counter
 }
 
-if (
-	self.stats_animation_counter == 0
-	and !self.reward_animation_started
-) {
+if (self.stats_animation_counter == 0 and !self.reward_animation_started) {
 	self.reward_animation_started = true
-	if (self.shown_stars < self.max_stars) {
-		self.star_animation_counter = (
-			self.star_animation_time + self.star_animation_delay
-		)
-	}
-	else {
-		__funStartNextBadgeAnimation()
-	}
+	__funStartNextRewardAnimation()
 }
 
-if (self.star_animation_counter > 0) {
-	--self.star_animation_counter
-	if (self.star_animation_counter == 0) {
-		++self.shown_stars
+if (self.reward_animation_counter > 0) {
+	--self.reward_animation_counter
+	var reward_t = clamp(1 - self.reward_animation_counter / self.reward_animation_time, 0, 1)
+	if (self.current_reward == 1) self.enemy_badge_t = reward_t
+	if (self.current_reward == 2) self.flawless_badge_t = reward_t
+	if (self.reward_animation_counter == 0) {
+		if (self.current_reward == 0) {
+			++self.shown_stars
+		}
 		audio_play_sound(soundStarCollecting, 0, false)
-		if (self.shown_stars < self.max_stars) {
-			self.star_animation_counter = self.star_animation_time + self.star_animation_delay
-		}
-		else {
-			__funStartNextBadgeAnimation()
-		}
-	}
-}
-
-if (self.badge_animation_counter > 0) {
-	--self.badge_animation_counter
-	var badge_t = clamp(
-		1 - self.badge_animation_counter / self.badge_animation_time,
-		0,
-		1
-	)
-	if (self.badge_animation_index == 0) {
-		self.enemy_badge_t = badge_t
-	}
-	else if (self.badge_animation_index == 1) {
-		self.flawless_badge_t = badge_t
-	}
-
-	if (self.badge_animation_counter == self.badge_animation_time) {
-		audio_play_sound(soundStarCollecting, 0, false)
-	}
-	if (self.badge_animation_counter == 0) {
-		if (self.badge_animation_index == 0) {
-			self.enemy_badge_t = 1
-		}
-		else if (self.badge_animation_index == 1) {
-			self.flawless_badge_t = 1
-		}
-		__funStartNextBadgeAnimation()
+		__funStartNextRewardAnimation()
 	}
 }

@@ -6,13 +6,9 @@ funUpdatePortalVisual(self.is_opened)
 function __funCompleteLevel() {
 	var level_index = global.playing_level
 	var levels_count = funGetLevelsCount()
-	// This story level records completion only, never a time or mastery reward.
+	// The story level earns normal records, but remains outside campaign page totals.
 	if (!funLevelTracksProgress(level_index)) {
 		global.special_level_completed = true
-		global.is_game_finished = true
-		global.last_completion_result = undefined
-		funSaveGameState()
-		return
 	}
 	var completion_time = oTimeCounter.time_counter
 	var star_times = funGetLevelStarTimes(

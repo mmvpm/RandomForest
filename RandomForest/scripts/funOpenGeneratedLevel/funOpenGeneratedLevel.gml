@@ -17,7 +17,6 @@ function funOpenGeneratedLevel(level_index) {
 	}
 
 	global.playing_level = level_index
-	funRootMawStartLevel(level_index)
 	global.playing_level_star_times = level_data.star_times
 	global.generated_level_data = level_data
 	global.last_completion_result = undefined

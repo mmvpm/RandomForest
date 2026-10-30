@@ -8,7 +8,7 @@ function funCampaignLevelMetadata(level_index) {
 	return undefined
 }
 
-/// Returns whether a level participates in records and mastery goals.
+/// Returns whether a level contributes to campaign page totals and memory gates.
 function funLevelTracksProgress(level_index) {
 	var metadata = funCampaignLevelMetadata(level_index)
 	return metadata == undefined or metadata.track_progress

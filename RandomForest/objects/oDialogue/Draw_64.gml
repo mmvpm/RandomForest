@@ -17,7 +17,7 @@ funDrawUiPanel(sBorder4, 0, self.panel_x, self.panel_y,
 draw_set_font(global.dialogue_font_12)
 draw_set_halign(fa_left)
 draw_set_valign(fa_top)
-draw_set_color(c_white)
+draw_set_color(self.speaker_colour)
 funDrawDialogueLabel(self.speaker, text_x, self.panel_y + 12)
 
 for (var i = 0; i < floor(self.revealed); ++i) {

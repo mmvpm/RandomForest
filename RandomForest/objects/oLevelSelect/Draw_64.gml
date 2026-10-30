@@ -333,7 +333,7 @@ for (var i = 0; i < visible_count; ++i) {
 		pulse,
 		orange_firefly
 	)
-	if (level_enabled and funLevelTracksProgress(level_index)) {
+	if (level_enabled) {
 		var earned_stars = funGetStarCount(
 			global.time_records[level_index],
 			level_index,

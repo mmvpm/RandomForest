@@ -1,9 +1,8 @@
 /// Opens either the pending story room or the normal completion overlay.
 function funShowCompletedLevel() {
-	if (!funLevelTracksProgress(global.playing_level)) {
-		if (global.ending_stage == 2) room_goto(rMenu)
-		else funOpenStoryEnding()
-		return
+	if (!funLevelTracksProgress(global.playing_level) and global.ending_stage != 2) {
+		funOpenStoryEnding()
+		return;
 	}
 	var scene = funFindBlackRoomScene(global.playing_level)
 	if (scene == undefined) {

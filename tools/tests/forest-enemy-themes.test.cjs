@@ -9,11 +9,9 @@ const sprites = new Set(fs.readdirSync(path.join(root, "sprites")));
 const kinds = {oBarkGuard: "guard", oResinSlime: "slime", oBarkBomber: "barrel",
   oForestBat: "bat", oRootReaper: "sweeper", oRootMaw: "maw"};
 const objects = ["oPlayer", "oDoor", "oCoin", "oSlime", "oSkeleton", "oBungalo", "oPointer", ...Object.keys(kinds)];
-let skinRolls = 0;
 const context = vm.createContext({
   global: {playing_level: 0}, self: {}, room: "generated", rGeneratedLevel: "generated",
   noone: -1, c_white: 255, sign: Math.sign, floor: Math.floor,
-  irandom: () => skinRolls++ % 2,
   funGetRoomIndex: () => -1,
   variable_instance_exists: (instance, name) => Object.hasOwn(instance, name),
   variable_global_exists: name => Object.hasOwn(context.global, name),
@@ -46,7 +44,7 @@ function run(source) {
     .replace(/\bmod\b/g, "%").replace(/\[@\s*/g, "["), context);
 }
 
-for (const name of ["scriptLevelThemes", "scriptRootMawSkins", "scriptForestEnemyCore", "funDecodeGeneratedLevelMap"]) {
+for (const name of ["scriptLevelThemes", "scriptForestEnemyCore", "funDecodeGeneratedLevelMap"]) {
   run(fs.readFileSync(path.join(root, "scripts", name, name + ".gml"), "utf8"));
 }
 const builder = fs.readFileSync(path.join(root, "scripts/funBuildGeneratedLevel/funBuildGeneratedLevel.gml"), "utf8");
@@ -86,32 +84,25 @@ for (const [index, suffix] of [[10, ""], [21, "Evening"], [31, "Night"], [40, "M
       context.funForestEnemyDraw();
       let expected = sprites.has(base + suffix) ? base + suffix : base;
       if (base === "sBarkBomberAttack") expected = "sBarkBomberAttackCast";
-      if (upper === "F") expected = context.funRootMawSkinSprite(base + "Bare", actor.maw_skin);
+      if (upper === "F") expected = base + "Bare";
       assert(sprites.has(expected), expected);
       assert.equal(context.draws[0][0], expected, `${symbol} / ${suffix || "day"} / ${base}`);
       assert.equal(context.draws[0][1], 1);
       assert.equal(actor.sprite_index, base);
       assert.equal(actor.mask_index, prefix + "Collision");
-      if (upper === "F") assert.equal(context.draws[1][0], context.funRootMawSkinSprite("sRootMawRosette", actor.maw_skin));
+      if (upper === "F") assert.equal(context.draws[1][0], "sRootMawRosette");
     }
   }
 }
-// A level has one choice for every plant and retry; entering another level makes one new draw.
-const first = context.funRootMawStartLevel(31), rolls = skinRolls;
-for (let retry = 0; retry < 10; retry++) assert.equal(context.funRootMawStartLevel(31), first);
-assert.equal(skinRolls, rolls, "room restarts must not reroll the appearance");
-const second = context.funRootMawStartLevel(32);
-assert.notEqual(first, second, "both approved skins can be selected");
-assert.equal(skinRolls, rolls + 1);
-for (const skin of ["N1", "N5"]) {
-  for (const pose of ["Idle", "Prepare", "Attack", "Recover", "Hurt", "Die"]) {
-    assert(sprites.has(context.funRootMawSkinSprite("sRootMaw" + pose + "Bare", skin)));
-    if (pose !== "Die") assert(sprites.has(context.funRootMawSkinSprite("sRootMaw" + pose + "Bloom", skin)));
-  }
+// Only the purple family remains, with matching bodies, foliage and halos for every pose.
+assert(![...sprites].some(name => name.startsWith("sRootMaw") && name.endsWith("N5")));
+for (const pose of ["Idle", "Prepare", "Attack", "Recover", "Hurt", "Die"]) {
+  assert(sprites.has("sRootMaw" + pose + "Bare"));
+  if (pose !== "Die") assert(sprites.has("sRootMaw" + pose + "Bloom"));
 }
 for (const symbol of "1234567") {
   assert.throws(() => context.funDecodeGeneratedLevelMap({width: 1, height: 2, map: [symbol, "#"]}),
     /unsupported symbol/);
   assert.equal(context.__funGeneratedEntityObject(symbol), -1);
 }
-console.log("PASS: enemy maps, anchors, scales, all poses, two matching plant skins and one selection per level across retries");
+console.log("PASS: enemy maps, anchors, scales, all poses, one purple plant family with matching foliage and halos");

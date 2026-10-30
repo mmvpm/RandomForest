@@ -115,7 +115,13 @@ active.set(context.oPlayer,context.oPlayer);
 context.global.playing_level = 29;
 assert.equal(context.funVisualEffectTheme(),"night", "staged dark skin wins inside black room");
 context.oPlayer.is_dark = false;
-assert.equal(context.funVisualEffectTheme(),"evening");
+for (const level of [0,20,29,30,39,40]) {
+  context.global.playing_level=level;
+  assert.equal(context.funVisualEffectTheme(),"day", "light black-room art never inherits level lighting");
+  context.oPlayer.is_dark=true;
+  assert.equal(context.funVisualEffectTheme(),"night");
+  context.oPlayer.is_dark=false;
+}
 context.room = "game";
 context.self = {sprite_index:"sTeleportStart",image_index:2.5,x:3,y:4,image_xscale:-1,image_yscale:1,image_angle:90,image_blend:context.c_white,image_alpha:0.8,mask_index:7};
 draws=[]; context.funDrawThemeEffectSelf();

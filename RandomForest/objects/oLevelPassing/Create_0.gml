@@ -56,27 +56,23 @@ self.star_times = funGetLevelStarTimes(
 )
 self.max_stars = result.stars_after
 self.shown_stars = result.stars_before
-self.star_animation_delay = 10
-self.star_animation_time = 20
-self.star_animation_counter = 0
-
+// One cadence for every newly earned star and badge (30 frames = 0.5 seconds).
+self.reward_interval = 30
+self.reward_animation_time = 20
+self.reward_animation_counter = 0
+self.reward_animation_started = false
+self.reward_queue = []
+self.reward_queue_position = 0
+self.current_reward = -1
+for (var star = result.stars_before; star < result.stars_after; ++star) {
+	array_push(self.reward_queue, 0)
+}
 self.enemy_clear_earned = result.enemy_clear_after
 self.flawless_earned = result.flawless_after
 self.enemy_badge_t = result.enemy_clear_before ? 1 : 0
 self.flawless_badge_t = result.flawless_before ? 1 : 0
-self.badge_animation_time = 16
-self.badge_animation_delay = 6
-self.badge_animation_counter = 0
-self.badge_animation_index = -1
-self.badge_queue = []
-if (result.new_enemy_clear) {
-	array_push(self.badge_queue, 0)
-}
-if (result.new_flawless) {
-	array_push(self.badge_queue, 1)
-}
-self.badge_queue_position = 0
-self.reward_animation_started = false
+if (result.new_enemy_clear) array_push(self.reward_queue, 1)
+if (result.new_flawless) array_push(self.reward_queue, 2)
 
 self.stats_animation_time = 60
 self.stats_animation_counter = self.stats_animation_time

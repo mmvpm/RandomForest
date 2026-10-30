@@ -9,7 +9,7 @@ function funForestPlayerKnockbackDirection(source,player_x) {
     return away==0 ? 1 : away
 }
 
-/// Applies each hit once; the rooted plant pulses in place and a hopper falls from its actual height.
+/// Applies each hit once; the rooted plant holds its pose and a hopper falls from its actual height.
 function funForestEnemyTakeDamage() {
     if (self.hurt_countdown_counter>0) return false
     var plant=self.forest_kind=="maw"

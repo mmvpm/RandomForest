@@ -302,8 +302,8 @@ for (var i = 0; i < star_count; i++) {
 		if (i < self.shown_stars) {
 			t_star = 1
 		}
-		else if (i == self.shown_stars) {
-			t_star = 1 - self.star_animation_counter / self.star_animation_time
+		else if (i == self.shown_stars and self.current_reward == 0) {
+			t_star = 1 - self.reward_animation_counter / self.reward_animation_time
 		}
 	}
 	var star_x = (

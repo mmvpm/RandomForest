@@ -15,7 +15,6 @@ const context = vm.createContext({
   funForestEnemyPlayLandingSound() { sounds++; },
   funForestEnemyState(state) { context.self.state = state; },
   funForestEnemyTakeDamage: () => false,
-  funForestEnemyDamageAlpha: () => 1,
   funEnemySeePlayer: () => false,
   instance_place: () => -1, oJumpThru: "jump", oSolid: "solid"
 });

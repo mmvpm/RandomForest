@@ -58,7 +58,6 @@ function funForestEnemyInitialize(kind) {
         case "bat": self.art_prefix="sForestBat";self.health=3;self.vertical_vision_radius=160;self.vision_radius=210;self.rear_vision_radius=210;self.visual_theme="night";break
         case "maw": self.art_prefix="sRootMaw";self.health=5;self.step_xspeed=0;self.vision_radius=96;self.vertical_vision_radius=48;self.visual_theme="night";break
     }
-    if (kind=="maw") self.maw_skin=funRootMawStartLevel(global.playing_level)
     self.max_health=self.health
     funEnemyInitializeMovement(asset_get_index(self.art_prefix+"Collision"))
     funForestEnemyState("idle")
@@ -122,12 +121,11 @@ function funForestEnemyAnimationEnd() {
     }
 }
 
-/// Keeps native hurt art opaque; only the rooted plant needs a single soft damage pulse.
-function funForestEnemyDamageAlpha() {
-    if (self.forest_kind!="maw" or self.is_dead) return 1
+/// Uses the original white Hurt frame's timing without interrupting the current pose.
+function funForestMawHitFlashActive() {
+    if (self.forest_kind!="maw" or self.is_dead or self.hurt_countdown_counter<=0) return false
     var elapsed=24-self.hurt_countdown_counter
-    if (self.hurt_countdown_counter<=0 or elapsed>=12) return 1
-    return 1-.4*(1-abs(elapsed-6)/6)
+    return floor(elapsed*sprite_get_speed(sRootMawHurt)/game_get_speed(gamespeed_fps))==1
 }
 
 /// Updates combat and locomotion while each actor keeps a stable physical body.
@@ -139,7 +137,6 @@ function funForestEnemyStep() {
     self.alert_timer=max(0,self.alert_timer-1)
     funEnemyUpdateMovement()
     if (!self.is_dead) funForestEnemyTakeDamage()
-    self.image_alpha=funForestEnemyDamageAlpha()
     if (self.y>room_height+80) { instance_destroy();return; }
     if (self.state=="dead") {
         if (self.forest_kind!="maw") funForestEnemyMoveGround()
@@ -188,7 +185,10 @@ function funForestEnemyDraw() {
     var pose=funForestEnemyPose()
     var art=funThemeSprite(self.sprite_index,self.visual_theme)
     if (self.forest_kind=="barrel" and self.sprite_index==sBarkBomberAttack) art=sBarkBomberAttackCast
-    if (self.forest_kind=="maw") art=funRootMawSkinSprite(asset_get_index(sprite_get_name(self.sprite_index)+"Bare"),self.maw_skin)
+    if (self.forest_kind=="maw") art=asset_get_index(sprite_get_name(self.sprite_index)+"Bare")
+    var hit_flash=funForestMawHitFlashActive() and shader_is_compiled(shRootMawHitFlash)
+    var previous_shader=hit_flash ? shader_current() : -1
+    if (hit_flash) shader_set(shRootMawHitFlash)
     draw_sprite_ext(art,self.image_index,self.x+pose.x*self.image_xscale,self.y+pose.y*self.image_yscale,
         self.image_xscale,self.image_yscale,0,c_white,self.image_alpha)
     // The rosette and stalk share one death lifetime, so neither part disappears early.
@@ -196,5 +196,9 @@ function funForestEnemyDraw() {
     var durations=[360,240,360,420,360,240,360,420]
     var phase=self.ambient_clock mod 2760,leaf_frame=0
     while (phase>=durations[leaf_frame] and leaf_frame<7) { phase-=durations[leaf_frame];leaf_frame+=1 }
-    draw_sprite_ext(funRootMawSkinSprite(sRootMawRosette,self.maw_skin),leaf_frame,self.x,self.y,1,1,0,c_white,self.image_alpha)
+    draw_sprite_ext(sRootMawRosette,leaf_frame,self.x,self.y,1,1,0,c_white,self.image_alpha)
+    if (hit_flash) {
+        if (previous_shader==-1) shader_reset()
+        else shader_set(previous_shader)
+    }
 }

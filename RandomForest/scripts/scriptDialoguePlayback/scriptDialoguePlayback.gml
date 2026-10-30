@@ -23,6 +23,7 @@ function funPrepareDialogueLine() {
 		with (oPlayer) funPlayerRefreshAbilities()
 	}
 	self.speaker = variable_struct_exists(line, "speaker") ? line.speaker : "Голос"
+	self.speaker_colour = funDialogueSpeakerColour(self.speaker)
 	draw_set_font(global.dialogue_font_12)
 	var text = funExpandDialogueText(line.text, self.progress)
 	self.pages = funLayoutDialogue(funParseDialogueText(text), self.text_width,

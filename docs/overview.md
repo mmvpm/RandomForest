@@ -21,7 +21,7 @@
 | Выбор уровня | [oLevelSelect](../RandomForest/objects/oLevelSelect/oLevelSelect.yy) показывает всю последовательность страницами по 10. При входе открывается страница `global.current_level div 10`, поэтому для текущего уровня 11+ сразу виден и выделен именно он. |
 | Игровые уровни | [funOpenLevel](../RandomForest/scripts/scriptMenuFunctions/scriptMenuFunctions.gml) открывает обычную комнату для индексов 0–9 или выбранный JSON в [rGeneratedLevel](../RandomForest/rooms/rGeneratedLevel/rGeneratedLevel.yy) для индексов 10+. |
 | Завершение | Дверь сохраняет общий рекорд и открывает следующий абсолютный индекс. Перед статистикой может открыться ещё не просмотренная ЧК; включены сцены после 01, 03, 09, 14, 20, 23, 26, 30, 32, 36 и 40. Уровень 10 переходит к `challenge_levels/01.json`. |
-| Финал | Уровень `00` доступен после ЧК 40 и требует все 40 ОС. Его портал открывает постановочную финальную ЧК. После неё остаются «Справка», «Настройки», «Выйти»; выход или следующий запуск открывает настоящий финал. Затем обычное меню и переигрывание возвращаются, без новых ОС и ЧК. |
+| Финал | Уровень `00` доступен после ЧК 40 и требует все 40 ОС. Его портал открывает постановочную финальную ЧК. После неё остаются «Справка», «Настройки», «Выйти»; выход или следующий запуск открывает настоящий финал. Затем обычное меню и переигрывание возвращаются, без новых ОС и ЧК. Уровень 00 сохраняет звёзды и достижения уже с первого прохождения: они видны на плитке, без верхних полос прогресса. Первое прохождение ведёт в финалы, повторное — в обычные результаты. |
 
 Первые десять абсолютных индексов сопоставлены комнатам в [funOpenLevel](../RandomForest/scripts/scriptMenuFunctions/scriptMenuFunctions.gml) и [funGetRoomIndex](../RandomForest/scripts/funGetRoomIndex/funGetRoomIndex.gml). Все последующие индексы вычисляются из порядка `challenge_levels/catalog.json`; порядок комнат проекта для перехода между игровыми уровнями не используется.
 
@@ -76,7 +76,7 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 [Финальные десять звуков установлены в игру](forest-enemy-audio.md) по `randomforest-enemy-sound-selection-final.json`, с сохранением полных файлов и относительной громкости прослушивания на 25%. Новые эффекты подчиняются настройке «Звуки»; звуки Сучника сохранены. [Галерея выбора](../.temp/enemy_integration/index.html) остаётся доступна для сравнения. Свечение Корневой пасти теперь следует силуэту каждого живого кадра, включая вытянутую атаку и отражение персонажа. [Исправления физики, патруля и атак по игровому отзыву](forest-enemy-revision.md): единый прыжок, отлипание мыши, упреждающие атаки, простые маски и возврат скелету прежней физики.
 
-Для Корневой пасти подключены ночные палитры N1 «Лунный барвинок» и N5 «Лунная полынь»: один случайный выбор на текущий уровень общий для тела, куста и свечения и сохраняется при смерти и рестарте. [Галерея и результаты проверки](../.temp/experiments/root_maw_night_skins/README.md).
+Для Корневой пасти оставлен один фиолетовый скин с немного приглушённой яркостью и насыщенностью. Жёлтая палитра и случайный выбор удалены; тело, розетка и покадровое свечение используют общую палитру. Параметры перекраски — в [описании врагов](forest-enemies.md).
 
 ## Архитектура: реальные правила проекта
 
@@ -195,7 +195,7 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 - создаётся [oFadeOut](../RandomForest/objects/oFadeOut/oFadeOut.yy);
 - после callback [funShowCompletedLevel](../RandomForest/scripts/scriptBlackRoomFlow/scriptBlackRoomFlow.gml) открывает непосещённую ЧК или создаёт [oLevelPassing](../RandomForest/objects/oLevelPassing/oLevelPassing.yy) на слое UI.
 
-[oLevelPassing](../RandomForest/objects/oLevelPassing/oLevelPassing.yy) деактивирует игровой мир в [Create](../RandomForest/objects/oLevelPassing/Create_0.gml), оставляя [oDebug](../RandomForest/objects/oDebug/oDebug.yy) и [oFullscreen](../RandomForest/objects/oFullscreen/oFullscreen.yy). В [Step](../RandomForest/objects/oLevelPassing/Step_0.gml) доступны «Дальше», «Заново», «В меню»; «Дальше» вызывает общий `funOpenLevel`, а после последнего каталожного уровня открывает `rVictory`. [Draw](../RandomForest/objects/oLevelPassing/Draw_0.gml) и [Draw GUI](../RandomForest/objects/oLevelPassing/Draw_64.gml) рисуют размытый фон, статистику и звёзды.
+[oLevelPassing](../RandomForest/objects/oLevelPassing/oLevelPassing.yy) деактивирует игровой мир в [Create](../RandomForest/objects/oLevelPassing/Create_0.gml), оставляя [oDebug](../RandomForest/objects/oDebug/oDebug.yy) и [oFullscreen](../RandomForest/objects/oFullscreen/oFullscreen.yy). В [Step](../RandomForest/objects/oLevelPassing/Step_0.gml) доступны «Дальше», «Заново», «В меню»; «Дальше» вызывает общий `funOpenLevel`, а после повторного прохождения 00 возвращает к выбору уровней. [Draw](../RandomForest/objects/oLevelPassing/Draw_0.gml) и [Draw GUI](../RandomForest/objects/oLevelPassing/Draw_64.gml) рисуют размытый фон, статистику и звёзды. Новые награды идут единой очередью с интервалом 30 кадров (0,5 с): звёзды, «Все враги», «Без урона»; пропущенные награды не добавляют пауз.
 
 ### Чёрная комната и диалоги
 
@@ -626,3 +626,5 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 - [shBlur.vsh](../RandomForest/shaders/shBlur/shBlur.vsh), [shBlur.fsh](../RandomForest/shaders/shBlur/shBlur.fsh), [метаданные shBlur](../RandomForest/shaders/shBlur/shBlur.yy).
 - [RoomCreationCode rVictory](../RandomForest/rooms/rVictory/RoomCreationCode.gml).
+
+В ЧК тело и связанные эффекты светлой девочки используют исходную палитру, тёмной — ночную; палитра завершённого уровня остаётся у UI. Финал не окрашивает девочку утренней палитрой. Параллакс округляет смещение относительно камеры до целых игровых пикселей, одинаково для сухого и дождевого фона, сохраняя плавное движение самой камеры.

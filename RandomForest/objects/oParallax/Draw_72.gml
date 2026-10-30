@@ -1,7 +1,10 @@
-/// @description Background moving
+/// Moves both backdrops on the screen pixel grid without rounding the camera.
 
-self.x = camera_get_view_x(view_camera[0]) * self.background_to_view_ratio_x
-self.y = camera_get_view_y(view_camera[0]) * self.background_to_view_ratio_y
+var camera_x = camera_get_view_x(view_camera[0])
+var camera_y = camera_get_view_y(view_camera[0])
+// Half-pixel texture edges can choose different source columns across one frame.
+self.x = camera_x + floor(camera_x * (self.background_to_view_ratio_x - 1) + 0.5)
+self.y = camera_y + floor(camera_y * (self.background_to_view_ratio_y - 1) + 0.5)
 
 layer_x(self.layer_id, self.x)
 layer_y(self.layer_id, self.y)

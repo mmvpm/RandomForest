@@ -5,6 +5,11 @@ function funExpandDialogueText(text, progress) {
 	return string_replace_all(text, "{after_level}", string(progress.after_level))
 }
 
+/// Colours only the speaker label; dialogue body colours remain independent.
+function funDialogueSpeakerColour(speaker) {
+	return speaker == "Система" ? make_colour_rgb(139, 186, 218) : c_white
+}
+
 /// Removes color tags while retaining one color per visible Unicode character.
 function funParseDialogueText(text) {
 	var letters = []

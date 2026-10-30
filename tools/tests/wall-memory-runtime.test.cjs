@@ -129,13 +129,13 @@ assert.deepEqual(blend, [7,8,9,10]); assert.equal(filter, true);
 assert.deepEqual([font,colour,alpha,halign,valign], [42,123,.6,2,3]);
 assert.deepEqual(surfaceDraws[0].blend, [1,5,1,5]);
 assert.equal(surfaceDraws[0].filter, false);
-assert.equal(surfaceDraws[0].args.at(-1), .9);
-assert.equal(surfaceDraws[0].args.at(-2), context.make_colour_rgb(230,230,230));
+assert.equal(surfaceDraws[0].args.at(-1), .7);
+assert.equal(surfaceDraws[0].args.at(-2), context.make_colour_rgb(179,179,179));
 rendered.phase = "fade"; rendered.phase_elapsed = settings.defaults.fade_seconds / 2;
 context.funWallMemoryDraw(rendered);
 assert.equal(rebuilds, 1); // Fade reuses cached pixels.
-assert.equal(surfaceDraws.at(-1).args.at(-1), .45);
-assert.equal(surfaceDraws.at(-1).args.at(-2), context.make_colour_rgb(115,115,115));
+assert.equal(surfaceDraws.at(-1).args.at(-1), .35);
+assert.equal(surfaceDraws.at(-1).args.at(-2), context.make_colour_rgb(89,89,89));
 const drawsBeforeClip = surfaceDraws.length;
 context.funWallMemoryDrawClipped(rendered, .45, [0,0,10,10]);
 assert.equal(surfaceDraws.length, drawsBeforeClip);

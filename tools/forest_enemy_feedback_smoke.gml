@@ -192,7 +192,7 @@ function funFeedbackStep() {
             if (actor.forest_kind!="maw") {
                 funForestSmokeAssert(actor.image_alpha==1,"native hurt is never strobed by invulnerability")
                 if (self.frames<=10) funForestSmokeAssert(actor.state=="hurt","native two-frame hurt is not truncated by eight-tick stun")
-            } else funForestSmokeAssert(actor.image_alpha>=.6,"plant pulse is gentle")
+            } else funForestSmokeAssert(actor.image_alpha==1,"plant damage flash never fades its silhouette")
         }
         if (self.frames<36) return;
         show_debug_message("FOREST_FEEDBACK_PASS all six rendered hurt reactions, complete native animation and no alpha strobe")

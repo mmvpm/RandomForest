@@ -101,10 +101,10 @@ function funApplyUiPresentation(presentation) {
     self.locked_button_color = palette.locked_border
 }
 
-/// Keeps legacy magic in step with the current body skin inside the black room.
+/// Black-room actors use their original skin palette; gameplay retains level lighting.
 function funVisualEffectTheme() {
     if (room == rBlackRoom and instance_exists(oPlayer) and oPlayer.is_dark) return "night"
-    if (room == rBlackRoom) return funLevelTheme(global.playing_level)
+    if (room == rBlackRoom) return "day"
     return funCurrentLevelTheme()
 }
 
