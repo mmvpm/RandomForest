@@ -55,6 +55,19 @@ context.funWallMemoryAdvance(anchor, .5, true, 80);
 assert.equal(anchor.phase, "consumed");
 context.funWallMemoryMarkRead(anchor.read_key); assert.equal(saves, 1);
 context.funResetWallMemories(); assert(!context.funWallMemoryWasRead(anchor.read_key));
+// GML can accept this near-integer count as complete; the cache still floors it.
+const roundedCompletion = { read_key: "34:voice_34", phase: "typing", phase_elapsed: 1.2,
+  glyph_count: 13, revealed: 12.999999999999988 };
+assert.equal(Math.floor(roundedCompletion.revealed), 12);
+const savesBeforeCompletion = saves;
+context.funWallMemoryFinishTyping(roundedCompletion);
+assert.equal(roundedCompletion.revealed, 13);
+assert.equal(roundedCompletion.phase, "hold");
+assert.equal(roundedCompletion.phase_elapsed, 0);
+assert(context.funWallMemoryWasRead(roundedCompletion.read_key));
+assert.equal(saves, savesBeforeCompletion + 1);
+context.funWallMemoryFinishTyping(roundedCompletion);
+assert.equal(saves, savesBeforeCompletion + 1);
 assert.equal(settings.defaults.activation_distance, 80);
 // Validate the controller's death boundary and complete centred layout from actual GML.
 const metadata = JSON.parse(fs.readFileSync(path.join(root, "RandomForest/datafiles/narrative/memory_font.json")));

@@ -19,6 +19,8 @@ function funWallMemoryDistance(anchor, player_x, player_y) {
 
 /// Records the last letter once while retaining the current reading window.
 function funWallMemoryFinishTyping(anchor) {
+    // GML's tolerant comparison can finish just below the final integer count.
+    anchor.revealed = anchor.glyph_count
     anchor.phase = "hold"
     anchor.phase_elapsed = 0
     funWallMemoryMarkRead(anchor.read_key)
