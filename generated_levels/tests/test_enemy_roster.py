@@ -27,7 +27,7 @@ class EnemyRosterTests(unittest.TestCase):
 
     def test_roster_uses_only_available_skins(self):
         """The config is the authoritative map of skins, including universal old enemies."""
-        expected = {11: set("SKBG"), 22: set("SKBJG"), 32: set("SKBJGCTWF"), 41: set("SKBJG")}
+        expected = {11: set("SKBG"), 22: set("SKBJG"), 32: set("SKBJGCTW"), 41: set("SKBJG")}
         for number, symbols in expected.items():
             weights = config.enemy_weights(number)
             self.assertEqual({symbol for symbol, _ in weights}, symbols)

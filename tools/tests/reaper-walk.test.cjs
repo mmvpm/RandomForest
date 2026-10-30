@@ -1,0 +1,21 @@
+/** The reaper's walk phase follows distance and freezes when blocked. */
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const vm=require('node:vm');
+const root=path.resolve(__dirname,'../../RandomForest');
+const c=vm.createContext({abs:Math.abs,self:{image_xscale:1.5,image_number:8,image_index:0,walk_distance:0}});
+const source=fs.readFileSync(path.join(root,'scripts/scriptForestEnemyMotion/scriptForestEnemyMotion.gml'),'utf8');
+vm.runInContext(source.replace(/\band\b/g,'&&').replace(/\bor\b/g,'||').replace(/\bmod\b/g,'%'),c);
+for(let i=0;i<24;i++) c.funForestReaperAdvanceWalk(.375);
+assert.equal(c.self.image_index,4,'nine actual pixels are half a scaled walking cycle');
+for(let i=0;i<60;i++) c.funForestReaperAdvanceWalk(0);
+assert.equal(c.self.image_index,4,'collision blocking cannot animate walking in place');
+for(let i=0;i<24;i++) c.funForestReaperAdvanceWalk(.375);
+assert.equal(c.self.image_index,0,'eighteen actual pixels complete the loop');
+c.self.image_xscale=-1.5;
+for(let i=0;i<24;i++) c.funForestReaperAdvanceWalk(.375);
+assert.equal(c.self.image_index,4,'mirroring preserves gait distance');
+assert.equal(c.self.image_speed,0,'the engine clock cannot advance gait independently');
+console.log('PASS: scaled reaper gait, exact distance cycle, blocking and mirrored walking');

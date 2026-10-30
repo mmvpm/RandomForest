@@ -25,6 +25,8 @@ function funBuildGeneratedWallMemoryAnchors(level_data) {
             width: placement.width,
             role: placement.role,
             text: placement.text,
+            detection_x: variable_struct_exists(placement, "detection_x") ? placement.detection_x : -1,
+            detection_y: variable_struct_exists(placement, "detection_y") ? placement.detection_y : -1,
             min_collected: variable_struct_exists(placement, "min_collected") ? placement.min_collected : 0,
             requires_all_previous: variable_struct_exists(placement, "requires_all_previous")
                 ? placement.requires_all_previous : false

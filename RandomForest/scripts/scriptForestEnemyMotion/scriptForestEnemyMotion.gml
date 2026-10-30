@@ -38,6 +38,7 @@ function funForestEnemyMoveGround() {
     var supported=funEnemyCollidesWithSolid(self.x,self.y+1,self.y,1,self.drop_through_counter>0)
     if (!supported or self.current_yspeed<0) self.was_airborne=true
     if (self.air_navigation_active) funEnemyApplyAirMovement()
+    var previous_x=self.x
     funForestEnemyMoveBody(supported)
     var grounded=self.current_yspeed==0 and funEnemyOnGroundAt(self.x,self.y)
     if (self.forest_kind=="slime") funForestSlimeResolveGroundContact(grounded)
@@ -48,6 +49,8 @@ function funForestEnemyMoveGround() {
             self.landed=true
         }
     }
+    if (self.forest_kind=="sweeper" and self.state=="move" and grounded and supported)
+        funForestReaperAdvanceWalk(abs(self.x-previous_x))
     funEnemyStompKnockbackUpdate()
 }
 
@@ -72,4 +75,12 @@ function funForestEnemyLightHeight() {
     var index=clamp(self.image_index,0,array_length(poses)-1)
     var first=floor(index),last=min(first+1,array_length(poses)-1)
     return lerp(poses[first].light_y,poses[last].light_y,frac(index))
+}
+
+/// Advances the eight walking poses by two six-pixel source-art steps per cycle.
+function funForestReaperAdvanceWalk(distance) {
+    var cycle_distance=12*abs(self.image_xscale)
+    self.image_speed=0
+    self.walk_distance=(self.walk_distance+distance) mod cycle_distance
+    self.image_index=self.walk_distance*self.image_number/cycle_distance
 }

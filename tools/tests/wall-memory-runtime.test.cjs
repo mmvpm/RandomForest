@@ -91,6 +91,12 @@ Object.assign(context, {
   array_sort: (array,compare)=>array.sort(compare)
 });
 load("scriptWallMemorySelection"); load("scriptWallMemoryRender"); load("scriptWallMemoryFlow");
+const separateDetection = {x:1128,y:132,detection_x:984,detection_y:132};
+assert.equal(context.funWallMemoryDetectionDistance(separateDetection,984,132),0);
+assert.equal(context.funWallMemoryDistance(separateDetection,984,132),144,'reading fade still follows text');
+assert.equal(context.funWallMemoryDetectionDistance({x:1128,y:132,detection_x:-1,detection_y:-1},984,132),144);
+assert.equal(context.funWallMemoryDetectionDistance({x:1128,y:132},984,132),144,'old anchors keep centre detection');
+
 assert.equal(JSON.stringify(context.funWallMemoryWrap("abcdefghijk",32)),
   JSON.stringify(require('../../visualizer/wall-memories.js').WallMemoryModel.wrap(
     {measureText: text=>({width:context.string_width(text)})},"abcdefghijk",32)));

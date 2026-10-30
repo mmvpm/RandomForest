@@ -17,6 +17,13 @@ function funWallMemoryDistance(anchor, player_x, player_y) {
     return point_distance(player_x, player_y, anchor.x, anchor.y)
 }
 
+/// Uses optional world-space detection coordinates; -1 keeps the text centre on that axis.
+function funWallMemoryDetectionDistance(anchor, player_x, player_y) {
+    var detection_x = anchor.detection_x >= 0 ? anchor.detection_x : anchor.x
+    var detection_y = anchor.detection_y >= 0 ? anchor.detection_y : anchor.y
+    return point_distance(player_x, player_y, detection_x, detection_y)
+}
+
 /// Records the last letter once while retaining the current reading window.
 function funWallMemoryFinishTyping(anchor) {
     // GML's tolerant comparison can finish just below the final integer count.
@@ -82,11 +89,12 @@ function funWallMemoryUpdateController(controller) {
         if (!instance_exists(anchor) or !anchor.ready or anchor.phase == "consumed") continue
         var inside_view = funWallMemoryInsideView(funWallMemoryBounds(anchor), view_x, view_y, view_width, view_height)
         var distance = funWallMemoryDistance(anchor, oPlayer.x, oPlayer.y - 8)
+        var detection_distance = funWallMemoryDetectionDistance(anchor, oPlayer.x, oPlayer.y - 8)
         if (anchor.phase != "idle") funWallMemoryAdvance(anchor, seconds, inside_view, distance)
         if (anchor.phase != "idle" and anchor.phase != "consumed") active += 1
         else if (anchor.phase == "idle" and !funWallMemoryWasRead(anchor.read_key)
-            and inside_view and distance <= settings.activation_distance) {
-            array_push(candidates, {anchor: anchor, distance: distance})
+            and inside_view and detection_distance <= settings.activation_distance) {
+            array_push(candidates, {anchor: anchor, distance: detection_distance})
         }
     }
     array_sort(candidates, function(a, b) {

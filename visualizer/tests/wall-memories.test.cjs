@@ -13,7 +13,7 @@ assert.equal(M.hash(21,'memory_1'),M.hash(21,'memory_1'));
 assert.notEqual(M.hash(21,'memory_1'),M.hash(21,'memory_2'));
 assert.deepEqual(M.wrap({measureText:s=>({width:s.length*8})},'abc def\nxy',30),['abc','def','xy']);
 assert.deepEqual(M.wrap({measureText:s=>({width:s.length*8})},'abcdef',24),['abc','def']);
-const controls={};for(const name of ['width','role','text','min_collected','delete','position','preview','boxes','missing','collected','count','message'])controls[name]={dataset:{memory:name},value:'',checked:false,handlers:{},addEventListener(type,fn){this.handlers[type]=fn},setAttribute(){},removeAttribute(){},replaceChildren(){},appendChild(){}};
+const controls={};for(const name of ['width','role','text','min_collected','detection_x','detection_y','delete','position','preview','boxes','missing','collected','count','message'])controls[name]={dataset:{memory:name},value:'',checked:false,handlers:{},addEventListener(type,fn){this.handlers[type]=fn},setAttribute(){},removeAttribute(){},replaceChildren(){},appendChild(){}};
 controls.preview.checked=controls.boxes.checked=true;controls.collected.value='0';
 const panel={querySelectorAll:()=>Object.values(controls),classList:{toggle(){}}};
 global.document={getElementById:()=>panel,fonts:{load:()=>Promise.resolve()},createElement:()=>({})};global.fetch=async()=>({ok:true,json:async()=>config});
@@ -59,13 +59,23 @@ async function checkAtlasPreview() {
   preview.pointerDown(evt(220, 100)); preview.pointerUp();
   preview.draw(ctx);
   assert.deepEqual(boxes.at(-1), [136.5, 84.5, 168, 32]);
-  const ink = drawn.filter(call => call.alpha === .9);
+  const ink = drawn.filter(call => call.alpha === read('wall_memories.json').defaults.opacity);
   assert.equal(ink.length, 5); // The space advances without drawing its hidden marker.
   const fullWidth=Array.from('Кто я?').reduce((n,c)=>n+metadata.advances[metadata.characters.indexOf(c)],0);
   const start=136+Math.round((168-fullWidth)/2);
   assert.equal(ink[0].args[5], start);
   assert.equal(ink[1].args[5], start + metadata.advances[metadata.characters.indexOf('К')]);
   assert.equal(ctx.imageSmoothingEnabled, false);
+  controls.detection_x.value='100'; controls.detection_x.handlers.change();
+  assert.equal(state.level.wall_memories[0].detection_x,100);
+  assert.equal(state.level.wall_memories[0].x,220,'detection editing cannot move text');
+  controls.detection_y.value='112'; controls.detection_y.handlers.change();
+  assert.deepEqual(M.detection(state.level.wall_memories[0]),{x:100,y:112});
+  controls.detection_x.value=''; controls.detection_x.handlers.change();
+  assert.equal('detection_x' in state.level.wall_memories[0],false);
+  assert.equal(M.detection(state.level.wall_memories[0]).x,220,'blank restores centre detection');
+  preview.undo(state.undoStack.pop());
+  assert.equal(state.level.wall_memories[0].detection_x,100,'undo restores the independent point');
   console.log('Sprite-atlas loading, centred alignment, baseline, spacing and hidden-space preview checks passed.');
 }
 checkAtlasPreview().catch(error => { console.error(error); process.exitCode = 1; });

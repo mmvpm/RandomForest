@@ -27,7 +27,9 @@ def places():
                 anchors.append(dict(id=props['anchor_id'], x=item['x'], y=item['y'],
                                     width=float(props['width']), text=props['text'], role=props['role'],
                                     min_collected=int(props['min_collected']),
-                                    requires_all_previous=props['requires_all_previous'] == 'True'))
+                                    requires_all_previous=props['requires_all_previous'] == 'True',
+                                    detection_x=float(props.get('detection_x', -1)),
+                                    detection_y=float(props.get('detection_y', -1))))
         yield number, path, anchors
     for path in sorted((PROJECT / 'datafiles/challenge_levels').glob('[0-9][0-9].json')):
         yield int(path.stem) + 10, path, json.loads(path.read_text()).get('wall_memories', [])

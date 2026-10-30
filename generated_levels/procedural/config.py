@@ -134,11 +134,12 @@ ENEMY_SKINS = {
     "J": ("evening", "night", "morning"),
     "C": ("night",), "T": ("night",), "W": ("night",), "F": ("night",),
 }
+# Root Maw (F/f) remains supported for old/manual maps, but is deprecated for generation.
 ENEMY_WEIGHTS_BY_THEME = {
     "day": (("S", .45), ("K", .25), ("B", .15), ("G", .15)),
     "evening": (("S", .20), ("K", .24), ("B", .12), ("J", .28), ("G", .16)),
-    "night": (("S", .12), ("K", .10), ("B", .07), ("J", .14), ("C", .12),
-              ("T", .14), ("G", .12), ("W", .10), ("F", .09)),
+    "night": (("S", .17), ("K", .14), ("B", .07), ("J", .14), ("C", .12),
+              ("T", .14), ("G", .12), ("W", .10)),
     "morning": (("S", .20), ("K", .22), ("B", .15), ("J", .25), ("G", .18)),
 }
 ENEMY_SYMBOLS = frozenset(symbol for upper in ENEMY_SKINS for symbol in (upper, upper.lower()))

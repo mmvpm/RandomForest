@@ -11,8 +11,20 @@ const context=vm.createContext({self:{},floor:Math.floor,round:Math.round,min:Ma
 });
 
 /** Translate only operators, leaving both production functions under test unchanged. */
-function load(name){vm.runInContext(fs.readFileSync(path.join(root,name,name+'.gml'),'utf8').replace(/\band\b/g,'&&').replace(/\bor\b/g,'||').replace(/\bmod\b/g,'%'),context);}
+function load(name){vm.runInContext(fs.readFileSync(path.join(root,name,name+'.gml'),'utf8').replace(/^#macro (\w+) (.+)$/gm,'let $1 = $2;').replace(/\band\b/g,'&&').replace(/\bor\b/g,'||').replace(/\bmod\b/g,'%'),context);}
 load('scriptForestWeather');load('scriptAmbientDraw');
+assert.equal(vm.runInContext('WEATHER_DANDELIONS_ENABLED',context),false);
+for(const theme of ['morning','day','evening','night']) {
+  for(let seed=1;seed<=40;seed++) assert.notEqual(context.funWeatherCreate(seed,theme).phase,'seeds');
+  const disabled=context.funWeatherCreate(123,theme);
+  context.funWeatherSetPhase(disabled,'seeds'); assert.equal(disabled.phase,'dry');
+  disabled.phase='seeds'; disabled.seed_amount=1; context.self.weather=disabled;
+  lines=[];context.funAmbientDrawSeeds(0,0);assert.equal(lines.length,0,'disabled effect cannot draw old seed tails');
+  context.funWeatherApplyTheme(disabled,theme);assert.equal(disabled.phase,'dry');
+}
+// The retained implementation must still work when the single switch is restored.
+vm.runInContext('WEATHER_DANDELIONS_ENABLED = true',context);
+
 const weather=context.funWeatherCreate(123,'day');context.self.weather=weather;
 context.funWeatherSetPhase(weather,'dry');
 

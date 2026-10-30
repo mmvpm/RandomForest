@@ -80,7 +80,11 @@ def room_geometry(number, path):
 def reading_position(anchor, ink, geometry, radius=80, allow_jump=False):
     """Find a ground position whose camera contains all ink outside the HUD."""
     for px, py in geometry["standing"] + (geometry["jumping"] if allow_jump else []):
-        if (px - anchor["x"]) ** 2 + (py - 8 - anchor["y"]) ** 2 > radius ** 2:
+        detection_x = anchor.get("detection_x", anchor["x"])
+        detection_y = anchor.get("detection_y", anchor["y"])
+        if detection_x < 0: detection_x = anchor["x"]
+        if detection_y < 0: detection_y = anchor["y"]
+        if (px - detection_x) ** 2 + (py - 8 - detection_y) ** 2 > radius ** 2:
             continue
         vx = max(12, min(px - 240, geometry["width"] - 492))
         vy = max(12, min(py - 135, geometry["height"] - 282))

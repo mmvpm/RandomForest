@@ -54,7 +54,7 @@ function funForestEnemyInitialize(kind) {
         case "slime": self.art_prefix="sResinSlime";self.step_xspeed=.75;self.vision_radius=360;self.rear_vision_radius=200;break
         case "barrel": self.art_prefix="sBarkBomber";self.health=5;self.step_xspeed=.55;self.vision_radius=220;self.visual_theme="night";break
         case "guard": self.art_prefix="sBarkGuard";self.health=7;self.step_xspeed=.6;self.vision_radius=430;break
-        case "sweeper": self.art_prefix="sRootReaper";self.health=6;self.step_xspeed=.75;self.visual_theme="night";break
+        case "sweeper": self.art_prefix="sRootReaper";self.health=6;self.step_xspeed=.375;self.visual_theme="night";break
         case "bat": self.art_prefix="sForestBat";self.health=3;self.vertical_vision_radius=160;self.vision_radius=210;self.rear_vision_radius=210;self.visual_theme="night";break
         case "maw": self.art_prefix="sRootMaw";self.health=5;self.step_xspeed=0;self.vision_radius=96;self.vertical_vision_radius=48;self.visual_theme="night";break
     }
@@ -93,6 +93,11 @@ function funForestEnemyState(next_state) {
     self.sprite_index=asset_get_index(self.art_prefix+funForestEnemyAnimation(next_state))
     self.image_index=0
     self.image_speed=1
+    // Reaper walking is clocked by actual grounded displacement, not elapsed frames.
+    if (self.forest_kind=="sweeper" and next_state=="move") {
+        self.image_speed=0
+        self.walk_distance=0
+    }
     if (next_state=="windup") self.image_speed=0
     if (next_state=="attack" and self.forest_kind!="maw") self.image_index=funForestEnemyActiveStart()
     if (self.forest_kind=="sweeper" and (next_state=="idle" or next_state=="recover")) {

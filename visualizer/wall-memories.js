@@ -7,6 +7,11 @@ const WallMemoryModel = {
     const width = Math.max(32, Math.ceil(anchor.width));
     return { left: Math.round(anchor.x - width / 2), top: Math.round(anchor.y - height / 2), width, height };
   },
+  // Resolves an independent detection point; blank axes follow the text centre.
+  detection(anchor) {
+    return { x: anchor.detection_x >= 0 ? anchor.detection_x : anchor.x,
+      y: anchor.detection_y >= 0 ? anchor.detection_y : anchor.y };
+  },
   // Converts CSS-scaled pointer coordinates into integer world pixels.
   point(event, bounds, width, height) {
     return { x: Math.round((event.clientX - bounds.left) / bounds.width * width),
@@ -155,6 +160,12 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
         context.lineWidth = 1; context.setLineDash(index === selected ? [] : [4, 3]);
         context.strokeRect(box.left + 0.5, box.top + 0.5, box.width, box.height);
         context.fillStyle = context.strokeStyle; context.fillRect(item.x - 2, item.y - 2, 4, 4);
+        if (index === selected) {
+          const detection = WallMemoryModel.detection(item);
+          context.fillStyle = "#70def0";
+          context.fillRect(detection.x - 4, detection.y, 9, 1);
+          context.fillRect(detection.x, detection.y - 4, 1, 9);
+        }
       }
     });
     context.restore();
@@ -163,8 +174,8 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
   function refresh(reset = false) {
     if (reset) { selected = -1; drag = null; textEdit = null; }
     const item = anchor();
-    for (const name of ["width", "role", "text", "min_collected", "delete"]) controls[name].disabled = !item;
-    for (const name of ["width", "text", "min_collected"]) {
+    for (const name of ["width", "role", "text", "min_collected", "detection_x", "detection_y", "delete"]) controls[name].disabled = !item;
+    for (const name of ["width", "text", "min_collected", "detection_x", "detection_y"]) {
       if (name === "text" && textEdit) continue;
       controls[name].value = item?.[name] ?? (name === "width" ? 168 : name === "min_collected" ? 0 : "");
     }
@@ -255,6 +266,19 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
     finishTextEdit();
     const item = anchor(); if (!item) return;
     let value = controls[name].value;
+    if (name === "detection_x" || name === "detection_y") {
+      const snapshot = remember();
+      if (value.trim() === "") {
+        if (item[name] === undefined) return;
+        delete item[name];
+      } else {
+        const limit = (name === "detection_x" ? state.level.width : state.level.height) * 12;
+        value = Math.max(0, Math.min(limit, Math.round(Number(value))));
+        if (value === item[name]) return;
+        item[name] = value;
+      }
+      commit(snapshot); return;
+    }
     if (name === "width") value = Math.max(32, Math.round(Number(value) || 168));
     if (name === "min_collected") value = Math.max(0, Math.floor(Number(value) || 0));
     if (name === "role") {
@@ -288,7 +312,7 @@ function createWallMemoryEditor({ state, canvas, render, save, hideTooltip }) {
     pointerUp(); mode = active; hideTooltip(); refresh(); render();
   }
   controls.delete.addEventListener("click", remove);
-  for (const name of ["width", "role", "min_collected"]) controls[name].addEventListener("change", () => changeField(name));
+  for (const name of ["width", "role", "min_collected", "detection_x", "detection_y"]) controls[name].addEventListener("change", () => changeField(name));
   for (const name of ["preview", "boxes", "missing", "collected"]) controls[name].addEventListener("input", () => { controls.count.textContent = controls.collected.value; render(); });
   controls.text.addEventListener("input", editText);
   controls.text.addEventListener("change", finishTextEdit);

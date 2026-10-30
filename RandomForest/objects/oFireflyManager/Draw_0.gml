@@ -45,6 +45,9 @@ if (!self.initialised) {
 gpu_set_blendmode(bm_add)
 for (var i = 0; i < array_length(self.fireflies); i++) {
 	var firefly = self.fireflies[i]
+	var neutral = self.story_demo and !firefly.is_orange and shader_is_compiled(shFireflyNeutral)
+	var previous_shader = neutral ? shader_current() : -1
+	if (neutral) shader_set(shFireflyNeutral)
 	var hit_flash_scale = firefly.is_orange
 		? self.orange_hit_flash_scale
 		: self.hit_flash_scale
@@ -81,6 +84,10 @@ for (var i = 0; i < array_length(self.fireflies); i++) {
 
 	// A sword hit removes the body instantly; only the short light flash remains.
 	if (firefly.is_dying) {
+		if (neutral) {
+			if (previous_shader == -1) shader_reset()
+			else shader_set(previous_shader)
+		}
 		continue
 	}
 
@@ -114,6 +121,10 @@ for (var i = 0; i < array_length(self.fireflies); i++) {
 	draw_circle(firefly.x, firefly.y, 1, false)
 	if (firefly.is_orange) {
 		gpu_set_blendmode(bm_add)
+	}
+	if (neutral) {
+		if (previous_shader == -1) shader_reset()
+		else shader_set(previous_shader)
 	}
 }
 gpu_set_blendmode(bm_normal)

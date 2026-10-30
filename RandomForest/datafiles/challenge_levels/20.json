@@ -19,7 +19,9 @@
       "role": "regular",
       "text": "Здесь ничего нет",
       "min_collected": 0,
-      "requires_all_previous": false
+      "requires_all_previous": false,
+      "detection_x": 984,
+      "detection_y": 132
     }
   ],
   "map": [

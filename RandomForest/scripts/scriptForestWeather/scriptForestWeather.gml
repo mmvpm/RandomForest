@@ -1,11 +1,15 @@
+// Temporarily disabled: too much small flying debris. Keep the effect for possible reuse.
+#macro WEATHER_DANDELIONS_ENABLED false
+
 /// Returns a private random sample without consuming gameplay randomness.
 function funWeatherRandom(weather) {
     weather.seed = (weather.seed * 48271) mod 2147483647
     return weather.seed / 2147483647
 }
 
-/// Limits daylight to the two approved dry states without changing night-time transitions.
+/// Restricts daylight to dry weather and honours the temporary dandelion switch.
 function funWeatherPhaseAllowed(phase, theme) {
+    if (phase == "seeds" and !WEATHER_DANDELIONS_ENABLED) return false;
     return (theme != "day" and theme != "morning") or phase == "dry" or phase == "seeds"
 }
 

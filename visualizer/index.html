@@ -673,6 +673,9 @@
           <p data-memory="position" class="memory-note"></p>
           <div class="memory-fields">
             <label>Ширина, пиксели <input data-memory="width" type="number" min="32" step="1" value="168"></label>
+            <label>Точка обнаружения X <input data-memory="detection_x" type="number" min="0" step="1" placeholder="Центр текста"></label>
+            <label>Точка обнаружения Y <input data-memory="detection_y" type="number" min="0" step="1" placeholder="Центр текста"></label>
+            <p class="memory-note">Голубой крест — точка обнаружения. Пустое поле привязывает координату к центру текста.</p>
             <label>Условие предыдущих ОС <select data-memory="role"><option value="regular">Обычная</option><option value="missing_previous">Пропущен предыдущий ОС</option><option value="all_previous">Все предыдущие ОС собраны</option></select></label>
             <label>Минимум собранных ОС <input data-memory="min_collected" type="number" min="0" step="1" value="0"></label>
             <label>Текст надписи <textarea data-memory="text" placeholder="Введите надпись. Новая строка — Enter."></textarea></label>

@@ -40,6 +40,8 @@ class LevelFormatTests(unittest.TestCase):
             "wall_memories": [
                 {
                     "id": "near_player",
+                    "detection_x": 6,
+                    "detection_y": 12,
                     "x": 12,
                     "y": 24,
 

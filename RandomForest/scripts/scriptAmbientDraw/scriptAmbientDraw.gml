@@ -26,6 +26,7 @@ function funAmbientDrawFog() {
 
 /// Keeps the accepted seed art and motion, fading separate seeds in and out over four seconds.
 function funAmbientDrawSeeds(cx, cy) {
+    if (!WEATHER_DANDELIONS_ENABLED) return;
     var weather = self.weather
     var exposure = clamp(1 - weather.rain * 2 - weather.fog, 0, 1)
     if (weather.seed_amount <= 0 or exposure <= 0) return;

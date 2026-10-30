@@ -17,7 +17,7 @@ const context=vm.createContext({self:{},global:{sfx_enabled:true},room:1,rMenu:0
  audio_sound_gain(id,gain,ms){assert.equal(ms,0);voices.get(id).gain=gain;},audio_stop_sound:id=>voices.delete(id),audio_destroy_stream:id=>assets.delete(id)
 });
 /** Translate only GML operators, keeping production functions unchanged. */
-function load(name){vm.runInContext(fs.readFileSync(path.join(root,'scripts',name,name+'.gml'),'utf8').replace(/\band\b/g,'&&').replace(/\bor\b/g,'||').replace(/\bmod\b/g,'%'),context);}
+function load(name){vm.runInContext(fs.readFileSync(path.join(root,'scripts',name,name+'.gml'),'utf8').replace(/^#macro (\w+) (.+)$/gm,'const $1 = $2;').replace(/\band\b/g,'&&').replace(/\bor\b/g,'||').replace(/\bmod\b/g,'%'),context);}
 for(const name of ['scriptForestWeather','scriptAtmosphereMix','scriptAtmosphereDirector','scriptWeatherAudio'])load(name);
 /** Advance actual weather and audio without wall-clock sleeping. */
 function advance(frames){for(let i=0;i<frames;i++){context.funWeatherUpdate(context.global.forest_weather,1/60);context.funWeatherAudioStep();assert(assets.size<=2);}}
