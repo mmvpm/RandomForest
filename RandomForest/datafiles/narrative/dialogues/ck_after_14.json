@@ -6,15 +6,7 @@
     },
     {
       "speaker": "Голос",
-      "text": "..."
-    },
-    {
-      "speaker": "Голос",
-      "text": "Она не помнит, она не просто [orange]не помнит[/orange]"
-    },
-    {
-      "speaker": "Голос",
-      "text": "..."
+      "text": "Она не помнит, она не просто [orange]не помнит[/orange]..."
     },
     {
       "speaker": "Голос",
@@ -50,7 +42,7 @@
     },
     {
       "speaker": "Голос",
-      "text": "Кажется, что нет",
+      "text": "Кажется, нет",
       "when": {
         "min_collected": 0,
         "max_collected": 4
@@ -58,7 +50,7 @@
     },
     {
       "speaker": "Голос",
-      "text": "По идее, должен бы...",
+      "text": "Вроде знаешь",
       "when": {
         "min_collected": 5,
         "max_collected": 10
@@ -66,7 +58,7 @@
     },
     {
       "speaker": "Голос",
-      "text": "Определенно, да",
+      "text": "Определенно, да!",
       "when": {
         "min_collected": 11,
         "max_collected": 14
@@ -78,19 +70,15 @@
     },
     {
       "speaker": "Голос",
-      "text": "Очень просто, магия чисел..."
+      "text": "Очень просто, магия чисел"
     },
     {
       "speaker": "Голос",
-      "text": "Точнее одного числа"
+      "text": "Точнее одного числа.... [orange]{collected}[/orange]"
     },
     {
       "speaker": "Голос",
-      "text": "[orange]{collected}[/orange]"
-    },
-    {
-      "speaker": "Голос",
-      "text": "..."
+      "text": "Мне доступно больше, чем ты думаешь"
     },
     {
       "speaker": "Система",

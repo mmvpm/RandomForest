@@ -32,11 +32,12 @@ else {
 	]
 	self.immediate_actions = [false, true, true, false]
 }
-if (global.ending_stage == 1) {
-	self.items_count = 3
-	self.strings = ["Справка", "Настройки", "Выйти"]
-	self.functions = [funMenuShowControls, funMenuOpenSettings, funMenuExit]
-	self.immediate_actions = [true, true, false]
+funBrokenMenuCreate()
+if (self.broken_menu) {
+    self.items_count = 4
+    self.strings = ["Продолжить", "Справка", "Настройки", "Выйти"]
+    self.functions = [funBrokenMenuContinue, funMenuShowControls, funMenuOpenSettings, funMenuExit]
+    self.immediate_actions = [true, true, true, false]
 }
 self.current_scale = 1.0
 self.default_scale = 0.9
@@ -76,4 +77,4 @@ self.y_bottom_cached = []
 
 // music
 audio_stop_all()
-audio_play_sound(musicMenu, 0, true)
+if (!self.broken_menu) audio_play_sound(musicMenu, 0, true)

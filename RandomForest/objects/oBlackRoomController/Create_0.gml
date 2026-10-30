@@ -5,6 +5,8 @@ if (self.context == undefined) {
     exit
 }
 self.scene = self.context.scene
+// Bloom (200) stays behind terrain (150), while actors (100) stay in front.
+instance_create_depth(0, 0, 150, oBlackRoomTerrain)
 self.lines = funLoadBlackRoomLines(self.scene, self.context.progress)
 self.delay_frames = round(60 * funBlackRoomSetting(self.scene, "exploration_seconds"))
 self.dialogue_started = false
@@ -51,6 +53,7 @@ self.pause_dialogue = method(self, function(next_index, action) {
     if (action == "transform") self.awaiting_transform = true
     else {
         self.ending_action = action
+        if (action == "portal_run") self.portal_ready = true
         self.ending_frame = 0
     }
 })

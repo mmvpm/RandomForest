@@ -1,3 +1,8 @@
+/// Locks game hotkeys for the automatic ending tail; room changes release the lock.
+function funStoryInputLocked() {
+    return room == rBlackRoom and instance_exists(oDialogue) and oDialogue.input_locked
+}
+
 /// Identifies the two fully directed scenes independently of gameplay level indices.
 function funStoryEndingActive() {
     return global.black_room_context != undefined
@@ -50,6 +55,7 @@ function funFinishStoryEnding() {
         global.ending_stage = 1
         funSaveGameState()
         global.skip_menu_fade_once = true
+        global.story_menu_glitch = true
         room_goto(rMenu)
         return
     }
@@ -76,10 +82,11 @@ function funStoryEndingStep() {
         if (self.ending_frame >= 105 and oPlayer.is_on_ground) funStoryEndingResume()
         return
     }
-    if (self.ending_action == "freedom" and self.ending_frame >= 270) {
-        self.ending_action = "portal_run"
-        self.portal_ready = true
-        self.ending_frame = 0
+    if (self.ending_action == "freedom" and self.ending_frame >= 270 and oPlayer.is_on_ground
+        and (oPlayer.state == player_states.idle or oPlayer.state == player_states.move)) {
+        if (instance_exists(oPlayerTapSword)) funPlayerTapSwordDestroy(false)
+        funStoryEndingResume()
+        return
     }
     if (self.ending_action == "portal_run" and oBlackRoomPortal.scale >= 1
         and oPlayer.x >= 412 and oPlayer.y < 252) {
@@ -114,7 +121,7 @@ function funStoryEndingPlayerInputs() {
             // A look back, a running jump, throw, teleport, then a return to the door.
             self.key_move_left_pressed = frame >= 12 and frame < 43
             self.key_move_right_pressed = frame >= 64 and frame < 100
-            if (frame == 72 or frame == 178) self.jump_buffer_counter = self.jump_buffer_max
+            if (frame == 72 or frame == 225) self.jump_buffer_counter = self.jump_buffer_max
             if (frame == 91) {
                 var sword = instance_create_depth(self.x, self.y - 12, self.depth - 1, oPlayerTapSword)
                 sword.current_angle = 20
@@ -127,8 +134,8 @@ function funStoryEndingPlayerInputs() {
                 if (funPlayerTapToEmptyPlace()) funPlayerChangeState(player_states.teleport)
                 funPlayerTapSwordDestroy(false)
             }
-            self.key_move_left_pressed = self.key_move_left_pressed or (frame >= 156 and frame < 215)
-            self.key_attack_pressed = frame == 236
+            self.key_move_left_pressed = self.key_move_left_pressed or (frame >= 220 and frame < 250)
+            self.key_attack_pressed = frame == 156
             break
         case "portal_run":
             if (oBlackRoomPortal.scale >= 1) {

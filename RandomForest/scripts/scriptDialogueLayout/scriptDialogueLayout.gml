@@ -32,6 +32,7 @@ function funLayoutDialogue(letters, width, line_height, rows_per_page) {
 		if (!newline and !(x_pos == 0 and letter.letter == " ")) {
 			array_push(glyphs, {
 				letter: letter.letter, colour: letter.colour,
+				delay_frames: letter.delay_frames,
 				x: x_pos, y: row * line_height,
 			})
 			x_pos += letter.width

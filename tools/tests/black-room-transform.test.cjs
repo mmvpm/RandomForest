@@ -9,7 +9,7 @@ let pressed = new Set(), pauseExists = true, destroyed = false, saved;
 let soundCount = 0, shakeCount = 0, waveCount = 0;
 const context = vm.createContext({
   self: {}, other: {}, noone: -1, vk_space: "space", vk_enter: "enter",
-  oPlayer: {}, oPauseMenu: {paused: false}, oFadeIn: "fade", oDialogue: "dialogue",
+  oBlackRoomTerrain: "terrain", oPlayer: {}, oPauseMenu: {paused: false}, oFadeIn: "fade", oDialogue: "dialogue",
   oLevelPassing: "results", oPlayerStompWave: "wave", musicGame: "music", musicMenu: "menu", gamespeed_fps: 0,
   room: "black", rBlackRoom: "black",
   soundPlayerStompImpact: "impact", funCameraShake: () => { shakeCount++; },

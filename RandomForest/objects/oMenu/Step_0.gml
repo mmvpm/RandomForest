@@ -1,3 +1,4 @@
+/// Dispatches one menu action; immediate overlays preserve their existing behavior.
 function __funHandleButtonAction3(button_index) { // `3` because of gms2 (you never know what...)
 	var chosen_function = self.functions[button_index]
 	if (chosen_function != undefined) {
@@ -14,7 +15,7 @@ function __funHandleButtonAction3(button_index) { // `3` because of gms2 (you ne
 }
 
 // Settings owns input while its overlay is visible.
-if (instance_exists(oSettings)) {
+if (instance_exists(oSettings) or (self.broken_menu and instance_exists(oFadeOut))) {
 	exit
 }
 
@@ -69,4 +70,4 @@ if (self.alpha_animation_counter > 0) {
 }
 
 // Preserve drift across page and menu transitions.
-funMenuBackgroundStep()
+if (!self.broken_menu) funMenuBackgroundStep()

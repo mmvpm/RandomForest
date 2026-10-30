@@ -3,6 +3,8 @@ if (!self.initialised) {
 	return
 }
 
+funMemoryAbsorptionStep()
+
 var cam = view_camera[0]
 var cam_x = camera_get_view_x(cam)
 var cam_y = camera_get_view_y(cam)
@@ -55,6 +57,7 @@ for (var i = array_length(self.fireflies) - 1; i >= 0; i--) {
 		if (firefly.is_orange) {
 			// Orange-firefly progress is committed before the death flash ends.
 			audio_play_sound(soundOrangeFirefly, 0, false)
+			funMemoryAbsorptionBurst(firefly.x, firefly.y)
 			if (!self.story_demo) {
 				global.orange_firefly_records[global.playing_level] = true
 				funSaveGameState()

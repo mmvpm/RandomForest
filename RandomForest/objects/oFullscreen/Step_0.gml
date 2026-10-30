@@ -1,3 +1,6 @@
+/// The controller-deletion sequence ignores all game hotkeys.
+if (funStoryInputLocked()) exit
+
 // switch mode
 if (keyboard_check_pressed(global.key_fullscreen) and
     (!global.is_debug or global.key_fullscreen != ord("F"))) {

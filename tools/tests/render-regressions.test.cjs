@@ -32,15 +32,15 @@ const c = vm.createContext({
 
 /** Translate GML operators without replacing production calculations. */
 function translate(source) {
-  return source.replace(/\band\b/g,"&&").replace(/\bor\b/g,"||").replace(/\bmod\b/g,"%");
+  return source.replace(/^#macro (\w+) (.+)$/gm, 'const $1 = $2;').replace(/\band\b/g,"&&").replace(/\bor\b/g,"||").replace(/\bmod\b/g,"%");
 }
 /** Load a production script into the test context. */
 function load(name) { vm.runInContext(translate(read(`scripts/${name}/${name}.gml`)),c); }
 load("scriptDialogueText"); load("scriptDialoguePlayback"); load("scriptForestEnemyCore");
-for (const speaker of ["Система","Голос"]) {
+for (const speaker of ["Система","Голос","Она"]) {
   c.self={lines:[{speaker,text:"До [orange]акцент[/orange] после"}],line_index:0,progress:{},text_width:424,line_height:18,rows_per_page:4};
   c.funPrepareDialogueLine();
-  assert.equal(c.self.speaker_colour,speaker==="Система"?rgb(139,186,218):c.c_white);
+  assert.equal(c.self.speaker_colour,speaker==="Система"?rgb(139,186,218):speaker==="Она"?rgb(213,57,63):c.c_white);
   const glyphs=c.self.pages[0].glyphs;
   assert.equal(glyphs[0].colour,c.c_ltgray);
   assert.equal(glyphs[3].colour,c.ORANGE_FIREFLY_COLOUR);

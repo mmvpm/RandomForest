@@ -29,7 +29,7 @@ const context = vm.createContext({
 
 /** Evaluate production functions with only GML's spelling of operators translated. */
 function load(name) {
-  vm.runInContext(read(`scripts/${name}/${name}.gml`).replace(/^#macro.*$/gm, '')
+  vm.runInContext(read(`scripts/${name}/${name}.gml`).replace(/^#macro DIALOGUE_ELLIPSIS_DELAY_SECONDS (.+)$/gm, 'const DIALOGUE_ELLIPSIS_DELAY_SECONDS = $1;').replace(/^#macro.*$/gm, '')
     .replace(/\band\b/g, '&&').replace(/\bor\b/g, '||'), context);
 }
 for (const name of ['scriptBlackRoomDialogue', 'scriptDialogueText', 'scriptCampaignLevels',
@@ -43,15 +43,15 @@ function lines(level, count) {
 for (const count of [0, 2, 3, 7, 8, 9]) {
   const text = lines(9, count).map(l => l.text);
   assert.equal(text.includes('Похоже, ни капли!'), count <= 2);
-  assert.equal(text.includes('Так, некоторый прогресс есть...'), count >= 3 && count <= 7);
-  assert.equal(text.includes('И весьма неплохо'), count >= 8);
+  assert.equal(text.includes('Так, некоторый прогресс есть... Это вселяет надежду'), count >= 3 && count <= 7);
+  assert.equal(text.includes('Вижу, что да... И весьма неплохо!'), count >= 8);
   assert.equal(text.includes('Однажды...'), count >= 3);
 }
 for (const count of [0, 10, 11, 31, 32]) {
   const text = lines(32, count).map(l => l.text);
   assert.equal(text.includes('Неужели ты не хочешь понять?'), count <= 10);
   assert.equal(text.includes('Вижу, ты на правильном пути'), count >= 11);
-  assert.equal(text.includes('Но этого недостаточно'), count >= 11 && count <= 31);
+  assert.equal(text.some(t => t.startsWith('Но этого недостаточно...')), count >= 11 && count <= 31);
   assert.equal(text.includes('Так держать!'), count === 32);
 }
 for (const count of [0, 39, 40]) {
@@ -133,11 +133,27 @@ if (fs.existsSync(plotPath)) {
     const number = heading.match(/После уровня (\d+)/)?.[1];
     const file = number ? `ck_after_${number}` : heading.trim() === 'Финал' ? 'ck_after_41' : 'true_ending';
     const expected = body.map(s => s.trim()).filter(s => s && !s.startsWith('//') && !/^\d+-\d+:?$/.test(s))
-      .map(s => s.replace(/^\[Система\] /, '').replace(/[{}]/g, ''));
+      .map(s => s.replace(/^\[(Система|Она)\] /, '').replace(/[{}]/g, '')
+        // The author's in-game wording intentionally differs from the private draft here.
+        .replace('Решил чуть потроллить :)', 'Решил чутка потроллить :)'));
     const actual = JSON.parse(read(`datafiles/narrative/dialogues/${file}.json`)).lines.map(l => l.text
       .replaceAll('[orange]', '').replaceAll('[/orange]', '')
       .replaceAll('{collected}', '(число-собранных-ОС)').replaceAll('{deaths}', '(число-смертей)'));
     assert.deepEqual(actual, expected, `verbatim authored lines: ${heading}`);
+    let condition;
+    const metadata = [];
+    for (const raw of body) {
+      const text = raw.trim();
+      if (!text || text.startsWith('//')) continue;
+      const branch = text.match(/^(\d+)-(\d+):?$/);
+      if (branch) { condition = {min_collected: +branch[1], max_collected: +branch[2]}; continue; }
+      if (!/^\s/.test(raw)) condition = undefined;
+      const speaker = text.match(/^\[(Система|Она)\] /)?.[1] ?? 'Голос';
+      metadata.push({speaker, when: condition});
+    }
+    const stored = JSON.parse(read(`datafiles/narrative/dialogues/${file}.json`)).lines;
+    assert.deepEqual(stored.map(l => ({speaker:l.speaker ?? 'Голос', when:l.when})), metadata,
+      `authored speakers and inclusive conditions: ${heading}`);
   }
 }
 console.log('PASS: verbatim plot, ordered conditional branches, numbers, 39/40 gate, replay, saved losses and stomp ring/body boundaries');

@@ -6,7 +6,7 @@
     },
     {
       "speaker": "Голос",
-      "text": "Но их отсутствие парализует волю..."
+      "text": "Но их отсутствие парализует [orange]волю[/orange]..."
     },
     {
       "speaker": "Голос",
@@ -26,31 +26,7 @@
     },
     {
       "speaker": "Голос",
-      "text": "...",
-      "when": {
-        "min_collected": 0,
-        "max_collected": 10
-      }
-    },
-    {
-      "speaker": "Голос",
-      "text": "Бежать вперед сломя голову не самое лучшее решение",
-      "when": {
-        "min_collected": 0,
-        "max_collected": 10
-      }
-    },
-    {
-      "speaker": "Голос",
-      "text": "Скупой платит дважды",
-      "when": {
-        "min_collected": 0,
-        "max_collected": 10
-      }
-    },
-    {
-      "speaker": "Голос",
-      "text": "...",
+      "text": "Бежать вперед сломя голову не самое лучшее решение... Скупой платит дважды — помни об этом!",
       "when": {
         "min_collected": 0,
         "max_collected": 10
@@ -106,15 +82,7 @@
     },
     {
       "speaker": "Голос",
-      "text": "Но этого недостаточно",
-      "when": {
-        "min_collected": 11,
-        "max_collected": 31
-      }
-    },
-    {
-      "speaker": "Голос",
-      "text": "[orange]{collected}[/orange] это не [orange]32[/orange]!",
+      "text": "Но этого недостаточно... [orange]{collected}[/orange] это не [orange]32[/orange]!",
       "when": {
         "min_collected": 11,
         "max_collected": 31
@@ -130,7 +98,7 @@
     },
     {
       "speaker": "Голос",
-      "text": "Что бы это не значило...",
+      "text": "Что бы это не значило",
       "when": {
         "min_collected": 11,
         "max_collected": 31

@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, "../../RandomForest");
 const config = JSON.parse(read("datafiles/narrative/black_room.json"));
 let swords = [], saved = 0;
 const context = vm.createContext({
-  self: {}, oPlayer: "player", soundCoinCollecting: "coin",
+  self: {}, funStoryInputLocked: () => false, oPlayer: "player", soundCoinCollecting: "coin",
   oPlayerSword: "sword", soundPlayerAttack1: "attack1", soundPlayerAttack2: "attack2", soundPlayerAttack3: "attack3",
   global: {is_debug: false, campaign_abilities_config: JSON.parse(read("datafiles/narrative/abilities.json")),
     black_room_config: config, black_room_seen: Object.fromEntries(config.scenes.map(s => [s.id, false])),

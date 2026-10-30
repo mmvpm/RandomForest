@@ -1,3 +1,6 @@
+/// Pause before each dot in a run of 3+ dots, in seconds (60 FPS).
+#macro DIALOGUE_ELLIPSIS_DELAY_SECONDS 0.3
+
 /// Expands the two supported progress placeholders before measuring text.
 function funExpandDialogueText(text, progress) {
 	text = string_replace_all(text, "{collected}", string(progress.collected))
@@ -7,6 +10,7 @@ function funExpandDialogueText(text, progress) {
 
 /// Colours only the speaker label; dialogue body colours remain independent.
 function funDialogueSpeakerColour(speaker) {
+	if (speaker == "Она") return make_colour_rgb(213, 57, 63)
 	return speaker == "Система" ? make_colour_rgb(139, 186, 218) : c_white
 }
 
@@ -27,9 +31,22 @@ function funParseDialogueText(text) {
 		}
 		else {
 			var letter = string_char_at(text, position)
-			array_push(letters, {letter: letter, colour: colour, width: funDialogueCharacterWidth(letter)})
+			array_push(letters, {letter: letter, colour: colour, width: funDialogueCharacterWidth(letter), delay_frames: 0})
 			++position
 		}
+	}
+	// Mark whole runs before layout so page boundaries retain their timing.
+	var i = 0
+	while (i < array_length(letters)) {
+		if (letters[i].letter != ".") { ++i; continue; }
+		var run_end = i
+		while (run_end < array_length(letters) and letters[run_end].letter == ".") {
+			run_end += 1
+		}
+		if (run_end - i >= 3) {
+			for (var dot = i; dot < run_end; ++dot) letters[dot].delay_frames = 60 * DIALOGUE_ELLIPSIS_DELAY_SECONDS
+		}
+		i = run_end
 	}
 	return letters
 }

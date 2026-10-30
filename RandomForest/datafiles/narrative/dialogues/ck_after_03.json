@@ -14,11 +14,11 @@
     },
     {
       "speaker": "Голос",
-      "text": "Если хочешь разобраться, найди [orange]ИХ[/orange]"
+      "text": "А ты [orange]видишь[/orange]?"
     },
     {
       "speaker": "Голос",
-      "text": "..."
+      "text": "Если хочешь разобраться, найди [orange]ИХ[/orange]..."
     },
     {
       "speaker": "Голос",
@@ -26,15 +26,11 @@
     },
     {
       "speaker": "Голос",
-      "text": "Найди [orange]ИХ[/orange] и уничтожь"
+      "text": "Найди [orange]ИХ[/orange] и разбей"
     },
     {
       "speaker": "Голос",
       "text": "Все 40"
-    },
-    {
-      "speaker": "Голос",
-      "text": "..."
     }
   ]
 }

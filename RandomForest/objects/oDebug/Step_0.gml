@@ -1,3 +1,6 @@
+/// The controller-deletion sequence ignores all game hotkeys.
+if (funStoryInputLocked()) exit
+
 self.frame_counter += 1
 
 

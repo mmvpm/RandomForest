@@ -36,6 +36,10 @@ for (var i = 0; i < self.items_count; i++) {
 		button_color = self.default_button_color
 		ui_scale = self.default_scale
 	}
+	if (self.broken_menu and i == 0) {
+		draw_set_color(make_colour_rgb(115, 115, 115))
+		button_color = make_colour_rgb(95, 95, 95)
+	}
 	var x_pos = cam_w * 0.5
 	var y_pos = self.top_item + self.separate_dist * i
 
