@@ -11,6 +11,10 @@ const context = vm.createContext({
   self: {}, other: {}, noone: -1, vk_space: "space", vk_enter: "enter",
   oBlackRoomTerrain: "terrain", oPlayer: {}, oPauseMenu: {paused: false}, oFadeIn: "fade", oDialogue: "dialogue",
   oLevelPassing: "results", oPlayerStompWave: "wave", musicGame: "music", musicMenu: "menu", gamespeed_fps: 0,
+  sPlayerDarkDie: "darkDie", sPlayerDie: "die", sPlayerDarkFall: "darkFall", sPlayerFall: "fall",
+  sPlayerDarkAttack1: "darkAttack1", sPlayerAttack1: "attack1",
+  sPlayerDarkAttack2: "darkAttack2", sPlayerAttack2: "attack2",
+  sPlayerDarkAttack3: "darkAttack3", sPlayerAttack3: "attack3",
   room: "black", rBlackRoom: "black",
   soundPlayerStompImpact: "impact", funCameraShake: () => { shakeCount++; },
   player_states: {idle: 0, move: 1, fall: 2, stomp: 3, story_transform: 4,
@@ -20,6 +24,7 @@ const context = vm.createContext({
     black_room_config: config, black_room_seen: {}},
   min: Math.min, max: Math.max, round: Math.round, floor: Math.floor,
   ceil: Math.ceil, clamp: (v, lo, hi) => Math.max(lo, Math.min(hi, v)),
+  lerp: (a, b, t) => a + (b - a) * t,
   variable_clone: structuredClone, array_length: a => a.length,
   array_push: (a, value) => a.push(value),
   variable_struct_exists: (s, key) => Object.hasOwn(s, key),
@@ -60,6 +65,8 @@ function translate(source) {
   return source.replace(/\band\b/g, "&&").replace(/\bor\b/g, "||")
     .replace(/\[\|\s*/g, "[")
     .replace(/\bexit\b/g, "return")
+    .replace("with (self.following) body_bounds = funPlayerTransformBodyBounds(floor(self.image_index))",
+      "body_bounds = scoped(self.following, () => funPlayerTransformBodyBounds(floor(self.image_index)))")
     .replace("with (oPlayer) funPlayerRefreshAbilities()",
       "scoped(oPlayer, () => funPlayerRefreshAbilities())")
     .replace(/with \(oPlayer\) started = ([\s\S]*?other\.finish_transform\))/,
@@ -132,8 +139,11 @@ function finishDialogue(controller) {
   pressed.clear();
 }
 
-for (const afterLevel of [30, 40]) {
+for (const afterLevel of [30, 40]) for (const facing of [1, -1]) {
   const controller = scene(afterLevel), player = context.oPlayer;
+  player.image_xscale = facing;
+  player.image_alpha = 1;
+  const bloom = {following: player};
   pressed = new Set(["space"]);
   event("oBlackRoomController", "Step", controller);
   assert.equal(controller.transform_running, false, "no transform before dialogue ends");
@@ -147,9 +157,23 @@ for (const afterLevel of [30, 40]) {
   event("oBlackRoomController", "Step", controller);
   assert.equal(player.transform_complete, completion, "repeat presses cannot restart transformation");
   scoped(player, () => context.funPlayerTransformStart());
+  player.state_changed = false;
+  let lastGlow;
   for (let tick = 0; tick < 200 && !controller.portal_ready; tick++) {
     scoped(player, () => context.funPlayerTransformLogic());
+    event("oPlayerBloom", "Step", bloom);
+    if (player.state === context.player_states.story_transform && player.image_index <= 25) {
+      const body = scoped(player, () => context.funPlayerTransformBodyBounds(player.image_index));
+      assert.deepEqual([bloom.x, bloom.y], [(body[0] + body[2]) / 2, (body[1] + body[3]) / 2],
+        "preparation, flight and impact keep following the animated body");
+    }
+    if (player.state === context.player_states.story_transform && player.image_index === 37) {
+      lastGlow = [bloom.x, bloom.y];
+    }
   }
+  assert.deepEqual(lastGlow, [player.x, player.y - 8], "final pose settles onto the idle glow anchor");
+  assert.deepEqual([bloom.x, bloom.y], lastGlow, "completing the transformation never shifts the glow");
+  assert.deepEqual([player.x, player.y], [108, 264], "glow alignment preserves the player position");
   assert.equal(soundCount, 1, "one landing sound per story transformation");
   assert.equal(shakeCount, 1, "one landing shake per story transformation");
   assert.equal(waveCount, 0, "story transformation causes no combat wave");
@@ -222,4 +246,4 @@ assert.equal(context.oPlayer.story_transform_used, false);
 context.funPlayerTransformBlocked = () => false;
 event("oBlackRoomController", "Step", blockedController);
 assert.equal(blockedController.transform_running, true);
-console.log("Black room: both one-shot transformations, landing sound/shake, no damage wave, pause guards, trajectory preflight, non-interruption and saved skin passed.");
+console.log("Black room: both one-shot transformations/facings, stable final-to-idle glow, landing sound/shake, no damage wave, pause guards, trajectory preflight, non-interruption and saved skin passed.");

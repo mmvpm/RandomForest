@@ -374,6 +374,7 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 - [oSwordBloom](../RandomForest/objects/oSwordBloom/oSwordBloom.yy): [Create](../RandomForest/objects/oSwordBloom/Create_0.gml), [Step](../RandomForest/objects/oSwordBloom/Step_0.gml).
 
 Их смещения и масштаб часто зависят от image_index конкретного спрайта. Поэтому замена анимации — не только арт-правка: визуальные спутники могут «съехать».
+Во время восстановления после приземления в превращении и топоте подсветка игрока плавно переходит от центра покадрового тела к обычной привязке; последняя поза и idle используют одну точку света без скачка.
 
 ### Погода и авторские колонии
 

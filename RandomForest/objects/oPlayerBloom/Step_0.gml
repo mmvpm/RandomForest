@@ -21,8 +21,11 @@ if (self.following != noone) {
         if (!self.following.state_changed and (self.following.state == player_states.stomp or self.following.state == player_states.story_transform)) {
             var body_bounds = []
             with (self.following) body_bounds = funPlayerTransformBodyBounds(floor(self.image_index))
-            self.x = (body_bounds[0] + body_bounds[2]) / 2
-            self.y = (body_bounds[1] + body_bounds[3]) / 2
+            // Settle onto the ordinary glow anchor during the landing recovery.
+            var recovery = clamp((self.following.image_index - 25) / 12, 0, 1)
+            self.x = lerp((body_bounds[0] + body_bounds[2]) / 2, self.following.x, recovery)
+            self.y = lerp((body_bounds[1] + body_bounds[3]) / 2,
+                self.following.y - 8 * self.image_yscale, recovery)
             exit
         }
 
