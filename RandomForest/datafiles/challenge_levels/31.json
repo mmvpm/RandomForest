@@ -115,14 +115,14 @@
   "wall_memories": [
     {
       "id": "voice_41",
-      "x": 159,
-      "y": 952,
-      "width": 150,
+      "x": 1872,
+      "y": 1073,
+      "width": 250,
       "role": "regular",
       "text": "Проснуться — значит потерять того, кто видел сон",
       "min_collected": 0,
       "requires_all_previous": false,
-      "detection_x": 300,
+      "detection_x": 1850,
       "detection_y": 1000
     }
   ],
