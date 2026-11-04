@@ -42,7 +42,7 @@ function funWeatherAudioBeginPortalFade() {
 
 /// Continues approved ambience through restarts, level changes and sword aiming.
 function funWeatherAudioStep() {
-    if (!global.sfx_enabled) {funWeatherAudioStop();return;}
+    if (!global.music_enabled) {funWeatherAudioStop();return;}
     var dt=1/game_get_speed(gamespeed_fps)
     if (room==rMenu or room==rLevelSelect) {funWeatherAudioStop();return;}
     if (instance_exists(oPauseMenu) and oPauseMenu.paused) {

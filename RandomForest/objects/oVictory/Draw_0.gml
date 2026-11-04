@@ -23,6 +23,3 @@ draw_text_color(self.room_center_x, room_height - 20, self.continue_text, c_whit
 
 // update time
 self.tick_counter += 1
-if (self.tick_counter % self.music_duration == self.tick_counter_start) { // one lap
-	audio_play_sound(musicVictory, 0, false) // repeat
-}

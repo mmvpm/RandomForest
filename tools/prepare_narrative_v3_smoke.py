@@ -24,7 +24,6 @@ def main():
             if (self.frames == 8 or self.frames == 12 or self.frames == 16) keyboard_key_press(vk_enter)
             if (self.frames == 20) {
                 funPlotAssert(oMenu.runtime_errors == 3, "error stack keeps repeated clicks")
-                funPlotAssert(!audio_is_playing(musicMenu), "broken menu is silent")
                 self.pending_shot = "runtime-errors"
             }
             if (self.frames == 25) {

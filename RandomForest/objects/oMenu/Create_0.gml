@@ -75,6 +75,5 @@ self.y_top_cached = []
 self.x_right_cached = []
 self.y_bottom_cached = []
 
-// music
+// Stop lingering gameplay sounds on returning to the menu.
 audio_stop_all()
-if (!self.broken_menu) audio_play_sound(musicMenu, 0, true)

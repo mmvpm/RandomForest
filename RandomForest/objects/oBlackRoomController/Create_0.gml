@@ -76,15 +76,5 @@ else if (self.scene.after_level == 3) {
     instance_create_depth(0, 0, 250, oFireflyManager)
 }
 
-audio_stop_sound(musicMenu)
-audio_stop_sound(musicGame)
-var track = funBlackRoomSetting(self.scene, "music")
-if (track != undefined) {
-    var sound = asset_get_index(track)
-    if (sound != -1) {
-        audio_sound_gain(sound, global.music_enabled ? 1 : 0, 0)
-        audio_play_sound(sound, 0, true)
-    }
-}
 var fade = instance_create_depth(0, 0, -10, oFadeIn)
 fade.alpha_step = 1 / (60 * funBlackRoomSetting(self.scene, "fade_seconds"))

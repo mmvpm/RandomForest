@@ -3,7 +3,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.resolve(__dirname,'../../RandomForest'),catalog=JSON.parse(fs.readFileSync(path.join(root,'datafiles/weather_audio/catalog.json'),'utf8'));
 let serial=0,peak=0,resumes=0,player=true,ambient=true,aiming=false,results=false,theme='night';const assets=new Set(),voices=new Map();
-const context=vm.createContext({self:{},global:{sfx_enabled:true},room:1,rMenu:0,rLevelSelect:2,rBlackRoom:3,oPlayer:'player',oAmbientSystem:'ambient',oTapController:'aim',oPauseMenu:{paused:false},oLevelPassing:'results',gamespeed_fps:60,
+const context=vm.createContext({self:{},global:{sfx_enabled:true,music_enabled:true},room:1,rMenu:0,rLevelSelect:2,rBlackRoom:3,oPlayer:'player',oAmbientSystem:'ambient',oTapController:'aim',oPauseMenu:{paused:false},oLevelPassing:'results',gamespeed_fps:60,
  game_get_speed:()=>60,get_timer:()=>42,funCurrentLevelTheme:()=>theme,
  instance_exists:o=>o==='player'?player:o==='ambient'?ambient:o==='aim'?aiming:o==='results'?results:o===context.oPauseMenu,
  array_length:a=>a.length,array_push:(a,v)=>a.push(v),floor:Math.floor,min:Math.min,max:Math.max,abs:Math.abs,string:String,
@@ -62,7 +62,11 @@ for(const strength of ['rain','storm']){
  player=false;aiming=true;const stamp=serial;advance(30);assert.equal(context.self.active.voice,drip);assert.equal(serial,stamp);
  ambient=false;const elapsed=context.self.mix_elapsed;context.funWeatherAudioStep();assert(voices.get(drip).paused);assert.equal(context.self.mix_elapsed,elapsed);
  ambient=true;player=true;aiming=false;context.funWeatherAudioStep();assert(!voices.get(drip).paused);assert.equal(context.self.active.voice,drip);
- context.global.sfx_enabled=false;context.funWeatherAudioStep();assert.equal(assets.size,0);context.global.sfx_enabled=true;
+ // The unchanged “Sounds” toggle controls actions independently of forest ambience.
+ const beforeSfxMute=context.self.active.voice;
+ context.global.sfx_enabled=false;context.funWeatherAudioStep();assert(voices.has(beforeSfxMute));
+ context.global.sfx_enabled=true;
+ context.global.music_enabled=false;context.funWeatherAudioStep();assert.equal(assets.size,0);context.global.music_enabled=true;
  context.funWeatherAudioStop();context.funWeatherAudioStop();assert.equal(voices.size,0);
 }
 begin('dry','morning');advance(721);const morning=context.self.active.voice,clock=context.self.remaining;

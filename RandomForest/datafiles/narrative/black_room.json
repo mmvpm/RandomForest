@@ -2,8 +2,7 @@
   "defaults": {
     "characters_per_second": 30,
     "fade_seconds": 0.33,
-    "exploration_seconds": 3,
-    "music": null
+    "exploration_seconds": 3
   },
   "scenes": [
     {

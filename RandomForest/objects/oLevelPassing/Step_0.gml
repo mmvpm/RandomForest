@@ -28,7 +28,6 @@ function __funHandleButtonAction2(button_index) { // `2` because of gms2 (you ne
 			break
 		case 2:
 			function __temp() {
-				audio_stop_sound(musicGame)
 				room_goto(rMenu)
 			}
 			chosen_function = __temp
