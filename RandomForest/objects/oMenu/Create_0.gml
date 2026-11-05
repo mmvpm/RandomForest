@@ -77,3 +77,10 @@ self.y_bottom_cached = []
 
 // Stop lingering gameplay sounds on returning to the menu.
 audio_stop_all()
+
+// Story endings and returning from gameplay retain their own presentation.
+self.startup_intro = {active: false}
+if (variable_global_exists("startup_intro_pending") and global.startup_intro_pending) {
+    global.startup_intro_pending = false
+    if (!self.broken_menu) funStartupIntroStart()
+}

@@ -40,3 +40,6 @@ global.key_arrow_down = vk_down
 
 global.key_pause = vk_escape
 global.key_fullscreen = ord("F")
+
+// Play the title card only on an ordinary application launch.
+global.startup_intro_pending = true

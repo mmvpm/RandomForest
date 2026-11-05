@@ -19,6 +19,13 @@ if (instance_exists(oSettings) or (self.broken_menu and instance_exists(oFadeOut
 	exit
 }
 
+// Consume intro input before it can reach the menu underneath.
+if (self.startup_intro.active) {
+    funMenuBackgroundStep()
+    funStartupIntroStep()
+    exit
+}
+
 // mouse counter
 if (self.mouse_allowed_counter != 0) {
 	self.last_mouse_x = mouse_x - camera_get_view_x(view_camera[0])

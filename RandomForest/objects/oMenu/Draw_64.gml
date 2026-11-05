@@ -15,12 +15,16 @@ draw_set_valign(fa_middle)
 draw_set_font(global.default_font_24)
 
 var cur_alpha = 1 - self.alpha_animation_counter / self.alpha_animation_time
+if (self.startup_intro.active) cur_alpha = funStartupIntroDraw()
+draw_set_font(global.default_font_24)
 
 draw_set_alpha(cur_alpha)
 
 // draw logo
 var scale = 2.0
-draw_text_transformed(0.5 * cam_w + 2.0, 30, "Random Forest", scale, scale, 0)
+if (!self.startup_intro.active) {
+	draw_text_transformed(0.5 * cam_w + 2.0, 30, "Random Forest", scale, scale, 0)
+}
 
 // draw buttons
 for (var i = 0; i < self.items_count; i++) {
