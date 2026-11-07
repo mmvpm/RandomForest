@@ -37,6 +37,10 @@ function funForestSmokeCheckSelectedAudio() {
     var sounds=[soundResinSlimeLand,soundResinSlimeAttack,soundBarkBomberBurst,soundForestBatAttack,
         soundForestBatWake,soundBarkGuardShot,soundBarkGuardImpact,soundRootReaperSweep,soundRootReaperSlam,soundRootMawBite]
     var saved=global.sfx_enabled
+    global.sfx_enabled=true
+    funApplySfxSetting()
+    var gains=[]
+    for (var i=0;i<array_length(sounds);++i) array_push(gains,audio_sound_get_gain(sounds[i]))
     global.sfx_enabled=false
     funApplySfxSetting()
     for (var i=0;i<array_length(sounds);++i) funForestSmokeAssert(audio_sound_get_gain(sounds[i])==0,"effects mute "+audio_get_name(sounds[i]))
@@ -44,7 +48,7 @@ function funForestSmokeCheckSelectedAudio() {
     funApplySfxSetting()
     for (var i=0;i<array_length(sounds);++i) {
         var sound=sounds[i],count=0
-        funForestSmokeAssert(audio_sound_get_gain(sound)==1,"effects enable "+audio_get_name(sound))
+        funForestSmokeAssert(audio_sound_get_gain(sound)==gains[i],"effects restore authored gain "+audio_get_name(sound))
         for (var j=0;j<array_length(global.forest_sound_events);++j) if (global.forest_sound_events[j].sound==sound) count+=1
         funForestSmokeAssert(count>0,"live cue exercised "+audio_get_name(sound))
         show_debug_message("FOREST_AUDIO_CUE "+audio_get_name(sound)+" count="+string(count)+" length="+string(audio_sound_length(sound)))

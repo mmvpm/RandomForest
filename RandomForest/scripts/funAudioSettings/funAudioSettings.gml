@@ -3,7 +3,7 @@ function funApplyMusicSetting(fade_ms = 0) {
 	if (!global.music_enabled) with (oWeatherAudio) funWeatherAudioStop()
 }
 
-/// Applies the saved effects setting to every non-music sound resource.
+/// Mutes effects while retaining the authored, source-aware balance of every resource.
 function funApplySfxSetting(fade_ms = 0) {
 	var gain = global.sfx_enabled ? 1 : 0
 	var sfx_assets = [
@@ -38,8 +38,15 @@ function funApplySfxSetting(fade_ms = 0) {
 		soundRootReaperSlam,
 		soundRootMawBite,
 	]
+	// Capture once, before the first mute; reading muted assets would lose their mix.
+	if (!variable_global_exists("sfx_base_gains")) {
+		global.sfx_base_gains = array_create(array_length(sfx_assets))
+		for (var i = 0; i < array_length(sfx_assets); ++i) {
+			global.sfx_base_gains[i] = audio_sound_get_gain(sfx_assets[i])
+		}
+	}
 	for (var i = 0; i < array_length(sfx_assets); ++i) {
-		audio_sound_gain(sfx_assets[i], gain, fade_ms)
+		audio_sound_gain(sfx_assets[i], global.sfx_base_gains[i] * gain, fade_ms)
 	}
 }
 

@@ -421,6 +421,8 @@ terrain, hazards и entities. Визуал, коллизии и instances пол
 
 Музыки в игре нет. Прежний тогл «Музыка» управляет звуками леса, а «Звуки» — эффектами действий. Звуки действий привязаны к кадрам анимации в state-скриптах. Проверки audio_is_playing для шагов слизня и бунгало глобальны для конкретного sound asset, поэтому несколько однотипных врагов не обязаны звучать одновременно.
 
+[Баланс эффектов после игрового отзыва](sound-mix.md) сохраняет улучшенные шаги и обычные посадки Х и прыгуна; боевым акцентам возвращены прежние уровни, бунгало и звёзды подняты относительно неудачной первой настройки. Уровни заданы в sound resources; переключатель «Звуки» сохраняет их между выключением и включением. Природа не менялась.
+
 ## Таймер, звёзды и сохранение
 
 [oTimeCounter](../RandomForest/objects/oTimeCounter/oTimeCounter.yy) начинает инкремент в [Step](../RandomForest/objects/oTimeCounter/Step_0.gml) после любого нажатия клавиши, а не мыши. [Draw](../RandomForest/objects/oTimeCounter/Draw_0.gml) рисует значение через [funGetTimeString](../RandomForest/scripts/funGetTimeString/funGetTimeString.gml). Лимиты звёзд лежат в [funGetStarCount](../RandomForest/scripts/funGetStarCount/funGetStarCount.gml); первая цифра — порог трёх звёзд, вторая — двух, всё хуже — одна.

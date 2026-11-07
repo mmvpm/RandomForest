@@ -22,5 +22,5 @@
   "resourceVersion":"2.0",
   "sampleRate":44100,
   "soundFile":"soundStarCollecting.mp3",
-  "volume":0.12,
+  "volume":0.17782794,
 }
