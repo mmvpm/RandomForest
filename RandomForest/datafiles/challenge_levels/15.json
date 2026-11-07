@@ -7,8 +7,8 @@
     "grass_chance": 0.4
   },
   "star_times": {
-    "three_stars": 81,
-    "two_stars": 162
+    "three_stars": 150,
+    "two_stars": 300
   },
   "wall_memories": [],
   "map": [
