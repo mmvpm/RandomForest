@@ -7,8 +7,8 @@
     "grass_chance": 0.4
   },
   "star_times": {
-    "three_stars": 28,
-    "two_stars": 56
+    "three_stars": 50,
+    "two_stars": 100
   },
   "map": [
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",

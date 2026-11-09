@@ -30,7 +30,7 @@ const c = vm.createContext({
 });
 /** Load production code, translating only GML operator spelling. */
 function load(name) { vm.runInContext(translate(read(`scripts/${name}/${name}.gml`)), c); }
-for (const name of ['scriptDialogueText','scriptDialogueLayout','scriptDialoguePlayback','scriptStoryEnding','scriptMemoryAbsorption']) load(name);
+for (const name of ['scriptDialogueText','scriptDialogueLayout','scriptDialogueAudio','scriptDialoguePlayback','scriptStoryEnding','scriptMemoryAbsorption']) load(name);
 /** Prepare one production conversation with narrow pages when requested. */
 function begin(text, auto=false, width=424, rows=4) {
   c.self={text_width:width,line_height:18,rows_per_page:rows};

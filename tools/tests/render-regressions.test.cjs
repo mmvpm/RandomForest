@@ -36,7 +36,7 @@ function translate(source) {
 }
 /** Load a production script into the test context. */
 function load(name) { vm.runInContext(translate(read(`scripts/${name}/${name}.gml`)),c); }
-load("scriptDialogueText"); load("scriptDialoguePlayback"); load("scriptForestEnemyCore");
+load("scriptDialogueText"); load("scriptDialogueAudio"); load("scriptDialoguePlayback"); load("scriptForestEnemyCore");
 for (const speaker of ["Система","Голос","Она"]) {
   c.self={lines:[{speaker,text:"До [orange]акцент[/orange] после"}],line_index:0,progress:{},text_width:424,line_height:18,rows_per_page:4};
   c.funPrepareDialogueLine();

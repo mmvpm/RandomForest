@@ -44,6 +44,7 @@ function funMenuBackgroundCreate(level_index) {
 
 /// Retargets from the currently visible mixture, even during another transition.
 function funMenuBackgroundSetTheme(theme) {
+    global.menu_audio_theme = theme
     var state = self.menu_background
     var target = __funMenuThemeIndex(theme)
     if (state.target == target) return;

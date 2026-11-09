@@ -81,7 +81,7 @@ function load(name) {
   vm.runInContext(translate(source), context);
 }
 for (const name of ["funPlayerChangeState", "scriptCampaignAbilities", "scriptPlayerAbilities",
-  "scriptPlayerTransform", "scriptBlackRoomFlow", "scriptDialoguePlayback"]) load(name);
+  "scriptPlayerTransform", "scriptBlackRoomFlow", "scriptDialogueAudio", "scriptDialoguePlayback"]) load(name);
 context.funPlayerTransformBlocked = () => false;
 
 // Run a production object event with its owning instance as self.

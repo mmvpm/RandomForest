@@ -120,7 +120,7 @@
       "reward": {},
       "transform": null,
       "kind": "finale",
-      "exploration_seconds": 0
+      "exploration_seconds": 10
     }
   ]
 }

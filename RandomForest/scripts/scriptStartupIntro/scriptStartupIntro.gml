@@ -4,14 +4,19 @@ function funIntroEase(value) {
     return t * t * (3 - 2 * t)
 }
 
-/// Starts a short, silent title card using the already loaded menu background.
+/// Starts the approved cue with six still frames before the firefly begins moving.
 function funStartupIntroStart() {
-    self.startup_intro = {active: true, frame: 0, duration: 168}
+    self.startup_intro = {active: true, frame: -6, duration: 168, sound: -1}
+    if (global.sfx_enabled) self.startup_intro.sound = audio_play_sound(soundStartupIntro, 1, false)
     self.alpha_animation_counter = 0
 }
 
 /// Finishes without letting the skip press activate a menu item.
 function funStartupIntroFinish() {
+    if (self.startup_intro.sound != -1) {
+        audio_stop_sound(self.startup_intro.sound)
+        self.startup_intro.sound = -1
+    }
     self.startup_intro.active = false
     self.mouse_allowed_counter = 10
 }
@@ -23,7 +28,13 @@ function funStartupIntroStep() {
         funStartupIntroFinish()
         return;
     }
-    self.startup_intro.frame += 1
+    var state = self.startup_intro
+    var next_frame = state.frame + 1
+    // Cold-start rendering can stall; keep the firefly on the actual sound's clock.
+    if (state.sound != -1 and audio_is_playing(state.sound)) {
+        next_frame = audio_sound_get_track_position(state.sound) * 60 - 6
+    }
+    state.frame = min(state.duration, max(state.frame, next_frame))
     if (self.startup_intro.frame >= self.startup_intro.duration) funStartupIntroFinish()
 }
 
@@ -50,8 +61,11 @@ function funIntroTitle(frame, handoff, color) {
     var left = title_x - string_width(title) * scale / 2
     var tint = merge_colour(color, c_white, handoff)
     for (var i = 1; i <= string_length(title); ++i) {
-        var delay = (i - 1) * 2.5
-        var alpha = funIntroEase((frame - 24 - delay) / 30)
+        var letter_x = 240 - string_width(title) * 2.15 / 2
+            + (string_width(string_copy(title, 1, i - 1))
+            + string_width(string_char_at(title, i)) * 0.5) * 2.15
+        var crossing = funIntroFlightFrameAtX(letter_x)
+        var alpha = funIntroEase((frame - crossing) / 18)
         draw_set_color(tint)
         draw_set_alpha(alpha)
         draw_text_transformed(left + string_width(string_copy(title, 1, i - 1)) * scale,
@@ -62,7 +76,7 @@ function funIntroTitle(frame, handoff, color) {
 /// Draws the firefly and title over a darkened forest; returns menu opacity.
 function funStartupIntroDraw() {
     var state = self.startup_intro
-    var frame = state.frame
+    var frame = max(0, state.frame)
     var handoff = funIntroEase((frame - 126) / 42)
     var appear = funIntroEase(frame / 24)
     var ink = make_colour_rgb(235, 224, 188)

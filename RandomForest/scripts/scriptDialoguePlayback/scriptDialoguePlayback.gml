@@ -32,6 +32,7 @@ function funPrepareDialogueLine() {
 	self.page_index = 0
 	self.revealed = 0
 	self.typing_frames = 0
+	funResetDialogueAudio()
 	self.complete_drawn = false
 	self.page_complete_drawn = false
 	self.auto_frames = 0
@@ -48,6 +49,7 @@ function funAdvanceDialogue(automatic = false) {
 		++self.page_index
 		self.revealed = 0
 		self.typing_frames = 0
+		funResetDialogueAudio()
 		self.complete_drawn = false
 		self.page_complete_drawn = false
 		self.auto_frames = 0
@@ -72,6 +74,7 @@ function funAdvanceDialogue(automatic = false) {
 /// Spends active frames on glyphs; ellipsis delays replace normal character time.
 function funStepDialogueTyping() {
     var glyphs = self.pages[self.page_index].glyphs
+    self.typing_audio_frame++
     self.typing_frames++
     while (self.revealed < array_length(glyphs)) {
         var glyph = glyphs[self.revealed]
@@ -79,6 +82,7 @@ function funStepDialogueTyping() {
         if (self.typing_frames < frames) break
         self.typing_frames -= frames
         self.revealed++
+        funPlayDialogueGlyph(glyph.letter)
     }
     if (self.revealed == array_length(glyphs)) self.typing_frames = 0
 }

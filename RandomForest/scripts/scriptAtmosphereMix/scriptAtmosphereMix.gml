@@ -1,7 +1,8 @@
-/// Owns at most two atmosphere streams and one latest pending transition.
+/// Owns two normal streams and one extra menu tail during a weather entrance.
 function funAtmosphereMixCreate() {
     self.active=undefined
     self.outgoing=undefined
+    self.menu_tail=undefined
     self.mix_pending=undefined
     self.mix_requested=""
     self.mix_elapsed=12
@@ -54,11 +55,37 @@ function funAtmosphereMixSelect(item,seconds=12) {
     var key=is_undefined(item) ? "silence" : item.id+":"+item.file+":"+string(item.gain)
     if (key==self.mix_requested) return;
     self.mix_requested=key
-    if (!is_undefined(self.outgoing)) {
+    if (!is_undefined(self.outgoing) or !is_undefined(self.menu_tail)) {
         self.mix_pending={item:item,seconds:seconds}
+        // A menu/daylight change must not wait for a long weather fade to finish.
+        if (seconds<self.mix_duration-self.mix_elapsed) {
+            if (!is_undefined(self.active)) self.active.start_gain=self.active.gain
+            if (!is_undefined(self.outgoing)) self.outgoing.start_gain=self.outgoing.gain
+            if (!is_undefined(self.menu_tail)) self.menu_tail.start_gain=self.menu_tail.gain
+            self.mix_elapsed=0
+            self.mix_duration=seconds
+        }
         return;
     }
     funAtmosphereMixBegin(item,seconds)
+}
+
+/// Replaces the menu's pending goal while fading both audible menu recordings for one second.
+function funAtmosphereMixEnterWeather(item) {
+    var streams=[self.active,self.outgoing]
+    for (var i=0;i<array_length(streams);++i) {
+        var stream=streams[i]
+        if (is_undefined(stream)) continue
+        // Preserve the actual menu output when the scene switches to full gameplay gain.
+        stream.gain=stream.applied_gain
+        stream.start_gain=stream.gain
+    }
+    var menu_tail=self.outgoing
+    self.outgoing=undefined
+    self.mix_pending=undefined
+    self.mix_requested=""
+    funAtmosphereMixSelect(item,1)
+    self.menu_tail=menu_tail
 }
 
 /// Applies only meaningful changes, leaving music and gameplay voices independent.
@@ -72,11 +99,12 @@ function funAtmosphereMixGain(stream,gain,output_gain=1) {
 
 /// Uses zero-slope envelope edges instead of an abrupt linear gain handoff.
 function funAtmosphereMixStep(dt,output_gain=1) {
-    if (!is_undefined(self.active) and self.active.paused) {
-        audio_resume_sound(self.active.voice);self.active.paused=false
-    }
-    if (!is_undefined(self.outgoing) and self.outgoing.paused) {
-        audio_resume_sound(self.outgoing.voice);self.outgoing.paused=false
+    var streams=[self.active,self.outgoing,self.menu_tail]
+    for (var i=0;i<array_length(streams);++i) {
+        var stream=streams[i]
+        if (!is_undefined(stream) and stream.paused) {
+            audio_resume_sound(stream.voice);stream.paused=false
+        }
     }
     if (!is_undefined(self.active) and !audio_is_playing(self.active.voice)) {
         funAtmosphereMixStop();return;
@@ -91,10 +119,15 @@ function funAtmosphereMixStep(dt,output_gain=1) {
     if (!is_undefined(self.outgoing)) {
         funAtmosphereMixGain(self.outgoing,self.muted ? 0 : self.outgoing.start_gain*(1-blend),output_gain)
     }
+    if (!is_undefined(self.menu_tail)) {
+        funAtmosphereMixGain(self.menu_tail,self.muted ? 0 : self.menu_tail.start_gain*(1-blend),output_gain)
+    }
     self.out_time=max(0,self.mix_duration-self.mix_elapsed)
     if (t<1) return;
     funAtmosphereMixRelease(self.outgoing)
     self.outgoing=undefined
+    funAtmosphereMixRelease(self.menu_tail)
+    self.menu_tail=undefined
     if (!is_undefined(self.mix_pending)) {
         var request=self.mix_pending
         self.mix_pending=undefined
@@ -104,14 +137,20 @@ function funAtmosphereMixStep(dt,output_gain=1) {
 
 /// Suspends voices without resetting envelope time or playback position.
 function funAtmosphereMixPause() {
-    if (!is_undefined(self.active) and audio_is_playing(self.active.voice)) {audio_pause_sound(self.active.voice);self.active.paused=true;}
-    if (!is_undefined(self.outgoing) and audio_is_playing(self.outgoing.voice)) {audio_pause_sound(self.outgoing.voice);self.outgoing.paused=true;}
+    var streams=[self.active,self.outgoing,self.menu_tail]
+    for (var i=0;i<array_length(streams);++i) {
+        var stream=streams[i]
+        if (!is_undefined(stream) and audio_is_playing(stream.voice)) {
+            audio_pause_sound(stream.voice);stream.paused=true
+        }
+    }
 }
 
 /// Releases atmosphere resources once on mute, cleanup or shutdown.
 function funAtmosphereMixStop() {
     funAtmosphereMixRelease(self.active);self.active=undefined
     funAtmosphereMixRelease(self.outgoing);self.outgoing=undefined
+    funAtmosphereMixRelease(self.menu_tail);self.menu_tail=undefined
     self.mix_pending=undefined
     self.mix_requested=""
     self.mix_elapsed=self.mix_duration
@@ -121,5 +160,6 @@ function funAtmosphereMixStop() {
 function funAtmosphereMixLabel() {
     var label=is_undefined(self.active) ? "Тишина" : self.active.title
     if (!is_undefined(self.outgoing)) label=self.outgoing.track+" > "+label
+    if (!is_undefined(self.menu_tail)) label=self.menu_tail.track+" + "+label
     return label
 }

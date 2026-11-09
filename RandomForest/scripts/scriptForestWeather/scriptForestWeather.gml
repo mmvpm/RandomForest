@@ -83,6 +83,7 @@ function funWeatherSetPhase(weather, phase, duration = 0) {
         weather.target_rain = phase == "storm" ? 1 : 0.5
         weather.rain_kind = phase
         if (!was_raining) {
+            weather.rain_onset = 0
             var winds = [0,0.18,-0.18]
             weather.wind = winds[floor(funWeatherRandom(weather)*3)]
         }
@@ -99,7 +100,7 @@ function funWeatherSetPhase(weather, phase, duration = 0) {
 function funWeatherCreate(seed, theme = "evening") {
     var weather = {seed:max(1,floor(seed) mod 2147483647),phase:"dry",phase_age:0,theme:theme,
         remaining:0,duration:0,rain:0,fog:0,target_rain:0,target_fog:0,wetness:0,
-        wind:0.18,time:0,rain_kind:"rain",
+        wind:0.18,time:0,rain_kind:"rain",rain_onset:1,
         ecology_wet:false,ecology_time:1000000,seed_amount:0,seed_x:0,seed_y:0,seed_points:[]}
     for (var i = 0; i < 100; ++i) array_push(weather.seed_points,
         {x:funWeatherRandom(weather)*640,y:funWeatherRandom(weather)*360})
@@ -109,6 +110,8 @@ function funWeatherCreate(seed, theme = "evening") {
     funWeatherSetPhase(weather,funWeatherPick(weather,initial))
     weather.rain = weather.target_rain
     weather.fog = weather.target_fog
+    // A session that starts in rain already has established weather.
+    weather.rain_onset = 1
     funWeatherSyncWildlife(weather,0)
     return weather
 }
@@ -119,6 +122,15 @@ function funWeatherSession() {
     return global.forest_weather
 }
 
+/// Holds a sparse first drizzle before the main rain fills out within the audio transition.
+function funWeatherRainDensity(weather) {
+    var t = weather.rain_onset
+    var drizzle = clamp(t/0.4,0,1)
+    var shower = clamp((t-0.4)/0.6,0,1)
+    return 0.08*drizzle*drizzle*(3-2*drizzle)
+        + 0.92*shower*shower*(3-2*shower)
+}
+
 /// Advances the state machine and the already-approved visual fields during active gameplay.
 function funWeatherUpdate(weather, dt) {
     weather.time += dt
@@ -126,6 +138,7 @@ function funWeatherUpdate(weather, dt) {
     weather.remaining -= dt
     if (weather.remaining <= 0) funWeatherSetPhase(weather,funWeatherPick(weather,funWeatherChoices(weather.phase,weather.theme)))
     weather.rain = lerp(weather.rain,weather.target_rain,min(1,dt*0.35))
+    if (weather.target_rain > 0) weather.rain_onset = min(1,weather.rain_onset+dt/12)
     weather.fog = lerp(weather.fog,weather.target_fog,min(1,dt*0.16))
     if (weather.target_rain > 0) weather.fog = max(0,weather.fog-dt*0.5)
     weather.wetness = clamp(weather.wetness+dt*(weather.rain*0.08-0.006),0,1)

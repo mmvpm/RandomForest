@@ -75,11 +75,12 @@ self.y_top_cached = []
 self.x_right_cached = []
 self.y_bottom_cached = []
 
-// Stop lingering gameplay sounds on returning to the menu.
-audio_stop_all()
+// Leave the persistent background alive when returning to the menu.
+funStopGameplaySounds()
 
 // Story endings and returning from gameplay retain their own presentation.
 self.startup_intro = {active: false}
+if (!instance_exists(oWeatherAudio)) instance_create_depth(0, 0, 0, oWeatherAudio)
 if (variable_global_exists("startup_intro_pending") and global.startup_intro_pending) {
     global.startup_intro_pending = false
     if (!self.broken_menu) funStartupIntroStart()
